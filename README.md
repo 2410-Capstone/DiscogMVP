@@ -1,11 +1,15 @@
 #  E-Commerce App
 
 ## Structure Overview
-- Frontend: React, React Router, Context API
-- Backend: Node.js, Express
-- Database: PostgreSQL
-- Auth: JSON Web Tokens (JWT), Google OAuth 
-- Payment: Stripe 
+- **Frontend:** React, React Router, Context API  
+- **Backend:** Node.js, Express  
+- **Database:** PostgreSQL  
+- **Auth:** JSON Web Tokens (JWT), Google OAuth  
+- **Payment:** Stripe  
+  _(For the server side, use the `[stripe](<https://stripe.com/docs/libraries#node-library>)` npm library (API docs [here](https://stripe.com/docs/api), tutorial [here](https://stripe.com/docs/payments/accept-a-payment)) to accept tokens from your front-end app and send charges via the Stripe API.)_
+
+
+
 
 ---
 
