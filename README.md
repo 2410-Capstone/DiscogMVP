@@ -22,7 +22,7 @@ npm install express cors pg bcrypt jsonwebtoken dotenv stripe
 # Install backend dev dependencies
 npm install --save-dev nodemon jest supertest
 
-# Add scripts to package.json (do this manually or with your editor)
+# Add scripts to package.json
 # "scripts": {
 #   "start": "node index.js",
 #   "dev": "nodemon index.js",
