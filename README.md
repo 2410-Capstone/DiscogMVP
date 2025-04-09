@@ -39,7 +39,7 @@
 
 ---
 
-### ⚙Essentials
+### ⚙ Essentials
 
 #### Guest Enhancements
 - Sort/filter products (`ProductList.jsx`)
