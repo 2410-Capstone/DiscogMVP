@@ -13,7 +13,30 @@
 - **Payment:** Stripe  
   _(For the server side, use the `[stripe](<https://stripe.com/docs/libraries#node-library>)` npm library (API docs [here](https://stripe.com/docs/api), tutorial [here](https://stripe.com/docs/payments/accept-a-payment)) to accept tokens from your front-end app and send charges via the Stripe API.)_
 
+# === Backend Setup ===
+cd server
 
+# Install backend dependencies
+npm install express cors pg bcrypt jsonwebtoken dotenv stripe
+
+# Install backend dev dependencies
+npm install --save-dev nodemon jest supertest
+
+# Add scripts to package.json (do this manually or with your editor)
+# "scripts": {
+#   "start": "node index.js",
+#   "dev": "nodemon index.js",
+#   "test": "jest"
+# }
+
+# === Frontend Setup ===
+cd ../client
+
+# Install frontend dependencies
+npm install react-router-dom 
+
+# Done!
+echo "✅ All dependencies installed!"
 
 
 ---
