@@ -83,7 +83,7 @@
 
 ---
 
-## Overview
+## Component Overview
 
 | Component/Page          | Description                                  |
 |-------------------------|----------------------------------------------|
