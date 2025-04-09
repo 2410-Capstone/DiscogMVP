@@ -1,3 +1,8 @@
+# Database diagram Url 
+- ** https://dbdiagram.io/d/Goofy-Capstone-67f675134f7afba184f3fd8a
+
+
+
 #  E-Commerce App
 
 ## Structure Overview
