@@ -1,6 +1,6 @@
 # Database diagram Url 
 - ** https://dbdiagram.io/d/Goofy-Capstone-67f675134f7afba184f3fd8a
-
+![image](https://github.com/user-attachments/assets/28f41f59-2b7a-48b1-922c-9dbda893c87d)
 
 
 #  E-Commerce App
