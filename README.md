@@ -1,4 +1,4 @@
-#  Group E-Commerce App
+#  E-Commerce App
 
 ## Structure Overview
 - Frontend: React, React Router, Context API
