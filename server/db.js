@@ -8,3 +8,119 @@ const jwt = require("jsonwebtoken");
 
 // const JWT = process.env.JWT || "shhh";
 //will need this for authentication later ^
+
+//create the db tables
+const createTables = async () => {
+  try {
+    await client.connect();
+    console.log("Connected to db");
+    await client.query(/*sql*/ `
+      DROP TABLE IF EXISTS payments;
+      DROP TABLE IF EXISTS order_items;
+      DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS cart_items;
+      DROP TABLE IF EXISTS carts;
+      DROP TABLE IF EXISTS products;
+      DROP TABLE IF EXISTS users;
+     
+       /* add types Supposedly, it's best practice when these roles/statuses will have consistent values */
+      DROP TYPE IF EXISTS user_role;
+      DROP TYPE IF EXISTS cart_status;
+      DROP TYPE IF EXISTS order_status;
+      DROP TYPE IF EXISTS payment_status;
+      `);
+    //created Enum types for the tables enum = enumeration create our own data types to
+    // (prevent errors with naming types) was not aware of this previously. Also, my understanding is this is the information admin's can access
+    await client.query(/*sql*/ `
+      CREATE TYPE user_role AS ENUM ('customer', 'admin');
+      CREATE TYPE cart_status AS ENUM ('active', 'checked_out');
+      CREATE TYPE order_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
+      CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed');
+      `);
+    //create users table
+    await client.query(/*sql*/ `
+      CREATE TABLE users (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        address VARCHAR(255),
+        role user_role DEFAULT 'customer',
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+      
+    /* create products table */
+    
+      CREATE TABLE products (
+        id SERIAL PRIMARY KEY,
+        artist VARCHAR(255) NOT NULL,
+        description TEXT,
+        price NUMERIC(10, 2) NOT NULL,
+        image_url VARCHAR(255),
+        genre VARCHAR(255),
+        stock INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+      
+    /*create carts table*/
+    
+      CREATE TABLE carts (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID NOT NULL,
+        cart_status DEFAULT 'active',
+        created_at TIMESTAMP DEFAULT now(),
+        updated_at TIMESTAMP DEFAULT now(),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      );
+      
+    /*create cart_items table*/
+  
+      CREATE TABLE cart_items (
+        id SERIAL PRIMARY KEY,
+        cart_id UUID NOT NULL,
+        product_id INTEGER NOT NULL,
+        quantity INTEGER NOT NULL CHECK (quantity > 0),
+        FOREIGN KEY (cart_id) REFERENCES carts(id) ON DELETE CASCADE,
+        FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+      );
+      
+    /*create orders table*/
+   
+      CREATE TABLE orders (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID NOT NULL,
+        order_status DEFAULT 'created',
+        total NUMERIC(10, 2),
+        shipping_address TEXT,
+        tracking_number VARCHAR,
+        created_at TIMESTAMP DEFAULT now(),
+        updated_at TIMESTAMP DEFAULT now(),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+      );
+      /*create order_items table*/
+      CREATE TABLE order_items (
+        id SERIAL PRIMARY KEY,
+        order_id UUID NOT NULL,
+        product_id INTEGER NOT NULL,
+        quantity INTEGER NOT NULL,
+        price NUMERIC(10, 2) NOT NULL,
+        FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+        FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+      );
+      /*create payments table*/
+      CREATE TABLE payments (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        order_id UUID NOT NULL,
+        billing_name VARCHAR,
+        billing_address TEXT,
+        payment_method VARCHAR,
+        payment_status payment_status DEFAULT 'pending',
+        payment_date TIMESTAMP DEFAULT now(),
+        updated_at TIMESTAMP DEFAULT now(),
+        FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+      );
+    `);
+  } catch (error) {}
+};
