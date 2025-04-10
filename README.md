@@ -1,8 +1,3 @@
-# Database diagram Url 
-- ** https://dbdiagram.io/d/Goofy-Capstone-67f675134f7afba184f3fd8a
-![image](https://github.com/user-attachments/assets/28f41f59-2b7a-48b1-922c-9dbda893c87d)
-
-
 #  E-Commerce App
 
 ## Structure Overview
@@ -11,33 +6,58 @@
 - **Database:** PostgreSQL  
 - **Auth:** JSON Web Tokens (JWT), Google OAuth  
 - **Payment:** Stripe  
-  _(For the server side, use the `[stripe](<https://stripe.com/docs/libraries#node-library>)` npm library (API docs [here](https://stripe.com/docs/api), tutorial [here](https://stripe.com/docs/payments/accept-a-payment)) to accept tokens from your front-end app and send charges via the Stripe API.)_
+_(For the server side, use the [stripe](https://stripe.com/docs/libraries#node-library) npm library — API docs [here](https://stripe.com/docs/api), tutorial [here](https://stripe.com/docs/payments/accept-a-payment)) to accept tokens from your front-end app and send charges via the Stripe API.)_
 
-# === Backend Setup ===
+---
+
+## Backend Setup
+
+```bash
 cd server
+```
 
-# Install backend dependencies
+#### Install backend dependencies
+```bash
 npm install express cors pg bcrypt jsonwebtoken dotenv stripe
+```
 
-# Install backend dev dependencies
+#### Install backend dev dependencies
+```bash
 npm install --save-dev nodemon jest supertest
+```
 
-# Add scripts to package.json
-# "scripts": {
-#   "start": "node index.js",
-#   "dev": "nodemon index.js",
-#   "test": "jest"
-# }
+#### Add scripts to package.json
+```js
+ "scripts": {
+   "start": "node index.js",
+   "dev": "nodemon index.js",
+   "test": "jest"
+ }
+```
 
-# === Frontend Setup ===
+---
+
+Database diagram Url 
+[DATABSE](https://dbdiagram.io/d/Goofy-Capstone-67f675134f7afba184f3fd8a)
+
+![image](https://github.com/user-attachments/assets/28f41f59-2b7a-48b1-922c-9dbda893c87d)
+
+---
+
+## Frontend Setup
+```bash
 cd ../client
+```
 
-# Install frontend dependencies
+### Install frontend dependencies
+```bash
 npm install react-router-dom 
+```
 
-# Done!
+### Done!
+```bash
 echo "✅ All dependencies installed!"
-
+```
 
 ---
 
