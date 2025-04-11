@@ -19,7 +19,25 @@ A full-stack e-commerce platform with user authentication, admin tools, and Stri
 _(For the server side, use the [stripe](https://stripe.com/docs/libraries#node-library) npm library — API docs [here](https://stripe.com/docs/api), tutorial [here](https://stripe.com/docs/payments/accept-a-payment)) to accept tokens from your front-end app and send charges via the Stripe API.)_
 
 ---
-## 📍 Getting Started
+
+## Prerequisites
+
+Before running the project locally, make sure you have:
+
+- Node.js v18+
+- PostgreSQL v14+
+- A `.env` file with the following variables:
+
+    ```env
+    DATABASE_URL=your_database_connection_string
+    JWT_SECRET=your_jwt_secret
+    STRIPE_SECRET_KEY=your_stripe_secret_key
+    ```
+
+---
+
+
+## Getting Started
 
 To run the app locally:
 
@@ -46,22 +64,6 @@ To run the app locally:
     npm run dev
     ```
 
-
----
-
-## 📍 Prerequisites
-
-Before running the project locally, make sure you have:
-
-- Node.js v18+
-- PostgreSQL v14+
-- A `.env` file with the following variables:
-
-    ```env
-    DATABASE_URL=your_database_connection_string
-    JWT_SECRET=your_jwt_secret
-    STRIPE_SECRET_KEY=your_stripe_secret_key
-    ```
 
 ---
 
@@ -113,9 +115,9 @@ cd ../client
 npm install react-router-dom 
 ```
 
-### Done!
+### Done
 ```bash
-echo "✅ All dependencies installed! You can now start the frontend with 'npm run dev'"
+echo "All dependencies installed! You can now start the frontend with 'npm run dev'"
 ```
 
 ---
