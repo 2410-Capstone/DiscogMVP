@@ -151,9 +151,54 @@ const createTables = async () => {
   }
 };
 
+// ---Core Database Functions---
+// We can split these into separate files for better organization once we add more functionality
+// i.e. products.js, users.js, carts.js, orders.js, payments.js
+
+
+// Product Functions
+const getAllProducts = async () => {
+  try {
+    const { rows } = await client.query( /*sql*/`
+      SELECT * FROM products;
+    `);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+}
+
+const getProductById = async () => {}
+
+const createProduct = async () => {}
+
+const updateProduct = async () => {}
+
+const deleteProduct = async () => {}
+
+// User Functions
+const createUser = async () => {}
+
+const getUserById = async () => {}
+
+const getUserByEmail = async () => {}
+
+const updateUser = async () => {}
+
+const deleteUser = async () => {}
+
+const authenticateUser = async () => {}
+
+// Cart and Order Functions
+const createCart = async () => {}
+
+
+
 module.exports = {
   client,
   createTables,
+  getAllProducts,
   // add any other functions export here
   // e.g., createUser, getUserById, etc.
 };
