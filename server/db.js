@@ -122,5 +122,30 @@ const createTables = async () => {
         FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
       );
     `);
-  } catch (error) {}
+    /* This was the first time I used indexes supposedly it helped with faster, searching for a large database It makes 
+     it to where our queries don't have to scan the whole table, but utilizes the indexes to find the products,items, orders ect.
+     I also learned that indexes are not automatically created for foreign keys so Basically it links the foreign keys to the tables they're associated with.
+     (idx_table_foreignKey)*/
+    await client.query(/*sql*/ `
+      CREATE INDEX idx_cart_user ON carts(user_id);
+      CREATE INDEX idx_cart_items_cart_id ON cart_items(cart_id);
+      CREATE INDEX idx_cart_items_product_id ON cart_items(product_id);
+      CREATE INDEX idx_order_user ON orders(user_id);
+      CREATE INDEX idx_order_items_order_id ON order_items(order_id);
+      CREATE INDEX idx_order_items_product_id ON order_items(product_id);
+      CREATE INDEX idx_payment_order_id ON payments(order_id);
+    `);
+    console.log("Tables created successfully.");
+  } catch (error) {
+    console.error("Error creating tables:", error);
+  } finally {
+    await client.end();
+  }
+};
+
+module.exports = {
+  client,
+  createTables,
+  // add any other functions export here
+  // e.g., createUser, getUserById, etc.
 };
