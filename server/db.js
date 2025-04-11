@@ -38,21 +38,22 @@ const createTables = async () => {
       CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed');
       `);
     //create users table
+    // I did an await on the client.query to make debugging easier
     await client.query(/*sql*/ `
-      CREATE TABLE users (
+    CREATE TABLE users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         address VARCHAR(255),
-        role user_role DEFAULT 'customer',
+        user_role DEFAULT 'customer',
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
-      
+      `);
     /* create products table */
-    
-      CREATE TABLE products (
+    await client.query(/*sql*/ `
+    CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         artist VARCHAR(255) NOT NULL,
         description TEXT,
@@ -63,10 +64,11 @@ const createTables = async () => {
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
-      
+      `);
+
     /*create carts table*/
-    
-      CREATE TABLE carts (
+    await client.query(/*sql*/ `
+    CREATE TABLE carts (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
         cart_status DEFAULT 'active',
@@ -74,10 +76,11 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT now(),
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       );
-      
+      `);
+
     /*create cart_items table*/
-  
-      CREATE TABLE cart_items (
+    await client.query(/*sql*/ `
+    CREATE TABLE cart_items (
         id SERIAL PRIMARY KEY,
         cart_id UUID NOT NULL,
         product_id INTEGER NOT NULL,
@@ -85,10 +88,11 @@ const createTables = async () => {
         FOREIGN KEY (cart_id) REFERENCES carts(id) ON DELETE CASCADE,
         FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
       );
-      
+      `);
+
     /*create orders table*/
-   
-      CREATE TABLE orders (
+    await client.query(/*sql*/ `
+    CREATE TABLE orders (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
         order_status DEFAULT 'created',
@@ -99,8 +103,10 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT now(),
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
       );
-      /*create order_items table*/
-      CREATE TABLE order_items (
+      `);
+    /*create order_items table*/
+    await client.query(/*sql*/ `
+    CREATE TABLE order_items (
         id SERIAL PRIMARY KEY,
         order_id UUID NOT NULL,
         product_id INTEGER NOT NULL,
@@ -109,8 +115,10 @@ const createTables = async () => {
         FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
         FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
       );
-      /*create payments table*/
-      CREATE TABLE payments (
+      `);
+    /*create payments table*/
+    await client.query(/*sql*/ `
+    CREATE TABLE payments (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         order_id UUID NOT NULL,
         billing_name VARCHAR,
