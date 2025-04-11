@@ -1,4 +1,4 @@
-# 🛒 E-Commerce App - Database Schema
+# E-Commerce App - Database Schema
 
 ### Definitions
 - `PK`: PRIMARY KEY  
