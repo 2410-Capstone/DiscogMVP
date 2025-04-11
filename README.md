@@ -35,15 +35,17 @@ To run the app locally:
 
 4. Start both servers:
 
+    In one terminal tab (backend):
     ```bash
-    cd server && npm run dev
+    npm run dev
     ```
 
-    In a new terminal tab:
-
+    In another terminal tab (frontend):
     ```bash
-    cd client && npm run dev
+    cd client
+    npm run dev
     ```
+
 
 ---
 
@@ -91,7 +93,7 @@ npm install --save-dev nodemon jest supertest
 ---
 
 
-Database diagram URL  
+Database Diagram URL  
 [DATABASE](https://dbdiagram.io/d/Goofy-Capstone-67f675134f7afba184f3fd8a)
 
 
@@ -235,4 +237,3 @@ echo "✅ All dependencies installed! You can now start the frontend with 'npm r
 - [Sydney Mitchell](https://github.com/sydmitch)
 - [Joshua Thomas](https://github.com/Josh-A-T)
 - [Connor Wotkowicz](https://github.com/sandpitt-turtle)
-
