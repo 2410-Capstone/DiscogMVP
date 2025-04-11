@@ -46,7 +46,7 @@ const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         address VARCHAR(255),
-        user_role DEFAULT 'customer',
+        user_role NOT NULL DEFAULT 'customer',
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
@@ -71,7 +71,7 @@ const createTables = async () => {
     CREATE TABLE carts (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
-        cart_status DEFAULT 'active',
+        cart_status NOT NULL DEFAULT 'active',
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now(),
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -95,13 +95,13 @@ const createTables = async () => {
     CREATE TABLE orders (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
-        order_status DEFAULT 'created',
+        order_status NOT NULL DEFAULT 'created',
         total NUMERIC(10, 2),
         shipping_address TEXT,
-        tracking_number VARCHAR,
+        tracking_number VARCHAR(255),
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now(),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       );
       `);
     /*create order_items table*/
