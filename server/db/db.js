@@ -155,11 +155,10 @@ const createTables = async () => {
 // We can split these into separate files for better organization once we add more functionality
 // i.e. products.js, users.js, carts.js, orders.js, payments.js
 
-
 // Product Functions
 const getAllProducts = async () => {
   try {
-    const { rows } = await client.query( /*sql*/`
+    const { rows } = await client.query(/*sql*/ `
       SELECT * FROM products;
     `);
     return rows;
@@ -167,38 +166,60 @@ const getAllProducts = async () => {
     console.error("Error fetching products:", error);
     throw error;
   }
-}
+};
 
-const getProductById = async () => {}
+const getProductById = async () => {};
 
-const createProduct = async () => {}
+const createProduct = async ({
+  artist,
+  description,
+  price,
+  image,
+  genre,
+  stock,
+}) => {
+  const SQL = `
+  INSERT INTO products(id, artist, description, price, image, genre, stock, created_at)
+  VALUES($1, $2, $3, $4, $5, $6, $7, NOW())
+  RETURNING *
+`;
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    artist,
+    description,
+    price,
+    image,
+    genre,
+    stock,
+  ]);
+  return response.rows[0];
+};
 
-const updateProduct = async () => {}
+const updateProduct = async () => {};
 
-const deleteProduct = async () => {}
+const deleteProduct = async () => {};
 
 // User Functions
-const createUser = async () => {}
+const createUser = async () => {};
 
-const getUserById = async () => {}
+const getUserById = async () => {};
 
-const getUserByEmail = async () => {}
+const getUserByEmail = async () => {};
 
-const updateUser = async () => {}
+const updateUser = async () => {};
 
-const deleteUser = async () => {}
+const deleteUser = async () => {};
 
-const authenticateUser = async () => {}
+const authenticateUser = async () => {};
 
 // Cart and Order Functions
-const createCart = async () => {}
-
-
+const createCart = async () => {};
 
 module.exports = {
   client,
   createTables,
   getAllProducts,
+  createProduct,
   // add any other functions export here
   // e.g., createUser, getUserById, etc.
 };
