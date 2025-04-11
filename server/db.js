@@ -124,7 +124,7 @@ const createTables = async () => {
         billing_name VARCHAR,
         billing_address TEXT,
         payment_method VARCHAR,
-        payment_status payment_status DEFAULT 'pending',
+        payment_status DEFAULT 'pending',
         payment_date TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now(),
         FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
