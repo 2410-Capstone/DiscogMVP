@@ -32,10 +32,10 @@ const createTables = async () => {
     //created Enum types for the tables enum = enumeration create our own data types to
     // (prevent errors with naming types) was not aware of this previously. Also, my understanding is this is the information admin's can access
     await client.query(/*sql*/ `
-      CREATE TYPE user_role AS ENUM ('customer', 'admin');
-      CREATE TYPE cart_status AS ENUM ('active', 'checked_out');
-      CREATE TYPE order_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
-      CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed');
+      CREATE TYPE role AS ENUM ('customer', 'admin');
+      CREATE TYPE c_status AS ENUM ('active', 'checked_out');
+      CREATE TYPE o_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
+      CREATE TYPE p_status AS ENUM ('pending', 'paid', 'failed');
       `);
     //create users table
     // I did an await on the client.query to make debugging easier
@@ -46,7 +46,7 @@ const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         address VARCHAR(255),
-        user_role NOT NULL DEFAULT 'customer',
+        user_role role NOT NULL DEFAULT 'customer',
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
@@ -71,7 +71,7 @@ const createTables = async () => {
     CREATE TABLE carts (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
-        cart_status NOT NULL DEFAULT 'active',
+        cart_status c_status NOT NULL DEFAULT 'active',
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now(),
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -95,7 +95,7 @@ const createTables = async () => {
     CREATE TABLE orders (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
-        order_status NOT NULL DEFAULT 'created',
+        order_status o_status NOT NULL DEFAULT 'created',
         total NUMERIC(10, 2),
         shipping_address TEXT,
         tracking_number VARCHAR(255),
@@ -124,7 +124,7 @@ const createTables = async () => {
         billing_name VARCHAR,
         billing_address TEXT,
         payment_method VARCHAR,
-        payment_status DEFAULT 'pending',
+        payment_status p_status DEFAULT 'pending',
         payment_date TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now(),
         FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
