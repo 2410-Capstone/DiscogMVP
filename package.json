@@ -2,9 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "dev": "nodemon server/db/index.js",
+  "test": "jest" 
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
