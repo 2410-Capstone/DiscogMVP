@@ -4,12 +4,6 @@
 A full-stack e-commerce platform with user authentication, admin tools, and Stripe-powered checkout.
 
 
-![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
-![React](https://img.shields.io/badge/Frontend-React-blue)
-![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
-![Stripe](https://img.shields.io/badge/Payment-Stripe-purple)
-
-
 ## Structure Overview
 - **Frontend:** React, React Router, Context API  
 - **Backend:** Node.js, Express  
