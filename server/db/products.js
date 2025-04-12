@@ -41,6 +41,7 @@ const createProduct = async ({ artist, description, price, image_url, genre, sto
   }
 }
 
+// ---TO DO--- //
 const updateProduct = async () => {}
 
 const deleteProduct = async (id) => {

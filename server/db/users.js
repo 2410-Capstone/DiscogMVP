@@ -45,6 +45,7 @@ const getUserByEmail = async (email) => {
   }
 }
 
+// ---TO DO--- //
 const updateUser = async () => {}
 
 const deleteUser = async (id) => {
@@ -57,13 +58,23 @@ const deleteUser = async (id) => {
     return user;
   } catch (error) {
     console.error("Error deleting user:", error);
-    throw error;a
+    throw error;
   }
 }
 
 const authenticateUser = async ({ email, password }) => {
   try {
-  
+    const user = await getUserByEmail(email);
+    if (!user) throw new Error("User not found");
+    const isValid = await comparePasswords(password, user.password);
+    if (!isValid) throw new Error("Invalid password");
+    const token = generateJWT(user);
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      token,
+    };
   } catch (error) {
     console.error("Error authenticating user:", error);
     throw error;
