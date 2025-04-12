@@ -153,23 +153,7 @@ const createTables = async () => {
 // i.e. products.js, users.js, carts.js, orders.js, payments.js
 
 
-// Product Functions
 
-
-
-
-// User Functions
-const createUser = async () => {}
-
-const getUserById = async () => {}
-
-const getUserByEmail = async () => {}
-
-const updateUser = async () => {}
-
-const deleteUser = async () => {}
-
-const authenticateUser = async () => {}
 
 // Cart and Order Functions
 const createCart = async () => {}
