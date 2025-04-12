@@ -1,7 +1,4 @@
-require("dotenv").config();
-
-const pg = require("pg");
-const client = new pg.Client(process.env.DATABASE_URL);
+const client = require('./client');
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -156,25 +153,6 @@ const createTables = async () => {
 // i.e. products.js, users.js, carts.js, orders.js, payments.js
 
 // Product Functions
-const getAllProducts = async () => {
-  try {
-    const { rows } = await client.query(/*sql*/ `
-      SELECT * FROM products;
-    `);
-    return rows;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
-  }
-};
-
-const getProductById = async () => {};
-
-const createProduct = async () => {};
-
-const updateProduct = async () => {};
-
-const deleteProduct = async () => {};
 
 // User Functions
 const createUser = async () => {};
@@ -193,10 +171,10 @@ const authenticateUser = async () => {};
 const createCart = async () => {};
 
 module.exports = {
-  client,
+  // client,
   createTables,
-  getAllProducts,
-  createProduct,
+
+  // getAllProducts,
   // add any other functions export here
   // e.g., createUser, getUserById, etc.
 };
