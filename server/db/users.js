@@ -48,19 +48,6 @@ const getUserByEmail = async (email) => {
 // ---TO DO--- //
 const updateUser = async () => {}
 
-const deleteUser = async (id) => {
-  try {
-    const { rows: [user] } = await client.query(/*sql*/ `
-      DELETE FROM users
-      WHERE id = $1
-      RETURNING *;
-    `, [id]);
-    return user;
-  } catch (error) {
-    console.error("Error deleting user:", error);
-    throw error;
-  }
-}
 
 const authenticateUser = async ({ email, password }) => {
   try {
@@ -86,6 +73,5 @@ module.exports = {
   getUserById,
   getUserByEmail,
   updateUser,
-  deleteUser,
   authenticateUser
 }

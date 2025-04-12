@@ -155,8 +155,7 @@ const createTables = async () => {
 
 
 
-// Cart and Order Functions
-const createCart = async () => {}
+
 
 
 

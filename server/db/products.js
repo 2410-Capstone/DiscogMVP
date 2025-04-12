@@ -2,18 +2,6 @@ const client = require('./client');
 
 // Products Functions
 
-const getAllProducts = async () => {
-  try {
-    const { rows } = await client.query( /*sql*/`
-      SELECT * FROM products;
-    `);
-    return rows;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
-  }
-}
-
 const getProductById = async (id) => {
   try {
     const { rows } = await client.query(/*sql*/`
@@ -41,27 +29,7 @@ const createProduct = async ({ artist, description, price, image_url, genre, sto
   }
 }
 
-// ---TO DO--- //
-const updateProduct = async () => {}
-
-const deleteProduct = async (id) => {
-  try {
-    const { rows: [product] } = await client.query(/*sql*/ `
-      DELETE FROM products
-      WHERE id = $1
-      RETURNING *;
-    `, [id]);
-    return product;
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    throw error;
-  }
-}
-
 module.exports = {
-  getAllProducts,
   getProductById,
   createProduct,
-  updateProduct,
-  deleteProduct
 };

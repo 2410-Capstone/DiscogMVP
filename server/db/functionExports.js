@@ -4,35 +4,93 @@ const client = require('./client');
 
 // Products
 const {
-  getAllProducts,
   getProductById,
   createProduct,
-  updateProduct,
-  deleteProduct
 } = require('./products');
 
 // Users
 const {
   createUser,
   getUserByEmail,
-  getUserById
+  getUserById,
+  updateUser,
+  authenticateUser
 } = require('./users');
 
-// ---TO DO--- //
-
 // Carts
+const {
+  createCart,
+  getCartByUserId,
+  getCartItemById,
+  getOrCreateCart,
+  addProductToCart,
+  updateCartItemQuantity,
+  removeProductFromCart,
+  clearCart
+} = require('./carts');
 
 // Orders
+const {
+  createOrder,
+  getOrderByUserId,
+  getOrderById
+} = require('./orders');
+
+// Admin
+const {
+  getAllUsers,
+  deleteUser,
+  getAllOrders,
+  updateOrderStatus,
+  getAllProducts,
+  deleteProduct
+} = require('./admin');
+
+// Payments
+const {
+  createPayment,
+  updatePaymentStatus
+} = require("./payments");
 
 
 module.exports = {
   client,
-  getAllProducts,
+
+  // Products
   getProductById,
   createProduct,
-  updateProduct,
-  deleteProduct,
+
+  // Users
   createUser,
   getUserByEmail,
-  getUserById
+  getUserById,
+  updateUser,
+  authenticateUser,
+
+  // Carts
+  createCart,
+  getCartByUserId,
+  getCartItemById,
+  getOrCreateCart,
+  addProductToCart,
+  updateCartItemQuantity,
+  removeProductFromCart,
+  clearCart,
+
+  // Orders
+  createOrder,
+  getOrderByUserId,
+  getOrderById,
+
+  // Admin
+  getAllUsers,
+  deleteUser,
+  getAllOrders,
+  updateOrderStatus,
+  getAllProducts,
+  deleteProduct,
+
+  // Payments
+  createPayment,
+  updatePaymentStatus,
 };
