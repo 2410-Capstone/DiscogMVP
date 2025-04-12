@@ -170,30 +170,7 @@ const getAllProducts = async () => {
 
 const getProductById = async () => {};
 
-const createProduct = async ({
-  artist,
-  description,
-  price,
-  image,
-  genre,
-  stock,
-}) => {
-  const SQL = `
-  INSERT INTO products(id, artist, description, price, image, genre, stock, created_at)
-  VALUES($1, $2, $3, $4, $5, $6, $7, NOW())
-  RETURNING *
-`;
-  const response = await client.query(SQL, [
-    uuid.v4(),
-    artist,
-    description,
-    price,
-    image,
-    genre,
-    stock,
-  ]);
-  return response.rows[0];
-};
+const createProduct = async () => {};
 
 const updateProduct = async () => {};
 
