@@ -213,20 +213,6 @@ echo "All dependencies installed! You can now start the frontend with 'npm run d
 ---
 
 
-
-## Development Notes
-
-- Use `npm run dev` from the root to launch the Express backend with `nodemon`.
-- Use `npm run dev` inside `/client` to run the frontend with Vite.
-- The shopping cart persists for both guest and logged-in users using `localStorage` and backend sync.
-- Google OAuth is integrated via the `OAuthLogin.jsx` component (client-side) and `/auth/google` routes (backend).
-- All authenticated routes require a valid JWT stored in the browser.
-- The app uses role-based access control to differentiate between Admin and regular users.
-- Seed scripts are recommended for testing (users, products, orders) — can be added as `scripts/seed.js`.
-
-
----
-
 ## Contributors/Authors 🧑‍💻👩‍💻
 - [Andy Edwards](https://github.com/aedwardsk)
 - [Charley Lea](https://github.com/charleylea)
