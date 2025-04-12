@@ -171,15 +171,11 @@ echo "All dependencies installed! You can now start the frontend with 'npm run d
 - OAuth login (e.g., Google) (`OAuthLogin.jsx`)
 
 #### Logged-In User
-- Wishlist system
-  - View and manage wishlist (`Wishlist.jsx`)
-  - Shareable wishlist view (`SharedWishlist.jsx`)
 - Notifications (`Notifications.jsx`)
 - Advanced search, pagination, infinite scroll (`ProductList.jsx`)
 - Product recommendations (`Recommendations.jsx`)
 
 #### Admin
-- View user wishlists (`AdminUserList.jsx`)
 - Trigger password resets (`AdminEditUser.jsx`)
 - Deduct stock on orders 
 - Handle inventory availability errors
@@ -202,8 +198,6 @@ echo "All dependencies installed! You can now start the frontend with 'npm run d
 | `Account.jsx`           | User dashboard                               |
 | `OrderHistory.jsx`      | List of past orders                          |
 | `Profile.jsx`           | Edit user profile                            |
-| `Wishlist.jsx`          | Manage personal wishlist                     |
-| `SharedWishlist.jsx`    | Public view of shared wishlist               |
 | `Notifications.jsx`     | Alerts and updates                           |
 | `AdminDashboard.jsx`    | Admin home panel                             |
 | `AdminProductList.jsx`  | Product management (view/edit/delete)        |
