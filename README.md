@@ -4,12 +4,6 @@
 A full-stack e-commerce platform with user authentication, admin tools, and Stripe-powered checkout.
 
 
-![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
-![React](https://img.shields.io/badge/Frontend-React-blue)
-![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
-![Stripe](https://img.shields.io/badge/Payment-Stripe-purple)
-
-
 ## Structure Overview
 - **Frontend:** React, React Router, Context API  
 - **Backend:** Node.js, Express  
@@ -177,15 +171,11 @@ echo "All dependencies installed! You can now start the frontend with 'npm run d
 - OAuth login (e.g., Google) (`OAuthLogin.jsx`)
 
 #### Logged-In User
-- Wishlist system
-  - View and manage wishlist (`Wishlist.jsx`)
-  - Shareable wishlist view (`SharedWishlist.jsx`)
 - Notifications (`Notifications.jsx`)
 - Advanced search, pagination, infinite scroll (`ProductList.jsx`)
 - Product recommendations (`Recommendations.jsx`)
 
 #### Admin
-- View user wishlists (`AdminUserList.jsx`)
 - Trigger password resets (`AdminEditUser.jsx`)
 - Deduct stock on orders 
 - Handle inventory availability errors
@@ -208,8 +198,6 @@ echo "All dependencies installed! You can now start the frontend with 'npm run d
 | `Account.jsx`           | User dashboard                               |
 | `OrderHistory.jsx`      | List of past orders                          |
 | `Profile.jsx`           | Edit user profile                            |
-| `Wishlist.jsx`          | Manage personal wishlist                     |
-| `SharedWishlist.jsx`    | Public view of shared wishlist               |
 | `Notifications.jsx`     | Alerts and updates                           |
 | `AdminDashboard.jsx`    | Admin home panel                             |
 | `AdminProductList.jsx`  | Product management (view/edit/delete)        |
@@ -224,20 +212,6 @@ echo "All dependencies installed! You can now start the frontend with 'npm run d
 
 ---
 
-
-
-## Development Notes
-
-- Use `npm run dev` from the root to launch the Express backend with `nodemon`.
-- Use `npm run dev` inside `/client` to run the frontend with Vite.
-- The shopping cart persists for both guest and logged-in users using `localStorage` and backend sync.
-- Google OAuth is integrated via the `OAuthLogin.jsx` component (client-side) and `/auth/google` routes (backend).
-- All authenticated routes require a valid JWT stored in the browser.
-- The app uses role-based access control to differentiate between Admin and regular users.
-- Seed scripts are recommended for testing (users, products, orders) — can be added as `scripts/seed.js`.
-
-
----
 
 ## Contributors/Authors 🧑‍💻👩‍💻
 - [Andy Edwards](https://github.com/aedwardsk)
