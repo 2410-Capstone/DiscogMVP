@@ -361,11 +361,12 @@ const seedCartsAndOrders = async (users, products) => {
         quantity,
         price,
       });
+      const shippingAddress = user.shipping_address || user.address;
       const order = await createOrder({
         user_id: user.id,
         order_status: order_statuses[Math.floor(Math.random() * order_statuses.length)],
-        total: parseFloat(total.toFixed(2)),
-        shipping_address: user.address,
+        total: Math.round(total * 100) / 100,
+        shipping_address: shippingAddress,
         tracking_number: `TRACK${Math.floor(Math.random() * 1000000)}XYZ`,
       });
 
