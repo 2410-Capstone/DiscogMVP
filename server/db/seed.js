@@ -336,6 +336,32 @@ const seedCartsAndOrders = async (users, products) => {
       user_id: user.id,
       cart_status: Math.random() > 0.5 ? "active" : "checked_out",
     });
+
+    const cartProductSample = getRandomProducts(products, 1, 3);
+    for (let product of cartProductSample) {
+      await createCartItem({
+        cart_id: cart.id,
+        product_id: product.id,
+        quantity: getRandomInt(1, 5),
+      });
+    }
+
+    const order_statuses = ["created", "processing", "shipped", "delivered"];
+    const orderItems = [];
+    let total = 0;
+
+    const orderProductSample = getRandomProducts(products, 1, 3);
+    for (let product of orderProductSample) {
+      const quantity = getRandomInt(1, 3);
+      const price = product.price;
+      total += price * quantity;
+
+      orderItems.push({
+        product_id: product.id,
+        quantity,
+        price,
+      });
+    }
   }
 };
 module.exports = {
