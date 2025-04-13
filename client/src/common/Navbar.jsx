@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {  useState, useEffect, useRef } from "react";
 
 
-// import profilePic from "../assets/default-profile.png"; 
+
 
 function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
                   Logout
                 </button>
                 <Link to="/account">
-                  <img src={profilePic} alt="Profile" className="profile-pic" />
+                  {/* <img src={profilePic} alt="Profile" className="profile-pic" /> */}
                 </Link>
               </>
             ) : (
