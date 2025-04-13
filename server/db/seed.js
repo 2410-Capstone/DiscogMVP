@@ -327,6 +327,30 @@ const seedProducts = async () => {
   console.log("Seeded products:", products);
 };
 
+const seedCarts = async (users, products) => {
+  console.log("Seeding carts...");
+
+  const carts = await Promise.all(
+    users.map(async (user) => {
+      // Create a cart for each user
+      const cart = await createCart({ user_id: user.id });
+      // Randomly add products to the cart the first 5 products
+      // Create cart items for the first 5 products
+      const cartItems = products.slice(0, 5).map((product, index) => {
+        return createCartItem({
+          cart_id: cart.id,
+          product_id: product.id,
+          quantity: Math.floor(Math.random() * 3) + 1, // random quantity between 1 and 3
+        });
+      });
+      await Promise.all(cartItems);
+      return cart;
+    })
+  );
+
+  console.log("Carts seeded successfully");
+};
+
 module.exports = {
   seedProducts,
   seedUsers,
