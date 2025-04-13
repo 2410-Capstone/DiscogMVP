@@ -361,10 +361,39 @@ const seedCartsAndOrders = async (users, products) => {
         quantity,
         price,
       });
+      const order = await createOrder({
+        user_id: user.id,
+        order_status: order_statuses[Math.floor(Math.random() * order_statuses.length)],
+        total: parseFloat(total.toFixed(2)),
+        shipping_address: user.address,
+        tracking_number: `TRACK${Math.floor(Math.random() * 1000000)}XYZ`,
+      });
+
+      for (let item of orderItems) {
+        await createOrderItem({
+          order_id: order.id,
+          product_id: item.product_id,
+          quantity: item.quantity,
+          price: item.price,
+        });
+      }
     }
+
+    console.log("Seeded 20 carts and orders with items.");
+  }
+
+  function getRandomProducts(products, min, max) {
+    const count = getRandomInt(min, max);
+    const shuffled = [...products].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 };
 module.exports = {
   seedProducts,
   seedUsers,
+  seedCartsAndOrders,
 };
