@@ -8,6 +8,8 @@ const getCartByUserId = async (userId) => {}
 
 const getCartItemById = async (cartItemId) => {}
 
+const createCartItem = async (cartId, productId, quantity) => {}
+
 // optional, used during login or page load. if user does not have active cart, this creates one
 const getOrCreateCart = async (userId) => {}
 
