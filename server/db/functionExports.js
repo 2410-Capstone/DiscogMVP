@@ -6,6 +6,8 @@ const client = require('./client');
 const {
   getProductById,
   createProduct,
+  getProductsByGenre,
+  searchProducts
 } = require('./products');
 
 // Users
@@ -36,7 +38,8 @@ const {
   getOrderByUserId,
   getOrderById,
   createOrderItem,
-  getOrderItems
+  getOrderItems,
+  calculateOrderTotal
 } = require('./orders');
 
 // Admin
@@ -62,6 +65,8 @@ module.exports = {
   // Products
   getProductById,
   createProduct,
+  getProductsByGenre,
+  searchProducts,
 
   // Users
   createUser,
@@ -87,6 +92,7 @@ module.exports = {
   getOrderById,
   createOrderItem,
   getOrderItems,
+  calculateOrderTotal,
 
   // Admin
   getAllUsers,

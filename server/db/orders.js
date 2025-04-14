@@ -90,6 +90,19 @@ const getOrderItems = async (orderId) => {
   }
 };
 
+const calculateOrderTotal = async (orderId) => {
+  try {
+    const { rows: [result] } = await client.query(/*sql*/`
+      SELECT SUM(price * quantity) AS total
+      FROM order_items
+      WHERE order_id = $1;
+    `, [orderId]);
+    return Number(result.total) || 0;
+  } catch (error) {
+    console.error("Error calculating order total:", error);
+    throw error;
+  }
+};
 
 
 module.exports = {
@@ -97,5 +110,6 @@ module.exports = {
   getOrderByUserId,
   getOrderById,
   createOrderItem,
-  getOrderItems
+  getOrderItems,
+  calculateOrderTotal
 }
