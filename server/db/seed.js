@@ -393,9 +393,45 @@ const seedCartsAndOrders = async (users, products) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 };
+const seedPayments = async () => {
+  console.log("Seeding payments...");
 
+  const { rows: orders } = await client.query(/*sql*/ `SELECT * FROM orders`);
+  const { rows: users } = await client.query(/*sql*/ `SELECT * FROM users`);
+
+  const paymentMethods = ["credit_card", "paypal", "bank_transfer"];
+
+  const payments = await Promise.all(
+    orders.map((order) => {
+      const user = users.find((u) => u.id === order.user_id);
+      const billing_name = user?.name || "John Doe";
+      const billing_address = user?.address || "123 Default St";
+
+      const payment_method = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
+
+      const payment_status = Math.random() < 0.9 ? "successful" : "failed"; // 90% success rate
+
+      const payment_date = payment_status === "successful" ? new Date() : null;
+
+      const amount = order.total || 0;
+
+      return createPayment({
+        order_id: order.id,
+        billing_name,
+        billing_address,
+        payment_method,
+        payment_status,
+        payment_date,
+        amount,
+      });
+    })
+  );
+
+  console.log("Payments seeded successfully:", payments.length);
+};
 module.exports = {
   seedProducts,
   seedUsers,
   seedCartsAndOrders,
+  seedPayments,
 };
