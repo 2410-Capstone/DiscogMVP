@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
 "scripts": {
-  "dev": "nodemon server/db/index.js",
+  "dev": "nodemon server/API.js",
   "test": "jest" 
 },
   "keywords": [],
