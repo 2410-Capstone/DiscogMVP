@@ -1,0 +1,28 @@
+.welcome-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: breathe 8s ease-in-out infinite;
+}
+
+.welcome-header {
+  font-size: 3rem;
+  text-align: center;
+  font-weight: bold;
+  color: transparent;
+  background: linear-gradient(70deg, #a4fffc, #2193b0, #6dd5ed, #003b5c);
+  background-size: 300% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 10s linear infinite;
+  transition: opacity 0.6s ease-in-out;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+}
