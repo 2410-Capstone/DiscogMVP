@@ -3,6 +3,7 @@ const client = require('./client');
 // Admin Functions
 
 // User Management
+// ---TO DO--- //
 const getAllUsers = async () => {}
 
 const deleteUser = async (userId) => {
@@ -20,6 +21,7 @@ const deleteUser = async (userId) => {
 }
 
 // Order Management
+// ---TO DO--- //
 const getAllOrders = async () => {}
 
 const updateOrderStatus = async (orderId, status) => {}
@@ -37,6 +39,7 @@ const getAllProducts = async () => {
   }
 }
 
+// ---TO DO--- //
 const updateProduct = async () => {}
 
 const deleteProduct = async (id) => {
