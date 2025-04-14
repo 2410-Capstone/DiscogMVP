@@ -1,4 +1,6 @@
-const client = require('./client');
+require("dotenv").config();
+
+const client = require("./client");
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -33,6 +35,7 @@ const createTables = async () => {
       CREATE TYPE c_status AS ENUM ('active', 'checked_out');
       CREATE TYPE o_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
       CREATE TYPE p_status AS ENUM ('pending', 'paid', 'failed');
+      CREATE TYPE payment_method AS ENUM ('credit_card', 'debit_card', 'paypal', 'bank_transfer');
       `);
     //create users table
     // I did an await on the client.query to make debugging easier
@@ -115,16 +118,19 @@ const createTables = async () => {
       `);
     /*create payments table*/
     await client.query(/*sql*/ `
+    
     CREATE TABLE payments (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        order_id UUID NOT NULL,
-        billing_name VARCHAR,
-        billing_address TEXT,
-        payment_method VARCHAR,
-        payment_status p_status DEFAULT 'pending',
-        payment_date TIMESTAMP DEFAULT now(),
-        updated_at TIMESTAMP DEFAULT now(),
-        FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      order_id UUID NOT NULL,
+      billing_name VARCHAR,
+      billing_address TEXT,
+      amount NUMERIC(10, 2) NOT NULL,
+      payment_method payment_method,
+      payment_status p_status DEFAULT 'pending',
+
+      payment_date TIMESTAMP DEFAULT now(),
+      updated_at TIMESTAMP DEFAULT now(),
+      FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
       );
     `);
     /* This was the first time I used indexes supposedly it helped with faster, searching for a large database It makes 
