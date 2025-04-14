@@ -1,0 +1,35 @@
+.sign-button,
+.reg-button,
+.checkout-button,
+.return-button {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.sign-button::before,
+.reg-button::before,
+.checkout-button::before,
+.return-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+    opacity: 0;
+    transition: none;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.sign-button:hover::before,
+.reg-button:hover::before,
+.checkout-button:hover::before,
+.return-button:hover::before {
+    animation: shiny-wipe 1.2s ease-out forwards;
+    opacity: 1;
+}
