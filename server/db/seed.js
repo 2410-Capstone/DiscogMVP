@@ -393,6 +393,7 @@ const seedCartsAndOrders = async (users, products) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 };
+
 module.exports = {
   seedProducts,
   seedUsers,
