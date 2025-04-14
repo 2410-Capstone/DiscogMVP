@@ -1,11 +1,19 @@
 {
   "name": "server",
   "version": "1.0.0",
+<<<<<<< Updated upstream
   "main": "index.js",
 "scripts": {
   "dev": "nodemon server/API.js",
   "test": "jest" 
 },
+=======
+  "main": "api.js",
+  "scripts": {
+    "dev": "nodemon server/api.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+>>>>>>> Stashed changes
   "keywords": [],
   "author": "",
   "license": "ISC",
