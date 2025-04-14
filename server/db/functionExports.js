@@ -20,6 +20,7 @@ const {
 // Carts
 const {
   createCart,
+  createCartItem,
   getCartByUserId,
   getCartItemById,
   getOrCreateCart,
@@ -33,7 +34,8 @@ const {
 const {
   createOrder,
   getOrderByUserId,
-  getOrderById
+  getOrderById,
+  createOrderItem
 } = require('./orders');
 
 // Admin
@@ -69,6 +71,7 @@ module.exports = {
 
   // Carts
   createCart,
+  createCartItem,
   getCartByUserId,
   getCartItemById,
   getOrCreateCart,
@@ -81,6 +84,7 @@ module.exports = {
   createOrder,
   getOrderByUserId,
   getOrderById,
+  createOrderItem,
 
   // Admin
   getAllUsers,

@@ -46,7 +46,9 @@ const getUserByEmail = async (email) => {
 }
 
 // ---TO DO--- //
-const updateUser = async () => {}
+const updateUser = async () => {
+  
+}
 
 
 const authenticateUser = async ({ email, password }) => {
