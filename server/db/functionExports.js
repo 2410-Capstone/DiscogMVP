@@ -35,7 +35,8 @@ const {
   createOrder,
   getOrderByUserId,
   getOrderById,
-  createOrderItem
+  createOrderItem,
+  getOrderItems
 } = require('./orders');
 
 // Admin
@@ -85,6 +86,7 @@ module.exports = {
   getOrderByUserId,
   getOrderById,
   createOrderItem,
+  getOrderItems,
 
   // Admin
   getAllUsers,
