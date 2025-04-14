@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const client = require("./client");
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");

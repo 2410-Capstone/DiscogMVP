@@ -4,8 +4,8 @@ const { createProduct } = require("./products.js");
 const { createCart } = require("./carts.js");
 const { createOrder } = require("./orders.js");
 const { createPayment } = require("./payments.js");
-const { createCartItem } = require("./cart_items.js");
-const { createOrderItem } = require("./order_items.js");
+const { createCartItem } = require("./carts.js");
+const { createOrderItem } = require("./orders.js");
 const client = require("./client.js");
 
 const seedUsers = async () => {
@@ -429,6 +429,7 @@ const seedPayments = async () => {
 
   console.log("Payments seeded successfully:", payments.length);
 };
+
 module.exports = {
   seedProducts,
   seedUsers,
