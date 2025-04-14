@@ -1,11 +1,4 @@
-
-const client = require('./client');
-
 const pool = require('./pool');
-
-
-const pool = require('./pool');
-
 
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
@@ -123,9 +116,7 @@ const createTables = async () => {
       );
       `);
     /*create payments table*/
-
     await pool.query(/*sql*/ `
-
     CREATE TABLE payments (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         order_id UUID NOT NULL,
@@ -169,6 +160,7 @@ const createTables = async () => {
 
 
 
+// User Functions
 const createUser = async ({ email, password, name, address, user_role }) => {
   try {
     const result = await pool.query(
@@ -193,7 +185,6 @@ const updateUser = async () => {}
 
 const deleteUser = async () => {}
 
-
 const authenticateUser = async () => {}
 
 // Cart and Order Functions
@@ -202,15 +193,10 @@ const createCart = async () => {}
 
 
 module.exports = {
-
-  // client,
-  createTables,
-
   // pool,
 
   createTables,
   createUser,
-
   // getAllProducts,
   // add any other functions export here
   // e.g., createUser, getUserById, etc.

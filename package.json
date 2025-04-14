@@ -1,13 +1,6 @@
 {
   "name": "server",
   "version": "1.0.0",
-
-  "main": "index.js",
-"scripts": {
-  "dev": "nodemon server/API.js",
-  "test": "jest" 
-},
-
   "main": "api.js",
   "scripts": {
     "dev": "nodemon server/api.js",

@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 require('dotenv').config({ path: '../.env' });
 const pool = require('./pool');
 
@@ -471,4 +469,3 @@ const seed = async () => {
   };
   seed();
   
->>>>>>> Stashed changes
