@@ -23,17 +23,17 @@ const getOrderByUserId = async (orderId) => {};
 
 const getOrderById = async (orderId) => {};
 
-const createOrderItem = async (orderId, productId, quantity) => {
+const createOrderItem = async ({ orderId, productId, quantity, price }) => {
   try {
     const {
       rows: [orderItem],
     } = await client.query(
       /*sql*/ `
-      INSERT INTO order_items (order_id, product_id, quantity)
-      VALUES ($1, $2, $3)
+      INSERT INTO order_items (order_id, product_id, quantity, price)
+      VALUES ($1, $2, $3, $4)
       RETURNING *;
       `,
-      [orderId, productId, quantity]
+      [orderId, productId, quantity, price]
     );
     return orderItem;
   } catch (error) {
