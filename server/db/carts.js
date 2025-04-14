@@ -22,11 +22,12 @@ const clearCart = async (userId) => {}
 
 module.exports = {
   createCart,
+  createCartItem,
   getCartByUserId,
   getCartItemById,
   getOrCreateCart,
   addProductToCart,
   updateCartItemQuantity,
   removeProductFromCart,
-  clearCart
+  clearCart,
 }
