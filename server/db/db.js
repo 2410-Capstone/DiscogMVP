@@ -1,9 +1,12 @@
-<<<<<<< Updated upstream
+
 const client = require('./client');
-=======
+
 const pool = require('./pool');
 
->>>>>>> Stashed changes
+
+const pool = require('./pool');
+
+
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -120,11 +123,9 @@ const createTables = async () => {
       );
       `);
     /*create payments table*/
-<<<<<<< Updated upstream
-    await client.query(/*sql*/ `
-=======
+
     await pool.query(/*sql*/ `
->>>>>>> Stashed changes
+
     CREATE TABLE payments (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         order_id UUID NOT NULL,
@@ -168,19 +169,6 @@ const createTables = async () => {
 
 
 
-// User Functions
-<<<<<<< Updated upstream
-const createUser = async () => {}
-
-const getUserById = async () => {}
-
-const getUserByEmail = async () => {}
-
-const updateUser = async () => {}
-
-const deleteUser = async () => {}
-
-=======
 const createUser = async ({ email, password, name, address, user_role }) => {
   try {
     const result = await pool.query(
@@ -205,7 +193,7 @@ const updateUser = async () => {}
 
 const deleteUser = async () => {}
 
->>>>>>> Stashed changes
+
 const authenticateUser = async () => {}
 
 // Cart and Order Functions
@@ -214,15 +202,15 @@ const createCart = async () => {}
 
 
 module.exports = {
-<<<<<<< Updated upstream
+
   // client,
   createTables,
-=======
+
   // pool,
 
   createTables,
   createUser,
->>>>>>> Stashed changes
+
   // getAllProducts,
   // add any other functions export here
   // e.g., createUser, getUserById, etc.
