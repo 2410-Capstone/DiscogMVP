@@ -1,17 +1,18 @@
-const client = require('./client');
+const pool = require('./pool');
 const bcrypt = require("bcrypt");
 const { comparePasswords, generateJWT } = require('../utils/auth');
 
 // Users Functions
 
-const createUser = async ({ email, password, name, address }) => {
+const createUser = async ({ email, password, name, address, user_role }) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const { rows: [user] } = await client.query(/*sql*/ `
-      INSERT INTO users (email, password, name, address)
-      VALUES ($1, $2, $3, $4)
+    const { rows: [user] } = await pool.query(/*sql*/ `
+      INSERT INTO users (email, password, name, address, user_role)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
-    `, [email, hashedPassword, name, address]);
+    `, [email, hashedPassword, name, address, user_role]);
+    console.log(`✅ Created user: ${user.email}`);
     return user;
   } catch (error) {
     console.error("Error creating user:", error);
@@ -21,7 +22,7 @@ const createUser = async ({ email, password, name, address }) => {
 
 const getUserById = async ({ id }) => {
   try {
-    const { rows: [user] } = await client.query(/*sql*/ `
+    const { rows: [user] } = await pool.query(/*sql*/ `
       SELECT id, email, name, address, user_role, created_at
       FROM users 
       WHERE id = $1;
@@ -35,7 +36,7 @@ const getUserById = async ({ id }) => {
 
 const getUserByEmail = async ({ email }) => {
   try {
-    const { rows: [user] } = await client.query(/*sql*/ `
+    const { rows: [user] } = await pool.query(/*sql*/ `
       SELECT * FROM users WHERE email = $1;
     `, [email]);
       return user;
@@ -54,7 +55,7 @@ const updateUser = async ({ id, fields }) => {
     const keys = Object.keys(fields);
     if (!keys.length) return;
     const setString = keys.map((key, index) => `"${key}" = $${index + 1}`).join(', ');
-    const { rows: [user] } = await client.query(/*sql*/ `
+    const { rows: [user] } = await pool.query(/*sql*/ `
       UPDATE users
       SET ${setString}, updated_at = NOW()
       WHERE id = $${keys.length + 1}

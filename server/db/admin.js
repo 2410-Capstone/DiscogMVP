@@ -1,4 +1,4 @@
-const client = require('./client');
+const pool = require('./pool');
 
 // Admin Functions
 
@@ -6,7 +6,7 @@ const client = require('./client');
 
 const getAllUsers = async () => {
   try {
-    const { rows } = await client.query(/*sql*/ `
+    const { rows } = await pool.query(/*sql*/ `
       SELECT id, email, name, address, user_role, created_at
       FROM users
       ORDER BY created_at DESC;
@@ -20,7 +20,7 @@ const getAllUsers = async () => {
 
 const deleteUser = async ({ userId }) => {
   try {
-    const { rows: [user] } = await client.query(/*sql*/ `
+    const { rows: [user] } = await pool.query(/*sql*/ `
       DELETE FROM users
       WHERE id = $1
       RETURNING *;
@@ -36,7 +36,7 @@ const deleteUser = async ({ userId }) => {
 
 const getAllOrders = async () => {
   try {
-    const { rows } = await client.query(/*sql*/ `
+    const { rows } = await pool.query(/*sql*/ `
       SELECT o.id, o.user_id, o.email, o.order_status, o.created_at
       FROM orders o
       JOIN users u ON o.user_id = u.id
@@ -51,7 +51,7 @@ const getAllOrders = async () => {
 
 const updateOrderStatus = async ({ orderId, status }) => {
   try {
-    const { rows: [order] } = await client.query(/*sql*/ `
+    const { rows: [order] } = await pool.query(/*sql*/ `
       UPDATE orders
       SET order_status = $1,
           updated_at = NOW()
@@ -69,7 +69,7 @@ const updateOrderStatus = async ({ orderId, status }) => {
 // Product Management
 const getAllProducts = async () => {
   try {
-    const { rows } = await client.query( /*sql*/`
+    const { rows } = await pool.query( /*sql*/`
       SELECT * FROM products;
     `);
     return rows;
@@ -84,7 +84,7 @@ const updateProduct = async ({ id, fields }) => {
   if (!keys.length) return;
   const setString = keys.map((key, index) => `"${key}" = $${index + 1}`).join(', ');
   try {
-    const { rows: [product] } = await client.query(/*sql*/ `
+    const { rows: [product] } = await pool.query(/*sql*/ `
       UPDATE products
       SET ${setString}, updated_at = NOW()
       WHERE id = $${keys.length + 1}
@@ -100,7 +100,7 @@ const updateProduct = async ({ id, fields }) => {
 
 const deleteProduct = async ({ id} ) => {
   try {
-    const { rows: [product] } = await client.query(/*sql*/ `
+    const { rows: [product] } = await pool.query(/*sql*/ `
       DELETE FROM products
       WHERE id = $1
       RETURNING *;

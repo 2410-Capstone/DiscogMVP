@@ -1,4 +1,4 @@
-const client = require("./client");
+const pool = require('./pool');
 
 // Payment Functions
 // ---TO DO--- //
@@ -15,7 +15,7 @@ const createPayment = async ({
   try {
     const {
       rows: [payment],
-    } = await client.query(
+    } = await pool.query(
       /*sql*/ `
       INSERT INTO payments(id, order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8)
@@ -34,7 +34,7 @@ const updatePaymentStatus = async ({ paymentId, status }) => {
   try {
     const {
       rows: [payment],
-    } = await client.query(
+    } = await pool.query(
       /*sql*/ `
       UPDATE payments
       SET payment_status = $1, updated_at = NOW()

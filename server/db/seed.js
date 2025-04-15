@@ -1,15 +1,16 @@
 
-require('dotenv').config({ path: '../.env' });
-const pool = require('./pool');
+require('dotenv').config({ path: '../../.env' });
+console.log("env check - DATABASE_URL =", process.env.DATABASE_URL);
+
+const pool = require('./pool.js');
 const { createTables } = require("./db.js");
-const { createUser } = require("./db.js");
+const { createUser } = require("./users.js");
 const { createProduct } = require("./products.js");
 const { createCart } = require("./carts.js");
-const { createOrder } = require("./orders.js");
+const { createOrder, createOrderItem } = require("./orders.js");
 const { createPayment } = require("./payments.js");
 const { createCartItem } = require("./carts.js");
-const { createOrderItem } = require("./orders.js");
-const client = require("./client.js");
+
 
 const seedUsers = async () => {
   console.log("Seeding users...");
@@ -157,7 +158,8 @@ const seedUsers = async () => {
     }),
   ]);
 
-  console.log("Users seeded successfully:", users);
+  console.log("Users seeded successfully:", users.length);
+  return users;
 };
 
 const seedProducts = async () => {
@@ -327,7 +329,8 @@ const seedProducts = async () => {
     // Add more products as needed!
   ]);
 
-  console.log("Seeded products:", products);
+  console.log("Seeded products:", products.length);
+  return products;
 };
 
 const seedCartsAndOrders = async (users, products) => {
@@ -400,8 +403,8 @@ const seedCartsAndOrders = async (users, products) => {
 const seedPayments = async () => {
   console.log("Seeding payments...");
 
-  const { rows: orders } = await client.query(/*sql*/ `SELECT * FROM orders`);
-  const { rows: users } = await client.query(/*sql*/ `SELECT * FROM users`);
+  const { rows: orders } = await pool.query(/*sql*/ `SELECT * FROM orders`);
+  const { rows: users } = await pool.query(/*sql*/ `SELECT * FROM users`);
 
   const paymentMethods = ["credit_card", "paypal", "bank_transfer"];
 
@@ -445,19 +448,29 @@ module.exports = {
 const seed = async () => {
     let client;
     try {
-      client = await pool.connect();
+      // client = await pool.connect();
       console.log("Connected to database.");
-  
+      console.log("Seeding database:", process.env.DATABASE_URL);
+
       await createTables();
       
       // Seed users with progress feedback
       console.log("Starting user creation...");
-      await seedUsers();
+      const users = await seedUsers();
       console.log("Users created successfully!");
-      
+      console.log("✅ Users seeded:", users.length);
       // Continue with other seeding...
-      await seedProducts();
+      const products = await seedProducts();
       console.log("Products created successfully!");
+      console.log("✅ Products seeded:", products.length);
+
+      // Now seed carts and orders using users/products
+      await seedCartsAndOrders(users, products);
+      console.log("Carts and orders created successfully!");
+
+      // Seed payments
+      await seedPayments();
+      console.log("Payments created successfully!");
       
       console.log("Seeding complete!");
     } catch (err) {

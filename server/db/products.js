@@ -1,10 +1,10 @@
-const client = require('./client');
+const pool = require('./pool');
 
 // Products Functions
 
 const getProductById = async ({ id }) => {
   try {
-    const { rows } = await client.query(/*sql*/`
+    const { rows } = await pool.query(/*sql*/`
       SELECT * FROM products WHERE id = $1;
     `, [id]);
     return rows[0];
@@ -17,7 +17,7 @@ const getProductById = async ({ id }) => {
 
 const createProduct = async ({ artist, description, price, image_url, genre, stock }) => {
   try {
-    const { rows: [product] } = await client.query(/*sql*/ `
+    const { rows: [product] } = await pool.query(/*sql*/ `
       INSERT INTO products (artist, description, price, image_url, genre, stock)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *;
@@ -32,7 +32,7 @@ const createProduct = async ({ artist, description, price, image_url, genre, sto
 // ILIKE makes search case-insensitive
 const getProductsByGenre = async ({ genre }) => {
   try {
-    const { rows } = await client.query(/*sql*/ `
+    const { rows } = await pool.query(/*sql*/ `
       SELECT * FROM products
       WHERE genre ILIKE $1 AND stock > 0;
     `, [genre]);
@@ -46,7 +46,7 @@ const getProductsByGenre = async ({ genre }) => {
 const searchProducts = async ({ query }) => {
   try {
     const searchTerm = `%${query}%`;
-    const { rows } = await client.query(/*sql*/ `
+    const { rows } = await pool.query(/*sql*/ `
       SELECT * FROM products
       WHERE (artist ILIKE $1 OR genre ILIKE $1 OR description ILIKE $1)
       AND stock > 0;

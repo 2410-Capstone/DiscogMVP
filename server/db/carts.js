@@ -1,4 +1,4 @@
-const client = require("./client");
+const pool = require('./pool');
 
 // Cart Functions
 // ---TO DO--- //
@@ -11,7 +11,7 @@ const createCart = async ({ user_id, cart_status }) => {
     `;
     const {
       rows: [cart],
-    } = await client.query(SQL, [user_id, cart_status]);
+    } = await pool.query(SQL, [user_id, cart_status]);
     return cart;
   } catch (error) {
     console.error("Error creating cart:", error);
@@ -27,7 +27,7 @@ const getCartByUserId = async ({ user_Id }) => {
     `;
     const {
       rows: [cart],
-    } = await client.query(SQL, [user_Id]);
+    } = await pool.query(SQL, [user_Id]);
     return cart;
   } catch (error) {
     console.error("Error getting cart by user ID:", error);
@@ -42,7 +42,7 @@ const getCartItemById = async ({ cart_item_id }) => {
   `;
   const {
     rows: [cart_item],
-  } = await client.query(SQL, [cart_item_id]);
+  } = await pool.query(SQL, [cart_item_id]);
   return cart_item;
 };
 
@@ -55,7 +55,7 @@ const createCartItem = async ({ cart_id, product_id, quantity }) => {
     `;
     const {
       rows: [cart_item],
-    } = await client.query(SQL, [cart_id, product_id, quantity]);
+    } = await pool.query(SQL, [cart_id, product_id, quantity]);
     return cart_item;
   } catch (error) {
     console.error("Error creating cart item:", error);
@@ -75,7 +75,7 @@ const addProductToCart = async ({ cart_id, product_id, quantity }) => {
     `;
     const {
       rows: [cart_item],
-    } = await client.query(SQL, [cart_id, product_id, quantity]);
+    } = await pool.query(SQL, [cart_id, product_id, quantity]);
     return cart_item;
   } catch (error) {
     console.error("Error adding product to cart:", error);
@@ -92,7 +92,7 @@ const updateCartItemQuantity = async ({ cart_item_id, quantity }) => {
     `;
     const {
       rows: [cart_item],
-    } = await client.query(SQL, [quantity, cart_item_id]);
+    } = await pool.query(SQL, [quantity, cart_item_id]);
     return cart_item;
   } catch (error) {
     console.error("Error updating cart item quantity:", error);
@@ -109,7 +109,7 @@ const removeProductFromCart = async ({ cart_item_id }) => {
     `;
     const {
       rows: [cart_item],
-    } = await client.query(SQL, [cart_item_id]);
+    } = await pool.query(SQL, [cart_item_id]);
     return cart_item;
   } catch (error) {
     console.error("Error removing product from cart:", error);
@@ -128,7 +128,7 @@ const clearCart = async ({ user_id }) => {
     `;
     const {
       rows: [cart_item],
-    } = await client.query(SQL, [user_id]);
+    } = await pool.query(SQL, [user_id]);
     return cart_item;
   } catch (error) {
     console.error("Error clearing cart:", error);
