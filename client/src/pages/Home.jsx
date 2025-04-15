@@ -1,3 +1,10 @@
-export default function Home() {
-  return <h1>Welcome to the E-Commerce Store</h1>;
-}
+import WelcomeHeader from "../components/WelcomeHeader";
+
+const Home = () => {
+  return (
+    <div className="home-page">
+      <WelcomeHeader />
+    </div>
+  );
+};
+export default Home;

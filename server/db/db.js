@@ -1,5 +1,7 @@
-const pool = require('./pool');
 
+const pool = require('./pool');
+require("dotenv").config();
+const client = require("./client");
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -35,6 +37,7 @@ const createTables = async () => {
       CREATE TYPE c_status AS ENUM ('active', 'checked_out');
       CREATE TYPE o_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
       CREATE TYPE p_status AS ENUM ('pending', 'paid', 'failed');
+      CREATE TYPE payment_method AS ENUM ('credit_card', 'debit_card', 'paypal', 'bank_transfer');
       `);
     //create users table
     // I did an await on the pool.query to make debugging easier
@@ -118,15 +121,17 @@ const createTables = async () => {
     /*create payments table*/
     await pool.query(/*sql*/ `
     CREATE TABLE payments (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        order_id UUID NOT NULL,
-        billing_name VARCHAR,
-        billing_address TEXT,
-        payment_method VARCHAR,
-        payment_status p_status DEFAULT 'pending',
-        payment_date TIMESTAMP DEFAULT now(),
-        updated_at TIMESTAMP DEFAULT now(),
-        FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      order_id UUID NOT NULL,
+      billing_name VARCHAR,
+      billing_address TEXT,
+      amount NUMERIC(10, 2) NOT NULL,
+      payment_method payment_method,
+      payment_status p_status DEFAULT 'pending',
+
+      payment_date TIMESTAMP DEFAULT now(),
+      updated_at TIMESTAMP DEFAULT now(),
+      FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
       );
     `);
     /* This was the first time I used indexes supposedly it helped with faster, searching for a large database It makes 
@@ -150,54 +155,7 @@ const createTables = async () => {
   }
 };
 
-// ---Core Database Functions---
-// We can split these into separate files for better organization once we add more functionality
-// i.e. products.js, users.js, carts.js, orders.js, payments.js
-
-
-// Product Functions
-
-
-
-
-// User Functions
-const createUser = async ({ email, password, name, address, user_role }) => {
-  try {
-    const result = await pool.query(
-      `INSERT INTO users (email, password, name, address, user_role)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *;`,
-      [email, password, name, address, user_role]
-    );
-    return result.rows[0];
-  } catch (err) {
-    console.error("Error creating user:", err.message);
-    throw err;
-  }
-};
-
-
-const getUserById = async () => {}
-
-const getUserByEmail = async () => {}
-
-const updateUser = async () => {}
-
-const deleteUser = async () => {}
-
-const authenticateUser = async () => {}
-
-// Cart and Order Functions
-const createCart = async () => {}
-
-
-
 module.exports = {
   // pool,
-
   createTables,
-  createUser,
-  // getAllProducts,
-  // add any other functions export here
-  // e.g., createUser, getUserById, etc.
 };

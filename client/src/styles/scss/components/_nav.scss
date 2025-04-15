@@ -1,0 +1,116 @@
+.navbar {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  height: 64px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 0 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.nav-logo,
+.lognav-logo,
+.product-nav-button,
+.account-title h2 {
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(70deg, #a4fffc, #003b5c);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: white;
+  display: inline-block;
+  padding: 5px;
+  transition: transform 0.3s ease-in-out;
+  background-size: 200% 200%;
+  text-decoration: none;
+}
+
+.nav-logo:hover,
+.lognav-logo:hover,
+.product-nav-button:hover,
+.back-to-products-button:hover {
+  animation: double_flash 1.5s ease-in-out forwards;
+  transform: scale(1.1);
+}
+
+.lognav-logo {
+  font-size: 36px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.nav-item {
+  font-size: 16px;
+  font-weight: 500;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 70%;
+  }
+}
+
+.nav-button {
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 8px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  color: var(--glass-button-text);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.product-nav-button,
+.back-to-products-button,
+.product-nav-button:hover,
+.product-nav-button:focus,
+.product-nav-button:active,
+.product-nav-button.active {
+  text-decoration: none !important;
+}
