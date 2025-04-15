@@ -1,14 +1,19 @@
-import './styles/scss/App.scss';
+import "./styles/scss/App.scss";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-import Home from './pages/Home';
-import Login from './pages/LogRegAuth/Login';
-import Register from './pages/LogRegAuth/Register'
-
+import Home from "./pages/Home";
+import Login from "./pages/LogRegAuth/Login";
+import Register from "./pages/LogRegAuth/Register";
+import Allreleases from "./components/Allreleases";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,8 +40,15 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
-        <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+        <Route
+          path="/login"
+          element={<Login setToken={setToken} setUser={setUser} />}
+        />
+        <Route
+          path="/register"
+          element={<Register setToken={setToken} setUser={setUser} />}
+        />
+        <Route path="/albums" element={<Allreleases />} />
         {/* Add more routes here if needed */}
       </Routes>
       <Footer />
