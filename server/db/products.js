@@ -29,7 +29,40 @@ const createProduct = async ({ artist, description, price, image_url, genre, sto
   }
 }
 
+// ILIKE makes search case-insensitive
+const getProductsByGenre = async (genre) => {
+  try {
+    const { rows } = await client.query(/*sql*/ `
+      SELECT * FROM products
+      WHERE genre ILIKE $1 AND stock > 0;
+    `, [genre]);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching products by genre:", error);
+    throw error;
+  }
+};
+
+const searchProducts = async (query) => {
+  try {
+    const searchTerm = `%${query}%`;
+    const { rows } = await client.query(/*sql*/ `
+      SELECT * FROM products
+      WHERE (artist ILIKE $1 OR genre ILIKE $1 OR description ILIKE $1)
+      AND stock > 0;
+    `, [searchTerm]);
+    return rows;
+  } catch (error) {
+    console.error("Error searching products:", error);
+    throw error;
+  }
+};
+
+
+
 module.exports = {
   getProductById,
   createProduct,
+  getProductsByGenre,
+  searchProducts
 };

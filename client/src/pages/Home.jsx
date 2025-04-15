@@ -1,12 +1,14 @@
+
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard"; 
+
 
 const Home = () => {
   const [items, setItems] = useState([]);
 
 
   const handleDetailsClick = (id) => {
-    // Implement your navigation or modal logic here
+ 
     console.log(`View details for item ${id}`);
   };
 
