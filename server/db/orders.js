@@ -14,32 +14,36 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
       rows: [order],
     } = await client.query(SQL, [user_id, shipping_address, order_status, tracking_number, total]);
     return order;
-
   } catch (error) {
     console.error("Error creating order:", error);
     throw error;
   }
-
 };
 
-const getOrderByUserId = async ({ orderId }) => {
+const getOrderByUserId = async ({ userId }) => {
   try {
     const SQL = /*sql*/ `
       SELECT * FROM orders
       WHERE user_id = $1;
     `;
-    const { rows: orders } = await client.query(SQL, [orderId]);
+    const { rows: orders } = await client.query(SQL, [userId]);
     return orders;
   } catch (error) {
     console.error("Error getting order by user ID:", error);
-}
+
+  }
+};
 
 const getOrderById = async (orderId) => {
   try {
-    const { rows: [order] } = await client.query(/*sql*/ `
+    const {
+      rows: [order],
+    } = await client.query(
+      /*sql*/ `
       SELECT * FROM orders WHERE id = $1;
     `, [orderId]);
-    
+    );
+
     return order;
   } catch (error) {
     console.error("Error getting order by ID:", error);
@@ -51,30 +55,40 @@ const getOrderById = async (orderId) => {
 const createOrderItem = async ({ orderId, productId, quantity, price }) => {
   try {
     // Get product price at the time of order
-    const { rows: [product] } = await client.query(/*sql*/`
+    const {
+      rows: [product],
+    } = await client.query(
+      /*sql*/ `
       SELECT price FROM products WHERE id = $1;
-    `, [productId]);
+    `,
+      [productId]
+    );
     if (!product) {
       throw new Error(`Product with ID ${productId} not found`);
     }
     const price = product.price;
     // Insert order with price
-    const { rows: [orderItem] } = await client.query(/*sql*/ `
+    const {
+      rows: [orderItem],
+    } = await client.query(
+      /*sql*/ `
       INSERT INTO order_items (order_id, product_id, quantity, price)
       VALUES ($1, $2, $3, $4)
       RETURNING *;
-      `, [orderId, productId, quantity, price]);
-      return orderItem;
+      `,
+      [orderId, productId, quantity, price]
+    );
+    return orderItem;
   } catch (error) {
     console.error("Error creating order item:", error);
     throw error;
   }
-
 };
 
 const getOrderItems = async (orderId) => {
   try {
-    const { rows } = await client.query(/*sql*/ `
+    const { rows } = await client.query(
+      /*sql*/ `
       SELECT 
         oi.id AS order_item_id,
         oi.product_id,
@@ -86,7 +100,9 @@ const getOrderItems = async (orderId) => {
       FROM order_items oi
       JOIN products p ON oi.product_id = p.id
       WHERE oi.order_id = $1;
-    `, [orderId]);
+    `,
+      [orderId]
+    );
 
     return rows;
   } catch (error) {
@@ -97,11 +113,16 @@ const getOrderItems = async (orderId) => {
 
 const calculateOrderTotal = async (orderId) => {
   try {
-    const { rows: [result] } = await client.query(/*sql*/`
+    const {
+      rows: [result],
+    } = await client.query(
+      /*sql*/ `
       SELECT SUM(price * quantity) AS total
       FROM order_items
       WHERE order_id = $1;
-    `, [orderId]);
+    `,
+      [orderId]
+    );
     return Number(result.total) || 0;
   } catch (error) {
     console.error("Error calculating order total:", error);
@@ -109,13 +130,11 @@ const calculateOrderTotal = async (orderId) => {
   }
 };
 
-
 module.exports = {
   createOrder,
   getOrderByUserId,
   getOrderById,
   createOrderItem,
   getOrderItems,
-  calculateOrderTotal
-}
-
+  calculateOrderTotal,
+};
