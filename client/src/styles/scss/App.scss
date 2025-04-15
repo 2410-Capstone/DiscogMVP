@@ -1,7 +1,7 @@
 @use "./animations/animations";
 @use "./base/global" as *;
 @use "./base/reset";
-@use "./components/welcome";
+@use "./components/welcome_header";
 @use "./components/account_dash";
 @use "./components/admin_dash";
 @use "./components/nav" as *;
@@ -16,4 +16,6 @@
 @use "./variables/loading_spinner";
 @use "./variables/notifications";
 @use "./layout/footer";
+@use "./layout/welcome_page";
+@use "./layout/not_found"
 
