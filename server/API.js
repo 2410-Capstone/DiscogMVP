@@ -32,5 +32,7 @@ app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
 
-const PORT = process.env.PORT || 4242;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 4242;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app; // Export the app for testing purposes
