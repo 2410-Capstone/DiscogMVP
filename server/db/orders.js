@@ -1,4 +1,4 @@
-const client = require("./client");
+const pool = require('./pool');
 
 // Order Functions
 
@@ -12,7 +12,7 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
     `;
     const {
       rows: [order],
-    } = await client.query(SQL, [user_id, shipping_address, order_status, tracking_number, total]);
+    } = await pool.query(SQL, [user_id, shipping_address, order_status, tracking_number, total]);
     return order;
   } catch (error) {
     console.error("Error creating order:", error);
@@ -26,7 +26,7 @@ const getOrderByUserId = async ({ userId }) => {
       SELECT * FROM orders
       WHERE user_id = $1;
     `;
-    const { rows: orders } = await client.query(SQL, [userId]);
+    const { rows: orders } = await pool.query(SQL, [userId]);
     return orders;
   } catch (error) {
     console.error("Error getting order by user ID:", error);
@@ -38,7 +38,7 @@ const getOrderById = async (orderId) => {
   try {
     const {
       rows: [order],
-    } = await client.query(
+    } = await pool.query(
       /*sql*/ `
       SELECT * FROM orders WHERE id = $1;
     `, [orderId]);
@@ -55,7 +55,7 @@ const createOrderItem = async ({ orderId, productId, quantity, price }) => {
     // Get product price at the time of order
     const {
       rows: [product],
-    } = await client.query(
+    } = await pool.query(
       /*sql*/ `
       SELECT price FROM products WHERE id = $1;
     `,
@@ -68,7 +68,7 @@ const createOrderItem = async ({ orderId, productId, quantity, price }) => {
     // Insert order with price
     const {
       rows: [orderItem],
-    } = await client.query(
+    } = await pool.query(
       /*sql*/ `
       INSERT INTO order_items (order_id, product_id, quantity, price)
       VALUES ($1, $2, $3, $4)
@@ -85,7 +85,7 @@ const createOrderItem = async ({ orderId, productId, quantity, price }) => {
 
 const getOrderItems = async (orderId) => {
   try {
-    const { rows } = await client.query(
+    const { rows } = await pool.query(
       /*sql*/ `
       SELECT 
         oi.id AS order_item_id,
@@ -113,7 +113,7 @@ const calculateOrderTotal = async (orderId) => {
   try {
     const {
       rows: [result],
-    } = await client.query(
+    } = await pool.query(
       /*sql*/ `
       SELECT SUM(price * quantity) AS total
       FROM order_items

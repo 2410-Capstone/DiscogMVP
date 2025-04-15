@@ -16,19 +16,20 @@ const createTables = async () => {
     await pool.connect();
     console.log("Connected to db");
     await pool.query(/*sql*/ `
-      DROP TABLE IF EXISTS payments;
-      DROP TABLE IF EXISTS order_items;
-      DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS cart_items;
-      DROP TABLE IF EXISTS carts;
-      DROP TABLE IF EXISTS products;
-      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS payments CASCADE;
+      DROP TABLE IF EXISTS order_items CASCADE;
+      DROP TABLE IF EXISTS orders CASCADE;
+      DROP TABLE IF EXISTS cart_items CASCADE;
+      DROP TABLE IF EXISTS carts CASCADE;
+      DROP TABLE IF EXISTS products CASCADE;
+      DROP TABLE IF EXISTS users CASCADE;
      
        /* add types Supposedly, it's best practice when these roles/statuses will have consistent values */
-      DROP TYPE IF EXISTS user_role;
-      DROP TYPE IF EXISTS cart_status;
-      DROP TYPE IF EXISTS order_status;
-      DROP TYPE IF EXISTS payment_status;
+      DROP TYPE IF EXISTS role CASCADE;
+      DROP TYPE IF EXISTS c_status CASCADE;
+      DROP TYPE IF EXISTS o_status CASCADE;
+      DROP TYPE IF EXISTS p_status CASCADE;
+      DROP TYPE IF EXISTS payment_method CASCADE;
       `);
     //created Enum types for the tables enum = enumeration create our own data types to
     // (prevent errors with naming types) was not aware of this previously. Also, my understanding is this is the information admin's can access
@@ -151,7 +152,9 @@ const createTables = async () => {
   } catch (error) {
     console.error("Error creating tables:", error);
   } finally {
-    await pool.end();
+    // await pool.end();
+    // Leave this empty or log something for clarity
+    console.log("Done running createTables.");
   }
 };
 
