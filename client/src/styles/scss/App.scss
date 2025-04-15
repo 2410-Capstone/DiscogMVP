@@ -1,15 +1,19 @@
 @use "./animations/animations";
-@use "./base/global";
+@use "./base/global" as *;
 @use "./base/reset";
+@use "./components/welcome";
 @use "./components/account_dash";
 @use "./components/admin_dash";
-@use "./components/nav";
+@use "./components/nav" as *;
 @use "./components/profile";
 @use "./components/reg_log";
 @use "./layout/home";
+@use "./variables/themes";
 @use "./layout/popup";
 @use "./layout/product_list";
 @use "./query/media_mobile";
 @use "./variables/buttons";
 @use "./variables/loading_spinner";
-@use "./variables/notifications"
+@use "./variables/notifications";
+@use "./layout/footer";
+

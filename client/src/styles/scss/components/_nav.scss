@@ -1,244 +1,116 @@
 .navbar {
-    background: rgb(0 0 0 / 80%);
-  
-    backdrop-filter: blur(10px);
-  
-    height: 64px;
-  
-    display: flex;
-  
-    justify-content: center;
-  
-    position: fixed;
-  
-    width: 100%;
-  
-    top: 0;
-  
-    z-index: 100;
-  
-    padding: 0 32px;
-  
-    overflow-x: hidden;
-  
-    text-decoration: none;
-  }
-  
-  .nav-container {
-    width: 100%;
-  
-    display: flex;
-  
-    align-items: center;
-  
-    justify-content: space-between;
-  
-    text-decoration: none;
-  }
-  
-  .nav-left {
-    display: flex;
-  
-    align-items: center;
-  
-    gap: 15px;
-  
-    flex: 1;
-  }
-  
-  .nav-center {
-    text-decoration: none;
-    flex: 2;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .product-nav-button.active,
-  .back-to-products-button {
-    text-decoration: none;
-  }
-  
-  .product-nav-button {
-    text-decoration: none;
-  }
-  
-  .product-nav-button:hover,
-  .product-nav-button:focus,
-  .product-nav-button:active,
-  .product-nav-button.active {
-    text-decoration: none !important;
-  }
-  
-  .nav-logo,
-  .nav-item,
-  .nav-button,
-  .lognav-logo {
-    color: white;
-  
-    text-decoration: none;
-  }
-  
-  .nav-products {
-    position: absolute;
-  
-    left: 50%;
-  
-    transform: translateX(-50%);
-  
-    display: flex;
-  
-    align-items: center;
-  
-    justify-content: center;
-  }
-  
-  .lognav-logo {
-    font-size: 36px;
-  
-    font-weight: bold;
-  
-    color: white;
-  
-    background: none;
-  
-    background-clip: text;
-  
-    -webkit-background-clip: text;
-  
-    display: inline-block;
-  
-    padding: 5px;
-  
-    transition: transform 0.3s ease-in-out;
-  
-    background-size: 200% 200%;
-  }
-  
-//   l .lognav-logo:hover {http://localhost:5173/login
-//     transform: scale(1.05);
-//   }
-  
-  .nav-logo,
-  .account-title h2,
-  .product-nav-button {
-    font-size: 18px;
-  
-    font-weight: bold;
-  
-    color: white;
-  
-    background: linear-gradient(70deg, #a4fffc, #003b5c);
-  
-    background-clip: text;
-  
-    -webkit-background-clip: text;
-  
-    display: inline-block;
-  
-    padding: 5px;
-  
-    transition: transform 0.3s ease-in-out;
-  
-    background-size: 200% 200%;
-  }
-  
-  .lognav-logo:hover,
-  .nav-logo:hover,
-  .account-title h2,
-  .product-nav-button h2,
-  .back-to-products-button h2,
-  .back-to-products-button:hover,
-  .product-nav-button:hover .sign-button h2,
-  .reg-button h2 {
-    animation: double_flash 1.5s ease-in-out forwards;
-  }
-  
-  .lognav-logo:hover {
-    transform: scale(1.02);
-  }
-  
-  .product-nav-button:hover {
-    animation: double_flash 1.5s ease-in-out forwards;
-  
-    transform: scale(1.2);
-  }
-  
-  .nav-item {
-    font-size: 16px;
-  
-    font-weight: 500;
-  
-    transition: opacity 0.3s;
-  }
-  
-  .nav-item:hover {
-    opacity: 70%;
-  }
-  
-  .nav-right {
-    display: flex;
-  
-    align-items: center;
-  
-    gap: 15px;
-  }
-  
-  .profile-pic {
-    width: 40px;
-  
-    height: 40px;
-  
-    border-radius: 50%;
-  
-    object-fit: cover;
-  
-    cursor: pointer;
-  
-    border: 2px solid white;
-  
-    transition: transform 0.3s;
-  }
-  
-  .profile-pic:hover {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  height: 64px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 0 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.nav-logo,
+.lognav-logo,
+.product-nav-button,
+.account-title h2 {
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(70deg, #a4fffc, #003b5c);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: white;
+  display: inline-block;
+  padding: 5px;
+  transition: transform 0.3s ease-in-out;
+  background-size: 200% 200%;
+  text-decoration: none;
+}
+
+.nav-logo:hover,
+.lognav-logo:hover,
+.product-nav-button:hover,
+.back-to-products-button:hover {
+  animation: double_flash 1.5s ease-in-out forwards;
+  transform: scale(1.1);
+}
+
+.lognav-logo {
+  font-size: 36px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform 0.3s;
+
+  &:hover {
     transform: scale(1.1);
   }
-  
-  .nav-button {
-    font-size: 14px;
-  
-    font-weight: bold;
-  
-    border-radius: 6px;
-  
-    padding: 8px;
-  
-    background: none;
-  
-    cursor: pointer;
-  
-    transition: background 0.3s;
-  }
-  
-  .nav-button:hover {
-    background: rgb(255 255 255 / 20%);
-  }
-  
-  .nav-center {
-    position: absolute;
-  
-    left: 50%;
-  
-    transform: translateX(-50%);
-  
-    display: flex;
-  
-    align-items: center;
-  
-    gap: 15px;
-  
-    flex-grow: 1;
-  
-    justify-content: center;
-  }
-  
+}
 
+.nav-item {
+  font-size: 16px;
+  font-weight: 500;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 70%;
+  }
+}
+
+.nav-button {
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 8px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  color: var(--glass-button-text);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.product-nav-button,
+.back-to-products-button,
+.product-nav-button:hover,
+.product-nav-button:focus,
+.product-nav-button:active,
+.product-nav-button.active {
+  text-decoration: none !important;
+}
