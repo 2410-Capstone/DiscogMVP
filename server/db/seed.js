@@ -370,7 +370,8 @@ const seedCartsAndOrders = async (users, products) => {
     for (let product of orderProductSample) {
       if (!product || !product.id) {
         console.error('Missing or invalid product for order:', product);
-        throw new Error('Cannot seed order item: missing product ID');
+        continue; // skip this product
+        // throw new Error('Cannot seed order item: missing product ID');
       }
     
       const quantity = getRandomInt(1, 3);
@@ -395,6 +396,7 @@ const seedCartsAndOrders = async (users, products) => {
       });
 
       for (let item of orderItems) {
+        console.log("Creating order item:", item);
         await createOrderItem({
           order_id: order.id,
           product_id: item.product_id,
