@@ -1,32 +1,37 @@
-const client = require('./client');
+const client = require("./client");
 
 // Order Functions
 
-const createOrder = async (userId, shippingAddress) => {
+// ---TO DO--- //
+const createOrder = async ({ user_id, shipping_address, order_status, tracking_number, total }) => {
   try {
-    const { rows: [order] } = await client.query(/*sql*/ `
-      INSERT INTO orders (user_id, shipping_address)
-      VALUES ($1, $2)
+    const SQL = /*sql*/ `
+      INSERT INTO orders (user_id, shipping_address, order_status, tracking_number, total)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
-      `, [userId, shippingAddress]);
-      return order;
+    `;
+    const {
+      rows: [order],
+    } = await client.query(SQL, [user_id, shipping_address, order_status, tracking_number, total]);
+    return order;
+
   } catch (error) {
     console.error("Error creating order:", error);
     throw error;
   }
-}
 
-const getOrderByUserId = async (userId) => {
+};
+
+const getOrderByUserId = async ({ orderId }) => {
   try {
-    const { rows } = await client.query(/*sql*/ `
+    const SQL = /*sql*/ `
       SELECT * FROM orders
-      WHERE user_id = $1
-      ORDER BY created_at DESC;
-      `, [userId]);
-      return rows; 
+      WHERE user_id = $1;
+    `;
+    const { rows: orders } = await client.query(SQL, [orderId]);
+    return orders;
   } catch (error) {
-    throw error;
-  }
+    console.error("Error getting order by user ID:", error);
 }
 
 const getOrderById = async (orderId) => {
@@ -38,18 +43,17 @@ const getOrderById = async (orderId) => {
     return order;
   } catch (error) {
     console.error("Error getting order by ID:", error);
+
     throw error;
   }
 };
 
-
-const createOrderItem = async (orderId, productId, quantity) => {
+const createOrderItem = async ({ orderId, productId, quantity, price }) => {
   try {
     // Get product price at the time of order
     const { rows: [product] } = await client.query(/*sql*/`
       SELECT price FROM products WHERE id = $1;
     `, [productId]);
-    
     if (!product) {
       throw new Error(`Product with ID ${productId} not found`);
     }
@@ -65,7 +69,8 @@ const createOrderItem = async (orderId, productId, quantity) => {
     console.error("Error creating order item:", error);
     throw error;
   }
-}
+
+};
 
 const getOrderItems = async (orderId) => {
   try {
@@ -113,3 +118,4 @@ module.exports = {
   getOrderItems,
   calculateOrderTotal
 }
+

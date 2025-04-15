@@ -347,10 +347,10 @@ const seedCartsAndOrders = async (users, products) => {
     }
 
     const order_statuses = ["created", "processing", "shipped", "delivered"];
+    const orderProductSample = getRandomProducts(products, 1, 3);
     const orderItems = [];
     let total = 0;
 
-    const orderProductSample = getRandomProducts(products, 1, 3);
     for (let product of orderProductSample) {
       const quantity = getRandomInt(1, 3);
       const price = product.price;
@@ -362,6 +362,7 @@ const seedCartsAndOrders = async (users, products) => {
         price,
       });
       const shippingAddress = user.shipping_address || user.address;
+      //may need to change this to user.address
       const order = await createOrder({
         user_id: user.id,
         order_status: order_statuses[Math.floor(Math.random() * order_statuses.length)],
