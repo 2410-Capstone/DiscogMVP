@@ -344,7 +344,15 @@ const seedCartsAndOrders = async (users, products) => {
     });
 
     const cartProductSample = getRandomProducts(products, 1, 3);
+
+    console.log("cartProductSample:", cartProductSample);
+
     for (let product of cartProductSample) {
+      if (!product || !product.id) {
+        console.error('Missing or invalid product:', product);
+        throw new Error('Cannot seed cart item: missing product ID');
+      }
+
       await createCartItem({
         cart_id: cart.id,
         product_id: product.id,
@@ -357,16 +365,25 @@ const seedCartsAndOrders = async (users, products) => {
     const orderItems = [];
     let total = 0;
 
+    console.log('orderProductSample:', orderProductSample);
+
     for (let product of orderProductSample) {
+      if (!product || !product.id) {
+        console.error('Missing or invalid product for order:', product);
+        throw new Error('Cannot seed order item: missing product ID');
+      }
+    
       const quantity = getRandomInt(1, 3);
       const price = product.price;
       total += price * quantity;
-
+    
       orderItems.push({
         product_id: product.id,
         quantity,
         price,
       });
+    }
+    
       const shippingAddress = user.shipping_address || user.address;
       //may need to change this to user.address
       const order = await createOrder({
@@ -388,13 +405,14 @@ const seedCartsAndOrders = async (users, products) => {
     }
 
     console.log("Seeded 20 carts and orders with items.");
-  }
 
   function getRandomProducts(products, min, max) {
-    const count = getRandomInt(min, max);
+    if (!products || products.length === 0) return [];
+    const count = Math.min(getRandomInt(min, max), products.length); // clamp the count
     const shuffled = [...products].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
+  
 
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -477,9 +495,17 @@ const seed = async () => {
       console.error("Error during seeding:", err);
     } finally {
       if (client) client.release();
-      await pool.end();
+      // await pool.end();
       console.log("Database connection closed.");
     }
   };
-  seed();
-  
+
+// Run the seed function and close the connection if this file is executed directly
+// This is for testing purposes
+if (require.main === module) {
+  seed().then(() => {
+    pool.end(); // Only closes when run directly, i.e. 'npm run seed'
+  });
+}
+
+module.exports = seed;
