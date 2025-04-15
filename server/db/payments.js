@@ -29,7 +29,25 @@ const createPayment = async ({
   }
 };
 
-const updatePaymentStatus = async (paymentId, status) => {};
+const updatePaymentStatus = async ({ paymentId, status }) => {
+  try {
+    const {
+      rows: [payment],
+    } = await client.query(
+      /*sql*/ `
+      UPDATE payments
+      SET payment_status = $1, updated_at = NOW()
+      WHERE id = $2
+      RETURNING *;
+      `,
+      [status, paymentId]
+    );
+    return payment;
+  } catch (error) {
+    console.error("Error updating payment status:", error);
+    throw error;
+  }
+};
 
 module.exports = {
   createPayment,
