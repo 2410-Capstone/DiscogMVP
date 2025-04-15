@@ -2,6 +2,8 @@ import './styles/scss/App.scss';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
+import NotFound from './pages/NotFound';
+
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
 
@@ -34,6 +36,7 @@ function App() {
       <Navbar token={token} setToken={setToken} setUser={setUser} />
 
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
         <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
