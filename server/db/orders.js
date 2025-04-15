@@ -19,7 +19,7 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
   }
 };
 
-const getOrderByUserId = async (orderId) => {
+const getOrderByUserId = async ({ orderId }) => {
   try {
     const SQL = /*sql*/ `
       SELECT * FROM orders
