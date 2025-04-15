@@ -32,9 +32,8 @@ function App() {
   if (loading) return null;
 
   return (
-    <Router>
+    <>
       <Navbar token={token} setToken={setToken} setUser={setUser} />
-
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Welcome />} />
@@ -43,10 +42,10 @@ function App() {
         <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
         <Route path="/albums" element={<Allreleases />} />
       </Routes>
-
       <Footer />
-    </Router>
+    </>
   );
+  
 }
 
 export default App;
