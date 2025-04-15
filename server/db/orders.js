@@ -42,8 +42,6 @@ const getOrderById = async (orderId) => {
       /*sql*/ `
       SELECT * FROM orders WHERE id = $1;
     `, [orderId]);
-    );
-
     return order;
   } catch (error) {
     console.error("Error getting order by ID:", error);
