@@ -45,10 +45,28 @@ const getUserByEmail = async (email) => {
   }
 }
 
-// ---TO DO--- //
-const updateUser = async () => {
-  
-}
+const updateUser = async (id, fields = {}) => {
+  try {
+    // If password is being updated, hash it first
+    if (fields.password) {
+      fields.password = await bcrypt.hash(fields.password, 10);
+    }
+    const keys = Object.keys(fields);
+    if (!keys.length) return;
+    const setString = keys.map((key, index) => `"${key}" = $${index + 1}`).join(', ');
+    const { rows: [user] } = await client.query(/*sql*/ `
+      UPDATE users
+      SET ${setString}, updated_at = NOW()
+      WHERE id = $${keys.length + 1}
+      RETURNING id, email, name, address, user_role, created_at, updated_at;
+    `, [...Object.values(fields), id]);
+    return user;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+};
+
 
 
 const authenticateUser = async ({ email, password }) => {
@@ -62,7 +80,8 @@ const authenticateUser = async ({ email, password }) => {
       id: user.id,
       email: user.email,
       name: user.name,
-      token,
+      role: user.user_role,
+      token
     };
   } catch (error) {
     console.error("Error authenticating user:", error);
