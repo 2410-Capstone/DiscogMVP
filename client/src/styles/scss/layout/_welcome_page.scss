@@ -1,4 +1,4 @@
-.home-page {
+.welcome-page {
     padding: 2rem;
     min-height: 100vh;
     background: var(--card-bg); // Full-page themed background
@@ -17,20 +17,31 @@
     animation: disney_fade_slide 0.8s ease-out forwards;
 }
 
-.home-page h1:not(.home-header) {
+.welcome-page h1:not(.welcome-header) {
     font-size: 3rem;
     margin-bottom: 1rem;
     position: relative;
-    background: linear-gradient(0deg, #a4fffc, #003b5c);
+    background: linear-gradient(70deg, #a4fffc, #003b5c);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     transition: transform 0.3s ease;
     animation: fadeIn 1.2s ease-out forwards;
 
+    &:hover::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), transparent);
+        transform: skewX(-20deg);
+        animation: shiny-wipe 1s ease forwards;
+    }
 }
 
-.home-page p {
+.welcome-page p {
     font-size: 1.2rem;
     max-width: 600px;
     text-align: center;
@@ -39,7 +50,7 @@
     animation: disney_fade_inner 1.2s ease forwards 0.5s;
 }
 
-.home-page .cta-button {
+.welcome-page .cta-button {
     font-size: 1rem;
     padding: 0.8rem 1.6rem;
     background-color: var(--primary-accent);

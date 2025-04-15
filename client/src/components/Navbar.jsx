@@ -26,7 +26,7 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
 
         {!isOnMainPage && (
           <div className="nav-center">
-            <Link to="/" className="nav-button">
+            <Link to="./home" className="nav-button">
               Home
             </Link>
           </div>

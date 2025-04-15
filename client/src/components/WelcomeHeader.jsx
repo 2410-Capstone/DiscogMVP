@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/scss/components/_welcome.scss";
+
 
 const WelcomeHeader = () => {
   const messages = [
