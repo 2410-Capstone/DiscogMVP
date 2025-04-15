@@ -19,7 +19,7 @@ const createUser = async ({ email, password, name, address }) => {
   }
 }
 
-const getUserById = async (id) => {
+const getUserById = async ({ id }) => {
   try {
     const { rows: [user] } = await client.query(/*sql*/ `
       SELECT id, email, name, address, user_role, created_at
@@ -33,7 +33,7 @@ const getUserById = async (id) => {
   }
 }
 
-const getUserByEmail = async (email) => {
+const getUserByEmail = async ({ email }) => {
   try {
     const { rows: [user] } = await client.query(/*sql*/ `
       SELECT * FROM users WHERE email = $1;
@@ -45,7 +45,7 @@ const getUserByEmail = async (email) => {
   }
 }
 
-const updateUser = async (id, fields = {}) => {
+const updateUser = async ({ id, fields }) => {
   try {
     // If password is being updated, hash it first
     if (fields.password) {

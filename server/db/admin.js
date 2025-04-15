@@ -18,7 +18,7 @@ const getAllUsers = async () => {
   }
 }
 
-const deleteUser = async (userId) => {
+const deleteUser = async ({ userId }) => {
   try {
     const { rows: [user] } = await client.query(/*sql*/ `
       DELETE FROM users
@@ -49,7 +49,7 @@ const getAllOrders = async () => {
   }
 }
 
-const updateOrderStatus = async (orderId, status) => {
+const updateOrderStatus = async ({ orderId, status }) => {
   try {
     const { rows: [order] } = await client.query(/*sql*/ `
       UPDATE orders
@@ -79,7 +79,7 @@ const getAllProducts = async () => {
   }
 }
 
-const updateProduct = async (id, fields = {}) => {
+const updateProduct = async ({ id, fields }) => {
   const keys = Object.keys(fields);
   if (!keys.length) return;
   const setString = keys.map((key, index) => `"${key}" = $${index + 1}`).join(', ');
@@ -98,7 +98,7 @@ const updateProduct = async (id, fields = {}) => {
 };
 
 
-const deleteProduct = async (id) => {
+const deleteProduct = async ({ id} ) => {
   try {
     const { rows: [product] } = await client.query(/*sql*/ `
       DELETE FROM products

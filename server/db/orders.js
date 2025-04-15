@@ -41,8 +41,7 @@ const getOrderById = async (orderId) => {
     } = await client.query(
       /*sql*/ `
       SELECT * FROM orders WHERE id = $1;
-    `,
-      [orderId]
+    `, [orderId]);
     );
 
     return order;
