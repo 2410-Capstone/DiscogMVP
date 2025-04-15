@@ -3,6 +3,7 @@ const client = require("./client");
 // Payment Functions
 // ---TO DO--- //
 const createPayment = async ({
+  id,
   order_id,
   payment_method,
   payment_status = "pending",
@@ -16,11 +17,11 @@ const createPayment = async ({
       rows: [payment],
     } = await client.query(
       /*sql*/ `
-      INSERT INTO payments(order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO payments(id, order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *;
       `,
-      [order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount]
+      [id, order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount]
     );
     return payment;
   } catch (error) {
