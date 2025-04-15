@@ -30,7 +30,7 @@ const getOrderByUserId = async ({ userId }) => {
     return orders;
   } catch (error) {
     console.error("Error getting order by user ID:", error);
-    throw error;
+
   }
 };
 
