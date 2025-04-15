@@ -1,3 +1,6 @@
+
+require('dotenv').config({ path: '../.env' });
+const pool = require('./pool');
 const { createTables } = require("./db.js");
 const { createUser } = require("./db.js");
 const { createProduct } = require("./products.js");
@@ -437,3 +440,33 @@ module.exports = {
   seedCartsAndOrders,
   seedPayments,
 };
+
+
+const seed = async () => {
+    let client;
+    try {
+      client = await pool.connect();
+      console.log("Connected to database.");
+  
+      await createTables();
+      
+      // Seed users with progress feedback
+      console.log("Starting user creation...");
+      await seedUsers();
+      console.log("Users created successfully!");
+      
+      // Continue with other seeding...
+      await seedProducts();
+      console.log("Products created successfully!");
+      
+      console.log("Seeding complete!");
+    } catch (err) {
+      console.error("Error during seeding:", err);
+    } finally {
+      if (client) client.release();
+      await pool.end();
+      console.log("Database connection closed.");
+    }
+  };
+  seed();
+  

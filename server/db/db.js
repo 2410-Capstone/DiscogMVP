@@ -1,5 +1,6 @@
-require("dotenv").config();
 
+const pool = require('./pool');
+require("dotenv").config();
 const client = require("./client");
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
@@ -8,12 +9,13 @@ const jwt = require("jsonwebtoken");
 // const JWT = process.env.JWT || "shhh";
 //will need this for authentication later ^
 
+
 //create the db tables
 const createTables = async () => {
   try {
-    await client.connect();
+    await pool.connect();
     console.log("Connected to db");
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
       DROP TABLE IF EXISTS payments;
       DROP TABLE IF EXISTS order_items;
       DROP TABLE IF EXISTS orders;
@@ -30,7 +32,7 @@ const createTables = async () => {
       `);
     //created Enum types for the tables enum = enumeration create our own data types to
     // (prevent errors with naming types) was not aware of this previously. Also, my understanding is this is the information admin's can access
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
       CREATE TYPE role AS ENUM ('customer', 'admin');
       CREATE TYPE c_status AS ENUM ('active', 'checked_out');
       CREATE TYPE o_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
@@ -38,8 +40,8 @@ const createTables = async () => {
       CREATE TYPE payment_method AS ENUM ('credit_card', 'debit_card', 'paypal', 'bank_transfer');
       `);
     //create users table
-    // I did an await on the client.query to make debugging easier
-    await client.query(/*sql*/ `
+    // I did an await on the pool.query to make debugging easier
+    await pool.query(/*sql*/ `
     CREATE TABLE users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         email VARCHAR(255) UNIQUE NOT NULL,
@@ -52,7 +54,7 @@ const createTables = async () => {
       );
       `);
     /* create products table */
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
     CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         artist VARCHAR(255) NOT NULL,
@@ -67,7 +69,7 @@ const createTables = async () => {
       `);
 
     /*create carts table*/
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
     CREATE TABLE carts (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
@@ -79,7 +81,7 @@ const createTables = async () => {
       `);
 
     /*create cart_items table*/
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
     CREATE TABLE cart_items (
         id SERIAL PRIMARY KEY,
         cart_id UUID NOT NULL,
@@ -91,7 +93,7 @@ const createTables = async () => {
       `);
 
     /*create orders table*/
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
     CREATE TABLE orders (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id UUID NOT NULL,
@@ -105,7 +107,7 @@ const createTables = async () => {
       );
       `);
     /*create order_items table*/
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
     CREATE TABLE order_items (
         id SERIAL PRIMARY KEY,
         order_id UUID NOT NULL,
@@ -117,8 +119,7 @@ const createTables = async () => {
       );
       `);
     /*create payments table*/
-    await client.query(/*sql*/ `
-    
+    await pool.query(/*sql*/ `
     CREATE TABLE payments (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       order_id UUID NOT NULL,
@@ -137,7 +138,7 @@ const createTables = async () => {
      it to where our queries don't have to scan the whole table, but utilizes the indexes to find the products,items, orders ect.
      I also learned that indexes are not automatically created for foreign keys so Basically it links the foreign keys to the tables they're associated with.
      (idx_table_foreignKey)*/
-    await client.query(/*sql*/ `
+    await pool.query(/*sql*/ `
       CREATE INDEX idx_cart_user ON carts(user_id);
       CREATE INDEX idx_cart_items_cart_id ON cart_items(cart_id);
       CREATE INDEX idx_cart_items_product_id ON cart_items(product_id);
@@ -150,11 +151,11 @@ const createTables = async () => {
   } catch (error) {
     console.error("Error creating tables:", error);
   } finally {
-    await client.end();
+    await pool.end();
   }
 };
 
 module.exports = {
-  // client,
+  // pool,
   createTables,
 };
