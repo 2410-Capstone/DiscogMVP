@@ -2,7 +2,7 @@ const client = require('./client');
 
 // Products Functions
 
-const getProductById = async (id) => {
+const getProductById = async ({ id }) => {
   try {
     const { rows } = await client.query(/*sql*/`
       SELECT * FROM products WHERE id = $1;
@@ -30,7 +30,7 @@ const createProduct = async ({ artist, description, price, image_url, genre, sto
 }
 
 // ILIKE makes search case-insensitive
-const getProductsByGenre = async (genre) => {
+const getProductsByGenre = async ({ genre }) => {
   try {
     const { rows } = await client.query(/*sql*/ `
       SELECT * FROM products
@@ -43,7 +43,7 @@ const getProductsByGenre = async (genre) => {
   }
 };
 
-const searchProducts = async (query) => {
+const searchProducts = async ({ query }) => {
   try {
     const searchTerm = `%${query}%`;
     const { rows } = await client.query(/*sql*/ `
