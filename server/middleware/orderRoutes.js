@@ -1,8 +1,17 @@
 const express = require("express");
 const pool = require("../db/pool");
 const authenticateToken = require("../middleware/authMiddleware");
-
+const { getOrderByUserId } = require("../db/orders");
 const router = express.Router();
+
+outer.get("/orders", authenticateToken, async (req, res, next) => {
+  try {
+    const orders = await getOrderByUserId(req.user.userId);
+    res.json(orders);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/orders", authenticateToken, async (req, res, next) => {
   const client = await pool.connect();
