@@ -1,4 +1,4 @@
-#  E-Commerce App
+#  E-Commerce App -- DiscogMVP
 
 
 A full-stack e-commerce platform with user authentication, admin tools, and Stripe-powered checkout.
