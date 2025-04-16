@@ -1,8 +1,7 @@
-
-require('dotenv').config({ path: '../../.env' });
+require("dotenv").config({ path: "../../.env" });
 console.log("env check - DATABASE_URL =", process.env.DATABASE_URL);
 
-const pool = require('./pool.js');
+const pool = require("./pool.js");
 const { createTables } = require("./db.js");
 const { createUser } = require("./users.js");
 const { createProduct } = require("./products.js");
@@ -10,7 +9,6 @@ const { createCart } = require("./carts.js");
 const { createOrder, createOrderItem } = require("./orders.js");
 const { createPayment } = require("./payments.js");
 const { createCartItem } = require("./carts.js");
-
 
 const seedUsers = async () => {
   console.log("Seeding users...");
@@ -349,8 +347,8 @@ const seedCartsAndOrders = async (users, products) => {
 
     for (let product of cartProductSample) {
       if (!product || !product.id) {
-        console.error('Missing or invalid product:', product);
-        throw new Error('Cannot seed cart item: missing product ID');
+        console.error("Missing or invalid product:", product);
+        throw new Error("Cannot seed cart item: missing product ID");
       }
 
       await createCartItem({
@@ -365,48 +363,52 @@ const seedCartsAndOrders = async (users, products) => {
     const orderItems = [];
     let total = 0;
 
-    console.log('orderProductSample:', orderProductSample);
+    console.log("orderProductSample:", orderProductSample);
 
     for (let product of orderProductSample) {
       if (!product || !product.id) {
-        console.error('Missing or invalid product for order:', product);
+        console.error("Missing or invalid product for order:", product);
         continue; // skip this product
         // throw new Error('Cannot seed order item: missing product ID');
       }
-    
+
       const quantity = getRandomInt(1, 3);
       const price = product.price;
       total += price * quantity;
-    
+
       orderItems.push({
         product_id: product.id,
         quantity,
         price,
       });
     }
-    
-      const shippingAddress = user.shipping_address || user.address;
-      //may need to change this to user.address
-      const order = await createOrder({
-        user_id: user.id,
-        order_status: order_statuses[Math.floor(Math.random() * order_statuses.length)],
-        total: Math.round(total * 100) / 100,
-        shipping_address: shippingAddress,
-        tracking_number: `TRACK${Math.floor(Math.random() * 1000000)}XYZ`,
-      });
 
-      for (let item of orderItems) {
-        console.log("Creating order item:", item);
-        await createOrderItem({
-          order_id: order.id,
-          product_id: item.product_id,
-          quantity: item.quantity,
-          price: item.price,
-        });
+    const shippingAddress = user.shipping_address || user.address;
+    //may need to change this to user.address
+    const order = await createOrder({
+      user_id: user.id,
+      order_status: order_statuses[Math.floor(Math.random() * order_statuses.length)],
+      total: Math.round(total * 100) / 100,
+      shipping_address: shippingAddress,
+      tracking_number: `TRACK${Math.floor(Math.random() * 1000000)}XYZ`,
+    });
+
+    for (let item of orderItems) {
+      if (!item.product_id) {
+        console.error("Order item missing product_id:", item);
+        continue;
       }
+      console.log("Creating order item:", item);
+      await createOrderItem({
+        order_id: order.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+        price: item.price,
+      });
     }
+  }
 
-    console.log("Seeded 20 carts and orders with items.");
+  console.log("Seeded 20 carts and orders with items.");
 
   function getRandomProducts(products, min, max) {
     if (!products || products.length === 0) return [];
@@ -414,7 +416,6 @@ const seedCartsAndOrders = async (users, products) => {
     const shuffled = [...products].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
-  
 
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -436,9 +437,9 @@ const seedPayments = async () => {
 
       const payment_method = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
 
-      const payment_status = Math.random() < 0.9 ? "successful" : "failed"; // 90% success rate
+      const payment_status = Math.random() < 0.9 ? "paid" : "failed"; // 90% success rate
 
-      const payment_date = payment_status === "successful" ? new Date() : null;
+      const payment_date = payment_status === "paid" ? new Date() : null;
 
       const amount = order.total || 0;
 
@@ -464,43 +465,42 @@ module.exports = {
   seedPayments,
 };
 
-
 const seed = async () => {
-    let client;
-    try {
-      // client = await pool.connect();
-      console.log("Connected to database.");
-      console.log("Seeding database:", process.env.DATABASE_URL);
+  let client;
+  try {
+    // client = await pool.connect();
+    console.log("Connected to database.");
+    console.log("Seeding database:", process.env.DATABASE_URL);
 
-      await createTables();
-      
-      // Seed users with progress feedback
-      console.log("Starting user creation...");
-      const users = await seedUsers();
-      console.log("Users created successfully!");
-      console.log("✅ Users seeded:", users.length);
-      // Continue with other seeding...
-      const products = await seedProducts();
-      console.log("Products created successfully!");
-      console.log("✅ Products seeded:", products.length);
+    await createTables();
 
-      // Now seed carts and orders using users/products
-      await seedCartsAndOrders(users, products);
-      console.log("Carts and orders created successfully!");
+    // Seed users with progress feedback
+    console.log("Starting user creation...");
+    const users = await seedUsers();
+    console.log("Users created successfully!");
+    console.log("✅ Users seeded:", users.length);
+    // Continue with other seeding...
+    const products = await seedProducts();
+    console.log("Products created successfully!");
+    console.log("✅ Products seeded:", products.length);
 
-      // Seed payments
-      await seedPayments();
-      console.log("Payments created successfully!");
-      
-      console.log("Seeding complete!");
-    } catch (err) {
-      console.error("Error during seeding:", err);
-    } finally {
-      if (client) client.release();
-      // await pool.end();
-      console.log("Database connection closed.");
-    }
-  };
+    // Now seed carts and orders using users/products
+    await seedCartsAndOrders(users, products);
+    console.log("Carts and orders created successfully!");
+
+    // Seed payments
+    await seedPayments();
+    console.log("Payments created successfully!");
+
+    console.log("Seeding complete!");
+  } catch (err) {
+    console.error("Error during seeding:", err);
+  } finally {
+    if (client) client.release();
+    // await pool.end();
+    console.log("Database connection closed.");
+  }
+};
 
 // Run the seed function and close the connection if this file is executed directly
 // This is for testing purposes
