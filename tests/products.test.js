@@ -142,6 +142,109 @@ it('should return 403 for non-admin user', async () => {
   expect(res.statusCode).toBe(403);
 });
 
+// PUT /products/:id
+describe('PUT /products/:id', () => {
+  let productIdToUpdate;
+
+  beforeAll(async () => {
+    // Create a product to update
+    const res = await request(app)
+      .post('/products/products')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        artist: 'Original Artist',
+        description: 'Original Description',
+        price: 20.0,
+        image: 'https://example.com/original.jpg',
+        genre: 'Original Genre',
+        stock: 5
+      });
+
+    productIdToUpdate = res.body.id;
+  });
+
+  it('should update a product with valid data and admin token', async () => {
+    const res = await request(app)
+      .put(`/products/products/${productIdToUpdate}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        artist: 'Updated Artist',
+        description: 'Updated Description',
+        price: 25.0,
+        image: 'https://example.com/updated.jpg',
+        genre: 'Updated Genre',
+        stock: 10
+      });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.artist).toBe('Updated Artist');
+    expect(parseFloat(res.body.price)).toBeCloseTo(25.0, 2);
+  });
+
+  it('should return 404 if product does not exist', async () => {
+    const res = await request(app)
+      .put('/products/products/999999')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        artist: 'Nonexistent',
+        description: 'N/A',
+        price: 15.0,
+        image: 'https://example.com/nothing.jpg',
+        genre: 'None',
+        stock: 0
+      });
+
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('should return 400 for invalid input', async () => {
+    const res = await request(app)
+      .put(`/products/products/${productIdToUpdate}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        artist: '',
+        description: '',
+        price: -10,
+        stock: -5
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.errors).toBeInstanceOf(Array);
+  });
+
+  it('should return 403 for non-admin user', async () => {
+    const res = await request(app)
+      .put(`/products/products/${productIdToUpdate}`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        artist: 'Blocked Update',
+        description: 'Should fail',
+        price: 30.0,
+        image: 'https://example.com/fail.jpg',
+        genre: 'Blocked',
+        stock: 1
+      });
+
+    expect(res.statusCode).toBe(403);
+  });
+
+  it('should return 401 if no token is provided', async () => {
+    const res = await request(app)
+      .put(`/products/products/${productIdToUpdate}`)
+      .send({
+        artist: 'No Token Update',
+        description: 'Should fail',
+        price: 30.0,
+        image: 'https://example.com/fail.jpg',
+        genre: 'Blocked',
+        stock: 1
+      });
+
+    expect(res.statusCode).toBe(401);
+  });
+});
+
+
 // DELETE /products/:id
 describe('DELETE /products/:id', () => {
   let productIdToDelete;
