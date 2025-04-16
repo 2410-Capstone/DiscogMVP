@@ -1,4 +1,4 @@
-const pool = require('./pool');
+const pool = require("./pool");
 
 // Order Functions
 
@@ -20,28 +20,29 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
   }
 };
 
-const getOrderByUserId = async ({ userId }) => {
+const getOrderByUserId = async ({ user_id }) => {
   try {
     const SQL = /*sql*/ `
       SELECT * FROM orders
       WHERE user_id = $1;
     `;
-    const { rows: orders } = await pool.query(SQL, [userId]);
+    const { rows: orders } = await pool.query(SQL, [user_id]);
     return orders;
   } catch (error) {
     console.error("Error getting order by user ID:", error);
-
   }
 };
 
-const getOrderById = async (orderId) => {
+const getOrderById = async (order_id) => {
   try {
     const {
       rows: [order],
     } = await pool.query(
       /*sql*/ `
       SELECT * FROM orders WHERE id = $1;
-    `, [orderId]);
+    `,
+      [order_id]
+    );
     return order;
   } catch (error) {
     console.error("Error getting order by ID:", error);
@@ -50,7 +51,7 @@ const getOrderById = async (orderId) => {
   }
 };
 
-const createOrderItem = async ({ orderId, productId, quantity, price }) => {
+const createOrderItem = async ({ order_id, product_id, quantity }) => {
   try {
     // Get product price at the time of order
     const {
@@ -59,10 +60,10 @@ const createOrderItem = async ({ orderId, productId, quantity, price }) => {
       /*sql*/ `
       SELECT price FROM products WHERE id = $1;
     `,
-      [productId]
+      [product_id]
     );
     if (!product) {
-      throw new Error(`Product with ID ${productId} not found`);
+      throw new Error(`Product with ID ${product_id} not found`);
     }
     const price = product.price;
     // Insert order with price
@@ -74,7 +75,7 @@ const createOrderItem = async ({ orderId, productId, quantity, price }) => {
       VALUES ($1, $2, $3, $4)
       RETURNING *;
       `,
-      [orderId, productId, quantity, price]
+      [order_id, product_id, quantity, price]
     );
     return orderItem;
   } catch (error) {
@@ -83,7 +84,7 @@ const createOrderItem = async ({ orderId, productId, quantity, price }) => {
   }
 };
 
-const getOrderItems = async (orderId) => {
+const getOrderItems = async (order_id) => {
   try {
     const { rows } = await pool.query(
       /*sql*/ `
@@ -99,7 +100,7 @@ const getOrderItems = async (orderId) => {
       JOIN products p ON oi.product_id = p.id
       WHERE oi.order_id = $1;
     `,
-      [orderId]
+      [order_id]
     );
 
     return rows;
@@ -109,7 +110,7 @@ const getOrderItems = async (orderId) => {
   }
 };
 
-const calculateOrderTotal = async (orderId) => {
+const calculateOrderTotal = async (order_id) => {
   try {
     const {
       rows: [result],
@@ -119,7 +120,7 @@ const calculateOrderTotal = async (orderId) => {
       FROM order_items
       WHERE order_id = $1;
     `,
-      [orderId]
+      [order_id]
     );
     return Number(result.total) || 0;
   } catch (error) {
