@@ -81,7 +81,7 @@ export default function ProductDetails() {
 
       <div className="product-overlay">
         <h1 className="product-title">{product.title}</h1>
-        <p className="product-artist">{product.author}</p>
+        <p className="product-artist">{product.artist}</p>
         <p className="product-description">{product.description}</p>
 
         {token && (
@@ -112,7 +112,7 @@ export default function ProductDetails() {
               />
               <div className="product-card-overlay">
                 <h3 className="product-title">{b.title}</h3>
-                <p className="product-author">{b.artist}</p>
+                <p className="product-artist">{b.artist}</p>
               </div>
             </div>
           ))}
