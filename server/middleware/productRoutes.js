@@ -43,12 +43,12 @@ router.post('/products', authenticateToken, isAdmin,
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { artist, description, price, image, genre, stock } = req.body;
+    const { artist, description, price, image_url, genre, stock } = req.body;
     
     try {
       const result = await pool.query(
         'INSERT INTO products (artist, description, price, image_url, genre, stock) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [artist, description, price, image, genre, stock]
+        [artist, description, price, image_url, genre, stock]
       );
       res.status(201).json(result.rows[0]);
     } catch (err) {
