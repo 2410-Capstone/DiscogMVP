@@ -52,6 +52,25 @@ const getOrderById = async (order_id) => {
 };
 
 const updateOrder = async (order_id, updates) => {
+  try {
+    const { order_status, tracking_number, shipping_address } = updates;
+    const { rows } = await pool.query(
+      /*sql*/ `
+      UPDATE orders
+      SET order_status = $1,
+          tracking_number = $2,
+          shipping_address = $3
+      WHERE id = $4
+      RETURNING *;
+    `,
+      [order_status, tracking_number, shipping_address, order_id]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error("Error updating order:", error);
+    throw error;
+  }
+};
 
 const createOrderItem = async ({ order_id, product_id, quantity }) => {
   try {
@@ -137,5 +156,6 @@ module.exports = {
   getOrderById,
   createOrderItem,
   getOrderItems,
+  updateOrder,
   calculateOrderTotal,
 };
