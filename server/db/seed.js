@@ -14,6 +14,14 @@ const seedUsers = async () => {
   console.log("Seeding users...");
 
   const users = await Promise.all([
+    // Admin user - for testing purposes
+    createUser({
+      email: "admin@admin.com",
+      password: "hashedpassword0",
+      name: "Admin User",
+      address: "0 Admin St",
+      user_role: "admin",
+    }),    
     createUser({
       email: "luffy@example.com",
       password: "hashedpassword1",
