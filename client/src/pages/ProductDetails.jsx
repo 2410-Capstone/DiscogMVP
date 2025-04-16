@@ -13,9 +13,9 @@ export default function ProductDetails() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [productImage, setProductImage] = useState("");
   const [products, setProducts] = useState([]);
-  const [productImages, setProductImages] = useState({}); // fixed typo here
+  const [productImages, setProductImages] = useState({}); 
 
-  const { productId } = useParams(); // fixed variable name usage later
+  const { productId } = useParams(); 
   const navigate = useNavigate();
   const scrollRef = useRef(null);
 

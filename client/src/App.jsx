@@ -10,7 +10,7 @@ import Welcome from './pages/Welcome';
 import Home from './pages/Home';
 import Login from './pages/LogRegAuth/Login';
 import Register from './pages/LogRegAuth/Register';
-import Allreleases from "./components/Allreleases";
+// import Allreleases from "./components/Allreleases";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,7 +40,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
         <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
-        <Route path="/albums" element={<Allreleases />} />
+        {/* <Route path="/albums" element={<Allreleases />} /> */}
       </Routes>
       <Footer />
     </>
