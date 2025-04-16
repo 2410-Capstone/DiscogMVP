@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import OAuthLogin from "../LogRegAuth/OAuthLogin"
+
 
 export default function Login({ setToken, setUser }) {
   const [email, setEmail] = useState("");
@@ -93,6 +95,8 @@ export default function Login({ setToken, setUser }) {
               Sign in
             </button>
           </form>
+          <OAuthLogin />
+          </div>
         </div>
 
         <div className="login-instr">
@@ -101,9 +105,11 @@ export default function Login({ setToken, setUser }) {
             <Link to="/register">
               <h4>Sign up</h4>
             </Link>
+
+            
           </div>
+          
         </div>
       </div>
-    </div>
   );
 }
