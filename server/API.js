@@ -8,6 +8,7 @@ const authRoutes = require('./middleware/authRoutes');
 const productRoutes = require('./middleware/productRoutes');
 const cartRoutes = require('./middleware/cartRoutes');
 const orderRoutes = require('./middleware/orderRoutes');
+const userRoutes = require('./middleware/userRoutes');
 
 const app = express();
 
@@ -31,8 +32,6 @@ app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
-
-// const PORT = process.env.PORT || 4242;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use('/users', userRoutes);
 
 module.exports = app; // Export the app for testing purposes
