@@ -1,15 +1,36 @@
 
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard"; 
 
 
 const Home = () => {
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch("");
+        if (!response.ok) throw new Error(`Error: ${response.status}`);
+        const { items } = await response.json();
 
-  const handleDetailsClick = (id) => {
- 
-    console.log(`View details for item ${id}`);
+        if (Array.isArray(items)) {
+          setItems(items);
+        } else {
+          console.error("Data is not an array");
+        }
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+  
+
+  const handleDetailsClick = (itemId) => {
+    navigate(`/items/${itemId}`);
   };
 
   return (
