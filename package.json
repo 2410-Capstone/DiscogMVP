@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon server/startServer.js",
     "start": "node server/startServer.js",
+    "seed": "node server/db/seed.js",
     "test": "jest"
   },
   "keywords": [],
