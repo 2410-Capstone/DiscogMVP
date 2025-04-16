@@ -5,10 +5,16 @@ const { body, validationResult } = require('express-validator');
 const pool = require('../db/pool');
 const authenticateToken = require('../middleware/authMiddleware');
 
+const { OAuth2Client } = require("google-auth-library");
+
 const router = express.Router();
 
-router.post('/register', 
-  [
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+
+router.post('/auth/register', 
+ [
     body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 8 }),
     body('name').notEmpty().trim().escape()

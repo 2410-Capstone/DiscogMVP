@@ -10,6 +10,8 @@ import Welcome from './pages/Welcome';
 import Home from './pages/Home';
 import Login from './pages/LogRegAuth/Login';
 import Register from './pages/LogRegAuth/Register';
+import OAuthLogin from './pages/LogRegAuth/OAuthLogin';
+
 // import Allreleases from "./components/Allreleases";
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Welcome />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/oauth" element={<OAuthLogin />} />
         <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
         <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
         {/* <Route path="/albums" element={<Allreleases />} /> */}
