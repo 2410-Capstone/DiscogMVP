@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const ProductCard = ({ item, handleDetailsClick }) => {
   return (
     <div className="item-card">
