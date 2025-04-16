@@ -141,3 +141,61 @@ it('should return 403 for non-admin user', async () => {
 
   expect(res.statusCode).toBe(403);
 });
+
+// DELETE /products/:id
+describe('DELETE /products/:id', () => {
+  let productIdToDelete;
+
+  beforeAll(async () => {
+    // Create a product to delete
+    const res = await request(app)
+      .post('/products/products')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        artist: 'To Delete',
+        description: 'Temp Product',
+        price: 10.0,
+        image: 'https://example.com/temp.jpg',
+        genre: 'Test',
+        stock: 1
+      });
+
+    productIdToDelete = res.body.id;
+  });
+
+  it('should delete a product with valid admin token', async () => {
+    const res = await request(app)
+      .delete(`/products/products/${productIdToDelete}`)
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('message', 'Product deleted');
+    expect(res.body.product).toHaveProperty('id', productIdToDelete);
+  });
+
+  it('should return 404 if product does not exist', async () => {
+    const fakeId = 999999;
+    const res = await request(app)
+      .delete(`/products/products/${fakeId}`)
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('error', 'Product not found');
+  });
+
+  it('should return 403 for non-admin user', async () => {
+    const res = await request(app)
+      .delete(`/products/products/${productIdToDelete}`)
+      .set('Authorization', `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(403);
+  });
+
+  it('should return 401 if no token is provided', async () => {
+    const res = await request(app)
+      .delete(`/products/products/${productIdToDelete}`); // no auth header
+
+    expect(res.statusCode).toBe(401);
+  });
+});
+
