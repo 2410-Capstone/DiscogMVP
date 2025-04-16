@@ -1,9 +1,8 @@
-const pool = require('./pool');
+const pool = require("./pool");
 
 // Payment Functions
 // ---TO DO--- //
 const createPayment = async ({
-  id,
   order_id,
   payment_method,
   payment_status = "pending",
@@ -17,11 +16,11 @@ const createPayment = async ({
       rows: [payment],
     } = await pool.query(
       /*sql*/ `
-      INSERT INTO payments(id, order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO payments(order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount)
+      VALUES($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
       `,
-      [id, order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount]
+      [order_id, payment_method, payment_status, billing_name, billing_address, payment_date, amount]
     );
     return payment;
   } catch (error) {

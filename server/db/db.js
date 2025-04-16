@@ -13,7 +13,7 @@ const jwt = require("jsonwebtoken");
 //create the db tables
 const createTables = async () => {
   try {
-    await pool.connect();
+    // await pool.connect();
     console.log("Connected to db");
     await pool.query(/*sql*/ `
       DROP TABLE IF EXISTS payments CASCADE;
@@ -36,7 +36,7 @@ const createTables = async () => {
     await pool.query(/*sql*/ `
       CREATE TYPE role AS ENUM ('customer', 'admin');
       CREATE TYPE c_status AS ENUM ('active', 'checked_out');
-      CREATE TYPE o_status AS ENUM ('created', 'processing', 'completed', 'cancelled');
+      CREATE TYPE o_status AS ENUM ('created', 'processing', 'shipped', 'delivered');
       CREATE TYPE p_status AS ENUM ('pending', 'paid', 'failed');
       CREATE TYPE payment_method AS ENUM ('credit_card', 'debit_card', 'paypal', 'bank_transfer');
       `);
@@ -92,6 +92,12 @@ const createTables = async () => {
         FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
       );
       `);
+
+    // create order status
+    await pool.query(`DROP TYPE IF EXISTS o_status CASCADE`);
+    await pool.query(/*sql*/`
+      CREATE TYPE o_status AS ENUM ('created', 'processing', 'shipped', 'delivered');
+    `);
 
     /*create orders table*/
     await pool.query(/*sql*/ `
