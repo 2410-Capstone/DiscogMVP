@@ -13,7 +13,7 @@ const jwt = require("jsonwebtoken");
 //create the db tables
 const createTables = async () => {
   try {
-    await pool.connect();
+    // await pool.connect();
     console.log("Connected to db");
     await pool.query(/*sql*/ `
       DROP TABLE IF EXISTS payments CASCADE;

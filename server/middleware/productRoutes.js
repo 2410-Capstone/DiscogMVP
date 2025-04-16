@@ -47,7 +47,7 @@ router.post('/products', authenticateToken, isAdmin,
     
     try {
       const result = await pool.query(
-        'INSERT INTO products (artist, description, price, image, genre, stock) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        'INSERT INTO products (artist, description, price, image_url, genre, stock) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
         [artist, description, price, image, genre, stock]
       );
       res.status(201).json(result.rows[0]);
