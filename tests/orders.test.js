@@ -28,3 +28,19 @@ afterAll(async () => {
   await pool.end();
   console.log("Pool closed.");
 });
+
+// GET /orders
+describe("GET /orders", () => {
+  it("should return an array of orders for the authenticated user", async () => {
+    const res = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
+    expect(res.body[0]).toHaveProperty("id");
+    expect(res.body[0]).toHaveProperty("user_id");
+  });
+});
+
+// GET /orders/:id
+describe;
