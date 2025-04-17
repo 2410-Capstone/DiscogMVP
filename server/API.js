@@ -9,6 +9,7 @@ const productRoutes = require('./middleware/productRoutes');
 const cartRoutes = require('./middleware/cartRoutes');
 const orderRoutes = require('./middleware/orderRoutes');
 const userRoutes = require('./middleware/userRoutes');
+const paymentRoutes = require('./middleware/paymentRoutes');
 
 const app = express();
 
@@ -33,5 +34,9 @@ app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
 app.use('/users', userRoutes);
+app.use('/create-payment-intent', userRoutes)
+
+
 
 module.exports = app;
+
