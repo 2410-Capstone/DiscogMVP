@@ -107,6 +107,28 @@ router.post("/orders", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/orders/:orderId/items", authenticateToken, async (req, res, next) => {
+  const { product_id, quantity, price } = req.body;
+  const orderId = req.params.orderId;
+
+  try {
+    const newOrderItem = await createOrderItem({
+      order_id: orderId,
+      product_id,
+      quantity,
+      price,
+    });
+
+    if (!newOrderItem) {
+      return res.status(400).json({ error: "Failed to create order item" });
+    }
+    res.status(201).json(newOrderItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //mybe an admin route
 router.post("/orders", authenticateToken, async (req, res, next) => {
   const client = await pool.connect();
