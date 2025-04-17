@@ -87,6 +87,26 @@ router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, re
     return;
   }
 });
+
+router.post("/orders", authenticateToken, async (req, res, next) => {
+  const { shipping_address, order_status, tracking_number, total } = req.body;
+
+  try {
+    const newOrder = await createOrder({
+      user_id: req.user.userId,
+      shipping_address,
+      order_status,
+      tracking_number,
+      total,
+    });
+    if (!newOrder) {
+      return res.status(400).json({ error: "Failed to create order" });
+    }
+    res.status(201).json(newOrder);
+  } catch (error) {
+    next(error);
+  }
+});
 //mybe an admin route
 router.post("/orders", authenticateToken, async (req, res, next) => {
   const client = await pool.connect();
