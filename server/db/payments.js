@@ -2,7 +2,7 @@ require('dotenv').config();
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const pool = require("./pool");
-
+const { v4: uuidv4 } = require('uuid');
 
 const createPayment = async ({
   order_id,
@@ -58,21 +58,54 @@ const updatePaymentStatus = async ({ paymentId, status }) => {
  * @param {string} currency - e.g. 'usd'
  * @returns {Promise<object>} PaymentIntent object
  */
-const createStripePaymentIntent = async (amount, currency = 'usd') => {
+async function createStripePaymentIntent(userId, cartItems, shippingAddress) {
+  const client = await pool.connect();
+
   try {
+    await client.query('BEGIN');
+    const amount = cartItems.reduce((total, item) => {
+      return total + parseFloat(item.price) * item.quantity;
+    }, 0);
+
+    // Create order
+    const orderId = uuidv4();
+    await client.query(
+      `INSERT INTO orders (id, user_id, total, shipping_address) 
+       VALUES ($1, $2, $3, $4)`,
+      [orderId, userId, amount, shippingAddress]
+    );
+
+    // Create order_items
+    for (let item of cartItems) {
+      await client.query(
+        `INSERT INTO order_items (order_id, product_id, quantity, price)
+         VALUES ($1, $2, $3, $4)`,
+        [orderId, item.product_id, item.quantity, item.price]
+      );
+    }
+
+    // Create PaymentIntent on Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100),  
-      currency,
-      payment_method_types: ['card'], // for test, card is fine
+      amount: Math.round(amount * 100), // Stripe wants amounts in cents
+      currency: 'usd',
+      metadata: { orderId, userId }
     });
 
-    console.log("✅ Payment intent created:", paymentIntent.id);
-    return paymentIntent;
+    await client.query('COMMIT');
+
+    return {
+      clientSecret: paymentIntent.client_secret,
+      orderId: orderId
+    };
+
   } catch (err) {
-    console.error("❌ Error creating payment intent:", err.message);
+    await client.query('ROLLBACK');
+    console.error("Error creating payment intent + order:", err);
     throw err;
+  } finally {
+    client.release();
   }
-};
+}
 
 
 module.exports = {
