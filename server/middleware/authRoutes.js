@@ -36,7 +36,7 @@ router.post('/auth/register',
       
       const user = result.rows[0];
       const token = jwt.sign(
-        { id: user.id, user_role: user.user_role }, 
+        { userId: user.id, user_role: user.user_role }, 
         process.env.JWT_SECRET, 
         { expiresIn: '1h' }
       );
