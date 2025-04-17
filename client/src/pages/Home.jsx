@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductCard from "../components/ProductCard"; 
+import ProductCard from "../components/products/ProductCard"; 
 
 
 const Home = () => {

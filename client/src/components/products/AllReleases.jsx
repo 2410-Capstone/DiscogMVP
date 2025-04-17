@@ -1,6 +1,6 @@
-import albums from "./products/albums_with_ids";
+import albums from "./albums_with_ids";
 import { useState, useEffect } from "react";
-import AlbumArt from "./products/albumArt";
+import AlbumArt from "./albumArt";
 
 const Allreleases = () => {
   const [allAlbums, setAllAlbums] = useState(albums);
