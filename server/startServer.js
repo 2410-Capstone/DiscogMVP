@@ -1,5 +1,11 @@
 require('dotenv').config();
-const app = require('./API');
+const express = require("express");
+const api = require('./API');
+
+const app = express();
+
+
+app.use("/api", api);
 
 const PORT = process.env.PORT || 4242;
 

@@ -4,16 +4,12 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const pool = require('../db/pool');
 const authenticateToken = require('../middleware/authMiddleware');
-
-const { OAuth2Client } = require("google-auth-library");
+const { handleGoogleLogin } = require("../controllers/googleAuthController");
 
 const router = express.Router();
 
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-
-router.post('/auth/register', 
+router.post('/register', 
  [
     body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 8 }),
@@ -31,7 +27,7 @@ router.post('/auth/register',
       const hashedPassword = await bcrypt.hash(password, 10);
       const result = await pool.query(
         'INSERT INTO users (email, password, name, address, user_role) VALUES ($1, $2, $3, $4, $5) RETURNING id, email, name, user_role',
-        [email, hashedPassword, name, address, user_role] // Default role is 'customer'
+        [email, hashedPassword, name, address, user_role]
       );
       
       const user = result.rows[0];
@@ -40,7 +36,6 @@ router.post('/auth/register',
         process.env.JWT_SECRET, 
         { expiresIn: '1h' }
       );
-      
       
       res.status(201).json({ 
         user: {
@@ -77,7 +72,6 @@ router.post('/login',
     try {
       const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
       if (result.rows.length === 0) {
-        // Generic error message to prevent user enumeration
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
@@ -93,7 +87,6 @@ router.post('/login',
         process.env.JWT_SECRET, 
         { expiresIn: '1h' }
       );
-      
 
       res.json({ 
         user: {
@@ -110,6 +103,7 @@ router.post('/login',
     }
   }
 );
+
 
 router.get('/me', authenticateToken, async (req, res) => {
   try {
@@ -128,9 +122,6 @@ router.get('/me', authenticateToken, async (req, res) => {
 });
 
 
-
-
-
-
+router.post("/google", handleGoogleLogin);
 
 module.exports = router;
