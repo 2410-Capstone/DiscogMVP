@@ -14,28 +14,42 @@ let userId;
 beforeAll(async () => {
   await seed();
 
-  // Get admin
-  const adminRes = await pool.query(
-    "SELECT id FROM users WHERE user_role = 'admin' LIMIT 1"
-  );
-  adminId = adminRes.rows[0].id;
-  adminToken = jwt.sign(
-    { id: adminId, user_role: 'admin' },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
+  const timestamp = Date.now();
 
-  // Get customer
-  const userRes = await pool.query(
-    "SELECT id FROM users WHERE user_role = 'customer' LIMIT 1"
-  );
+  const adminEmail = `admin_${timestamp}@example.com`;
+  const userEmail = `user_${timestamp}@example.com`;
+  
+  const adminRes = await pool.query(`
+    INSERT INTO users (email, password, name, address, user_role)
+    VALUES ($1, 'hashedpassword', 'Admin Test', 'Admin St', 'admin')
+    RETURNING id;
+  `, [adminEmail]);
+  
+  adminId = adminRes.rows[0].id;
+  
+  const userRes = await pool.query(`
+    INSERT INTO users (email, password, name, address, user_role)
+    VALUES ($1, 'hashedpassword', 'Customer Test', 'Customer St', 'customer')
+    RETURNING id;
+  `, [userEmail]);
+  
   userId = userRes.rows[0].id;
-  userToken = jwt.sign(
-    { id: userId, user_role: 'customer' },
+  
+  // Tokens
+  adminToken = jwt.sign(
+    { id: adminId, user_role: 'admin' },  
     process.env.JWT_SECRET,
     { expiresIn: '1h' }
   );
-});
+  
+  userToken = jwt.sign(
+    { id: userId, user_role: 'customer' },  
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+});  
+
+
 
 afterAll(async () => {
   await pool.end();
