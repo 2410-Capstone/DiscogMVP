@@ -30,7 +30,7 @@ app.use('/auth/', authLimiter);
 
 
 app.use('/auth', authRoutes);
-app.use('/', productRoutes);
+app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
 app.use('/users', userRoutes);
