@@ -2,17 +2,92 @@ const express = require("express");
 const pool = require("../db/pool");
 const authenticateToken = require("../middleware/authMiddleware");
 const { getOrderByUserId } = require("../db/orders");
+const { getOrderById } = require("../db/orders");
+const { updateOrder } = require("../db/orders");
+const { createOrder } = require("../db/orders");
+const { updateOrderItem } = require("../db/orders");
+const { createOrderItem } = require("../db/orders");
+const { getOrderItems } = require("../db/orders");
+const { deleteOrder } = require("../db/orders");
+const { deleteOrderItem } = require("../db/orders");
+const { calculateOrderTotal } = require("../db/orders");
 const router = express.Router();
 
-outer.get("/orders", authenticateToken, async (req, res, next) => {
+router.get("/orders", authenticateToken, async (req, res, next) => {
   try {
     const orders = await getOrderByUserId(req.user.userId);
+    if (!orders) {
+      return res.status(404).json({ error: "My orders not found" });
+    }
+    if (orders.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden Access to my orders" });
+    }
     res.json(orders);
   } catch (error) {
     next(error);
   }
 });
 
+router.get("/orders/:id", authenticateToken, async (req, res, next) => {
+  try {
+    const order = await getOrderById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    if (order.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+    res.json(order);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/orders/:id", authenticateToken, async (req, res, next) => {
+  const { order_status, tracking_number, shipping_address } = req.body;
+  const orderId = req.params.id;
+
+  try {
+    const updatedOrder = await updateOrder({
+      order_id: orderId,
+      updates: { order_status, tracking_number, shipping_address },
+    });
+
+    if (!updatedOrder) {
+      return res.status(404).json({ error: "Order not found failed to update" });
+    }
+    if (updatedOrder.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from updating order" });
+    }
+    res.json(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
+  const { quantity } = req.body;
+  const { itemId } = req.params;
+
+  try {
+    const updatedOrderItem = await updateOrderItem({
+      order_item_id: itemId,
+      updates: { quantity },
+    });
+
+    if (!updatedOrderItem) {
+      return res.status(404).json({ error: "Order item not found can't change quantity" });
+    }
+    if (updatedOrderItem.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from updating order item" });
+    }
+    res.json(updatedOrderItem);
+  } catch (error) {
+    next(error);
+    return;
+  }
+});
+//mybe an admin route
 router.post("/orders", authenticateToken, async (req, res, next) => {
   const client = await pool.connect();
 

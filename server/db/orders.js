@@ -20,19 +20,16 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
   }
 };
 
-const getOrderByUserId = async (user_id = null) => {
+const getOrderByUserId = async (user_id) => {
   try {
-    const query = user_id
-      ? `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`
-      : `SELECT * FROM orders ORDER BY created_at DESC`;
-    const params = user_id ? [user_id] : [];
-    const { rows } = await pool.query(query, params);
+    const { rows } = await pool.query(`SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`, [user_id]);
     return rows;
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    console.error("Error fetching orders by user ID:", error);
     throw error;
   }
 };
+
 const getOrderById = async (order_id) => {
   try {
     const {
