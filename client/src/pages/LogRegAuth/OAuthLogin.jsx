@@ -40,7 +40,6 @@ const OAuthLogin = ({ setUser, setToken }) => {
 
   return (
     <div className="oauth-login">
-      <h2>Login with Google</h2>
       <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
     </div>
   );
