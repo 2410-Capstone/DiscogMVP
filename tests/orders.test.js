@@ -43,4 +43,24 @@ describe("GET /orders", () => {
 });
 
 // GET /orders/:id
-describe;
+describe("GET /orders/:id", () => {
+  it("should return a single order by ID", async () => {
+    // First, fetch all orders to get a valid ID
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    const orderId = allOrdersRes.body[0]?.id;
+
+    const res = await request(app).get(`/orders/${orderId}`).set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("id", orderId);
+    expect(res.body).toHaveProperty("user_id");
+  });
+
+  it("should return 404 if order is not found", async () => {
+    const fakeId = 999999; // unlikely to exist
+    const res = await request(app).get(`/orders/${fakeId}`).set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("error", "Order not found");
+  });
+});
