@@ -1,20 +1,22 @@
+import React, { useState } from "react";
 import albums from "./products/albums_with_ids";
-import { useState, useEffect } from "react";
-import AlbumArt from "./products/albumArt";
+import ProductCard from "./products/ProductCard";
 
-const Allreleases = () => {
-  const [allAlbums, setAllAlbums] = useState(albums);
+const AllReleases = () => {
+  const [allAlbums] = useState(albums);
+
+  const handleDetailsClick = (id) => {
+    console.log("Clicked album ID:", id);
+
+  };
 
   return (
     <>
-      {allAlbums &&
-        allAlbums.map((eachAlbum) => (
-          <div key={eachAlbum.id}>
-            <AlbumArt releaseId={eachAlbum.id} />
-          </div>
-        ))}
+      {allAlbums.map((album) => (
+        <ProductCard key={album.id} item={album} handleDetailsClick={handleDetailsClick} />
+      ))}
     </>
   );
 };
 
-export default Allreleases;
+export default AllReleases;
