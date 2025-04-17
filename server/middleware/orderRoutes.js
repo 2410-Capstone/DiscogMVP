@@ -43,6 +43,23 @@ router.get("/orders/:id", authenticateToken, async (req, res, next) => {
   }
 });
 
+router.get("/orders/:id/items", authenticateToken, async (req, res, next) => {
+  const orderId = req.params.id;
+
+  try {
+    const orderItems = await getOrderItems(orderId);
+    if (!orderItems) {
+      return res.status(404).json({ error: "Order items not found" });
+    }
+    if (orderItems.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+    res.json(orderItems);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch("/orders/:id", authenticateToken, async (req, res, next) => {
   const { order_status, tracking_number, shipping_address } = req.body;
   const orderId = req.params.id;
@@ -124,6 +141,38 @@ router.post("/orders/:orderId/items", authenticateToken, async (req, res, next) 
       return res.status(400).json({ error: "Failed to create order item" });
     }
     res.status(201).json(newOrderItem);
+  } catch (error) {
+    next(error);
+  }
+});
+router.delete("/orders/:id", authenticateToken, async (req, res, next) => {
+  const orderId = req.params.id;
+
+  try {
+    const deletedOrder = await deleteOrder(orderId);
+    if (!deletedOrder) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    if (deletedOrder.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from deleting order" });
+    }
+    res.json({ message: "Order deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+});
+router.delete("/orders/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
+  const { itemId } = req.params;
+
+  try {
+    const deletedOrderItem = await deleteOrderItem(itemId);
+    if (!deletedOrderItem) {
+      return res.status(404).json({ error: "Order item not found" });
+    }
+    if (deletedOrderItem.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from deleting order item" });
+    }
+    res.json({ message: "Order item deleted successfully" });
   } catch (error) {
     next(error);
   }
