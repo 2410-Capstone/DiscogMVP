@@ -28,12 +28,21 @@ const authLimiter = rateLimit({
 });
 app.use('/auth/', authLimiter);
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+<<<<<<< Updated upstream
 app.use('/api/payment', paymentRoutes)
+=======
+app.use('/api/payment', paymentRoutes);
+
+>>>>>>> Stashed changes
 
 
 module.exports = app;
