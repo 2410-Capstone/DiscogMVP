@@ -111,5 +111,4 @@ router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
   }
 });
 
-
 module.exports = router;
