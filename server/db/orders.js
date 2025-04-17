@@ -20,16 +20,13 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
   }
 };
 
-const getOrderByUserId = async ({ user_id }) => {
+const getOrderByUserId = async (user_id) => {
   try {
-    const SQL = /*sql*/ `
-      SELECT * FROM orders
-      WHERE user_id = $1;
-    `;
-    const { rows: orders } = await pool.query(SQL, [user_id]);
-    return orders;
+    const { rows } = await pool.query(`SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`, [user_id]);
+    return rows;
   } catch (error) {
-    console.error("Error getting order by user ID:", error);
+    console.error("Error fetching orders by user ID:", error);
+    throw error;
   }
 };
 
@@ -47,6 +44,46 @@ const getOrderById = async (order_id) => {
   } catch (error) {
     console.error("Error getting order by ID:", error);
 
+    throw error;
+  }
+};
+
+const updateOrder = async ({ order_id, updates }) => {
+  try {
+    const { order_status, tracking_number, shipping_address } = updates;
+    const { rows } = await pool.query(
+      /*sql*/ `
+      UPDATE orders
+      SET order_status = $1,
+          tracking_number = $2,
+          shipping_address = $3
+      WHERE id = $4
+      RETURNING *;
+    `,
+      [order_status, tracking_number, shipping_address, order_id]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error("Error updating order:", error);
+    throw error;
+  }
+};
+
+const updateOrderItem = async ({ order_item_id, updates }) => {
+  try {
+    const { quantity } = updates;
+    const { rows } = await pool.query(
+      /*sql*/ `
+      UPDATE order_items
+      SET quantity = $1
+      WHERE id = $2
+      RETURNING *;
+    `,
+      [quantity, order_item_id]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error("Error updating order item:", error);
     throw error;
   }
 };
@@ -129,11 +166,45 @@ const calculateOrderTotal = async (order_id) => {
   }
 };
 
+const deleteOrder = async (order_id) => {
+  try {
+    const { rows } = await pool.query(
+      /*sql*/ `
+      DELETE FROM orders WHERE id = $1 RETURNING *;
+    `,
+      [order_id]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error("Error deleting order:", error);
+    throw error;
+  }
+};
+
+const deleteOrderItem = async (order_item_id) => {
+  try {
+    const { rows } = await pool.query(
+      /*sql*/ `
+      DELETE FROM order_items WHERE id = $1 RETURNING *;
+    `,
+      [order_item_id]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error("Error deleting order item:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   createOrder,
   getOrderByUserId,
   getOrderById,
   createOrderItem,
   getOrderItems,
+  updateOrder,
+  updateOrderItem,
+  deleteOrder,
+  deleteOrderItem,
   calculateOrderTotal,
 };
