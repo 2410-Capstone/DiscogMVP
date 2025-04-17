@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const pool = require('../db/pool');
 const authenticateToken = require('../middleware/authMiddleware');
-const { handleGoogleLogin } = require("../controllers/googleAuthController");
+const { handleGoogleLogin } = require("../utils/googleAuthController");
 
 const router = express.Router();
 
