@@ -29,7 +29,7 @@ const {
   addProductToCart,
   updateCartItemQuantity,
   removeProductFromCart,
-  clearCart
+  clearCart,
 } = require('./carts');
 
 // Orders

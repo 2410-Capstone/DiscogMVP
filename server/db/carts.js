@@ -64,7 +64,36 @@ const createCartItem = async ({ cart_id, product_id, quantity }) => {
 };
 
 // optional, used during login or page load. if user does not have active cart, this creates one
-const getOrCreateCart = async (userId) => {};
+const getOrCreateCart = async (userId) => {
+  try {
+    // Check if user already has an active cart
+    const { rows } = await pool.query(
+      `SELECT * FROM carts
+       WHERE user_id = $1 AND cart_status = 'active'
+       LIMIT 1`,
+      [userId]
+    );
+
+    if (rows.length > 0) {
+      return rows[0];
+    }
+
+    // If not, create one
+    const {
+      rows: [newCart],
+    } = await pool.query(
+      `INSERT INTO carts (user_id, cart_status)
+       VALUES ($1, 'active')
+       RETURNING *`,
+      [userId]
+    );
+
+    return newCart;
+  } catch (err) {
+    console.error("Error in getOrCreateCart:", err.message);
+    throw err;
+  }
+};
 
 const addProductToCart = async ({ cart_id, product_id, quantity }) => {
   try {
