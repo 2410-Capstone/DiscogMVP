@@ -13,7 +13,7 @@ const paymentRoutes = require('./middleware/paymentRoutes');
 
 const app = express();
 
-// Middleware
+
 app.use(helmet());
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -21,14 +21,14 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Rate limiting
+
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100
 });
 app.use('/auth/', authLimiter);
 
-// Routes
+
 app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
@@ -36,4 +36,7 @@ app.use('/orders', orderRoutes);
 app.use('/users', userRoutes);
 app.use('/create-payment-intent', userRoutes)
 
+
+
 module.exports = app;
+

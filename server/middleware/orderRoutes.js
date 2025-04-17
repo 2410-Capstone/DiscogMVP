@@ -1,28 +1,204 @@
-const express = require('express');
-const pool = require('../db/pool');
-const authenticateToken = require('../middleware/authMiddleware');
-
+const express = require("express");
+const pool = require("../db/pool");
+const authenticateToken = require("../middleware/authMiddleware");
+const { getOrderByUserId } = require("../db/orders");
+const { getOrderById } = require("../db/orders");
+const { updateOrder } = require("../db/orders");
+const { createOrder } = require("../db/orders");
+const { updateOrderItem } = require("../db/orders");
+const { createOrderItem } = require("../db/orders");
+const { getOrderItems } = require("../db/orders");
+const { deleteOrder } = require("../db/orders");
+const { deleteOrderItem } = require("../db/orders");
+const { calculateOrderTotal } = require("../db/orders");
 const router = express.Router();
 
-router.post('/orders', authenticateToken, async (req, res) => {
-  const client = await pool.connect();
-  
+router.get("/orders", authenticateToken, async (req, res, next) => {
   try {
-    await client.query('BEGIN');
-    
+    const orders = await getOrderByUserId(req.user.userId);
+    if (!orders) {
+      return res.status(404).json({ error: "My orders not found" });
+    }
+    if (orders.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden Access to my orders" });
+    }
+    res.json(orders);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/orders/:id", authenticateToken, async (req, res, next) => {
+  try {
+    const order = await getOrderById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    if (order.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+    res.json(order);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/orders/:id/items", authenticateToken, async (req, res, next) => {
+  const orderId = req.params.id;
+
+  try {
+    const orderItems = await getOrderItems(orderId);
+    if (!orderItems) {
+      return res.status(404).json({ error: "Order items not found" });
+    }
+    if (orderItems.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+    res.json(orderItems);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/orders/:id", authenticateToken, async (req, res, next) => {
+  const { order_status, tracking_number, shipping_address } = req.body;
+  const orderId = req.params.id;
+
+  try {
+    const updatedOrder = await updateOrder({
+      order_id: orderId,
+      updates: { order_status, tracking_number, shipping_address },
+    });
+
+    if (!updatedOrder) {
+      return res.status(404).json({ error: "Order not found failed to update" });
+    }
+    if (updatedOrder.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from updating order" });
+    }
+    res.json(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
+  const { quantity } = req.body;
+  const { itemId } = req.params;
+
+  try {
+    const updatedOrderItem = await updateOrderItem({
+      order_item_id: itemId,
+      updates: { quantity },
+    });
+
+    if (!updatedOrderItem) {
+      return res.status(404).json({ error: "Order item not found can't change quantity" });
+    }
+    if (updatedOrderItem.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from updating order item" });
+    }
+    res.json(updatedOrderItem);
+  } catch (error) {
+    next(error);
+    return;
+  }
+});
+
+router.post("/orders", authenticateToken, async (req, res, next) => {
+  const { shipping_address, order_status, tracking_number, total } = req.body;
+
+  try {
+    const newOrder = await createOrder({
+      user_id: req.user.userId,
+      shipping_address,
+      order_status,
+      tracking_number,
+      total,
+    });
+    if (!newOrder) {
+      return res.status(400).json({ error: "Failed to create order" });
+    }
+    res.status(201).json(newOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/orders/:orderId/items", authenticateToken, async (req, res, next) => {
+  const { product_id, quantity, price } = req.body;
+  const orderId = req.params.orderId;
+
+  try {
+    const newOrderItem = await createOrderItem({
+      order_id: orderId,
+      product_id,
+      quantity,
+      price,
+    });
+
+    if (!newOrderItem) {
+      return res.status(400).json({ error: "Failed to create order item" });
+    }
+    res.status(201).json(newOrderItem);
+  } catch (error) {
+    next(error);
+  }
+});
+router.delete("/orders/:id", authenticateToken, async (req, res, next) => {
+  const orderId = req.params.id;
+
+  try {
+    const deletedOrder = await deleteOrder(orderId);
+    if (!deletedOrder) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    if (deletedOrder.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from deleting order" });
+    }
+    res.json({ message: "Order deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+});
+router.delete("/orders/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
+  const { itemId } = req.params;
+
+  try {
+    const deletedOrderItem = await deleteOrderItem(itemId);
+    if (!deletedOrderItem) {
+      return res.status(404).json({ error: "Order item not found" });
+    }
+    if (deletedOrderItem.user_id !== req.user.userId) {
+      return res.status(403).json({ error: "Forbidden from deleting order item" });
+    }
+    res.json({ message: "Order item deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//mybe an admin route
+router.post("/orders", authenticateToken, async (req, res, next) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
     // 1. Get user's cart items
     const cartItems = await client.query(
+      /*sql*/
       `SELECT c.product_id, c.quantity, p.price, p.stock 
        FROM cart_items c
        JOIN products p ON c.product_id = p.id
        WHERE c.user_id = $1`,
       [req.user.userId]
     );
-    
+
     if (cartItems.rows.length === 0) {
-      return res.status(400).json({ error: 'Cart is empty' });
+      return res.status(400).json({ error: "Cart is empty" });
     }
-    
+
     // 2. Check stock and calculate total
     let total = 0;
     for (const item of cartItems.rows) {
@@ -31,43 +207,39 @@ router.post('/orders', authenticateToken, async (req, res) => {
       }
       total += item.quantity * item.price;
     }
-    
+
     // 3. Create order
     const orderResult = await client.query(
-      'INSERT INTO orders (user_id, total, status) VALUES ($1, $2, $3) RETURNING id',
-      [req.user.userId, total, 'pending']
+      "INSERT INTO orders (user_id, total, order_status) VALUES ($1, $2, $3) RETURNING id",
+      [req.user.userId, total, "pending"]
     );
     const orderId = orderResult.rows[0].id;
-    
+
     // 4. Create order items and update product stock
     for (const item of cartItems.rows) {
-      await client.query(
-        'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ($1, $2, $3, $4)',
-        [orderId, item.product_id, item.quantity, item.price]
-      );
-      
-      await client.query(
-        'UPDATE products SET stock = stock - $1 WHERE id = $2',
-        [item.quantity, item.product_id]
-      );
+      await client.query("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ($1, $2, $3, $4)", [
+        orderId,
+        item.product_id,
+        item.quantity,
+        item.price,
+      ]);
+
+      await client.query("UPDATE products SET stock = stock - $1 WHERE id = $2", [item.quantity, item.product_id]);
     }
-    
+
     // 5. Clear cart
-    await client.query(
-      'DELETE FROM cart_items WHERE user_id = $1',
-      [req.user.userId]
-    );
-    
-    await client.query('COMMIT');
-    
-    res.status(201).json({ 
-      message: 'Order created successfully',
-      orderId
+    await client.query("DELETE FROM cart_items WHERE user_id = $1", [req.user.userId]);
+
+    await client.query("COMMIT");
+
+    res.status(201).json({
+      message: "Order created successfully",
+      orderId,
     });
   } catch (err) {
-    await client.query('ROLLBACK');
-    console.error(err);
-    res.status(400).json({ error: err.message });
+    await client.query("ROLLBACK");
+    next(err);
+    res.status(500).json({ error: "Failed to create order" });
   } finally {
     client.release();
   }

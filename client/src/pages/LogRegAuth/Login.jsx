@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import OAuthLogin from "../LogRegAuth/OAuthLogin"
+
 
 export default function Login({ setToken, setUser }) {
   const [email, setEmail] = useState("");
@@ -92,8 +94,9 @@ export default function Login({ setToken, setUser }) {
             <button type="submit" className="sign-button">
               Sign in
             </button>
+
           </form>
-        </div>
+
 
         <div className="login-instr">
           <h4>New to DiscogMVP?</h4>
@@ -101,9 +104,21 @@ export default function Login({ setToken, setUser }) {
             <Link to="/register">
               <h4>Sign up</h4>
             </Link>
+                
+
+          <div style={{ display: "flex", alignItems: "center", textAlign: "center", margin: "1rem 0" }}>
+          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />
+          {/* <span style={{ padding: "0 10px", fontWeight: "bold", color: "#666" }}>OR</span>
+          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />  */}
           </div>
+          <OAuthLogin />
+          </div>
+      
+            
+          </div>
+          </div>
+          
         </div>
       </div>
-    </div>
   );
 }

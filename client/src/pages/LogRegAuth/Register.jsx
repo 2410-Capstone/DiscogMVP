@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 export default function Register({ setToken, setUser }) {
   const [email, setEmail] = useState("");
@@ -83,6 +84,12 @@ export default function Register({ setToken, setUser }) {
             </div>
             <button type="submit" className="reg-button">Register</button>
           </form>
+          <div style={{ display: "flex", alignItems: "center", textAlign: "center", margin: "1rem 0" }}>
+          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />
+          {/* <span style={{ padding: "0 10px", fontWeight: "bold", color: "#666" }}>OR</span>
+          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />  */}
+          </div>
+          <OAuthLogin />
         </div>
       </div>
     </div>

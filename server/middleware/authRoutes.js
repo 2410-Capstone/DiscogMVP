@@ -4,11 +4,13 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const pool = require('../db/pool');
 const authenticateToken = require('../middleware/authMiddleware');
+const { handleGoogleLogin } = require("../controllers/googleAuthController");
 
 const router = express.Router();
 
-router.post('/auth/register', 
-  [
+
+router.post('/register', 
+ [
     body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 8 }),
     body('name').notEmpty().trim().escape()
@@ -19,18 +21,18 @@ router.post('/auth/register',
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, name, address } = req.body;
+    const { email, password, name, address, user_role = 'customer' } = req.body;
     
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const result = await pool.query(
-        'INSERT INTO users (email, password, name, address, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, email, name, role',
-        [email, hashedPassword, name, address, 'user'] // Default role is 'user'
+        'INSERT INTO users (email, password, name, address, user_role) VALUES ($1, $2, $3, $4, $5) RETURNING id, email, name, user_role',
+        [email, hashedPassword, name, address, user_role]
       );
       
       const user = result.rows[0];
       const token = jwt.sign(
-        { userId: user.id, role: user.role }, 
+        { userId: user.id, user_role: user.user_role }, 
         process.env.JWT_SECRET, 
         { expiresIn: '1h' }
       );
@@ -40,7 +42,7 @@ router.post('/auth/register',
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role
+          user_role: user.user_role
         },
         token
       });
@@ -54,7 +56,7 @@ router.post('/auth/register',
   }
 );
 
-router.post('/auth/login', 
+router.post('/login', 
   [
     body('email').isEmail().normalizeEmail(),
     body('password').notEmpty()
@@ -70,7 +72,6 @@ router.post('/auth/login',
     try {
       const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
       if (result.rows.length === 0) {
-        // Generic error message to prevent user enumeration
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
@@ -82,7 +83,7 @@ router.post('/auth/login',
       }
 
       const token = jwt.sign(
-        { userId: user.id, role: user.role }, 
+        { id: user.id, user_role: user.user_role }, 
         process.env.JWT_SECRET, 
         { expiresIn: '1h' }
       );
@@ -92,7 +93,7 @@ router.post('/auth/login',
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role
+          user_role: user.user_role
         },
         token 
       });
@@ -103,10 +104,11 @@ router.post('/auth/login',
   }
 );
 
-router.get('/auth/me', authenticateToken, async (req, res) => {
+
+router.get('/me', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT id, email, name, address, role FROM users WHERE id = $1',
+      'SELECT id, email, name, address, user_role FROM users WHERE id = $1',
       [req.user.userId]
     );
     if (result.rows.length === 0) {
@@ -118,5 +120,8 @@ router.get('/auth/me', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch user data' });
   }
 });
+
+
+router.post("/google", handleGoogleLogin);
 
 module.exports = router;

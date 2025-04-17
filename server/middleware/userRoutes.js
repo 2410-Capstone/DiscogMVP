@@ -21,12 +21,14 @@ router.get('/', authenticateToken, isAdmin, async (req, res) => {
 
 // GET /users/:id - Admin or self
 router.get('/:id', authenticateToken, async (req, res) => {
-  const userId = parseInt(req.params.id);
-
-  if (req.user.user_role !== 'admin' && req.user.id !== userId) {
+  const userId = req.params.id;
+  const requestorId = req.user.id;
+  
+  if (req.user.user_role !== 'admin' && `${requestorId}` !== `${userId}`) {
     return res.sendStatus(403);
   }
-
+   
+  
   try {
     const result = await pool.query(
       'SELECT id, email, name, address, user_role FROM users WHERE id = $1',
@@ -47,20 +49,27 @@ router.get('/:id', authenticateToken, async (req, res) => {
 // PUT /users/:id - Self only
 router.put('/:id', authenticateToken, [
   body('name').optional().notEmpty().trim().escape(),
-  body('address').optional().trim().escape()
+  body('address').optional().notEmpty().trim().escape(),
 ], async (req, res) => {
-  const userId = parseInt(req.params.id);
+  const userId = req.params.id;
+  const requestorId = req.user.id;
 
-  if (req.user.id !== userId) {
+  // Allow only the user to update their own profile
+  if (userId !== requestorId) {
     return res.sendStatus(403);
+  }
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
 
   const { name, address } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE users SET name = $1, address = $2 WHERE id = $3 RETURNING id, email, name, address, user_role',
-      [name || '', address || '', userId]
+      'UPDATE users SET name = $1, address = $2 WHERE id = $3 RETURNING *',
+      [name, address, userId]
     );
 
     if (result.rows.length === 0) {
@@ -74,9 +83,15 @@ router.put('/:id', authenticateToken, [
   }
 });
 
+
 // DELETE /users/:id - Admin only
 router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
-  const userId = parseInt(req.params.id);
+  const userId = req.params.id;
+
+  // validate first
+  if (!userId || typeof userId !== 'string' || userId.length < 10) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }
 
   try {
     const result = await pool.query(
@@ -84,6 +99,7 @@ router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
       [userId]
     );
 
+    // handle nonexistent user
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -94,5 +110,6 @@ router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
     res.status(500).json({ error: 'Failed to delete user' });
   }
 });
+
 
 module.exports = router;
