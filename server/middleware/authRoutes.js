@@ -9,7 +9,7 @@ const { handleGoogleLogin } = require("../controllers/googleAuthController");
 const router = express.Router();
 
 
-router.post('/register', 
+router.post('/api/register', 
  [
     body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 8 }),
@@ -56,7 +56,7 @@ router.post('/register',
   }
 );
 
-router.post('/login', 
+router.post('/api/login', 
   [
     body('email').isEmail().normalizeEmail(),
     body('password').notEmpty()
@@ -105,7 +105,7 @@ router.post('/login',
 );
 
 
-router.get('/me', authenticateToken, async (req, res) => {
+router.get('/api/me', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
       'SELECT id, email, name, address, user_role FROM users WHERE id = $1',

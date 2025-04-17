@@ -25,7 +25,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
  // POST /cart/items
- router.post('/items', authenticateToken, async (req, res) => {
+ router.post('/api/items', authenticateToken, async (req, res) => {
   const { product_id, quantity } = req.body;
   try {
     const cart = await getOrCreateCart(req.user.id);
@@ -42,7 +42,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
  // PUT /cart/items/:id
- router.put('/items/:id', authenticateToken, async (req, res) => {
+ router.put('/api/items/:id', authenticateToken, async (req, res) => {
   const cart_item_id = req.params.id;
   const { quantity } = req.body;
   try {
@@ -67,7 +67,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
  // DELETE /cart/clear
- router.delete('/clear', authenticateToken, async (req, res) => {
+ router.delete('/api/clear', authenticateToken, async (req, res) => {
   try {
     const clearedItems = await clearCart({ user_id: req.user.userId });
     res.json({ message: 'Cart cleared', clearedItems });

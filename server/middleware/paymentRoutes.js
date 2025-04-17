@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { createStripePaymentIntent } = require('./payments');
 
-router.post('/create-payment-intent', async (req, res) => {
+router.post('/api/create-payment-intent', async (req, res) => {
   const { amount } = req.body;
 
   try {

@@ -29,12 +29,12 @@ const authLimiter = rateLimit({
 app.use('/auth/', authLimiter);
 
 
-app.use('/auth', authRoutes);
-app.use('/products', productRoutes);
-app.use('/cart', cartRoutes);
-app.use('/orders', orderRoutes);
-app.use('/users', userRoutes);
-app.use('/create-payment-intent', userRoutes)
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/create-payment-intent', userRoutes)
 
 
 

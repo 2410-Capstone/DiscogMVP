@@ -58,7 +58,7 @@ router.post('/products', authenticateToken, isAdmin,
   }
 );
 
-router.put('/products/:id', authenticateToken, isAdmin, 
+router.put('/api/products/:id', authenticateToken, isAdmin, 
   [
     body('artist').notEmpty().trim().escape(),
     body('description').notEmpty().trim().escape(),
@@ -96,7 +96,7 @@ router.put('/products/:id', authenticateToken, isAdmin,
 );
 
 
-router.delete('/products/:id', authenticateToken, isAdmin, async (req, res) => {
+router.delete('/api/products/:id', authenticateToken, isAdmin, async (req, res) => {
   try {
     const result = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [req.params.id]);
 
