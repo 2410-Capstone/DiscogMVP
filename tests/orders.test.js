@@ -64,3 +64,35 @@ describe("GET /orders/:id", () => {
     expect(res.body).toHaveProperty("error", "Order not found");
   });
 });
+
+describe("GET /orders/:id/items", () => {
+  it("should return an array of order items for the authenticated user", async () => {
+    // First, fetch all orders to get a valid ID
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    const orderId = allOrdersRes.body[0]?.id;
+
+    const res = await request(app).get(`/orders/${orderId}/items`).set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
+    expect(res.body[0]).toHaveProperty("id");
+    expect(res.body[0]).toHaveProperty("order_id");
+  });
+  it("should return 404 if order items are not found", async () => {
+    const fakeId = 999999;
+    const res = await request(app).get(`/orders/${fakeId}/items`).set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("error", "Order items not found");
+  });
+  it("should return 403 if user is not authorized to view order items", async () => {
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    const orderId = allOrdersRes.body[0]?.id;
+
+    const res = await request(app).get(`/orders/${orderId}/items`).set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden");
+  });
+});
