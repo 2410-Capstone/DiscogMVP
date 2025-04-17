@@ -34,7 +34,7 @@ app.use('/', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
 app.use('/users', userRoutes);
-app.use('/create-payment-intent', userRoutes)
+app.use('/create-payment-intent', paymentRoutes);
 
 
 

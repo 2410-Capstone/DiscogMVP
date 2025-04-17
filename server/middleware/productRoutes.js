@@ -6,7 +6,7 @@ const isAdmin = require('../middleware/isAdminMiddleware');
 
 const router = express.Router();
 
-router.get('/products', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM products WHERE stock > 0');
     res.json(result.rows);
@@ -16,7 +16,7 @@ router.get('/products', async (req, res) => {
   }
 });
 
-router.get('/products/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM products WHERE id = $1', [req.params.id]);
     if (result.rows.length === 0) {
@@ -30,7 +30,7 @@ router.get('/products/:id', async (req, res) => {
 });
 
 // Protected product routes
-router.post('/products', authenticateToken, isAdmin, 
+router.post('/', authenticateToken, isAdmin, 
   [
     body('artist').notEmpty().trim().escape(),
     body('description').notEmpty().trim().escape(),
@@ -58,7 +58,7 @@ router.post('/products', authenticateToken, isAdmin,
   }
 );
 
-router.put('/products/:id', authenticateToken, isAdmin, 
+router.put('/:id', authenticateToken, isAdmin, 
   [
     body('artist').notEmpty().trim().escape(),
     body('description').notEmpty().trim().escape(),
@@ -96,7 +96,7 @@ router.put('/products/:id', authenticateToken, isAdmin,
 );
 
 
-router.delete('/products/:id', authenticateToken, isAdmin, async (req, res) => {
+router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
   try {
     const result = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [req.params.id]);
 

@@ -7,7 +7,6 @@ const authenticateToken = require('../middleware/authMiddleware');
 const { handleGoogleLogin } = require('../utils/googleAuthController');
 
 
-
 const router = express.Router();
 
 
