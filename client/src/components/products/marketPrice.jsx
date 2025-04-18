@@ -5,19 +5,13 @@ const MarketPrice = ({ releaseId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const DISCOGS_TOKEN = "YOUR_DISCOGS_TOKEN"; // replace this with your actual token
-
   useEffect(() => {
+    if (!releaseId) return;
+
     const fetchMarketPrice = async () => {
       try {
         const response = await fetch(
-          `https://api.discogs.com/marketplace/stats/${releaseId}`,
-          {
-            headers: {
-              Authorization: `Discogs token=${DISCOGS_TOKEN}`,
-              "User-Agent": "YourAppName/1.0",
-            },
-          }
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/discogs/releases/${releaseId}/market`
         );
 
         if (!response.ok) {
@@ -25,8 +19,7 @@ const MarketPrice = ({ releaseId }) => {
         }
 
         const data = await response.json();
-
-        const lowestPrice = data.lowest_price;
+        const lowestPrice = data?.lowest_price;
         setPrice(lowestPrice ? `$${lowestPrice}` : "Not available");
       } catch (err) {
         setError(err.message);

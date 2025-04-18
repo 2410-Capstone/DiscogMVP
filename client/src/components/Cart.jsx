@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const Cart = ({ user }) => {
   const style = { marginTop: "100px" };
   return (

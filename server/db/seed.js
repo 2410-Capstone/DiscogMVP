@@ -171,173 +171,218 @@ const seedUsers = async () => {
 const seedProducts = async () => {
   console.log("Seeding products...");
 
-  const products = await Promise.all([
-    createProduct({
+
+  const productData = [
+    {
       artist: "DISTRUSTER",
-      description: "World War Zero",
+      title: "World War Zero",
+      description: "World War Zero by DISTRUSTER.",
       price: 29.99,
-      image_url: "https://api.discogs.com/releases/27552465",
+      image_url: "",
+      discogs_id: 27552465,
       genre: "Rock",
       stock: 50,
-    }),
-    createProduct({
+    },
+    {
       artist: "Interpol",
-      description: "Our Love To Admire",
+      title: "Our Love To Admire",
+      description: "Our Love To Admire by Interpol.",
       price: 31.99,
-      image_url: "https://api.discogs.com/releases/1055329",
+      image_url: "",
+      discogs_id: 1055329,
       genre: "Indie",
       stock: 60,
-    }),
-    createProduct({
+    },
+    {
       artist: "Grimes",
-      description: "Visions",
+      title: "Visions",
+      description: "Visions by Grimes.",
       price: 27.5,
-      image_url: "https://api.discogs.com/releases/3483978",
+      image_url: "",
+      discogs_id: 3483978,
       genre: "Electronic",
       stock: 40,
-    }),
-    createProduct({
+    },
+    {
       artist: "Mac Miller",
-      description: "Faces",
+      title: "Faces",
+      description: "Faces by Mac Miller.",
       price: 34.99,
-      image_url: "https://api.discogs.com/releases/20924756",
+      image_url: "",
+      discogs_id: 20924756,
       genre: "Hip Hop",
       stock: 30,
-    }),
-    createProduct({
+    },
+    {
       artist: "Cocteau Twins",
-      description: "Heaven Or Las Vegas",
+      title: "Heaven Or Las Vegas",
+      description: "Heaven Or Las Vegas by Cocteau Twins.",
       price: 22.99,
-      image_url: "https://api.discogs.com/releases/1587672",
+      image_url: "",
+      discogs_id: 1587672,
       genre: "Alternative",
       stock: 45,
-    }),
-    createProduct({
+    },
+    {
       artist: "DJ Shadow",
-      description: "Endtroducing.....",
+      title: "Endtroducing.....",
+      description: "Endtroducing..... by DJ Shadow.",
       price: 27.99,
-      image_url: "https://api.discogs.com/releases/35691",
+      image_url: "",
+      discogs_id: 35691,
       genre: "Trip Hop",
       stock: 35,
-    }),
-    createProduct({
+    },
+    {
       artist: "Slowdive",
-      description: "Souvlaki",
+      title: "Souvlaki",
+      description: "Souvlaki by Slowdive.",
       price: 28.49,
-      image_url: "https://api.discogs.com/releases/1165242",
+      image_url: "",
+      discogs_id: 1165242,
       genre: "Shoegaze",
       stock: 50,
-    }),
-    createProduct({
+    },
+    {
       artist: "Flying Lotus",
-      description: "Cosmogramma",
+      title: "Cosmogramma",
+      description: "Cosmogramma by Flying Lotus.",
       price: 29.99,
-      image_url: "https://api.discogs.com/releases/2261172",
+      image_url: "",
+      discogs_id: 2261172,
       genre: "Electronic",
       stock: 25,
-    }),
-    createProduct({
+    },
+    {
       artist: "MF DOOM",
-      description: "MM..Food",
+      title: "MM..Food",
+      description: "MM..Food by MF DOOM.",
       price: 35.99,
-      image_url: "https://api.discogs.com/releases/289489",
+      image_url: "",
+      discogs_id: 289489,
       genre: "Hip Hop",
       stock: 40,
-    }),
-    createProduct({
+    },
+    {
       artist: "Mazzy Star",
-      description: "So Tonight That I Might See",
+      title: "So Tonight That I Might See",
+      description: "So Tonight That I Might See by Mazzy Star.",
       price: 24.99,
-      image_url: "https://api.discogs.com/releases/1519469",
+      image_url: "",
+      discogs_id: 1519469,
       genre: "Dream Pop",
       stock: 55,
-    }),
-    createProduct({
+    },
+    {
       artist: "Radiohead",
-      description: "Kid A",
+      title: "Kid A",
+      description: "Kid A by Radiohead.",
       price: 33.5,
-      image_url: "https://api.discogs.com/releases/38658",
+      image_url: "",
+      discogs_id: 38658,
       genre: "Alternative",
       stock: 30,
-    }),
-    createProduct({
+    },
+    {
       artist: "Kendrick Lamar",
-      description: "To Pimp A Butterfly",
+      title: "To Pimp A Butterfly",
+      description: "To Pimp A Butterfly by Kendrick Lamar.",
       price: 39.99,
-      image_url: "https://api.discogs.com/releases/6811538",
+      image_url: "",
+      discogs_id: 6811538,
       genre: "Hip Hop",
       stock: 20,
-    }),
-    createProduct({
+    },
+    {
       artist: "Arctic Monkeys",
-      description: "AM",
+      title: "AM",
+      description: "AM by Arctic Monkeys.",
       price: 28.99,
-      image_url: "https://api.discogs.com/releases/4783579",
+      image_url: "",
+      discogs_id: 4783579,
       genre: "Indie Rock",
       stock: 45,
-    }),
-    createProduct({
+    },
+    {
       artist: "Massive Attack",
-      description: "Mezzanine",
+      title: "Mezzanine",
+      description: "Mezzanine by Massive Attack.",
       price: 32.99,
-      image_url: "https://api.discogs.com/releases/14049",
+      image_url: "",
+      discogs_id: 14049,
       genre: "Trip Hop",
       stock: 35,
-    }),
-    createProduct({
+    },
+    {
       artist: "Sufjan Stevens",
-      description: "Illinois",
+      title: "Illinois",
+      description: "Illinois by Sufjan Stevens.",
       price: 26.99,
-      image_url: "https://api.discogs.com/releases/477165",
+      image_url: "",
+      discogs_id: 477165,
       genre: "Indie Folk",
       stock: 40,
-    }),
-    createProduct({
+    },
+    {
       artist: "The xx",
-      description: "xx",
+      title: "xx",
+      description: "xx by The xx.",
       price: 27.99,
-      image_url: "https://api.discogs.com/releases/1929743",
+      image_url: "",
+      discogs_id: 1929743,
       genre: "Indie",
       stock: 50,
-    }),
-    createProduct({
+    },
+    {
       artist: "Tyler, The Creator",
-      description: "IGOR",
+      title: "IGOR",
+      description: "IGOR by Tyler, The Creator.",
       price: 29.99,
-      image_url: "https://api.discogs.com/releases/13796836",
+      image_url: "",
+      discogs_id: 13796836,
       genre: "Hip Hop",
       stock: 30,
-    }),
-    createProduct({
+    },
+    {
       artist: "Portishead",
-      description: "Dummy",
+      title: "Dummy",
+      description: "Dummy by Portishead.",
       price: 30.99,
-      image_url: "https://api.discogs.com/releases/37745",
+      image_url: "",
+      discogs_id: 37745,
       genre: "Trip Hop",
       stock: 25,
-    }),
-    createProduct({
+    },
+    {
       artist: "King Krule",
-      description: "The OOZ",
+      title: "The OOZ",
+      description: "The OOZ by King Krule.",
       price: 33.99,
-      image_url: "https://api.discogs.com/releases/11022901",
+      image_url: "",
+      discogs_id: 11022901,
       genre: "Experimental",
       stock: 20,
-    }),
-    createProduct({
+    },
+    {
       artist: "The War On Drugs",
-      description: "Lost In The Dream",
+      title: "Lost In The Dream",
+      description: "Lost In The Dream by The War On Drugs.",
       price: 31.99,
-      image_url: "https://api.discogs.com/releases/5469428",
+      image_url: "",
+      discogs_id: 5469428,
       genre: "Indie Rock",
       stock: 40,
-    }),
+    },
+  ];
+  
     // Add more products as needed!
-  ]);
-
-  console.log("Seeded products:", products.length);
-  return products;
-};
+    const products = await Promise.all(
+      productData.map((product) => createProduct(product))
+    );
+  
+    console.log("Seeded products:", products.length);
+    return products;
+  };
 
 const seedCartsAndOrders = async (users, products) => {
   console.log("seeding carts, cart_items, orders, order_items");
