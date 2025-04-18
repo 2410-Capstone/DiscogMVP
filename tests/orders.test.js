@@ -255,3 +255,46 @@ describe("POST /orders", () => {
     expect(res.body).toHaveProperty("error", "Forbidden from creating order");
   });
 });
+
+describe("POST /orders/:orderId/items", () => {
+  let orderId;
+
+  beforeEach(async () => {
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    orderId = allOrdersRes.body[0]?.id;
+  });
+
+  it("should create a new order item with valid data and user token", async () => {
+    const res = await request(app)
+      .post(`/orders/${orderId}/items`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ product_id: 1, quantity: 2 });
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty("id");
+    expect(res.body).toHaveProperty("product_id", 1);
+    expect(res.body).toHaveProperty("quantity", 2);
+  });
+
+  it("should return 400 if required fields are missing", async () => {
+    const res = await request(app)
+      .post(`/orders/${orderId}/items`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ product_id: 1 });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty("error", "Missing required fields: quantity");
+  });
+
+  it("should return 403 if user is not authorized to create an order item", async () => {
+    const otherUserToken = jwt.sign({ id: 123456, user_role: "guest" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    const res = await request(app)
+      .post(`/orders/${orderId}/items`)
+      .set("Authorization", `Bearer ${otherUserToken}`)
+      .send({ product_id: 1, quantity: 2 });
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden from creating order item");
+  });
+});

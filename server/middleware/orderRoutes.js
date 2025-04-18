@@ -155,7 +155,6 @@ router.post("/orders/:orderId/items", authenticateToken, async (req, res, next) 
       order_id: orderId,
       product_id,
       quantity,
-      price,
     });
 
     if (!newOrderItem) {
