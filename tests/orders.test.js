@@ -142,3 +142,116 @@ describe("PATCH /orders/:id", () => {
     expect(res.body).toHaveProperty("error", "Forbidden from updating order");
   });
 });
+describe("PATCH /orders/:orderId/items/:itemId", () => {
+  let orderId, orderItemId;
+
+  beforeEach(async () => {
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    orderId = allOrdersRes.body[0]?.id;
+
+    const allOrderItemsRes = await request(app)
+      .get(`/orders/${orderId}/items`)
+      .set("Authorization", `Bearer ${userToken}`);
+    orderItemId = allOrderItemsRes.body[0]?.id;
+  });
+
+  it("should update an order item with valid data and user token", async () => {
+    const res = await request(app)
+      .patch(`/orders/${orderId}/items/${orderItemId}`)
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ quantity: 2 });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("id", orderItemId);
+    expect(res.body).toHaveProperty("quantity", 2);
+  });
+
+  it("should update an order item with valid data and admin token", async () => {
+    const res = await request(app)
+      .patch(`/orders/${orderId}/items/${orderItemId}`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({ quantity: 3 });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("id", orderItemId);
+    expect(res.body).toHaveProperty("quantity", 3);
+  });
+
+  it("should return 404 if order item is not found", async () => {
+    const fakeOrderId = 999999;
+    const fakeItemId = 888888;
+    const res = await request(app)
+      .patch(`/orders/${fakeOrderId}/items/${fakeItemId}`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({ quantity: 2 });
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("error", "Order item not found");
+  });
+
+  it("should return 403 if a different user is not authorized to update the order item", async () => {
+    const otherUserToken = jwt.sign({ id: 123456, user_role: "customer" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    const res = await request(app)
+      .patch(`/orders/${orderId}/items/${orderItemId}`)
+      .set("Authorization", `Bearer ${otherUserToken}`)
+      .send({ quantity: 2 });
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden from updating order item");
+  });
+});
+
+describe("POST /orders", () => {
+  it("should create a new order with valid data and user token", async () => {
+    const res = await request(app)
+      .post("/orders")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        order_status: "pending",
+        shipping_address: "123 Main St, Anytown, USA",
+        items: [
+          { product_id: 1, quantity: 2 },
+          { product_id: 2, quantity: 1 },
+        ],
+      });
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty("id");
+    expect(res.body).toHaveProperty("order_status", "pending");
+    expect(res.body).toHaveProperty("shipping_address", "123 Main St, Anytown, USA");
+    expect(Array.isArray(res.body.items)).toBe(true);
+    expect(res.body.items.length).toBe(2);
+    expect(res.body.items[0]).toHaveProperty("product_id", 1);
+    expect(res.body.items[0]).toHaveProperty("quantity", 2);
+  });
+
+  it("should return 400 if required fields are missing", async () => {
+    const res = await request(app)
+      .post("/orders")
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({
+        order_status: "pending",
+        items: [{ product_id: 1, quantity: 2 }],
+      });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty("error", "Missing required fields: shipping_address");
+  });
+
+  it("should return 403 if user is not authorized to create an order", async () => {
+    const otherUserToken = jwt.sign({ id: 123456, user_role: "guest" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    const res = await request(app)
+      .post("/orders")
+      .set("Authorization", `Bearer ${otherUserToken}`)
+      .send({
+        order_status: "pending",
+        shipping_address: "123 Main St, Anytown, USA",
+        items: [{ product_id: 1, quantity: 2 }],
+      });
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden from creating order");
+  });
+});

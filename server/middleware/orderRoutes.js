@@ -73,7 +73,7 @@ router.patch("/orders/:id", authenticateToken, async (req, res, next) => {
     if (!updatedOrder) {
       return res.status(404).json({ error: "Order not found failed to update" });
     }
-    if (updatedOrder.user_id !== req.user.userId) {
+    if (updatedOrder.user_id !== req.user.userId && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden from updating order" });
     }
     res.json(updatedOrder);
@@ -95,7 +95,7 @@ router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, re
     if (!updatedOrderItem) {
       return res.status(404).json({ error: "Order item not found can't change quantity" });
     }
-    if (updatedOrderItem.user_id !== req.user.userId) {
+    if (updatedOrderItem.user_id !== req.user.userId && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden from updating order item" });
     }
     res.json(updatedOrderItem);
@@ -106,22 +106,43 @@ router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, re
 });
 
 router.post("/orders", authenticateToken, async (req, res, next) => {
-  const { shipping_address, order_status, tracking_number, total } = req.body;
+  const { shipping_address, order_status, items } = req.body;
 
+  const client = await pool.connect();
   try {
+    await client.query("BEGIN");
+
     const newOrder = await createOrder({
       user_id: req.user.userId,
       shipping_address,
       order_status,
-      tracking_number,
-      total,
+      tracking_number: null,
+      total: 0,
     });
-    if (!newOrder) {
-      return res.status(400).json({ error: "Failed to create order" });
+
+    for (const item of items) {
+      await createOrderItem({
+        order_id: newOrder.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+      });
     }
-    res.status(201).json(newOrder);
+
+    const total = await calculateOrderTotal(newOrder.id);
+
+    await updateOrder({
+      order_id: newOrder.id,
+      updates: { total },
+    });
+
+    await client.query("COMMIT");
+    const updatedOrder = await getOrderById(newOrder.id);
+    res.status(201).json(updatedOrder);
   } catch (error) {
+    await client.query("ROLLBACK");
     next(error);
+  } finally {
+    client.release();
   }
 });
 
