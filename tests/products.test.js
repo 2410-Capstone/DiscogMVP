@@ -51,7 +51,7 @@ afterAll(async () => {
 // GET /products
 describe('GET /products', () => {
   it('should return an array of products', async () => {
-    const res = await request(app).get('/products/products');
+    const res = await request(app).get('/products');
 
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
@@ -69,10 +69,10 @@ describe('GET /products', () => {
 describe('GET /products/:id', () => {
   it('should return a single product by ID', async () => {
     // First, fetch all products to get a valid ID
-    const allProductsRes = await request(app).get('/products/products');
+    const allProductsRes = await request(app).get('/products');
     const productId = allProductsRes.body[0]?.id;
 
-    const res = await request(app).get(`/products/products/${productId}`);
+    const res = await request(app).get(`/products/${productId}`);
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('id', productId);
@@ -83,7 +83,7 @@ describe('GET /products/:id', () => {
 
 it('should return 404 if product is not found', async () => {
   const fakeId = 999999; // unlikely to exist
-  const res = await request(app).get(`/products/products/${fakeId}`);
+  const res = await request(app).get(`/products/${fakeId}`);
 
   expect(res.statusCode).toBe(404);
   expect(res.body).toHaveProperty('error', 'Product not found');
@@ -93,7 +93,7 @@ it('should return 404 if product is not found', async () => {
 describe('POST /products', () => {
   it('should create a new product with valid data and admin token', async () => {
     const res = await request(app)
-      .post('/products/products')
+      .post('/products')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         artist: 'Test Artist',
@@ -113,7 +113,7 @@ describe('POST /products', () => {
 // POST /products with invalid data
 it('should return 400 for invalid input', async () => {
   const res = await request(app)
-    .post('/products/products')
+    .post('/products')
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       artist: '', // invalid
@@ -128,7 +128,7 @@ it('should return 400 for invalid input', async () => {
 // Reject non-admin user
 it('should return 403 for non-admin user', async () => {
   const res = await request(app)
-    .post('/products/products')
+    .post('/products')
     .set('Authorization', `Bearer ${userToken}`)
     .send({
       artist: 'User Attempt',
@@ -149,7 +149,7 @@ describe('PUT /products/:id', () => {
   beforeAll(async () => {
     // Create a product to update
     const res = await request(app)
-      .post('/products/products')
+      .post('/products')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         artist: 'Original Artist',
@@ -165,7 +165,7 @@ describe('PUT /products/:id', () => {
 
   it('should update a product with valid data and admin token', async () => {
     const res = await request(app)
-      .put(`/products/products/${productIdToUpdate}`)
+      .put(`/products/${productIdToUpdate}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         artist: 'Updated Artist',
@@ -183,7 +183,7 @@ describe('PUT /products/:id', () => {
 
   it('should return 404 if product does not exist', async () => {
     const res = await request(app)
-      .put('/products/products/999999')
+      .put('/products/999999')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         artist: 'Nonexistent',
@@ -199,7 +199,7 @@ describe('PUT /products/:id', () => {
 
   it('should return 400 for invalid input', async () => {
     const res = await request(app)
-      .put(`/products/products/${productIdToUpdate}`)
+      .put(`/products/${productIdToUpdate}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         artist: '',
@@ -214,7 +214,7 @@ describe('PUT /products/:id', () => {
 
   it('should return 403 for non-admin user', async () => {
     const res = await request(app)
-      .put(`/products/products/${productIdToUpdate}`)
+      .put(`/products/${productIdToUpdate}`)
       .set('Authorization', `Bearer ${userToken}`)
       .send({
         artist: 'Blocked Update',
@@ -230,7 +230,7 @@ describe('PUT /products/:id', () => {
 
   it('should return 401 if no token is provided', async () => {
     const res = await request(app)
-      .put(`/products/products/${productIdToUpdate}`)
+      .put(`/products/${productIdToUpdate}`)
       .send({
         artist: 'No Token Update',
         description: 'Should fail',
@@ -252,7 +252,7 @@ describe('DELETE /products/:id', () => {
   beforeAll(async () => {
     // Create a product to delete
     const res = await request(app)
-      .post('/products/products')
+      .post('/products')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         artist: 'To Delete',
@@ -268,7 +268,7 @@ describe('DELETE /products/:id', () => {
 
   it('should delete a product with valid admin token', async () => {
     const res = await request(app)
-      .delete(`/products/products/${productIdToDelete}`)
+      .delete(`/products/${productIdToDelete}`)
       .set('Authorization', `Bearer ${adminToken}`);
 
     expect(res.statusCode).toBe(200);
@@ -279,7 +279,7 @@ describe('DELETE /products/:id', () => {
   it('should return 404 if product does not exist', async () => {
     const fakeId = 999999;
     const res = await request(app)
-      .delete(`/products/products/${fakeId}`)
+      .delete(`/products/${fakeId}`)
       .set('Authorization', `Bearer ${adminToken}`);
 
     expect(res.statusCode).toBe(404);
@@ -288,7 +288,7 @@ describe('DELETE /products/:id', () => {
 
   it('should return 403 for non-admin user', async () => {
     const res = await request(app)
-      .delete(`/products/products/${productIdToDelete}`)
+      .delete(`/products/${productIdToDelete}`)
       .set('Authorization', `Bearer ${userToken}`);
 
     expect(res.statusCode).toBe(403);
@@ -296,7 +296,7 @@ describe('DELETE /products/:id', () => {
 
   it('should return 401 if no token is provided', async () => {
     const res = await request(app)
-      .delete(`/products/products/${productIdToDelete}`); // no auth header
+      .delete(`/products/${productIdToDelete}`); // no auth header
 
     expect(res.statusCode).toBe(401);
   });

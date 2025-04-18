@@ -28,7 +28,7 @@ router.get("/orders", authenticateToken, async (req, res, next) => {
   }
 });
 
-router.get("/orders/:id", authenticateToken, async (req, res, next) => {
+router.get("/:id", authenticateToken, async (req, res, next) => {
   try {
     const order = await getOrderById(req.params.id);
     if (!order) {
@@ -43,7 +43,7 @@ router.get("/orders/:id", authenticateToken, async (req, res, next) => {
   }
 });
 
-router.get("/orders/:id/items", authenticateToken, async (req, res, next) => {
+router.get("/:id/items", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
@@ -60,7 +60,7 @@ router.get("/orders/:id/items", authenticateToken, async (req, res, next) => {
   }
 });
 
-router.patch("/orders/:id", authenticateToken, async (req, res, next) => {
+router.patch("/:id", authenticateToken, async (req, res, next) => {
   const { order_status, tracking_number, shipping_address } = req.body;
   const orderId = req.params.id;
 
@@ -82,7 +82,7 @@ router.patch("/orders/:id", authenticateToken, async (req, res, next) => {
   }
 });
 
-router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
+router.patch("/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
   const { quantity } = req.body;
   const { itemId } = req.params;
 
@@ -105,9 +105,9 @@ router.patch("/orders/:orderId/items/:itemId", authenticateToken, async (req, re
   }
 });
 
+
 router.post("/orders", authenticateToken, async (req, res, next) => {
   const { shipping_address, order_status, items } = req.body;
-
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
@@ -146,7 +146,7 @@ router.post("/orders", authenticateToken, async (req, res, next) => {
   }
 });
 
-router.post("/orders/:orderId/items", authenticateToken, async (req, res, next) => {
+router.post("/:orderId/items", authenticateToken, async (req, res, next) => {
   const { product_id, quantity, price } = req.body;
   const orderId = req.params.orderId;
 
@@ -165,7 +165,7 @@ router.post("/orders/:orderId/items", authenticateToken, async (req, res, next) 
     next(error);
   }
 });
-router.delete("/orders/:id", authenticateToken, async (req, res, next) => {
+router.delete("/:id", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
@@ -181,7 +181,7 @@ router.delete("/orders/:id", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
-router.delete("/orders/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
+router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, next) => {
   const { itemId } = req.params;
 
   try {
@@ -198,9 +198,13 @@ router.delete("/orders/:orderId/items/:itemId", authenticateToken, async (req, r
   }
 });
 
+
 //mybe an admin route this one may be redundant
 // router.post("/orders", authenticateToken, async (req, res, next) => {
 //   const client = await pool.connect();
+
+router.post("/", authenticateToken, async (req, res, next) => {
+  const client = await pool.connect();
 
 //   try {
 //     await client.query("BEGIN");
