@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../../.env" });
+require("dotenv").config({ path: "../.env" });
 console.log("env check - DATABASE_URL =", process.env.DATABASE_URL);
 
 const pool = require("./pool.js");

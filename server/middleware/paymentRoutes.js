@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { createStripePaymentIntent } = require('../db/payments');
 
-router.post('/', async (req, res) => {
+router.post('/payment', async (req, res) => {
   const { userId, cartItems, shippingAddress } = req.body;
 
   try {
