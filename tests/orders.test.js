@@ -96,3 +96,49 @@ describe("GET /orders/:id/items", () => {
     expect(res.body).toHaveProperty("error", "Forbidden");
   });
 });
+
+// PATCH /orders/:id
+describe("PATCH /orders/:id", () => {
+  it("should update an order with valid data and admin token", async () => {
+    // First, fetch all orders to get a valid ID
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    const orderId = allOrdersRes.body[0]?.id;
+
+    const res = await request(app).patch(`/orders/${orderId}`).set("Authorization", `Bearer ${adminToken}`).send({
+      order_status: "shipped",
+      tracking_number: "123456789",
+      shipping_address: "123 Main St, Anytown, USA",
+    });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("id", orderId);
+    expect(res.body).toHaveProperty("order_status", "shipped");
+    expect(res.body).toHaveProperty("tracking_number", "123456789");
+  });
+
+  it("should return 404 if order is not found", async () => {
+    const fakeId = 999999;
+    const res = await request(app).patch(`/orders/${fakeId}`).set("Authorization", `Bearer ${adminToken}`).send({
+      order_status: "shipped",
+      tracking_number: "123456789",
+      shipping_address: "123 Main St, Anytown, USA",
+    });
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("error", "Order not found failed to update");
+  });
+
+  it("should return 403 if user is not authorized to update the order", async () => {
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    const orderId = allOrdersRes.body[0]?.id;
+
+    const res = await request(app).patch(`/orders/${orderId}`).set("Authorization", `Bearer ${userToken}`).send({
+      order_status: "shipped",
+      tracking_number: "123456789",
+      shipping_address: "123 Main St, Anytown, USA",
+    });
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden from updating order");
+  });
+});
