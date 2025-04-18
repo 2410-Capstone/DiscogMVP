@@ -298,3 +298,79 @@ describe("POST /orders/:orderId/items", () => {
     expect(res.body).toHaveProperty("error", "Forbidden from creating order item");
   });
 });
+describe("DELETE /orders/:orderId", () => {
+  let orderId;
+
+  beforeEach(async () => {
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    orderId = allOrdersRes.body[0]?.id;
+  });
+
+  it("should delete an order with valid data and user token", async () => {
+    const res = await request(app).delete(`/orders/${orderId}`).set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("message", "Order deleted successfully");
+  });
+
+  it("should return 404 if order is not found", async () => {
+    const fakeOrderId = 999999;
+    const res = await request(app).delete(`/orders/${fakeOrderId}`).set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("error", "Order not found");
+  });
+
+  it("should return 403 if user is not authorized to delete the order", async () => {
+    const otherUserToken = jwt.sign({ id: 123456, user_role: "guest" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    const res = await request(app).delete(`/orders/${orderId}`).set("Authorization", `Bearer ${otherUserToken}`);
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden from deleting order");
+  });
+});
+describe("DELETE /orders/:orderId/items/:itemId", () => {
+  let orderId, orderItemId;
+
+  beforeEach(async () => {
+    const allOrdersRes = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
+    orderId = allOrdersRes.body[0]?.id;
+
+    const allOrderItemsRes = await request(app)
+      .get(`/orders/${orderId}/items`)
+      .set("Authorization", `Bearer ${userToken}`);
+    orderItemId = allOrderItemsRes.body[0]?.id;
+  });
+
+  it("should delete an order item with valid data and user token", async () => {
+    const res = await request(app)
+      .delete(`/orders/${orderId}/items/${orderItemId}`)
+      .set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("message", "Order item deleted successfully");
+  });
+
+  it("should return 404 if order item is not found", async () => {
+    const fakeOrderId = 999999;
+    const fakeItemId = 888888;
+    const res = await request(app)
+      .delete(`/orders/${fakeOrderId}/items/${fakeItemId}`)
+      .set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("error", "Order item not found");
+  });
+
+  it("should return 403 if user is not authorized to delete the order item", async () => {
+    const otherUserToken = jwt.sign({ id: 123456, user_role: "guest" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    const res = await request(app)
+      .delete(`/orders/${orderId}/items/${orderItemId}`)
+      .set("Authorization", `Bearer ${otherUserToken}`);
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty("error", "Forbidden from deleting order item");
+  });
+});
