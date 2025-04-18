@@ -48,7 +48,7 @@ router.get("/:id/items", authenticateToken, async (req, res, next) => {
     if (!orderItems) {
       return res.status(404).json({ error: "Order items not found" });
     }
-    if (orderItems.user_id !== req.user.userId) {
+    if (orderItems.user_id !== req.user.id) {
       return res.status(403).json({ error: "Forbidden" });
     }
     res.json(orderItems);
@@ -70,7 +70,7 @@ router.patch("/:id", authenticateToken, async (req, res, next) => {
     if (!updatedOrder) {
       return res.status(404).json({ error: "Order not found failed to update" });
     }
-    if (updatedOrder.user_id !== req.user.userId && req.user.user_role !== "admin") {
+    if (updatedOrder.user_id !== req.user.id && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden from updating order" });
     }
     res.json(updatedOrder);
@@ -92,7 +92,7 @@ router.patch("/:orderId/items/:itemId", authenticateToken, async (req, res, next
     if (!updatedOrderItem) {
       return res.status(404).json({ error: "Order item not found can't change quantity" });
     }
-    if (updatedOrderItem.user_id !== req.user.userId && req.user.user_role !== "admin") {
+    if (updatedOrderItem.user_id !== req.user.id && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden from updating order item" });
     }
     res.json(updatedOrderItem);
@@ -109,7 +109,7 @@ router.post("/orders", authenticateToken, async (req, res, next) => {
     await client.query("BEGIN");
 
     const newOrder = await createOrder({
-      user_id: req.user.userId,
+      user_id: req.user.id,
       shipping_address,
       order_status,
       tracking_number: null,
@@ -169,7 +169,7 @@ router.delete("/:id", authenticateToken, async (req, res, next) => {
     if (!deletedOrder) {
       return res.status(404).json({ error: "Order not found" });
     }
-    if (deletedOrder.user_id !== req.user.userId) {
+    if (deletedOrder.user_id !== req.user.id) {
       return res.status(403).json({ error: "Forbidden from deleting order" });
     }
     res.json({ message: "Order deleted successfully" });
@@ -185,7 +185,7 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
     if (!deletedOrderItem) {
       return res.status(404).json({ error: "Order item not found" });
     }
-    if (deletedOrderItem.user_id !== req.user.userId) {
+    if (deletedOrderItem.user_id !== req.user.id) {
       return res.status(403).json({ error: "Forbidden from deleting order item" });
     }
     res.json({ message: "Order item deleted successfully" });
@@ -208,7 +208,7 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
 //        FROM cart_items c
 //        JOIN products p ON c.product_id = p.id
 //        WHERE c.user_id = $1`,
-//       [req.user.userId]
+//       [req.user.id]
 //     );
 
 //     if (cartItems.rows.length === 0) {
@@ -227,7 +227,7 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
 //     // 3. Create order
 //     const orderResult = await client.query(
 //       "INSERT INTO orders (user_id, total, order_status) VALUES ($1, $2, $3) RETURNING id",
-//       [req.user.userId, total, "pending"]
+//       [req.user.id, total, "pending"]
 //     );
 //     const orderId = orderResult.rows[0].id;
 
@@ -244,7 +244,7 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
 //     }
 
 //     // 5. Clear cart
-//     await client.query("DELETE FROM cart_items WHERE user_id = $1", [req.user.userId]);
+//     await client.query("DELETE FROM cart_items WHERE user_id = $1", [req.user.id]);
 
 //     await client.query("COMMIT");
 
