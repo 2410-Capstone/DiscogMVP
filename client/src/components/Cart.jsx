@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
 
-const Cart = () => {
+const Cart = ({ user }) => {
+  const style = { marginTop: "100px" };
   return (
-    <div>
+    <div style={style}>
       <h1>Cart Component</h1>
+      <a href="/checkout">Proceed to Checkout</a>
     </div>
   );
 };
