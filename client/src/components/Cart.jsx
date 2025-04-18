@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const Cart = () => {
+const Cart = ({ user }) => {
   return (
     <div>
       <h1>Cart Component</h1>

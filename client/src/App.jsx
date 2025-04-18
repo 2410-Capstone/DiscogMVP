@@ -17,6 +17,7 @@ import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import OAuthLogin from "./pages/LogRegAuth/OAuthLogin";
 import Cart from "./components/Cart";
+import Checkout from "./pages/user/Checkout";
 
 // import Allreleases from "./components/Allreleases";
 
@@ -59,7 +60,8 @@ function App() {
           element={<Register setToken={setToken} setUser={setUser} />}
         />
         {/* <Route path="/albums" element={<Allreleases />} /> */}
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={<Cart user={user} />} />
+        <Route path="/checkout" element={<Checkout user={user} />} />
       </Routes>
       <Footer />
     </>
