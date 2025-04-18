@@ -29,7 +29,7 @@ afterAll(async () => {
   console.log("Pool closed.");
 });
 
-// GET /orders
+// GET /orders fro authernticated user
 describe("GET /orders", () => {
   it("should return an array of orders for the authenticated user", async () => {
     const res = await request(app).get("/orders").set("Authorization", `Bearer ${userToken}`);
