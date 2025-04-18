@@ -1,16 +1,22 @@
 import "./styles/scss/App.scss";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import NotFound from './pages/NotFound';
-import Navbar from './components/Navbar';
+import NotFound from "./pages/NotFound";
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-import Welcome from './pages/Welcome';
-import Home from './pages/Home';
-import Login from './pages/LogRegAuth/Login';
-import Register from './pages/LogRegAuth/Register';
-import OAuthLogin from './pages/LogRegAuth/OAuthLogin';
+import Welcome from "./pages/Welcome";
+import Home from "./pages/Home";
+import Login from "./pages/LogRegAuth/Login";
+import Register from "./pages/LogRegAuth/Register";
+import OAuthLogin from "./pages/LogRegAuth/OAuthLogin";
+import Cart from "./components/Cart";
 
 // import Allreleases from "./components/Allreleases";
 
@@ -40,15 +46,24 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Welcome />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} />
-        <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
-        <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+        <Route
+          path="/oauth"
+          element={<OAuthLogin setToken={setToken} setUser={setUser} />}
+        />
+        <Route
+          path="/login"
+          element={<Login setToken={setToken} setUser={setUser} />}
+        />
+        <Route
+          path="/register"
+          element={<Register setToken={setToken} setUser={setUser} />}
+        />
         {/* <Route path="/albums" element={<Allreleases />} /> */}
+        <Route path="/cart" element={<Cart />} />
       </Routes>
       <Footer />
     </>
   );
-  
 }
 
 export default App;
