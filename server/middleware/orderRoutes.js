@@ -15,12 +15,9 @@ const router = express.Router();
 
 router.get("/orders", authenticateToken, async (req, res, next) => {
   try {
-    const orders = await getOrderByUserId(req.user.userId);
-    if (!orders) {
+    const orders = await getOrderByUserId(req.user.id);
+    if (!orders || orders.length === 0) {
       return res.status(404).json({ error: "My orders not found" });
-    }
-    if (orders.user_id !== req.user.userId) {
-      return res.status(403).json({ error: "Forbidden Access to my orders" });
     }
     res.json(orders);
   } catch (error) {
@@ -34,7 +31,7 @@ router.get("/:id", authenticateToken, async (req, res, next) => {
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
-    if (order.user_id !== req.user.userId) {
+    if (order.user_id !== req.user.id) {
       return res.status(403).json({ error: "Forbidden" });
     }
     res.json(order);
@@ -104,7 +101,6 @@ router.patch("/:orderId/items/:itemId", authenticateToken, async (req, res, next
     return;
   }
 });
-
 
 router.post("/orders", authenticateToken, async (req, res, next) => {
   const { shipping_address, order_status, items } = req.body;
@@ -198,13 +194,9 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
   }
 });
 
-
 //mybe an admin route this one may be redundant
 // router.post("/orders", authenticateToken, async (req, res, next) => {
 //   const client = await pool.connect();
-
-router.post("/", authenticateToken, async (req, res, next) => {
-  const client = await pool.connect();
 
 //   try {
 //     await client.query("BEGIN");
