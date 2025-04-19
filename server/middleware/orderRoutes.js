@@ -44,13 +44,14 @@ router.get("/:id/items", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
-    const orderItems = await getOrderItems(orderId);
-    if (!orderItems) {
-      return res.status(404).json({ error: "Order items not found" });
+    const order = await getOrderById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
     }
-    if (orderItems.user_id !== req.user.id) {
+    if (order.user_id !== req.user.id && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden" });
     }
+    const orderItems = await getOrderItems(orderId);
     res.json(orderItems);
   } catch (error) {
     next(error);
@@ -92,7 +93,8 @@ router.patch("/:orderId/items/:itemId", authenticateToken, async (req, res, next
     if (!updatedOrderItem) {
       return res.status(404).json({ error: "Order item not found can't change quantity" });
     }
-    if (updatedOrderItem.user_id !== req.user.id && req.user.user_role !== "admin") {
+    const order = await getOrderById(updatedOrderItem.order_id);
+    if (order.user_id !== req.user.id && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden from updating order item" });
     }
     res.json(updatedOrderItem);
@@ -103,12 +105,30 @@ router.patch("/:orderId/items/:itemId", authenticateToken, async (req, res, next
 });
 
 router.post("/orders", authenticateToken, async (req, res, next) => {
-  const { shipping_address, order_status, items } = req.body;
+  const { shipping_address, items } = req.body;
+  const order_status = req.body.order_status || "created";
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: "Order must include at least one item" });
+  }
+  for (const item of items) {
+    if (!item.product_id || !item.quantity) {
+      return res.status(400).json({ error: "Each item must have a product_id and quantity" });
+    }
+  }
+
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
 
     const newOrder = await createOrder({
+      user_id: req.user.id,
+      shipping_address,
+      order_status: order_status,
+      tracking_number: null,
+      total: 0,
+    });
+    console.log("Creating order with:", {
       user_id: req.user.id,
       shipping_address,
       order_status,
@@ -143,7 +163,7 @@ router.post("/orders", authenticateToken, async (req, res, next) => {
 });
 
 router.post("/:orderId/items", authenticateToken, async (req, res, next) => {
-  const { product_id, quantity, price } = req.body;
+  const { product_id, quantity } = req.body;
   const orderId = req.params.orderId;
 
   try {
