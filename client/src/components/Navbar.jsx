@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import cartImg from "../assets/bag.png";
@@ -11,6 +11,8 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const searchRef = useRef(null);
 
+  const isOnMainPage = location.pathname === "/";
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -18,8 +20,6 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
     setToken("");
     navigate("/");
   };
-
-  const isOnMainPage = location.pathname === "/";
 
   const handleMouseLeave = () => {
     setDropdownVisible(false);
@@ -29,6 +29,20 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
     setShowSearch((prev) => !prev);
     setDropdownVisible((prev) => !prev);
   };
+
+
+  useEffect(() => {
+    const content = document.querySelector('.page-content');
+    if (content) {
+      if (isDropdownVisible) {
+        content.classList.add('blurred');
+        document.body.style.overflow = 'hidden'; 
+      } else {
+        content.classList.remove('blurred');
+        document.body.style.overflow = 'auto';
+      }
+    }
+  }, [isDropdownVisible]);
 
   return (
     <>
@@ -40,18 +54,14 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
 
           {!isOnMainPage && (
             <div className="nav-center">
-              <Link to="./home" className="nav-button">
-                Home
-              </Link>
+              <Link to="./home" className="nav-button">Home</Link>
             </div>
           )}
 
           <div className="nav-right">
             {isAuthenticated ? (
               <>
-                <button className="nav-button" onClick={handleLogout}>
-                  Logout
-                </button>
+                <button className="nav-button" onClick={handleLogout}>Logout</button>
                 <Link to="/account">
                   {/* <img src={profilePic} alt="Profile" className="profile-pic" /> */}
                 </Link>
@@ -60,16 +70,9 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
               <>
                 <Link to="/login" className="nav-button">Login</Link>
                 <Link to="/register" className="nav-button">Register</Link>
-
-                {/* Search Button Positioned Between Login/Register and Cart */}
-                <button
-                  className="nav-button"
-                  onClick={handleSearchClick}
-                  aria-label="Toggle Search"
-                >
+                <button className="nav-button" onClick={handleSearchClick} aria-label="Toggle Search">
                   <Search size={20} />
                 </button>
-
                 <Link to="/cart" className="nav-button">
                   <img src={cartImg} alt="Cart" className="cart-icon" />
                 </Link>
@@ -79,22 +82,18 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
         </div>
       </nav>
 
-      {/* Dropdown Menu with Search Bar inside */}
+  
       <div
         className={`dropdown ${isDropdownVisible ? 'show' : ''}`}
         onMouseLeave={handleMouseLeave}
       >
-        {isDropdownVisible && (
-          <>
-            <SearchBar onSearch={onSearch} />
-            <div className="dropdown-links">
-              <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
-              <Link to="/order-history" className="dropdown-link">Order History</Link>
-              <Link to="/profile" className="dropdown-link">Profile</Link>
-              <Link to="/product-search" className="dropdown-link">Product Search</Link>
-            </div>
-          </>
-        )}
+        <SearchBar onSearch={onSearch} />
+        <div className="dropdown-links">
+          <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
+          <Link to="/order-history" className="dropdown-link">Order History</Link>
+          <Link to="/profile" className="dropdown-link">Profile</Link>
+          <Link to="/product-search" className="dropdown-link">Product Search</Link>
+        </div>
       </div>
     </>
   );

@@ -58,6 +58,7 @@ function App() {
             setToken={setToken} 
             onSearch={setSearchTerm} 
           />
+          <div className="page-content">
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Welcome />} />
@@ -67,12 +68,13 @@ function App() {
         <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
         <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/profile/:username" element={<Profile />} />"
+        <Route path="/profile/:username" element={<Profile />} />
         {/* <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} /> */}
         {/* <Route path="/albums" element={<Allreleases />} /> */}
         <Route path="/cart" element={<Cart user={user} />} />
         <Route path="/checkout" element={<Checkout user={user} />} />
       </Routes>
+      </div>
       <Footer />
     </>
   );

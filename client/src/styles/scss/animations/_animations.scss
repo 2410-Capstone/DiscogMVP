@@ -13,6 +13,28 @@
   }
 }
 
+
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20px);
+  }
+}
+
+
+
 @keyframes disney-fade-slide {
   from {
     opacity: 0;
