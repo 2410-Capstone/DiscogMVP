@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import Welcome from './pages/Welcome';
 import ItemList from './pages/Home';
 import Account from './pages/User/Account';
+import Profile from "./pages/User/Profile";
 
 import ProductDetails from "./components/products/ProductDetails";
 import Login from "./pages/LogRegAuth/Login";
@@ -66,6 +67,7 @@ function App() {
         <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
         <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/profile/:username" element={<Profile />} />"
         {/* <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} /> */}
         {/* <Route path="/albums" element={<Allreleases />} /> */}
         <Route path="/cart" element={<Cart user={user} />} />

@@ -1,0 +1,79 @@
+/* Profile.scss */
+
+.profile-page {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+  }
+  
+  .profile-header-info h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--text-color);
+  }
+  
+  .profile-header-info p {
+    margin: 0.3rem 0 0;
+    color: var(--placeholder-color);
+  }
+  
+  section {
+    margin-bottom: 2.5rem;
+  }
+  
+  section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+  }
+  
+  .profile-projects ul,
+  .profile-skills ul,
+  .profile-social ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .profile-projects li,
+  .profile-skills li,
+  .profile-social li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-projects a,
+  .profile-social a {
+    color: var(--primary-accent);
+    text-decoration: none;
+  }
+  
+  .profile-projects a:hover,
+  .profile-social a:hover {
+    text-decoration: underline;
+  }
+  
+  .profile-footer {
+    margin-top: 4rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--placeholder-color);
+  }
+  
