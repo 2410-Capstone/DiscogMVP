@@ -118,7 +118,7 @@ const Profile = () => {
         </ul>
       </section>
 
-      {/* Social Links */}
+
       <section className="profile-social">
         <h2>Find Me On</h2>
         <ul>
@@ -136,7 +136,7 @@ const Profile = () => {
         </ul>
       </section>
 
-      {/* Footer */}
+
       <footer className="profile-footer">
         <p>Last updated: {profile.updatedAt ? new Date(profile.updatedAt).toLocaleDateString() : "N/A"}</p>
       </footer>

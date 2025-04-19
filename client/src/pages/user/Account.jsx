@@ -122,7 +122,8 @@ const Account = () => {
                 <Link to="#">Manage Account</Link>
                 <div className="settings-block">
             
-                 <Link to="/profile/connor">Edit Profile</Link>
+                <Link to="/profile/sandpitt-turtle?mock=true">Edit Profile</Link>
+
                  {/* <Link to={`/profile/${user.username || user.id}`}>Edit Profile</Link> */}
 
 </div>
