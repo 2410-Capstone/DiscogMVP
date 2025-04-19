@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import OAuthLogin from "../LogRegAuth/OAuthLogin"
+// import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 export default function Register({ setToken, setUser }) {
   const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ export default function Register({ setToken, setUser }) {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/auth/register", {
+      const res = await fetch("http://localhost:4242/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -89,7 +89,7 @@ export default function Register({ setToken, setUser }) {
           {/* <span style={{ padding: "0 10px", fontWeight: "bold", color: "#666" }}>OR</span>
           <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />  */}
           </div>
-          <OAuthLogin />
+          {/* <OAuthLogin /> */}
         </div>
       </div>
     </div>

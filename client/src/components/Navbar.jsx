@@ -1,16 +1,15 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
-import { useTheme } from "../utils/useTheme";
-import cartImg from "../assets/bag.png";
 import { Search } from "lucide-react";
-import SearchBar from "./SearchBar"; // ✅ Make sure this path is correct
+import SearchBar from "./SearchBar";
+import cartImg from "../assets/bag.png";
 
 function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [showSearch, setShowSearch] = useState(false);
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const searchRef = useRef(null);
-  // const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -21,6 +20,15 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
   };
 
   const isOnMainPage = location.pathname === "/";
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
+
+  const handleSearchClick = () => {
+    setShowSearch((prev) => !prev);
+    setDropdownVisible((prev) => !prev);
+  };
 
   return (
     <>
@@ -50,36 +58,44 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
               </>
             ) : (
               <>
-                <button
-              className="nav-button"
-              onClick={() => setShowSearch((prev) => !prev)}
-              aria-label="Toggle Search"
-            >
-              <Search size={20} />
-            </button>
                 <Link to="/login" className="nav-button">Login</Link>
                 <Link to="/register" className="nav-button">Register</Link>
+
+                {/* Search Button Positioned Between Login/Register and Cart */}
+                <button
+                  className="nav-button"
+                  onClick={handleSearchClick}
+                  aria-label="Toggle Search"
+                >
+                  <Search size={20} />
+                </button>
+
                 <Link to="/cart" className="nav-button">
                   <img src={cartImg} alt="Cart" className="cart-icon" />
                 </Link>
               </>
             )}
-
-      
-
-            {/* <button className="nav-button" onClick={toggleTheme}>
-              Switch to {theme === "dark" ? "Light" : "Dark"} Mode
-            </button> */}
           </div>
         </div>
       </nav>
 
-      {showSearch && (
-        <div className="search-overlay" ref={searchRef}>
-          <SearchBar onSearch={onSearch} />
-          <button className="close-search" onClick={() => setShowSearch(false)}>✕</button>
-        </div>
-      )}
+      {/* Dropdown Menu with Search Bar inside */}
+      <div
+        className={`dropdown ${isDropdownVisible ? 'show' : ''}`}
+        onMouseLeave={handleMouseLeave}
+      >
+        {isDropdownVisible && (
+          <>
+            <SearchBar onSearch={onSearch} />
+            <div className="dropdown-links">
+              <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
+              <Link to="/order-history" className="dropdown-link">Order History</Link>
+              <Link to="/profile" className="dropdown-link">Profile</Link>
+              <Link to="/product-search" className="dropdown-link">Product Search</Link>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }
