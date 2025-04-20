@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
-// import SpinningAvatar from "../../components/SpinningAvatar";;
+
 
 const Profile = () => {
   const { username } = useParams();
@@ -15,7 +15,7 @@ const Profile = () => {
   // Mock data
   const mockProfile = {
     username: "MonkeydLuffy",
-    // avatarUrl: "https://models.readyplayer.me/6803bba0679b1816820aa55d.glb",
+
     bio: "King of the Pirates • Long-life fan of wanting to be king of the pirates",
     about:
       "I'm going to be the king of the pirates.",
@@ -72,9 +72,6 @@ const Profile = () => {
     <div className="profile-page">
     <div className="profile-grid">
    
-      {/* <div className="profile-avatar-column">
-        <SpinningAvatar avatarUrl="https://models.readyplayer.me/6803bba0679b1816820aa55d.glb" />
-      </div> */}
   
   
       <div className="profile-content-column">

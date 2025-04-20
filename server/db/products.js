@@ -15,10 +15,10 @@ const getProductById = async ({ id }) => {
 }
 
 
-const createProduct = async ({ artist, description, price, image_url, genre, stock, discogs_id }) => {
+const createProduct = async ({ artist, description, price, image_url, genre, stock }) => {
   try {
     const { rows: [product] } = await pool.query(/*sql*/ `
-      INSERT INTO products (artist, description, price, image_url, genre, stock, discogs_id)
+      INSERT INTO products (artist, description, price, image_url, genre, stock)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *;
     `, [artist, description, price, image_url, genre, stock]);

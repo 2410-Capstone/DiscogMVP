@@ -56,21 +56,17 @@ const createTables = async () => {
       `);
     /* create products table */
     await pool.query(/*sql*/ `
-      CREATE TABLE products (
+    CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         artist VARCHAR(255) NOT NULL,
-        title VARCHAR(255),
         description TEXT,
         price NUMERIC(10, 2) NOT NULL,
         image_url VARCHAR(255),
         genre VARCHAR(255),
         stock INTEGER DEFAULT 0,
-        discogs_id INTEGER,
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
-    );
-    
-
+      );
       `);
 
     /*create carts table*/
