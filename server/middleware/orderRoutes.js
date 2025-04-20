@@ -268,7 +268,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
 //     client.release();
 //   }
 // });
-});
+
 
 
 module.exports = router;
