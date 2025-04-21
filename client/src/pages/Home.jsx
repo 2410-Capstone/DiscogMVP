@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/products/ProductCard";
 
-const Home = () => {
+const ItemList = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        console.log("👉 Fetching from:", import.meta.env.VITE_BACKEND_URL);
+        console.log("Fetching from:", import.meta.env.VITE_BACKEND_URL);
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
         if (!response.ok) throw new Error(`Error: ${response.status}`);
 
@@ -34,7 +34,8 @@ const Home = () => {
   }, []);
 
   const handleDetailsClick = (itemId) => {
-    navigate(`/items/${itemId}`);
+    navigate(`/home/${itemId}`);
+
   };
 
   return (
@@ -50,13 +51,14 @@ const Home = () => {
             <p style={{ color: "red" }}>{error}</p>
           ) : items.length ? (
             <div className="items-grid">
-              {items.map((item) => (
-                <ProductCard
-                  key={item.id}
-                  item={item}
-                  handleDetailsClick={handleDetailsClick}
-                />
-              ))}
+         {items.map((item) => (
+  <ProductCard
+    key={item.id}
+    item={item}
+    handleDetailsClick={handleDetailsClick}
+  />
+))}
+
             </div>
           ) : (
             <p>No items found.</p>
@@ -67,4 +69,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ItemList;

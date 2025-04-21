@@ -1,19 +1,29 @@
 import React from "react";
-import ProductDetails from "./productDetails";
+import DiscogsImage from "./DiscogsImage";
+import MarketPrice from "./MarketPrice";
 
 const ProductCard = ({ item, handleDetailsClick }) => {
   return (
     <div className="item-card">
       <button
-        onClick={() => handleDetailsClick?.(item.id)}
+        onClick={() => handleDetailsClick(item.id)}
         className="cover-button"
         style={{ all: "unset", cursor: "pointer" }}
       >
-        <ProductDetails item={item} />
+        <DiscogsImage
+          releaseId={item.discogs_id}
+          className="product-image"
+        />
+
+        <div className="product-info">
+          <h3>{item.title || "Untitled"}</h3>
+          <p>{item.artist || "Unknown Artist"}</p>
+          <MarketPrice releaseId={item.discogs_id} />
+        </div>
       </button>
 
       <button
-        onClick={() => handleDetailsClick?.(item.id)}
+        onClick={() => handleDetailsClick(item.id)}
         className="details-button"
       >
         View Details

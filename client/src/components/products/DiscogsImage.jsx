@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-const DISCOGS_TOKEN = "YOUR_DISCOGS_TOKEN"; // Replace with actual token
-
 const DiscogsImage = ({ releaseId, className }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [error, setError] = useState(null);
@@ -11,12 +9,9 @@ const DiscogsImage = ({ releaseId, className }) => {
 
     const fetchAlbumArt = async () => {
       try {
-        const res = await fetch(`https://api.discogs.com/releases/${releaseId}`, {
-          headers: {
-            Authorization: `Discogs token=${DISCOGS_TOKEN}`,
-            "User-Agent": "DiscogMVP/1.0",
-          },
-        });
+        const res = await fetch(
+          ``
+        );
 
         if (!res.ok) throw new Error("Failed to fetch image");
 

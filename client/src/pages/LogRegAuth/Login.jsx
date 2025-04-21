@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import OAuthLogin from "../LogRegAuth/OAuthLogin"
+// import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 
 export default function Login({ setToken, setUser }) {
@@ -15,7 +15,7 @@ export default function Login({ setToken, setUser }) {
     setError("");
 
     try {
-      const loginRes = await fetch("http://localhost:3000/api/auth/login", {
+      const loginRes = await fetch("http://localhost:4242/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -28,8 +28,9 @@ export default function Login({ setToken, setUser }) {
 
       localStorage.setItem("token", loginData.token);
       setToken(loginData.token);
+      console.log("JWT Token set:", loginData.token); 
 
-      const userRes = await fetch("http://localhost:3000/api/auth/me", {
+      const userRes = await fetch("http://localhost:4242/api/auth/me", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${loginData.token}`,
@@ -37,6 +38,7 @@ export default function Login({ setToken, setUser }) {
       });
 
       const userData = await userRes.json();
+      console.log("User Data:", userData);
       if (!userData?.id) throw new Error("Failed to fetch user data");
 
       localStorage.setItem("user", JSON.stringify(userData));
@@ -57,7 +59,7 @@ export default function Login({ setToken, setUser }) {
       </div>
 
       <div className="login-container">
-        <div className="my-book">
+        <div className="my-discog">
           <h3>myDiscog</h3>
         </div>
 
@@ -111,7 +113,7 @@ export default function Login({ setToken, setUser }) {
           {/* <span style={{ padding: "0 10px", fontWeight: "bold", color: "#666" }}>OR</span>
           <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />  */}
           </div>
-          <OAuthLogin />
+          {/* <OAuthLogin /> */}
           </div>
       
             

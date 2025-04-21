@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+// import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 
 const OAuthLogin = ({ setUser, setToken }) => {
@@ -34,15 +34,15 @@ const OAuthLogin = ({ setUser, setToken }) => {
     }
   };
 
-  const errorMessage = (error) => {
-    console.error("Google login error:", error);
-  };
+  // const errorMessage = (error) => {
+  //   console.error("Google login error:", error);
+  // };
 
-  return (
-    <div className="oauth-login">
-      <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-    </div>
-  );
+  // return (
+  //   <div className="oauth-login">
+  //     <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+  //   </div>
+  // );
 };
 
 export default OAuthLogin;

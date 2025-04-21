@@ -11,11 +11,14 @@
 @use "./variables/themes";
 @use "./layout/popup";
 @use "./layout/product_list";
+@use "./components/search";
 @use "./query/media_mobile";
 @use "./variables/buttons";
 @use "./variables/loading_spinner";
 @use "./variables/notifications";
 @use "./layout/footer";
 @use "./layout/welcome_page";
+@use "./components/cart";
+@use "./layout/product_details";
 @use "./layout/not_found"
 

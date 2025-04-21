@@ -1,12 +1,17 @@
+.page-content.blurred {
+  filter: blur(6px);
+  transition: filter 0.3s ease;
+}
+
+
 .navbar {
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  height: 64px;
+  height: 50px;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 100;
-  padding: 0 32px;
+  padding: 0 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +48,7 @@
 .product-nav-button,
 .account-title h2 {
   font-size: 18px;
-  font-weight: bold;
+  font-weight: normal;
   background: linear-gradient(70deg, #a4fffc, #003b5c);
   background-clip: text;
   -webkit-background-clip: text;
@@ -63,10 +68,6 @@
   transform: scale(1.1);
 }
 
-.lognav-logo {
-  font-size: 36px;
-}
-
 .profile-pic {
   width: 40px;
   height: 40px;
@@ -83,7 +84,7 @@
 
 .nav-item {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: normal;
   transition: opacity 0.3s;
 
   &:hover {
@@ -93,17 +94,17 @@
 
 .nav-button {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: normal;
   border-radius: 4px;
   padding: 8px;
   background: none;
   cursor: pointer;
-  transition: background 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.3s,
+    box-shadow 0.3s ease;
   color: var(--glass-button-text);
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+  border: 1px solid transparent;
 }
 
 .product-nav-button,
@@ -113,4 +114,88 @@
 .product-nav-button:active,
 .product-nav-button.active {
   text-decoration: none !important;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(15px);
+  overflow: hidden;
+  max-height: 0;
+  padding: 0 20px; 
+  transition: max-height 0.45s ease-in-out, padding 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  z-index: 150;
+  pointer-events: none;
+}
+
+.dropdown.show {
+  max-height: 300px; 
+  padding-top: 20px;
+  padding-bottom: 20px;
+  pointer-events: auto;
+}
+
+.dropdown.hide {
+  animation: slideUp 0.3s ease forwards;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+body {
+  transition: backdrop-filter 0.6s ease;
+}
+
+.dropdown.show ~ body {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.dropdown-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.dropdown-link {
+  color: white;
+  font-size: 1rem;
+  margin: 10px 0;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.close-search {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
