@@ -25,6 +25,23 @@ router.get("/orders", authenticateToken, async (req, res, next) => {
   }
 });
 
+// order history
+// this is the order history for the user
+router.get("/my", authenticateToken, async (req, res, next) => {
+  try {
+    const orders = await getOrderByUserId(req.user.id);
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ error: "No orders found for this user" });
+    }
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    next(error);
+  }
+});
+
 router.get("/:id", authenticateToken, async (req, res, next) => {
   try {
     const order = await getOrderById(req.params.id);
