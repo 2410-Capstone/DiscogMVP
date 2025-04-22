@@ -1,4 +1,6 @@
 import React from "react";
+import albums from "../../utils/albums_with_ids";
+import DiscogsImage from "../../components/products/DiscogsImage";
 
 // mock data
 const data = [
@@ -12,6 +14,12 @@ const Checkout = ({ user }) => {
   return (
     <div style={style}>
       <h1>Checkout Component</h1>
+      {data.map((item) => (
+        <div key={item.id}>
+          <DiscogsImage releaseId={item.productId}></DiscogsImage>
+          <h1>Quantity {item.quantity}</h1>
+        </div>
+      ))}
     </div>
   );
 };
