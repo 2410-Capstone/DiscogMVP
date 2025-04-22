@@ -17,6 +17,8 @@ const Checkout = ({ user }) => {
       {data.map((item) => (
         <div key={item.id}>
           <DiscogsImage releaseId={item.productId}></DiscogsImage>
+          <h1>{albums.find((album) => album.id == item.productId).artist}</h1>
+          <h1>{albums.find((album) => album.id == item.productId).title}</h1>
           <h1>Quantity {item.quantity}</h1>
         </div>
       ))}
