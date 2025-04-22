@@ -12,8 +12,10 @@ const DiscogsImage = ({ releaseId, className }) => {
 
     const fetchAlbumArt = async () => {
       try {
+
         const res = await fetch(`/api/discogs/release/${releaseId}`);
         if (!res.ok) throw new Error("Failed to fetch image from Discogs");
+
 
         const data = await res.json();
         setImageUrl(data?.images?.[0]?.uri || null);
