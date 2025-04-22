@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { or } from "three/tsl";
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -22,4 +23,61 @@ const UserOrders = () => {
     };
     fetchOrders();
   }, []);
+
+  if (loading) return <div>Loading your orders...</div>;
+  if (error) return <div>{error}</div>;
+  if (orders.length === 0) return <div>No orders found</div>;
+
+  const complete_statuses = ["shipped", "delivered"];
+  const incomplete_statuses = ["created", "processing"];
+  const order_statuses_map = {
+    created: "Created",
+    processing: "Processing",
+    shipped: "Shipped",
+    delivered: "Delivered",
+  };
+  const currentOrders = orders.filter((order) => incomplete_statuses.includes(order.order_status));
+  const completedOrders = orders.filter((order) => complete_statuses.includes(order.order_status));
+
+  return (
+    <div>
+      <h2>Current Orders</h2>
+      {currentOrders.length > 0 ? (
+        <ul>
+          {currentOrders.map((order) => (
+            <li key={order.id}>
+              Order ID: {order.id} - Status: {order_statuses_map[order.order_status]} - Total: ${order.total}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No current orders found</p>
+      )}
+      <h2>Order History</h2>
+      {completedOrders.length > 0 ? (
+        <ul>
+          {completedOrders.map((order) => (
+            <li key={order.id}>
+              Order ID: {order.id} - Status: {order_statuses_map[order.order_status]}
+              <p>Total: ${Number(order.total).toFixed(2)}</p>
+              <br />
+              Placed: {new Date(order.created_at).toLocaleDateString()} - Shipped:{" "}
+              {order.tracking_number ? new Date(order.updated_at).toLocaleDateString() : "Not shipped yet"}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No completed orders found</p>
+      )}
+      {orders.map((order) => (
+        <div key={order.id}>
+          <h3>Order ID: {order.id}</h3>
+          <p>Status: {order_statuses_map[order.order_status]}</p>
+          <p>Total: ${order.total}</p>
+          <p>Shipping Address: {order.shipping_address}</p>
+          <p>Tracking Number: {order.tracking_number}</p>
+        </div>
+      ))}
+    </div>
+  );
 };
