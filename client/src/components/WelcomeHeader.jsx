@@ -26,7 +26,7 @@ const WelcomeHeader = () => {
     "Selamat datang di DiscogMVP",     // Indonesian
     "Chào mừng đến với DiscogMVP",     // Vietnamese
     "स्वागत है DiscogMVP में",              // Hindi
-    "DiscogMVPへようこそ",              // Japanese (variation, more formal)
+    "DiscogMVPへようこそ",              // Japanese 
     "Dobrodošli u DiscogMVP"           // Croatian
   ];
   
