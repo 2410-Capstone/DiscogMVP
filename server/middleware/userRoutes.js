@@ -24,12 +24,11 @@ router.get('/', authenticateToken, isAdmin, async (req, res) => {
 router.get('/:id', authenticateToken, async (req, res) => {
   const userId = req.params.id;
   const requestorId = req.user.id;
-  
-  if (req.user.role !== 'admin' && `${requestorId}` !== `${userId}`) {
+  console.log("req.user in GET /users/:id:", req.user);
+  if (req.user.user_role !== 'admin' && userId !== requestorId) {
     return res.sendStatus(403);
-  }
+  }  
    
-  
   try {
     const result = await pool.query(
       'SELECT id, email, name, address, user_role FROM users WHERE id = $1',
@@ -55,22 +54,22 @@ router.put('/:id', authenticateToken, [
   const userId = req.params.id;
   const requestorId = req.user.id;
 
-  // Allow only the user to update their own profile
-  if (userId !== requestorId) {
+  if (req.user.user_role !== 'admin' && userId !== requestorId) {
     return res.sendStatus(403);
   }
+  
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, address } = req.body;
+  const { name, address, user_role } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE users SET name = $1, address = $2 WHERE id = $3 RETURNING *',
-      [name, address, userId]
+      'UPDATE users SET name = $1, address = $2, user_role = $3 WHERE id = $4 RETURNING *',
+      [name, address, user_role, userId]
     );
 
     if (result.rows.length === 0) {
