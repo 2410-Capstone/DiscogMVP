@@ -1,5 +1,5 @@
 .home-page {
-    padding-top: calc(var(--nav-height, 64px) + 1rem);
+    padding-top: 6rem;
     min-height: 100vh;
     background: var(--card-bg);
     background-size: cover;
@@ -89,6 +89,9 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 1.5rem;
+    opacity: 0;
+    animation: soft-fade-slide 0.9s ease-out forwards;
+    animation-delay: 0.2s;
 
     @media (min-width: 1024px) {
         grid-template-columns: repeat(3, 1fr);
