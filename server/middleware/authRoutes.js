@@ -33,10 +33,10 @@ router.post('/register',
       
       const user = result.rows[0];
       const token = jwt.sign(
-        { userId: user.id, user_role: user.user_role }, 
-        process.env.JWT_SECRET, 
+        { id: user.id, user_role: user.user_role },
+        process.env.JWT_SECRET,
         { expiresIn: '1h' }
-      );
+      );      
       
       res.status(201).json({ 
         user: {
@@ -84,10 +84,10 @@ router.post('/login',
       }
 
       const token = jwt.sign(
-        { id: user.id, user_role: user.user_role }, 
-        process.env.JWT_SECRET, 
+        { id: user.id, user_role: user.user_role },
+        process.env.JWT_SECRET,
         { expiresIn: '1h' }
-      );
+      );      
 
       res.json({ 
         user: {
@@ -107,13 +107,14 @@ router.post('/login',
 
 
 router.get('/me', authenticateToken, async (req, res) => {
+  console.log('GET /api/auth/me hit by user:', req.user);
   try {
     const result = await pool.query(
       'SELECT id, email, name, address, user_role FROM users WHERE id = $1',
-      [req.user.userId]
+      [req.user.id]
     );
     if (result.rows.length === 0) {
-      return res.sendStatus(404);
+      return res.sendStatus(404).json({ error: 'User not found' });
     }
     res.json(result.rows[0]);
   } catch (err) {
