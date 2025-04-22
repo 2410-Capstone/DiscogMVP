@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import DiscogsImage from '../../components/products/DiscogsImage';
+
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -82,7 +84,13 @@ const Inventory = () => {
         <tbody>
           {filtered.map((product) => (
             <tr key={product.id}>
-              <td><img src={product.image_url} alt={product.description} width="50" /></td>
+              <td>
+                {product.release_id ? (
+                  <img src={product.image_url || "/placeholder.png"} alt="Album Art" className="thumbnail" />
+                ) : (
+                  'No Image'
+                )}
+              </td>
               <td>{product.artist}</td>
               <td>{product.description}</td>
               <td>{product.genre}</td>

@@ -85,7 +85,7 @@ function App() {
         <Route path="/checkout" element={<Checkout user={user} />} />
         <Route path="/admin/users" element={<AdminUserList />} />
         <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
-        <Route path="/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/inventory" element={<Inventory />} />
 
       </Routes>

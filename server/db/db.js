@@ -64,6 +64,7 @@ const createTables = async () => {
         image_url VARCHAR(255),
         genre VARCHAR(255),
         stock INTEGER DEFAULT 0,
+        release_id TEXT,
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );

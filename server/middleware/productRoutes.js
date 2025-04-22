@@ -41,6 +41,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
 // Protected product routes
 router.post('/', authenticateToken, isAdmin, 
   [
