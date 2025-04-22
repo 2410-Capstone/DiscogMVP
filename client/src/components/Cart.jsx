@@ -1,4 +1,6 @@
 import React from "react";
+import { div } from "three/tsl";
+import DiscogsImage from "./products/DiscogsImage";
 
 // mock data
 const data = [
@@ -11,6 +13,11 @@ const Cart = ({ user }) => {
   return (
     <div style={style}>
       <h1>Cart Component</h1>
+      {data.map((item) => (
+        <div key={item.id}>
+          <DiscogsImage releaseId={item.productId}></DiscogsImage>
+        </div>
+      ))}
       <a href="/checkout">Proceed to Checkout</a>
     </div>
   );
