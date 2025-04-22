@@ -10,8 +10,8 @@ const authenticateToken = (req, res, next) => {
     if (err) return res.sendStatus(403);
     console.log("Authenticated User:", user);
     req.user = {
-      id: user.id || user.userId,
-      user_role: user.user_role || user_role,
+      id: user.userId || user.id,
+      user_role: user.user_role,
     };
     next();
   });

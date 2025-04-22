@@ -8,6 +8,7 @@ const router = express.Router();
 
 // GET /users - Admin only
 router.get('/', authenticateToken, isAdmin, async (req, res) => {
+  console.log("Requesting user list. Authenticated user:", req.user);
   try {
     const result = await pool.query(
       'SELECT id, email, name, address, user_role FROM users ORDER BY created_at DESC'
