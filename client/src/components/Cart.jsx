@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { div } from "three/tsl";
 import DiscogsImage from "./products/DiscogsImage";
 
@@ -10,12 +10,14 @@ const data = [
 ];
 const Cart = ({ user }) => {
   const style = { marginTop: "100px" };
+  useEffect(() => {}, []);
   return (
     <div style={style}>
       <h1>Cart Component</h1>
       {data.map((item) => (
         <div key={item.id}>
           <DiscogsImage releaseId={item.productId}></DiscogsImage>
+          <h1>Quantity {item.quantity}</h1>
         </div>
       ))}
       <a href="/checkout">Proceed to Checkout</a>
