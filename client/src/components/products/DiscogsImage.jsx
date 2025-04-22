@@ -10,7 +10,7 @@ const DiscogsImage = ({ releaseId, className }) => {
     const fetchAlbumArt = async () => {
       try {
         const res = await fetch(
-          `https://api.discogs.com/releases/${releaseId}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/discogs/releases/${releaseId}`
         );
         console.log("data fetched");
 
