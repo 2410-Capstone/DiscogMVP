@@ -1,11 +1,122 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const AdminEditUser = () => {
+
+const EditUser = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+  const [form, setForm] = useState({ name: '', address: '', user_role: '' });
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+
+      try {
+        const res = await fetch(`/api/users/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch user');
+
+        const data = await res.json();
+        setUser(data);
+        setForm({
+          name: data.name || '',
+          address: data.address || '',
+          user_role: data.user_role || '',
+        });
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchUser();
+  }, [id]);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const confirmUpdate = window.confirm("Are you sure you want to save these changes?");
+    if (!confirmUpdate) return;
+  
+    const token = localStorage.getItem('token');
+  
+    try {
+      const res = await fetch(`/api/users/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
+  
+      if (!res.ok) throw new Error('Failed to update user');
+  
+      toast.success("User updated successfully!");
+  
+      // wait 1.5s then redirect
+      setTimeout(() => {
+        navigate('/admin/users');
+      }, 1500);
+    } catch (err) {
+      toast.error(err.message || "Failed to update user");
+    }
+  };
+  
+  
+
+  if (error) return <div>{error}</div>;
+  if (!user) return <div>Loading user...</div>;
+
   return (
-    <div>
-      <h1>AdminEditUser Component</h1>
+    <div className="edit-user">
+      <h2>Edit User</h2>
+      <form onSubmit={handleSubmit} className="edit-user-form">
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          Address
+          <input
+            type="text"
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          Role
+          <select
+            name="user_role"
+            value={form.user_role}
+            onChange={handleChange}
+          >
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+
+        <button type="submit">Save Changes</button>
+      </form>
     </div>
   );
 };
 
-export default AdminEditUser;
+export default EditUser;
