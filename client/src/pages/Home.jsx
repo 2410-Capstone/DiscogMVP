@@ -11,19 +11,16 @@ const ItemList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        console.log("Fetching from:", import.meta.env.VITE_BACKEND_URL);
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
         if (!response.ok) throw new Error(`Error: ${response.status}`);
+        const data = await response.json();
 
-        const items = await response.json();
-
-        if (Array.isArray(items)) {
-          setItems(items);
+        if (Array.isArray(data)) {
+          setItems(data);
         } else {
-          console.error("Data is not an array");
+          throw new Error("Invalid data format received");
         }
       } catch (error) {
-        console.error("Error fetching items:", error);
         setError(error.message);
       } finally {
         setLoading(false);
@@ -35,37 +32,43 @@ const ItemList = () => {
 
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
-
   };
 
   return (
-    <div className="home-page">
-      <h1>Home</h1>
-      <div className="main-content">
-        <div className="items-container">
-          <h2>Items</h2>
+    <main className="home-page">
 
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p style={{ color: "red" }}>{error}</p>
-          ) : items.length ? (
-            <div className="items-grid">
-         {items.map((item) => (
-  <ProductCard
-    key={item.id}
-    item={item}
-    handleDetailsClick={handleDetailsClick}
-  />
-))}
-
-            </div>
-          ) : (
-            <p>No items found.</p>
-          )}
+<header className="home-header">
+        <h1 className="hero-title">Choose your album</h1>
+        <br></br>
+        <div className="filter-bar">
+          <button className="filter-button active">All genres</button>
+          <button className="filter-button">Rock</button>
+          <button className="filter-button">Electronic</button>
+          <button className="filter-button">Hip Hop</button>
+          <button className="filter-button">Indie</button>
         </div>
-      </div>
-    </div>
+      </header>
+
+      <section className="product-section">
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : items.length ? (
+          <div className="product-grid">
+            {items.map((item) => (
+              <ProductCard
+                key={item.id}
+                item={item}
+                handleDetailsClick={handleDetailsClick}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No items found.</p>
+        )}
+      </section>
+    </main>
   );
 };
 
