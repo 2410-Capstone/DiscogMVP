@@ -26,4 +26,5 @@
 @use "./variables/variables";
 @use "./components/stripe_elements";
 @use "./components/_admin_orders";
-
+@use "./components/admin_inventory";
+@use "./components/admin_user_list";
