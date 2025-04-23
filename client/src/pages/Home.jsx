@@ -14,6 +14,7 @@ const ItemList = () => {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
+        
 
         if (Array.isArray(data)) {
           setItems(data);

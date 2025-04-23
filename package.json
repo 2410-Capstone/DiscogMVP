@@ -28,6 +28,7 @@
     "kubectl": "^0.0.0",
     "pg": "^8.14.1",
     "react-router-dom": "^7.5.0",
+    "react-toastify": "^11.0.5",
     "stripe": "^18.0.0",
     "three": "^0.175.0",
     "uuid": "^11.1.0"

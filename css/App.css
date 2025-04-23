@@ -418,9 +418,12 @@ button:focus, button:focus-visible {
 
 .nav-container {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
 }
 
 .nav-left,
@@ -791,7 +794,7 @@ body {
   }
 }
 .home-page {
-  padding-top: calc(var(--nav-height, 64px) + 1rem);
+  padding-top: 6rem;
   min-height: 100vh;
   background: var(--card-bg);
   background-size: cover;
@@ -874,6 +877,9 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem;
+  opacity: 0;
+  animation: soft-fade-slide 0.9s ease-out forwards;
+  animation-delay: 0.2s;
 }
 @media (min-width: 1024px) {
   .product-grid {
@@ -1288,10 +1294,10 @@ body[data-theme=dark] {
   color: #1b1b23;
   margin-top: 0.75rem;
 }
-.product-card .select-button {
+.product-card .add-to-bag-button, .product-card .details-button {
   width: 100%;
-  margin-top: 1.25rem;
-  padding: 0.6rem 1.25rem;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1rem;
   font-weight: 500;
   font-size: 0.95rem;
   color: white;
@@ -1301,6 +1307,6 @@ body[data-theme=dark] {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-.product-card .select-button:hover {
+.product-card .add-to-bag-button:hover, .product-card .details-button:hover {
   background-color: #655e5e;
 }

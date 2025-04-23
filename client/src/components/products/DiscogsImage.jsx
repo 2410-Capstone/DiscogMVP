@@ -14,7 +14,9 @@ const DiscogsImage = ({ releaseId, className }) => {
       try {
 
         const res = await fetch(
+
           `https://api.discogs.com/releases/${releaseId}`
+
         );
         console.log("data fetched");
 
@@ -45,3 +47,4 @@ const DiscogsImage = ({ releaseId, className }) => {
 };
 
 export default DiscogsImage;
+
