@@ -185,6 +185,7 @@ const seedProducts = async () => {
     if (!album.artist || !album.title || !album.url || album.error) continue;
     const price = (Math.random() * 30 + 10).toFixed(2);
     const stock = Math.floor(Math.random() * 20) + 1;
+    const release_id = album.url.split('/').pop();
     try {
       const product = await createProduct({
         artist: album.artist,
@@ -193,11 +194,13 @@ const seedProducts = async () => {
         image_url: album.url,
         genre: album.genre || "Unknown",
         stock,
+        release_id
       });
       products.push(product);
       console.log(`Seeded: ${album.artist} - ${album.title}`);
     } catch (err) {
-      console.error(`Failed to insert ${album.artist} - ${album.title}`, err);
+      console.error("🔥 FULL ERROR:", err.stack || err);
+
     }
   }
   console.log("Seeded products from albums:", products.length);

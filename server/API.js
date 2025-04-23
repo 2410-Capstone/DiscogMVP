@@ -10,6 +10,7 @@ const cartRoutes = require('./middleware/cartRoutes');
 const orderRoutes = require('./middleware/orderRoutes');
 const userRoutes = require('./middleware/userRoutes');
 const paymentRoutes = require('./middleware/paymentRoutes');
+const discogsRoutes = require('./middleware/discogsRoutes');
 
 const app = express();
 
@@ -33,7 +34,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/payment', paymentRoutes)
+app.use('/api/payment', paymentRoutes);
+app.use('/api/discogs', discogsRoutes);
 
 
 module.exports = app;
