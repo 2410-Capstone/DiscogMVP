@@ -6,7 +6,9 @@
     "dev": "nodemon server/startServer.js",
     "start": "node server/startServer.js",
     "seed": "node server/db/seed.js",
-    "test": "jest"
+    "test": "jest",
+    "backfill:genres": "node server/utils/backfillGenres.cjs",
+    "backfill:images": "node server/utils/fetchDiscogsImages.cjs"
   },
   "keywords": [],
   "author": "",
