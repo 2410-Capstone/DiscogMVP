@@ -21,5 +21,8 @@
 @use "./components/cart";
 @use "./layout/product_details";
 @use "./layout/not_found";
-@use "./components/product_card"
+@use "./components/payment_form.module";
+@use "./components/product_card";
+@use "./variables/variables";
+@use "./components/stripe_elements"
 
