@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import PropTypes from 'prop-types';
-import styles from './PaymentForm.module.scss';
+import styles from "../styles/scss/components/_payment_form.module.scss";
+
+
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
