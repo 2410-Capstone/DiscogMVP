@@ -15,7 +15,7 @@ export default function Login({ setToken, setUser }) {
     setError("");
 
     try {
-      const loginRes = await fetch("/api/auth/login", {
+      const loginRes = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -30,7 +30,7 @@ export default function Login({ setToken, setUser }) {
       setToken(loginData.token);
       console.log("JWT Token set:", loginData.token); 
 
-      const userRes = await fetch("/api/auth/me", {
+      const userRes = await fetch("http://localhost:3000/api/auth/me", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${loginData.token}`,
