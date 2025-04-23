@@ -46,7 +46,9 @@ const UserOrders = () => {
         <ul>
           {currentOrders.map((order) => (
             <li key={order.id}>
-              Order ID: {order.id} - Status: {order_statuses_map[order.order_status]} - Total: ${order.total}
+              <h3>Order ID: {order.id}</h3>
+              <p>Status: {order_statuses_map[order.order_status]}</p>
+              <p>Total: ${Number(order.total).toFixed(2)}</p>
             </li>
           ))}
         </ul>
@@ -58,26 +60,19 @@ const UserOrders = () => {
         <ul>
           {completedOrders.map((order) => (
             <li key={order.id}>
-              Order ID: {order.id} - Status: {order_statuses_map[order.order_status]}
+              <h3>Order ID: {order.id}</h3>
+              <p>Status: {order_statuses_map[order.order_status]}</p>
               <p>Total: ${Number(order.total).toFixed(2)}</p>
-              <br />
-              Placed: {new Date(order.created_at).toLocaleDateString()} - Shipped:{" "}
-              {order.tracking_number ? new Date(order.updated_at).toLocaleDateString() : "Not shipped yet"}
+              <p>
+                Placed: {new Date(order.created_at).toLocaleDateString()} - Shipped:{" "}
+                {order.tracking_number ? new Date(order.updated_at).toLocaleDateString() : "Not shipped yet"}
+              </p>
             </li>
           ))}
         </ul>
       ) : (
         <p>No completed orders found</p>
       )}
-      {orders.map((order) => (
-        <div key={order.id}>
-          <h3>Order ID: {order.id}</h3>
-          <p>Status: {order_statuses_map[order.order_status]}</p>
-          <p>Total: ${order.total}</p>
-          <p>Shipping Address: {order.shipping_address}</p>
-          <p>Tracking Number: {order.tracking_number}</p>
-        </div>
-      ))}
     </div>
   );
 };
