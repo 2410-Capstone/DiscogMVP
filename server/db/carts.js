@@ -164,7 +164,22 @@ const clearCart = async ({ user_id }) => {
     throw error;
   }
 };
-
+const getCartItems = async (cartId) => {
+  const { rows } = await pool.query(
+    `SELECT 
+       ci.id,
+       ci.product_id,
+       ci.quantity,
+       p.price,
+       p.artist,
+       p.image_url
+     FROM cart_items ci
+     JOIN products p ON ci.product_id = p.id
+     WHERE ci.cart_id = $1`,
+    [cartId]
+  );
+  return rows;
+};
 module.exports = {
   createCart,
   createCartItem,
@@ -175,4 +190,5 @@ module.exports = {
   updateCartItemQuantity,
   removeProductFromCart,
   clearCart,
+  getCartItems,
 };
