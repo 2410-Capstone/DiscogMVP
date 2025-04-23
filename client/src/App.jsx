@@ -27,6 +27,7 @@ import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";
 import Checkout from "./pages/user/Checkout";
 
+//import Payment from "./components/paymentForm";
 // import ProductList from "./components/products/ProductList";
 
 // import OAuthLogin from './pages/LogRegAuth/OAuthLogin';

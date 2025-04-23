@@ -1,8 +1,10 @@
-require('dotenv').config();
+require('dotenv').config({path:'../.env'});
 const Stripe = require('stripe');
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const pool = require("./pool");
 const { v4: uuidv4 } = require('uuid');
+
+
 
 const createPayment = async ({
   order_id,

@@ -1,26 +1,54 @@
-import React, { useEffect } from "react";
-import { div } from "three/tsl";
-import DiscogsImage from "./products/DiscogsImage";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import DiscogsImage from './products/DiscogsImage';
 
-// mock data
-const data = [
-  { id: 1, cartId: 1, productId: 3711, quantity: 2 },
-  { id: 2, cartId: 1, productId: 3406, quantity: 3 },
-  { id: 3, cartId: 1, productId: 7313, quantity: 1 },
-];
-const Cart = ({ user }) => {
-  const style = { marginTop: "100px" };
-  useEffect(() => {}, []);
+const Cart = () => {
+  const navigate = useNavigate();
+  
+  // Mock cart data for now, discogsImage works!
+  const cartItems = [
+    { product_id: 1, price: 19.99, quantity: 2 },
+    { product_id: 61, price: 15.99, quantity: 3 },
+    { product_id: 48, price: 24.99, quantity: 1 }
+  ];
+
+
+  //once working cartItems should be passed to paymentForm 
+  const handleCheckout = () => {
+    navigate('/checkout', { 
+      state: { cartItems } 
+    });
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => 
+      total + (item.price * item.quantity), 0);
+  };
+
   return (
-    <div style={style}>
-      <h1>Cart Component</h1>
-      {data.map((item) => (
-        <div key={item.id}>
-          <DiscogsImage releaseId={item.productId}></DiscogsImage>
-          <h1>Quantity {item.quantity}</h1>
+    <div>
+      <h1>Your Cart</h1>
+      {cartItems.map((item) => (
+        <div key={item.product_id}>
+          <div >
+            <DiscogsImage releaseId={item.product_id} />
+          </div>
+          <div>
+            <p>Product ID: {item.product_id}</p>
+            <p>Price: ${item.price.toFixed(2)}</p>
+            <p>Quantity: {item.quantity}</p>
+          </div>
         </div>
       ))}
-      <a href="/checkout">Proceed to Checkout</a>
+      <div>
+        <strong>Total: ${calculateTotal().toFixed(2)}</strong>
+      </div>
+      <button 
+        onClick={handleCheckout}
+
+      >
+        Proceed to Checkout
+      </button>
     </div>
   );
 };
