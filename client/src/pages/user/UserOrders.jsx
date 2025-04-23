@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// import "../styles/scss/components/UserOrders.module.scss";
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -43,10 +44,10 @@ const UserOrders = () => {
   const completedOrders = orders.filter((order) => complete_statuses.includes(order.order_status));
 
   return (
-    <div>
+    <div className='user-orders-container'>
       <h2>Current Orders</h2>
       {currentOrders.length > 0 ? (
-        <ul>
+        <ul className='user-orders-list'>
           {currentOrders.map((order) => (
             <li key={order.id}>
               <h3>Order ID: {order.id}</h3>
