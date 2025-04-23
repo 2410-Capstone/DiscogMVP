@@ -40,14 +40,14 @@ const AdminOrders = () => {
       });
 
       if (!res.ok) throw new Error("Failed to update order");
-
       const updated = await res.json();
+
       setOrders(prev =>
         prev.map(order =>
           order.order_id === orderId ? { ...order, order_status: updated.order_status } : order
         )
       );
-      toast.success("Order updated!");
+      toast.success("Order status updated!");
     } catch (err) {
       toast.error(err.message);
     }
@@ -75,43 +75,59 @@ const AdminOrders = () => {
       {loading ? (
         <p>Loading orders...</p>
       ) : (
-        filteredOrders.map(order => (
-          <div key={order.order_id} className="order-card">
-            <h3>Order #{order.order_id}</h3>
-            <p><strong>User:</strong> {order.user_name} ({order.email})</p>
-            <p><strong>Shipping Address:</strong> {order.shipping_address}</p>
-            <p><strong>Tracking #:</strong> {order.tracking_number || "N/A"}</p>
-            <p><strong>Total:</strong> ${order.total}</p>
-            <p><strong>Placed On:</strong> {new Date(order.created_at).toLocaleString()}</p>
-            <p><strong>Payment Status:</strong> {order.payment_status || "Not Set"}</p>
-
-            <label>
-              <strong>Status:</strong>{" "}
-              <select
-                value={order.order_status}
-                onChange={e => handleStatusChange(order.order_id, e.target.value)}
-              >
-                <option value="created">Created</option>
-                <option value="processing">Processing</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
-              </select>
-            </label>
-
-            <h4>Items:</h4>
-            <ul>
-              {order.items.map((item, i) => (
-                <li key={i}>
-                  {item.artist} - {item.description} (${item.price} x {item.quantity})
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
+        <table className="orders-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Tracking #</th>
+              <th>Shipping Address</th>
+              <th>Items</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders.map(order => (
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td>{order.user_name}</td>
+                <td>{order.email}</td>
+                <td>${Number(order.total || 0).toFixed(2)}</td>
+                <td>{new Date(order.created_at).toLocaleString()}</td>
+                <td>{order.payment_status || "N/A"}</td>
+                <td>
+                  <select
+                    value={order.order_status}
+                    onChange={e => handleStatusChange(order.order_id, e.target.value)}
+                  >
+                    <option value="created">Created</option>
+                    <option value="processing">Processing</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                  </select>
+                </td>
+                <td>{order.tracking_number || "N/A"}</td>
+                <td>{order.shipping_address}</td>
+                <td>
+                  <ul>
+                    {order.items.map((item, i) => (
+                      <li key={i}>
+                        {item.artist} - {item.description} (${item.price} x {item.quantity})
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
 };
 
 export default AdminOrders;
-
