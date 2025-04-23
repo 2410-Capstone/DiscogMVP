@@ -24,5 +24,6 @@
 @use "./components/payment_form.module";
 @use "./components/product_card";
 @use "./variables/variables";
-@use "./components/stripe_elements"
+@use "./components/stripe_elements";
+@use "./components/_admin_orders";
 
