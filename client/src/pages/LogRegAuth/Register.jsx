@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 export default function Register({ setToken, setUser }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -10,22 +11,20 @@ export default function Register({ setToken, setUser }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!email || !password) {
-      setError("All fields are required.");
-      return;
-    }
+    setError(null);
 
     try {
-      const res = await fetch("http://localhost:4242/api/auth/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
 
-      if (!data.success) throw new Error(data.message);
+      if (!res.ok) {
+        throw new Error(data.message || `Registration failed (${res.status})`);
+      }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -33,9 +32,15 @@ export default function Register({ setToken, setUser }) {
       setToken(data.token);
       setUser(data.user);
 
+      //TEMP, to be updated later with a redirect or something
       alert("Registration successful! You are now logged in.");
+
       navigate("/dashboard");
     } catch (err) {
+      console.error("Registration error details:", {
+        error: err,
+        response: err.response,
+      });
       setError(err.message);
     }
   };
@@ -61,12 +66,20 @@ export default function Register({ setToken, setUser }) {
 
           <div className="login-instr">
             <h4>
-              Enter your email and set a password to create your DiscogMVP account.
+              Enter your email and set a password to create your DiscogMVP
+              account.
             </h4>
           </div>
 
           <form className="register-form" onSubmit={handleSubmit}>
             <div className="log-input-group">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="Your name"
+              />
               <input
                 type="email"
                 value={email}
@@ -82,11 +95,22 @@ export default function Register({ setToken, setUser }) {
                 placeholder="Set password"
               />
             </div>
-            <button type="submit" className="reg-button">Register</button>
+            <button type="submit" className="reg-button">
+              Register
+            </button>
           </form>
-          <div style={{ display: "flex", alignItems: "center", textAlign: "center", margin: "1rem 0" }}>
-          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />
-          {/* <span style={{ padding: "0 10px", fontWeight: "bold", color: "#666" }}>OR</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              textAlign: "center",
+              margin: "1rem 0",
+            }}
+          >
+            <hr
+              style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }}
+            />
+            {/* <span style={{ padding: "0 10px", fontWeight: "bold", color: "#666" }}>OR</span>
           <hr style={{ flex: 1, border: "none", borderTop: "1px solid #ccc" }} />  */}
           </div>
           {/* <OAuthLogin /> */}
