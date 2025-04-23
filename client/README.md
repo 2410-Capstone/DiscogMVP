@@ -1,12 +1,21 @@
-# React + Vite
+# PAyment details
+We are using stripe to process cards. In theory we could process real cards but stick to these test cards 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+| Card Number |	Brand |	CVC |	Date |	Behavior |
+|-------------|-------|-----|--------|-----------|
+|4242 4242 4242 4242 |	Visa | Any 3 digits | Any future date |Successful payment|
+|4000 0025 0000 3155 |	Visa | Any 3 digits | Any future date | Requires authentication|
+|5555 5555 5555 4444 |	Mastercard | Any 3 digits | Any future date	| Successful payment|
+|2223 0031 2200 3222 |	Mastercard | Any 3 digits | Any future date | Successful payment (2-series)|
+|3782 822463 10005	| Amex | Any 4 digits |	Any future date	| Successful payment|
+|6011 1111 1111 1117 | Discover | Any 3 digits | Any future date | Successful payment|
+|3056 9309 0259 04 | Diners Club | Any 3 digits | Any future date | Successful payment|
 
-Currently, two official plugins are available:
+You will need to provide an email address and physical address. Ive been testing with the admin user so I used admin@admin.com and 0 Admin St 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Absolutely no thought has been put into styling. I know we are using scss so i made some just to get something on the screen. Feel free to totally change everything about how it looks because its BAD right now. 
 
-## Expanding the ESLint configuration
+Make sure you have
+VITE_STRIPE_PUBLISHABLE_KEY=PK_YOUR_KEY_HERE
+in your .env
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

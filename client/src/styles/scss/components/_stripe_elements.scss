@@ -1,0 +1,39 @@
+@import '../variables/variables';
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: white;
+  transition: all 0.3s ease;
+
+  &--focus {
+    box-shadow: 0 0 0 1px $primary-color;
+  }
+
+  &--invalid {
+    border-color: $error-color;
+  }
+
+  &--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+}
+
+.stripe-element-container {
+  position: relative;
+  margin: $spacing-unit 0;
+  padding: $spacing-unit;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: white;
+}
+
+.stripe-element-card {
+    font-size: 16px;
+    
+    font-family: '"Helvetica Neue", Helvetica, sans-serif';
+    color: '#aab7c4'
+}

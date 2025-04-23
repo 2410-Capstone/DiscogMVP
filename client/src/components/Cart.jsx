@@ -7,18 +7,23 @@ const Cart = () => {
   
   // Mock cart data for now, discogsImage works!
   const cartItems = [
-    { product_id: 1, price: 19.99, quantity: 2 },
-    { product_id: 61, price: 15.99, quantity: 3 },
-    { product_id: 48, price: 24.99, quantity: 1 }
+    { product_id: 1, price: 19.87, quantity: 2 },
+    { product_id: 61, price: 18.02, quantity: 3 },
+    { product_id: 48, price: 34.95, quantity: 1 }
   ];
 
 
-  //once working cartItems should be passed to paymentForm 
-  const handleCheckout = () => {
-    navigate('/checkout', { 
-      state: { cartItems } 
-    });
-  };
+
+const handleCheckout = () => {
+  const total = calculateTotal();
+  navigate('/checkout', { 
+    state: { 
+      cartItems: [...cartItems], 
+      cartTotal: total,
+      timestamp: Date.now() 
+    } 
+  });
+};
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => 
@@ -43,10 +48,7 @@ const Cart = () => {
       <div>
         <strong>Total: ${calculateTotal().toFixed(2)}</strong>
       </div>
-      <button 
-        onClick={handleCheckout}
-
-      >
+      <button onClick={handleCheckout}>
         Proceed to Checkout
       </button>
     </div>
