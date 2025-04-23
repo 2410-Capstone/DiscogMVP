@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 
@@ -44,7 +45,12 @@ export default function Login({ setToken, setUser }) {
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
 
-      navigate("/dashboard");
+      if (userData.user_role === 'admin') {
+        toast.success(`Welcome Admin ${userData.name}`, { autoClose: 2500 });
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/home");
+      }          
     } catch (err) {
       setError(err.message);
     }

@@ -37,6 +37,7 @@ import AdminUserList from "./pages/Admin/UserList";
 import AdminEditUser from "./pages/Admin/EditUser";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import Inventory from "./pages/Admin/Inventory";
+import AdminOrders from "./pages/Admin/AdminOrders";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -88,7 +89,7 @@ function App() {
         <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/inventory" element={<Inventory />} />
-
+        <Route path="/admin/orders" element={<AdminOrders />} />
       </Routes>
       </div>
       <Footer />
