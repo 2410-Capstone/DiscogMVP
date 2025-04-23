@@ -19,7 +19,6 @@ const DiscogsImage = ({ releaseId, className }) => {
         console.log("data fetched");
 
 
-        const res = await fetch(`/api/discogs/release/${releaseId}`);
         if (!res.ok) throw new Error("Failed to fetch image from Discogs");
 
 
