@@ -1,0 +1,21 @@
+.admin-dashboard {
+    padding: 2rem;
+    min-height: 100vh;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+  
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    .dashboard-buttons {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        width: 100%;
+        border-radius: 4px;
+      
+    }
+  }
+  

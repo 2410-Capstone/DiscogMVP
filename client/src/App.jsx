@@ -27,9 +27,13 @@ import UserOrders from "./pages/user/UserOrders";
 // import OAuthLogin from './pages/LogRegAuth/OAuthLogin';
 // import Allreleases from "./components/Allreleases";
 
+
+
+
+import AdminLayout from "./pages/Admin/AdminLayout";
+import Dashboard from "./pages/Admin/Dashboard";
 import AdminUserList from "./pages/Admin/UserList";
 import AdminEditUser from "./pages/Admin/EditUser";
-import AdminDashboard from "./pages/Admin/Dashboard";
 import Inventory from "./pages/Admin/Inventory";
 import AdminOrders from "./pages/Admin/AdminOrders";
 
@@ -42,6 +46,8 @@ function App() {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
+    console.log("User role on load:", JSON.parse(localStorage.getItem("user"))?.role);
+
 
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -91,25 +97,33 @@ function App() {
         user={user}
       />
       <div className='page-content'>
-<Routes>
+      <Routes>
   <Route path="*" element={<NotFound />} />
   <Route path="/" element={<Welcome />} />
   <Route path="/home" element={<ItemList />} />
   <Route path="/home/:productId" element={<ProductDetails />} />
   <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
   <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+
+  {/* User routes */}
   <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
   <Route path="/profile/:username" element={isAuthenticated ? <Profile user={user} /> : <Navigate to="/login" />} />
   <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
   <Route path="/cart" element={isAuthenticated ? <Cart user={user} /> : <Navigate to="/login" />} />
   <Route path="/checkout" element={isAuthenticated ? <Checkout user={user} /> : <Navigate to="/login" />} />
-  <Route path="/admin/users" element={requireAdmin(AdminUserList)} />
-  <Route path="/admin/users/:id/edit" element={requireAdmin(AdminEditUser)} />
-  <Route path="/admin/dashboard" element={requireAdmin(AdminDashboard)} />
-  <Route path="/admin/inventory" element={requireAdmin(Inventory)} />
-  <Route path="/admin/orders" element={requireAdmin(AdminOrders)} />
 
-   
+  {/* Admin routes using AdminLayout + permissions */}
+  <Route
+    path="/admin/*"
+    element={isAuthenticated && user?.user_role === "admin" ? <AdminLayout /> : <AdminRedirect />}
+  >
+    <Route index element={<Dashboard />} />
+    <Route path="dashboard" element={<Dashboard />} />
+    <Route path="users" element={<AdminUserList />} />
+    <Route path="users/:id/edit" element={<AdminEditUser />} />
+    <Route path="inventory" element={<Inventory />} />
+    <Route path="orders" element={<AdminOrders />} />
+  </Route>
 {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
 </Routes>
 
