@@ -109,7 +109,7 @@ export default function ProductDetails() {
 
             <button
               className="add-to-cart-button"
-              onClick={addToCart}
+              onClick={handleAddToCart}
               disabled={!product}
             >
               Add to cart
