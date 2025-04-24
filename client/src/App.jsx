@@ -1,23 +1,16 @@
 import "./styles/scss/App.scss";
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-import Welcome from './pages/Welcome';
-import ItemList from './pages/Home';
-import Account from './pages/User/Account';
+import Welcome from "./pages/Welcome";
+import ItemList from "./pages/Home";
+import Account from "./pages/User/Account";
 import Profile from "./pages/User/Profile";
 
 import ProductDetails from "./components/products/ProductDetails";
@@ -26,6 +19,7 @@ import Register from "./pages/LogRegAuth/Register";
 // import OAuthLogin from "./pages/LogRegAuth/OAuthLogin";
 import Cart from "./components/Cart";
 import Checkout from "./pages/user/Checkout";
+import UserOrders from "./pages/user/UserOrders";
 
 //import Payment from "./components/paymentForm";
 // import ProductList from "./components/products/ProductList";
@@ -63,42 +57,33 @@ function App() {
 
   return (
     <>
-      <Navbar     
-            isAuthenticated={isAuthenticated} 
-            setUser={setUser} 
-            setToken={setToken} 
-            onSearch={setSearchTerm} 
-          />
-          <div className="page-content">
-      <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Welcome />} />
-        <Route path="/home" element={<ItemList />} />
-        {/* <Route path="/products" element={<ProductList />} /> */}
-        <Route path="/home/:itemId" element={<ProductDetails />} />
-        {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
-        <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
-        <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
-        {/* <Route path="/albums" element={<Allreleases />} /> */}
-        <Route path="/cart" element={<Cart user={user} />} />
-        <Route path="/checkout" element={<Checkout user={user} />} />
-        <Route path="/admin/users" element={<AdminUserList />} />
-        <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/inventory" element={<Inventory />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
-      </Routes>
+      <Navbar isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
+      <div className='page-content'>
+<Routes>
+  <Route path="*" element={<NotFound />} />
+  <Route path="/" element={<Welcome />} />
+  <Route path="/home" element={<ItemList />} />
+  <Route path="/home/:itemId" element={<ProductDetails />} />
+  <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
+  <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+  <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/profile/:username" element={<Profile />} />
+  <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
+  <Route path="/cart" element={<Cart user={user} />} />
+  <Route path="/checkout" element={<Checkout user={user} />} />
+  <Route path="/admin/users" element={<AdminUserList />} />
+  <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
+  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+  <Route path="/admin/inventory" element={<Inventory />} />
+  <Route path="/admin/orders" element={<AdminOrders />} />
+    
+{/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
+</Routes>
+
+
       </div>
       <Footer />
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        theme="dark"
-      />
-
+      <ToastContainer position='bottom-right' autoClose={3000} theme='dark' />
     </>
   );
 }

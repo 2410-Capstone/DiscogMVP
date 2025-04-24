@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+// import "../styles/scss/components/UserOrders.module.scss";
 
-const userOrders = () => {
+const UserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,6 +11,10 @@ const userOrders = () => {
       try {
         const res = await fetch("/api/orders/my", {
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         if (!res.ok) throw new Error("Failed to fetch orders");
         const data = await res.json();
@@ -39,10 +44,10 @@ const userOrders = () => {
   const completedOrders = orders.filter((order) => complete_statuses.includes(order.order_status));
 
   return (
-    <div>
+    <div className='user-orders-container'>
       <h2>Current Orders</h2>
       {currentOrders.length > 0 ? (
-        <ul>
+        <ul className='user-orders-list'>
           {currentOrders.map((order) => (
             <li key={order.id}>
               <h3>Order ID: {order.id}</h3>
@@ -76,4 +81,4 @@ const userOrders = () => {
   );
 };
 
-export default userOrders;
+export default UserOrders;
