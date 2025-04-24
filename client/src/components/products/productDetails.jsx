@@ -87,7 +87,7 @@ export default function ProductDetails() {
     <div className="product-details-page">
       <div className="featured-product-bg">
         <DiscogsImage
-          releaseId={product.discogs_id}
+          imageUrl={product.image_url}
           className="product-bg-image"
         />
       </div>
