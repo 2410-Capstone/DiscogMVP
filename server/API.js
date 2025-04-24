@@ -31,7 +31,7 @@ app.use('/auth/', authLimiter);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/cart', cartRoutes);
+app.use('/api/carts', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payment', paymentRoutes);
@@ -41,4 +41,5 @@ app.use('/api/discogs', discogsRoutes);
 app.get('/api/test', (req, res) => {
   res.json({ message: "Backend is working!" });
 });
+
 module.exports = app;

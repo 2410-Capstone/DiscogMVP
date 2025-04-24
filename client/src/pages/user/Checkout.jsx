@@ -19,7 +19,7 @@ const Checkout = () => {
     }
 
     try {
-      setCartItems(state.cartItems);
+      setCartItems(state?.cartItems || getCartFromCookies());
       verifyCart(state.cartItems, state.cartTotal);
       setIsLoading(false);
     } catch (err) {
@@ -66,7 +66,7 @@ const Checkout = () => {
         {cartItems.map(item => (
           <div key={item.product_id} className="cart-item">
             <div className="item-image">
-            <DiscogsImage releaseId={item.product_id} />
+            {/* <DiscogsImage releaseId={item.product_id} /> */}
             </div>
             <div className="item-details">
               <p><strong>Item #{item.product_id}</strong></p>
