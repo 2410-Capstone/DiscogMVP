@@ -26,6 +26,38 @@ router.get("/orders", authenticateToken, async (req, res, next) => {
   }
 });
 
+
+
+
+// Adding purchased albums for current user to be displayed on page/profile
+router.get("/user/albums", authenticateToken, async (req, res, next) => {
+  try {
+    const result = await pool.query(/*sql*/`
+      SELECT 
+        pr.id AS product_id,
+        pr.description AS title,
+        pr.artist,
+        pr.image_url,
+        pr.genre
+      FROM orders o
+      JOIN order_items oi ON o.id = oi.order_id
+      JOIN products pr ON oi.product_id = pr.id
+      WHERE o.user_id = $1
+      ORDER BY o.created_at DESC
+    `, [req.user.id]);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error fetching purchased albums:", error);
+    next(error);
+  }
+});
+
+
+
+
+
+
 // Get all orders for admin
 router.get("/admin/all", authenticateToken, isAdmin, async (req, res, next) => {
   try {
