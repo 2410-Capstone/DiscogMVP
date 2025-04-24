@@ -63,54 +63,76 @@ const createCartItem = async ({ cart_id, product_id, quantity }) => {
   }
 };
 
-// optional, used during login or page load. if user does not have active cart, this creates one
 const getOrCreateCart = async (userId) => {
+  const client = await pool.connect();
   try {
-    // Check if user already has an active cart
-    const { rows } = await pool.query(
-      `SELECT * FROM carts
+    await client.query('BEGIN');
+    
+    // Check for existing active cart
+    const { rows } = await client.query(
+      `SELECT * FROM carts 
        WHERE user_id = $1 AND cart_status = 'active'
-       LIMIT 1`,
+       FOR UPDATE`,
       [userId]
     );
 
     if (rows.length > 0) {
+      await client.query('COMMIT');
       return rows[0];
     }
 
-    // If not, create one
-    const {
-      rows: [newCart],
-    } = await pool.query(
+    // Create new cart if none exists
+    const { rows: [newCart] } = await client.query(
       `INSERT INTO carts (user_id, cart_status)
        VALUES ($1, 'active')
        RETURNING *`,
       [userId]
     );
 
+    await client.query('COMMIT');
     return newCart;
   } catch (err) {
-    console.error("Error in getOrCreateCart:", err.message);
+    await client.query('ROLLBACK');
+    console.error("Error in getOrCreateCart:", err);
     throw err;
+  } finally {
+    client.release();
   }
 };
 
 const addProductToCart = async ({ cart_id, product_id, quantity }) => {
+  const client = await pool.connect();
   try {
-    const SQL = /*sql*/ `
-      INSERT INTO cart_items (cart_id, product_id, quantity)
-      VALUES ($1, $2, $3)
-      RETURNING *;
-    `;
-    const {
-      rows: [cart_item],
-    } = await pool.query(SQL, [cart_id, product_id, quantity]);
-    return cart_item;
-  } catch (error) {
-    console.error("Error adding product to cart:", error);
-    throw error;
+    await client.query('BEGIN');
+
+    // Validate product exists
+    const productCheck = await client.query(
+      'SELECT id FROM products WHERE id = $1',
+      [product_id]
+    );
+    if (productCheck.rows.length === 0) {
+      throw new Error('Product not found');
+    }
+
+    // Add item to cart
+    const { rows: [item] } = await client.query(
+      `INSERT INTO cart_items (cart_id, product_id, quantity)
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [cart_id, product_id, quantity]
+    );
+
+    await client.query('COMMIT');
+    return item;
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error("Error adding to cart:", err);
+    throw err;
+  } finally {
+    client.release();
   }
 };
+
 const updateCartItemQuantity = async ({ cart_item_id, quantity }) => {
   try {
     const SQL = /*sql*/ `
@@ -170,7 +192,7 @@ const getCartItems = async (cartId) => {
        ci.id,
        ci.product_id,
        ci.quantity,
-       p.price,
+       p.price::float,
        p.artist,
        p.image_url
      FROM cart_items ci
