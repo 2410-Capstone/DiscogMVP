@@ -99,10 +99,10 @@ function App() {
   <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
   <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
   <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
-  <Route path="/profile/:username" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/profile/:username" element={isAuthenticated ? <Profile user={user} /> : <Navigate to="/login" />} />
   <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
-  <Route path="/cart" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
-  <Route path="/checkout" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/cart" element={isAuthenticated ? <Cart user={user} /> : <Navigate to="/login" />} />
+  <Route path="/checkout" element={isAuthenticated ? <Checkout user={user} /> : <Navigate to="/login" />} />
   <Route path="/admin/users" element={requireAdmin(AdminUserList)} />
   <Route path="/admin/users/:id/edit" element={requireAdmin(AdminEditUser)} />
   <Route path="/admin/dashboard" element={requireAdmin(AdminDashboard)} />
