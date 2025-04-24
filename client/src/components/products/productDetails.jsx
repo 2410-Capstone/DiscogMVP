@@ -11,7 +11,8 @@ export default function ProductDetails() {
   const [products, setProducts] = useState([]);
   const [productImages, setProductImages] = useState({}); 
 
-  const { productId } = useParams(); 
+ const { productId } = useParams();
+
   const navigate = useNavigate();
   const scrollRef = useRef(null);
 
@@ -40,12 +41,37 @@ export default function ProductDetails() {
         console.error("Failed to load related products", error);
       }
     };
-  
+    
     getProduct();         
-    getAllProducts();    
+    getAllProducts();   
+    
   }, [productId]);
   
+  const addToCart = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/items`, {
 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          product_id: product.id,
+          quantity: 1
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to add item to cart.");
+      }
+  
+      alert("Product added to cart!");
+    } catch (err) {
+      console.error("Failed to add item:", err);
+      alert("Error adding to cart.");
+    }
+  };
   const handleDetailsClick = (id) => {
     navigate(`/home/${id}`);
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -75,9 +101,14 @@ export default function ProductDetails() {
         {token && (
           <div className="button-container">
             {/* <button className="checkout-button" disabled={!product.isAvailable}> */}
-            <button className="add-to-cart-button">
-              Add to cart
-            </button>
+            <button
+  className="add-to-cart-button"
+  onClick={addToCart}
+  disabled={!product}
+>
+  Add to cart
+</button>
+
           </div>
         )}
       </div>

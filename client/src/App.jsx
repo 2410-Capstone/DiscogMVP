@@ -63,7 +63,7 @@ function App() {
   <Route path="*" element={<NotFound />} />
   <Route path="/" element={<Welcome />} />
   <Route path="/home" element={<ItemList />} />
-  <Route path="/home/:itemId" element={<ProductDetails />} />
+  <Route path="/home/:productId" element={<ProductDetails />} />
   <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
   <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
   <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
@@ -76,7 +76,8 @@ function App() {
   <Route path="/admin/dashboard" element={<AdminDashboard />} />
   <Route path="/admin/inventory" element={<Inventory />} />
   <Route path="/admin/orders" element={<AdminOrders />} />
-    
+
+   
 {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
 </Routes>
 
