@@ -23,18 +23,35 @@ router.get('/', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch cart' });
   }
 });
+//Create a new cart for the user
+router.post('/', authenticateToken, async (req, res) => {
+  try {
+    const cart = await getOrCreateCart(req.user.id);
+    res.json(cart);
+    res.status(201).json(cart);
+  } catch (error) {
+    console.error("Failed to create cart:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
 
  // POST /cart/items
  router.post('/items', authenticateToken, async (req, res) => {
   const { product_id, quantity } = req.body;
   try {
+    console.log('Getting or creating cart...');
     const cart = await getOrCreateCart(req.user.id);
+    console.log("cart: ", cart);
+
     const item = await addProductToCart({
       cart_id: cart.id,
       product_id,
       quantity
     });
+    console.log('Added item:', item);
+    
     res.status(201).json(item);
+    
   } catch (error) {
     console.error("Failed to add item:", error.message);
     res.status(500).json({ error: error.message });

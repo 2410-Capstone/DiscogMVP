@@ -28,6 +28,7 @@
     "express-validator": "^7.2.1",
     "google-auth-library": "^9.15.1",
     "helmet": "^8.1.0",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "kubectl": "^0.0.0",
     "lucide-react": "^0.503.0",
