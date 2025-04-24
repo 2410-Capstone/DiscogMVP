@@ -1,15 +1,15 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import cartImg from "../assets/bag.png";
+import defaultProfilePic from "../assets/default-profile.png";
 
-function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
+function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showSearch, setShowSearch] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const searchRef = useRef(null);
+  const [isSearchVisible, setSearchVisible] = useState(false);
 
   const isOnMainPage = location.pathname === "/";
 
@@ -21,29 +21,19 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
     navigate("/");
   };
 
-  const handleMouseLeave = () => {
-    setDropdownVisible(false);
-  };
-
-  const handleSearchClick = () => {
-    setShowSearch((prev) => !prev);
+  const toggleSearch = () => {
+    setSearchVisible((prev) => !prev);
     setDropdownVisible((prev) => !prev);
   };
 
-
   useEffect(() => {
-    const content = document.querySelector('.page-content');
+    const content = document.querySelector(".page-content");
     if (content) {
-      if (isDropdownVisible) {
-        content.classList.add('blurred');
-        document.body.style.overflow = 'hidden'; 
-      } else {
-        content.classList.remove('blurred');
-        document.body.style.overflow = 'auto';
-      }
+      content.classList.toggle("blurred", isSearchVisible);
+      document.body.style.overflow = isSearchVisible ? "hidden" : "auto";
     }
-  }, [isDropdownVisible]);
-
+  }, [isSearchVisible]);
+  
   return (
     <>
       <nav className="navbar">
@@ -54,47 +44,53 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch }) {
 
           {!isOnMainPage && (
             <div className="nav-center">
-              <Link to="./home" className="nav-button">Home</Link>
+              <Link to="/home" className="nav-button">Home</Link>
             </div>
           )}
 
-          <div className="nav-right">
-            {isAuthenticated ? (
-              <>
-                <button className="nav-button" onClick={handleLogout}>Logout</button>
-                <Link to="/account">
-                  {/* <img src={profilePic} alt="Profile" className="profile-pic" /> */}
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/login" className="nav-button">Login</Link>
-                <Link to="/register" className="nav-button">Register</Link>
-                <button className="nav-button" onClick={handleSearchClick} aria-label="Toggle Search">
-                  <Search size={20} />
-                </button>
-                <Link to="/cart" className="nav-button">
-                  <img src={cartImg} alt="Cart" className="cart-icon" />
-                </Link>
-              </>
-            )}
-          </div>
+<div className="nav-right">
+  <button className="nav-button" onClick={toggleSearch} aria-label="Toggle Search">
+    <Search size={20} />
+  </button>
+
+  <Link to="/cart" className="nav-button">
+    <img src={cartImg} alt="Cart" className="cart-icon" />
+  </Link>
+
+  {isAuthenticated ? (
+    <div className="dropdown-profile">
+      <img
+        src={user?.profilePic || defaultProfilePic}
+        alt="Profile"
+        className="profile-pic"
+      />
+      <div className="profile-dropdown-content">
+        <Link to="/account" className="dropdown-link">Account</Link>
+        <Link to="/profile" className="dropdown-link">Profile</Link>
+        <Link to="/order-history" className="dropdown-link">Order History</Link>
+        <button onClick={handleLogout} className="dropdown-link logout-button">Logout</button>
+      </div>
+    </div>
+  ) : (
+    <>
+      <Link to="/login" className="nav-button">Login</Link>
+      <Link to="/register" className="nav-button">Register</Link>
+    </>
+  )}
+</div>
+
         </div>
       </nav>
 
-  
-      <div
-        className={`dropdown ${isDropdownVisible ? 'show' : ''}`}
-        onMouseLeave={handleMouseLeave}
-      >
-        <SearchBar onSearch={onSearch} />
-        <div className="dropdown-links">
-          <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
-          <Link to="/order-history" className="dropdown-link">Order History</Link>
-          <Link to="/profile" className="dropdown-link">Profile</Link>
-          <Link to="/product-search" className="dropdown-link">Product Search</Link>
-        </div>
-      </div>
+      {isSearchVisible && (
+  <div className="dropdown show" onMouseLeave={() => setSearchVisible(false)}>
+    <SearchBar onSearch={onSearch} />
+    <div className="dropdown-links">
+      <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
+      <Link to="/product-search" className="dropdown-link">Product Search</Link>
+    </div>
+  </div>
+)}
     </>
   );
 }

@@ -721,6 +721,55 @@ body {
     font-size: 1.5rem;
   }
 }
+.dropdown-profile {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-profile .profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.2s ease;
+}
+.dropdown-profile:hover .profile-dropdown-content {
+  display: block;
+}
+
+.profile-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  min-width: 180px;
+  z-index: 1000;
+  padding: 10px 0;
+}
+.profile-dropdown-content .dropdown-link {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.2s ease;
+}
+.profile-dropdown-content .dropdown-link:hover {
+  background-color: #f1f1f1;
+}
+.profile-dropdown-content .dropdown-link.logout-button {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
 .login-page,
 .register-page {
   display: flex;
@@ -1249,6 +1298,77 @@ body[data-theme=dark] {
   color: #1e1e2f;
 }
 
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.form {
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #32325d;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+.input:focus {
+  outline: none;
+  border-color: #5469d4;
+}
+.input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #5469d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.button:hover:not(:disabled) {
+  background-color: #3149c4;
+}
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #ff5252;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.loadingMessage {
+  padding: 16px;
+  text-align: center;
+  color: #7474b4;
+}
+
 .product-card {
   background: #F3F4F6;
   border-radius: 6px;
@@ -1309,4 +1429,116 @@ body[data-theme=dark] {
 }
 .product-card .add-to-bag-button:hover, .product-card .details-button:hover {
   background-color: #655e5e;
+}
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+.StripeElement--focus {
+  box-shadow: 0 0 0 1px #5469d4;
+}
+.StripeElement--invalid {
+  border-color: #ff5252;
+}
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+.stripe-element-container {
+  position: relative;
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.stripe-element-card {
+  font-size: 16px;
+  font-family: '"Helvetica Neue", Helvetica, sans-serif';
+  color: "#aab7c4";
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.orders-table th, .orders-table td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  vertical-align: top;
+  text-align: left;
+}
+.orders-table thead {
+  background-color: #333;
+  color: #fff;
+}
+.orders-table select {
+  padding: 0.25rem;
+}
+.orders-table ul {
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.inventory-table th, .inventory-table td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  vertical-align: top;
+  text-align: left;
+}
+.inventory-table thead {
+  background-color: #333;
+  color: #fff;
+}
+.inventory-table select {
+  padding: 0.25rem;
+}
+.inventory-table ul {
+  padding-left: 1rem;
+  margin: 0;
+}
+.inventory-table img {
+  width: 75px;
+  height: 75px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.user-table th, .user-table td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  vertical-align: top;
+  text-align: left;
+}
+.user-table thead {
+  background-color: #333;
+  color: #fff;
+}
+.user-table select {
+  padding: 0.25rem;
+}
+.user-table ul {
+  padding-left: 1rem;
+  margin: 0;
 }
