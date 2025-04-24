@@ -1,0 +1,61 @@
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e3e6f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+  
+  .admin-header-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1b1e23;
+  }
+  
+  .admin-header-tools {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .admin-search {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    outline: none;
+  }
+  
+  .admin-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #2f80ed;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .back-to-user-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  
+    &:hover {
+      background-color: #f3f3f3;
+      border-color: #aaa;
+    }
+  }
+  
+  
