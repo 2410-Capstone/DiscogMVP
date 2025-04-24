@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 
 const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN;
 if (!DISCOGS_TOKEN) {
-  console.warn("⚠️ No Discogs token found in environment variables.");
+  console.warn("No Discogs token found in environment variables.");
 }
 
 // In-memory cache to avoid duplicate requests
