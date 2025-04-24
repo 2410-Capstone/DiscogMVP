@@ -3,11 +3,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import "../../css/App.css";
 
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
-import MobileNav from "./components/MobileNav";
 import Footer from "./components/Footer";
 
 import Welcome from "./pages/Welcome";
@@ -86,33 +84,35 @@ function App() {
 
   return (
     <>
-
-      <Navbar isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
-      <MobileNav isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
+      <Navbar isAuthenticated={isAuthenticated} 
+        setUser={setUser} 
+        setToken={setToken} 
+        onSearch={setSearchTerm}
+        user={user}
+      />
       <div className='page-content'>
-        <Routes>
-          <Route path='*' element={<NotFound />} />
-          <Route path='/' element={<Welcome />} />
-          <Route path='/home' element={<ItemList />} />
-          <Route path='/home/:productId' element={<ProductDetails />} />
-          <Route path='/login' element={<Login setToken={setToken} setUser={setUser} />} />
-          <Route path='/register' element={<Register setToken={setToken} setUser={setUser} />} />
-          <Route path='/account' element={isAuthenticated ? <Account user={user} /> : <Navigate to='/login' />} />
-          <Route path='/profile/:username' element={<Profile />} />
-          <Route
-            path='/account/orders'
-            element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to='/login' />}
-          />
-          <Route path='/cart' element={<Cart user={user} />} />
-          <Route path='/checkout' element={<Checkout user={user} />} />
-          <Route path='/admin/users' element={<AdminUserList />} />
-          <Route path='/admin/users/:id/edit' element={<AdminEditUser />} />
-          <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/admin/inventory' element={<Inventory />} />
-          <Route path='/admin/orders' element={<AdminOrders />} />
+<Routes>
+  <Route path="*" element={<NotFound />} />
+  <Route path="/" element={<Welcome />} />
+  <Route path="/home" element={<ItemList />} />
+  <Route path="/home/:productId" element={<ProductDetails />} />
+  <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
+  <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+  <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/profile/:username" element={isAuthenticated ? <Profile user={user} /> : <Navigate to="/login" />} />
+  <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
+  <Route path="/cart" element={isAuthenticated ? <Cart user={user} /> : <Navigate to="/login" />} />
+  <Route path="/checkout" element={isAuthenticated ? <Checkout user={user} /> : <Navigate to="/login" />} />
+  <Route path="/admin/users" element={requireAdmin(AdminUserList)} />
+  <Route path="/admin/users/:id/edit" element={requireAdmin(AdminEditUser)} />
+  <Route path="/admin/dashboard" element={requireAdmin(AdminDashboard)} />
+  <Route path="/admin/inventory" element={requireAdmin(Inventory)} />
+  <Route path="/admin/orders" element={requireAdmin(AdminOrders)} />
 
-          {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
-        </Routes>
+   
+{/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
+</Routes>
+
 
       </div>
       <Footer />
