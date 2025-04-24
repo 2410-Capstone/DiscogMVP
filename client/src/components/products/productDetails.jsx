@@ -3,13 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import DiscogsImage from "./DiscogsImage";
 
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   const [products, setProducts] = useState([]);
   const [productImages, setProductImages] = useState({});
-
   const { productId } = useParams();
 
   const navigate = useNavigate();
@@ -46,15 +49,17 @@ export default function ProductDetails() {
     getAllProducts();
   }, [productId]);
 
-  const addToCart = async () => {
+  const handleAddToCart = async () => {
+    if (!product) return;
+
     try {
-      const response = await fetch(
+      const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/carts/items`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             product_id: product.id,
@@ -63,19 +68,17 @@ export default function ProductDetails() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to add item to cart.");
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Failed to add to cart:", errorData);
+        toast.error("Failed to add item to cart.");
+      } else {
+        toast.success("Item added to cart!");
       }
-
-      alert("Product added to cart!");
     } catch (err) {
-      console.error("Failed to add item:", err);
-      alert("Error adding to cart.");
+      console.error("Error adding to cart:", err);
+      toast.error("Something went wrong.");
     }
-  };
-  const handleDetailsClick = (id) => {
-    navigate(`/home/${id}`);
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   if (!product) return <p>Loading...</p>;
@@ -103,12 +106,14 @@ export default function ProductDetails() {
         {token && (
           <div className="button-container">
             {/* <button className="checkout-button" disabled={!product.isAvailable}> */}
+
             <button
               className="add-to-cart-button"
               onClick={addToCart}
               disabled={!product}
             >
               Add to cart
+
             </button>
           </div>
         )}
@@ -118,6 +123,7 @@ export default function ProductDetails() {
 
       <div className="related-products" ref={scrollRef}>
         <h2>More Products</h2>
+
 
         {/* I need to work on this part here 
         <div className="products-grid">

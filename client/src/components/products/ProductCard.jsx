@@ -2,15 +2,12 @@ import React from "react";
 import DiscogsImage from "./DiscogsImage";
 import MarketPrice from "./MarketPrice";
 
-
-const ProductCard = ({ item, handleDetailsClick }) => {
+const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
   const { id, description, artist, genre, discogs_id } = item;
-  
 
   return (
     <div className="product-card" onClick={() => handleDetailsClick(id)}>
       <DiscogsImage imageUrl={item.image_url} className="card-image" />
-
 
       <h3 className="card-title">{description || "Untitled"}</h3>
       <h3 className="card-artist">{artist || "Unknown Artist"}</h3>
@@ -18,8 +15,25 @@ const ProductCard = ({ item, handleDetailsClick }) => {
       <div className="market-price">
         <MarketPrice releaseId={discogs_id} />
       </div>
-      <button className="add-to-bag-button">Add to Bag</button>
-      <button className="details-button">Details</button>
+
+      <button
+        className="add-to-bag-button"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAddToCart(item);
+        }}
+      >
+        Add to Bag
+      </button>
+      <button
+        className="details-button"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDetailsClick(id);
+        }}
+      >
+        Details
+      </button>
     </div>
   );
 };
