@@ -7,18 +7,35 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
+  const getAuthHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
+
+  
   const fetchCart = async () => {
     try {
-      const res = await fetch('/api/carts', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts`, {
+
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          ...getAuthHeaders()
+          
         }
       });
+      console.log("Using token:", localStorage.getItem("token"));
+
       const data = await res.json();
+
+      if (!Array.isArray(data)) {
+        console.error("Cart API did not return an array:", data);
+        return;
+      }
+      
       const formattedItems = data.map(item => ({
         ...item,
         price: parseFloat(item.price) || 0
       }));
+      
       setCartItems(formattedItems);
     } catch (err) {
       console.error("Failed to fetch cart:", err);
@@ -39,11 +56,12 @@ const Cart = () => {
     }
 
     try {
-      await fetch(`/api/carts/items/${itemId}`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/items/${itemId}`, {
+
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          ...getAuthHeaders()
         },
         body: JSON.stringify({ quantity: newQuantity })
       });
@@ -61,7 +79,7 @@ const Cart = () => {
       await fetch(`/api/carts/items/${itemId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          ...getAuthHeaders()
         }
       });
       setCartItems(prev => prev.filter(item => item.id !== itemId));
