@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Account = () => {
+const Account = ({ user }) => {
   const navigate = useNavigate();
 
-  // const [user, setUser] = useState({
-  //   name: "Connor",
-  //   email: "connor@example.com",
-  //   address: "123 123 Street 123 12345",
-  //   phone: "(123) 456-7890",
-  //   billing: "Card ending in 1234",
-  //   balance: "$0.00",
-  // });
-
-  // const [purchasedAlbums] = useState([
-  //   { id: 1, title: "Neon Genesis OST" },
-  //   { id: 2, title: "Cowboy Bebop Vinyl" },
-  //   { id: 3, title: "Lo-Fi Chill Beats" },
-  // ]);
+  const [purchasedAlbums] = useState([
+    { id: 1, title: "Neon Genesis OST" },
+    { id: 2, title: "Cowboy Bebop Vinyl" },
+    { id: 3, title: "Lo-Fi Chill Beats" },
+  ]);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -29,9 +20,12 @@ const Account = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    setUser(null);
     navigate("/home");
   };
+
+  if (!user) {
+    return <div className="account-page">Loading your account...</div>;
+  }
 
   return (
     <div className='account-page'>
@@ -117,8 +111,6 @@ const Account = () => {
                 <h4>Settings</h4>
                 <Link to='#'>Manage Account</Link>
                 <div className='settings-block'>
-                  {/* <Link to="/profile/sandpitt-turtle?mock=true">Edit Profile</Link> */}
-
                   <Link to={`/profile/${user.username || user.id}`}>Edit Profile</Link>
                 </div>
               </div>
