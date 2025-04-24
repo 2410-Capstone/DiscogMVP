@@ -52,14 +52,46 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
             </div>
           )}
 
-          <div className='nav-right'>
-            <button className='nav-button' onClick={toggleSearch} aria-label='Toggle Search'>
-              <Search size={20} />
-            </button>
 
-            <Link to='/cart' className='nav-button'>
-              <img src={cartImg} alt='Cart' className='cart-icon' />
-            </Link>
+<div className="nav-right">
+  <button className="nav-button" onClick={toggleSearch} aria-label="Toggle Search">
+    <Search size={20} />
+  </button>
+
+  {isAuthenticated && (
+    <Link to="/cart" className="nav-button">
+      <img src={cartImg} alt="Cart" className="cart-icon" />
+    </Link>
+  )}
+  {isAuthenticated ? (
+    <div className="dropdown-profile">
+      <img
+        src={user?.profilePic || defaultProfilePic}
+        alt="Profile"
+        className="profile-pic"
+      />
+      <div className="profile-dropdown-content">
+        <Link to="/account" className="dropdown-link">Account</Link>
+        <Link to="/profile" className="dropdown-link">Profile</Link>
+        <Link to="/order-history" className="dropdown-link">Order History</Link>
+
+        {user?.user_role === "admin" && (
+          <>
+            <Link to="/admin/dashboard" className="dropdown-link">Admin Dashboard</Link>
+          </>
+        )}
+
+        <button onClick={handleLogout} className="dropdown-link logout-button">Logout</button>
+      </div>
+    </div>
+  ) : (
+    <>
+      <Link to="/login" className="nav-button">Login</Link>
+      <Link to="/register" className="nav-button">Register</Link>
+    </>
+  )}
+</div>
+
 
             {isAuthenticated ? (
               <div className='dropdown-profile'>

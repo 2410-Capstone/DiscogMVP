@@ -1,7 +1,7 @@
 import "./styles/scss/App.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import "../../css/App.css";
 
@@ -57,8 +57,36 @@ function App() {
 
   const isAuthenticated = !!token;
 
+  const requireAdmin = (Component) => {
+    if (isAuthenticated && user?.user_role === "admin") {
+      return <Component />;
+    } else {
+      return <AdminRedirect />;
+    }
+  };
+
+  const AdminRedirect = () => {
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+    const hasFired = useRef(false); // Toast guard - to prevent multiple toasts due to strict mode
+
+    useEffect(() => {
+      if (!hasFired.current) {
+        toast.error("Please sign in as an admin to view this page.", { autoClose: 3000 });
+        hasFired.current = true;
+      }
+
+      const timer = setTimeout(() => {
+        setShouldRedirect(true) 
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }, []);
+    return shouldRedirect ? <Navigate to="/login" replace /> : <div>Redirecting...</div>;
+  };
+
   return (
     <>
+
       <Navbar isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
       <MobileNav isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
       <div className='page-content'>
@@ -85,9 +113,9 @@ function App() {
 
           {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
         </Routes>
+
       </div>
       <Footer />
-      <ToastContainer position='bottom-right' autoClose={3000} theme='dark' />
     </>
   );
 }
