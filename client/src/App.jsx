@@ -27,9 +27,13 @@ import UserOrders from "./pages/user/UserOrders";
 // import OAuthLogin from './pages/LogRegAuth/OAuthLogin';
 // import Allreleases from "./components/Allreleases";
 
+
+
+
+import AdminLayout from "./pages/Admin/AdminLayout";
+import Dashboard from "./pages/Admin/Dashboard";
 import AdminUserList from "./pages/Admin/UserList";
 import AdminEditUser from "./pages/Admin/EditUser";
-import AdminDashboard from "./pages/Admin/Dashboard";
 import Inventory from "./pages/Admin/Inventory";
 import AdminOrders from "./pages/Admin/AdminOrders";
 
@@ -42,6 +46,8 @@ function App() {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
+    console.log("User role on load:", JSON.parse(localStorage.getItem("user"))?.role);
+
 
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -71,11 +77,35 @@ function App() {
   <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
   <Route path="/cart" element={<Cart user={user} />} />
   <Route path="/checkout" element={<Checkout user={user} />} />
-  <Route path="/admin/users" element={<AdminUserList />} />
-  <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
-  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-  <Route path="/admin/inventory" element={<Inventory />} />
-  <Route path="/admin/orders" element={<AdminOrders />} />
+  
+{/* 
+  ORIGINAL ADMIN ROUTE WITH AUTH 
+  <Route
+    path="/admin/*"
+    element={
+      isAuthenticated && user?.role?.toLowerCase() === "admin" ? (
+        <AdminLayout />
+      ) : (
+        <Navigate to="/" />
+      )
+    }
+  >
+    <Route index element={<AdminDashboard />} />
+    <Route path="users" element={<AdminUserList />} />
+    <Route path="users/:id/edit" element={<AdminEditUser />} />
+    <Route path="inventory" element={<Inventory />} />
+    <Route path="orders" element={<AdminOrders />} />
+  </Route>
+*/}
+
+{/* TEMPORARY OPEN ACCESS ADMIN ROUTE (for design/testing) */}
+<Route path="/admin/*" element={<AdminLayout />}>
+  <Route index element={<Dashboard />} />
+  <Route path="users" element={<AdminUserList />} />
+  <Route path="users/:id/edit" element={<AdminEditUser />} />
+  <Route path="inventory" element={<Inventory />} />
+  <Route path="orders" element={<AdminOrders />} />
+</Route>
 
    
 {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
