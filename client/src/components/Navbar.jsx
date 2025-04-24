@@ -72,6 +72,7 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
                     Profile
                   </Link>
                   <Link to='/account/orders' className='dropdown-link'>
+                    {" "}
                     Order History
                   </Link>
                   <button onClick={handleLogout} className='dropdown-link logout-button'>
