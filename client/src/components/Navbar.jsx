@@ -68,7 +68,7 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
       <div className="profile-dropdown-content">
         <Link to="/account" className="dropdown-link">Account</Link>
         <Link to="/profile" className="dropdown-link">Profile</Link>
-        <Link to="/order-history" className="dropdown-link">Order History</Link>
+        <Link to="/account/orders" className="dropdown-link">Order History</Link>
 
         {user?.user_role === "admin" && (
           <>
