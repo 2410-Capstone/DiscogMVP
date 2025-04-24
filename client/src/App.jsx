@@ -1,7 +1,7 @@
 import "./styles/scss/App.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import NotFound from "./pages/NotFound";
@@ -61,60 +61,75 @@ function App() {
 
   const isAuthenticated = !!token;
 
+  const requireAdmin = (Component) => {
+    if (isAuthenticated && user?.user_role === "admin") {
+      return <Component />;
+    } else {
+      return <AdminRedirect />;
+    }
+  };
+
+  const AdminRedirect = () => {
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+    const hasFired = useRef(false); // Toast guard - to prevent multiple toasts due to strict mode
+
+    useEffect(() => {
+      if (!hasFired.current) {
+        toast.error("Please sign in as an admin to view this page.", { autoClose: 3000 });
+        hasFired.current = true;
+      }
+
+      const timer = setTimeout(() => {
+        setShouldRedirect(true) 
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }, []);
+    return shouldRedirect ? <Navigate to="/login" replace /> : <div>Redirecting...</div>;
+  };
+
   return (
     <>
-      <Navbar isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
+      <Navbar isAuthenticated={isAuthenticated} 
+        setUser={setUser} 
+        setToken={setToken} 
+        onSearch={setSearchTerm}
+        user={user}
+      />
       <div className='page-content'>
-<Routes>
+      <Routes>
   <Route path="*" element={<NotFound />} />
   <Route path="/" element={<Welcome />} />
   <Route path="/home" element={<ItemList />} />
   <Route path="/home/:productId" element={<ProductDetails />} />
   <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
   <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+
+  {/* User routes */}
   <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
-  <Route path="/profile/:username" element={<Profile />} />
+  <Route path="/profile/:username" element={isAuthenticated ? <Profile user={user} /> : <Navigate to="/login" />} />
   <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
-  <Route path="/cart" element={<Cart user={user} />} />
-  <Route path="/checkout" element={<Checkout user={user} />} />
-  
-{/* 
-  ORIGINAL ADMIN ROUTE WITH AUTH 
+  <Route path="/cart" element={isAuthenticated ? <Cart user={user} /> : <Navigate to="/login" />} />
+  <Route path="/checkout" element={isAuthenticated ? <Checkout user={user} /> : <Navigate to="/login" />} />
+
+  {/* Admin routes using AdminLayout + permissions */}
   <Route
     path="/admin/*"
-    element={
-      isAuthenticated && user?.role?.toLowerCase() === "admin" ? (
-        <AdminLayout />
-      ) : (
-        <Navigate to="/" />
-      )
-    }
+    element={isAuthenticated && user?.user_role === "admin" ? <AdminLayout /> : <AdminRedirect />}
   >
-    <Route index element={<AdminDashboard />} />
+    <Route index element={<Dashboard />} />
+    <Route path="dashboard" element={<Dashboard />} />
     <Route path="users" element={<AdminUserList />} />
     <Route path="users/:id/edit" element={<AdminEditUser />} />
     <Route path="inventory" element={<Inventory />} />
     <Route path="orders" element={<AdminOrders />} />
   </Route>
-*/}
-
-{/* TEMPORARY OPEN ACCESS ADMIN ROUTE (for design/testing) */}
-<Route path="/admin/*" element={<AdminLayout />}>
-  <Route index element={<Dashboard />} />
-  <Route path="users" element={<AdminUserList />} />
-  <Route path="users/:id/edit" element={<AdminEditUser />} />
-  <Route path="inventory" element={<Inventory />} />
-  <Route path="orders" element={<AdminOrders />} />
-</Route>
-
-   
 {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
 </Routes>
 
 
       </div>
       <Footer />
-      <ToastContainer position='bottom-right' autoClose={3000} theme='dark' />
     </>
   );
 }

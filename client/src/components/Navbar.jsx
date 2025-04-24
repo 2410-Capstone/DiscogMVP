@@ -53,10 +53,11 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
     <Search size={20} />
   </button>
 
-  <Link to="/cart" className="nav-button">
-    <img src={cartImg} alt="Cart" className="cart-icon" />
-  </Link>
-
+  {isAuthenticated && (
+    <Link to="/cart" className="nav-button">
+      <img src={cartImg} alt="Cart" className="cart-icon" />
+    </Link>
+  )}
   {isAuthenticated ? (
     <div className="dropdown-profile">
       <img
@@ -68,6 +69,13 @@ function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
         <Link to="/account" className="dropdown-link">Account</Link>
         <Link to="/profile" className="dropdown-link">Profile</Link>
         <Link to="/order-history" className="dropdown-link">Order History</Link>
+
+        {user?.user_role === "admin" && (
+          <>
+            <Link to="/admin/dashboard" className="dropdown-link">Admin Dashboard</Link>
+          </>
+        )}
+
         <button onClick={handleLogout} className="dropdown-link logout-button">Logout</button>
       </div>
     </div>
