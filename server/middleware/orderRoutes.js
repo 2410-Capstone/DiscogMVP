@@ -29,7 +29,7 @@ router.get("/orders", authenticateToken, async (req, res, next) => {
 
 
 
-// purchased albums for current user
+// Adding purchased albums for current user to be displayed on page/profile
 router.get("/user/albums", authenticateToken, async (req, res, next) => {
   try {
     const result = await pool.query(/*sql*/`
