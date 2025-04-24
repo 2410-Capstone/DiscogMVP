@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import DiscogsImage from "./DiscogsImage";
 
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,8 +13,8 @@ export default function ProductDetails() {
 
   const [products, setProducts] = useState([]);
   const [productImages, setProductImages] = useState({});
-
   const { productId } = useParams();
+
   const navigate = useNavigate();
   const scrollRef = useRef(null);
 
@@ -80,11 +81,6 @@ export default function ProductDetails() {
     }
   };
 
-  const handleDetailsClick = (id) => {
-    navigate(`/home/${id}`);
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   if (!product) return <p>Loading...</p>;
 
   return (
@@ -110,8 +106,14 @@ export default function ProductDetails() {
         {token && (
           <div className="button-container">
             {/* <button className="checkout-button" disabled={!product.isAvailable}> */}
-            <button className="add-to-cart-button" onClick={handleAddToCart}>
-              Basket
+
+            <button
+              className="add-to-cart-button"
+              onClick={addToCart}
+              disabled={!product}
+            >
+              Add to cart
+
             </button>
           </div>
         )}
@@ -122,16 +124,16 @@ export default function ProductDetails() {
       <div className="related-products" ref={scrollRef}>
         <h2>More Products</h2>
 
-        {/* I need to work on this part here  
-        <div className="products-grid"> 
-          
-        {products.map((item) => (
-                <ProductCard
-                  key={item.id}
-                  item={item}
-                  handleDetailsClick={handleDetailsClick}
-                />
-              ))}
+
+        {/* I need to work on this part here 
+        <div className="products-grid">
+          {products.map((item) => (
+            <ProductCard
+              key={item.id}
+              item={item}
+              handleDetailsClick={handleDetailsClick}
+            />
+          ))}
         </div>*/}
       </div>
     </div>

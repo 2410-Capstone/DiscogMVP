@@ -76,7 +76,8 @@ function App() {
   <Route path="/admin/dashboard" element={<AdminDashboard />} />
   <Route path="/admin/inventory" element={<Inventory />} />
   <Route path="/admin/orders" element={<AdminOrders />} />
-    
+
+   
 {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
 </Routes>
 

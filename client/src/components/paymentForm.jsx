@@ -72,7 +72,7 @@ console.log("👤 User ID state:", userId);
     e.preventDefault();
     //console.warn("⚠️ handleSubmit ran with missing userId");
 
-    if (!userId) { // Check we have a user ID
+    if (!userId) { 
       setErrorMessage("User authentication required");
       return;
     }
@@ -139,9 +139,19 @@ console.log("👤 User ID state:", userId);
   
       if (paymentIntent.status === "succeeded") {
         setStatus("succeeded");
-        // clearCartCookies();
-        // Redirect 
-        // navigate(`/order-confirmation/${orderId}`);
+        try {
+          await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ userId }), 
+          });
+        } catch (clearErr) {
+          console.error("⚠️ Cart clear failed:", clearErr);
+        }
+        // Rediredt to order conf page goes here
       }
   
     } catch (err) {
