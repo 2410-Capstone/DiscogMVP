@@ -1,7 +1,7 @@
 import "./styles/scss/App.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import NotFound from "./pages/NotFound";
@@ -55,9 +55,41 @@ function App() {
 
   const isAuthenticated = !!token;
 
+  const requireAdmin = (Component) => {
+    if (isAuthenticated && user?.user_role === "admin") {
+      return <Component />;
+    } else {
+      return <AdminRedirect />;
+    }
+  };
+
+  const AdminRedirect = () => {
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+    const hasFired = useRef(false); // Toast guard - to prevent multiple toasts due to strict mode
+
+    useEffect(() => {
+      if (!hasFired.current) {
+        toast.error("Please sign in as an admin to view this page.", { autoClose: 3000 });
+        hasFired.current = true;
+      }
+
+      const timer = setTimeout(() => {
+        setShouldRedirect(true) 
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }, []);
+    return shouldRedirect ? <Navigate to="/login" replace /> : <div>Redirecting...</div>;
+  };
+
   return (
     <>
-      <Navbar isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
+      <Navbar isAuthenticated={isAuthenticated} 
+        setUser={setUser} 
+        setToken={setToken} 
+        onSearch={setSearchTerm}
+        user={user}
+      />
       <div className='page-content'>
 <Routes>
   <Route path="*" element={<NotFound />} />
@@ -67,15 +99,15 @@ function App() {
   <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
   <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
   <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
-  <Route path="/profile/:username" element={<Profile />} />
+  <Route path="/profile/:username" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
   <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
-  <Route path="/cart" element={<Cart user={user} />} />
-  <Route path="/checkout" element={<Checkout user={user} />} />
-  <Route path="/admin/users" element={<AdminUserList />} />
-  <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
-  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-  <Route path="/admin/inventory" element={<Inventory />} />
-  <Route path="/admin/orders" element={<AdminOrders />} />
+  <Route path="/cart" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/checkout" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/admin/users" element={requireAdmin(AdminUserList)} />
+  <Route path="/admin/users/:id/edit" element={requireAdmin(AdminEditUser)} />
+  <Route path="/admin/dashboard" element={requireAdmin(AdminDashboard)} />
+  <Route path="/admin/inventory" element={requireAdmin(Inventory)} />
+  <Route path="/admin/orders" element={requireAdmin(AdminOrders)} />
 
    
 {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
@@ -84,7 +116,6 @@ function App() {
 
       </div>
       <Footer />
-      <ToastContainer position='bottom-right' autoClose={3000} theme='dark' />
     </>
   );
 }
