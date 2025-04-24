@@ -134,3 +134,28 @@
 
 
 
+
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.close-search {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}

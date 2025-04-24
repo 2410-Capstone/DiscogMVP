@@ -46,14 +46,18 @@ function App() {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
-    console.log("User role on load:", JSON.parse(localStorage.getItem("user"))?.role);
-
-
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+  
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      console.log("User role on load:", parsedUser?.user_role);
+      if (storedToken && parsedUser) {
+        setToken(storedToken);
+        setUser(parsedUser);
+      }
+    } catch (err) {
+      console.error("Failed to parse stored user:", err);
     }
-
+  
     setLoading(false);
   }, []);
 
