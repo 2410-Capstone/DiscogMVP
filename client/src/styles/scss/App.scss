@@ -28,4 +28,6 @@
 @use "./components/_admin_orders";
 @use "./components/admin_inventory";
 @use "./components/admin_user_list";
-@use "./layout/admin_layout"
+@use "./layout/admin_layout";
+@use "./components/nav_dropdown";
+@use "./components/account_dropdown"
