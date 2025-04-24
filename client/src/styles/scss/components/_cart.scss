@@ -11,15 +11,6 @@
   color: var(--text-color);
   min-height: 100vh;
 
-  // 👇 Full-width line under heading
-  &::before {
-    content: "";
-    display: block;
-    height: 1px;
-    background-color: #ddd;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
 
   .cart-container {
     display: grid;
@@ -34,8 +25,17 @@
     }
   }
 
+  .full-width-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: #ddd;
+    margin: 1rem 0 2rem;
+  }
+  
+
   .cart-items {
     padding-top: 0;
+    
 
     .cart-heading {
       font-size: 2.2rem;
@@ -45,6 +45,8 @@
       border-bottom: none;
     }
 
+    
+
     .cart-item {
       display: flex;
       gap: 1.5rem;
@@ -53,6 +55,7 @@
 
       &:last-child {
         border-bottom: none;
+
       }
 
       border-bottom: 1px solid #ddd;

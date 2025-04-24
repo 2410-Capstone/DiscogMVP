@@ -1267,14 +1267,6 @@ body[data-theme=dark] {
   color: var(--text-color);
   min-height: 100vh;
 }
-.cart-page::before {
-  content: "";
-  display: block;
-  height: 1px;
-  background-color: #ddd;
-  width: 100%;
-  margin-bottom: 2rem;
-}
 .cart-page .cart-container {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -1287,6 +1279,12 @@ body[data-theme=dark] {
   .cart-page .cart-container {
     grid-template-columns: 1fr;
   }
+}
+.cart-page .full-width-divider {
+  grid-column: 1/-1;
+  height: 1px;
+  background: #ddd;
+  margin: 1rem 0 2rem;
 }
 .cart-page .cart-items {
   padding-top: 0;
