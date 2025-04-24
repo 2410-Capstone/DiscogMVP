@@ -11,6 +11,7 @@ const { getOrderItems } = require("../db/orders");
 const { deleteOrder } = require("../db/orders");
 const { deleteOrderItem } = require("../db/orders");
 const { calculateOrderTotal } = require("../db/orders");
+const isAdmin = require('../middleware/isAdminMiddleware');
 const router = express.Router();
 
 router.get("/orders", authenticateToken, async (req, res, next) => {
@@ -21,6 +22,43 @@ router.get("/orders", authenticateToken, async (req, res, next) => {
     }
     res.json(orders);
   } catch (error) {
+    next(error);
+  }
+});
+
+// Get all orders for admin
+router.get("/admin/all", authenticateToken, isAdmin, async (req, res, next) => {
+  try {
+    const result = await pool.query(/*sql*/`
+      SELECT 
+        o.id AS order_id,
+        o.total,
+        o.order_status,
+        o.created_at,
+        o.shipping_address,
+        o.tracking_number,
+        u.name AS user_name,
+        u.email,
+        p.payment_status,
+        json_agg(json_build_object(
+          'product_id', oi.product_id,
+          'artist', pr.artist,
+          'description', pr.description,
+          'price', pr.price,
+          'quantity', oi.quantity
+        )) AS items
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      LEFT JOIN payments p ON p.order_id = o.id
+      LEFT JOIN order_items oi ON oi.order_id = o.id
+      LEFT JOIN products pr ON pr.id = oi.product_id
+      GROUP BY o.id, u.name, u.email, p.payment_status, o.tracking_number
+      ORDER BY o.created_at DESC;
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error fetching all admin orders:", error);
     next(error);
   }
 });

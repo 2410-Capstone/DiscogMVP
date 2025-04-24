@@ -31,6 +31,7 @@ import AdminUserList from "./pages/Admin/UserList";
 import AdminEditUser from "./pages/Admin/EditUser";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import Inventory from "./pages/Admin/Inventory";
+import AdminOrders from "./pages/Admin/AdminOrders";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -58,30 +59,28 @@ function App() {
     <>
       <Navbar isAuthenticated={isAuthenticated} setUser={setUser} setToken={setToken} onSearch={setSearchTerm} />
       <div className='page-content'>
-        <Routes>
-          <Route path='*' element={<NotFound />} />
-          <Route path='/' element={<Welcome />} />
-          <Route path='/home' element={<ItemList />} />
-          {/* <Route path="/products" element={<ProductList />} /> */}
-          <Route path='/home/:itemId' element={<ProductDetails />} />
-          {/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
-          <Route path='/login' element={<Login setToken={setToken} setUser={setUser} />} />
-          <Route path='/register' element={<Register setToken={setToken} setUser={setUser} />} />
-          <Route path='/account' element={<Account />} />
-          <Route path='/profile/:username' element={<Profile />} />
-          <Route path='/account' element={isAuthenticated ? <Account user={user} /> : <Navigate to='/login' />} />
-          <Route
-            path='/account/orders'
-            element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to='/login' />}
-          />
-          {/* <Route path="/albums" element={<Allreleases />} /> */}
-          <Route path='/cart' element={<Cart user={user} />} />
-          <Route path='/checkout' element={<Checkout user={user} />} />
-          <Route path='/admin/users' element={<AdminUserList />} />
-          <Route path='/admin/users/:id/edit' element={<AdminEditUser />} />
-          <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/admin/inventory' element={<Inventory />} />
-        </Routes>
+<Routes>
+  <Route path="*" element={<NotFound />} />
+  <Route path="/" element={<Welcome />} />
+  <Route path="/home" element={<ItemList />} />
+  <Route path="/home/:itemId" element={<ProductDetails />} />
+  <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
+  <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+  <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
+  <Route path="/profile/:username" element={<Profile />} />
+  <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
+  <Route path="/cart" element={<Cart user={user} />} />
+  <Route path="/checkout" element={<Checkout user={user} />} />
+  <Route path="/admin/users" element={<AdminUserList />} />
+  <Route path="/admin/users/:id/edit" element={<AdminEditUser />} />
+  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+  <Route path="/admin/inventory" element={<Inventory />} />
+  <Route path="/admin/orders" element={<AdminOrders />} />
+    
+{/* <Route path="/oauth" element={<OAuthLogin setToken={setToken} setUser={setUser} />} /> */}
+</Routes>
+
+
       </div>
       <Footer />
       <ToastContainer position='bottom-right' autoClose={3000} theme='dark' />
