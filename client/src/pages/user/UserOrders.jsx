@@ -32,7 +32,7 @@ const UserOrders = () => {
   if (error) return <div>{error}</div>;
   if (orders.length === 0) return <div>No orders found</div>;
 
-  const complete_statuses = ["shipped", "delivered, cancelled"];
+  const complete_statuses = ["shipped", "delivered", "cancelled"];
   const incomplete_statuses = ["created", "processing"];
   const order_statuses_map = {
     created: "Created",

@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 
 import Welcome from "./pages/Welcome";
 import ItemList from "./pages/Home";
-import Account from "./pages/User/Account";
+import Account from "./pages/user/Account";
 import Profile from "./pages/User/Profile";
 
 import ProductDetails from "./components/products/ProductDetails";
@@ -83,7 +83,7 @@ function App() {
       return () => clearTimeout(timer);
     }, []);
 
-    return shouldRedirect ? <Navigate to="/login" replace /> : <div>Redirecting...</div>;
+    return shouldRedirect ? <Navigate to='/login' replace /> : <div>Redirecting...</div>;
   };
 
   return (
@@ -98,33 +98,39 @@ function App() {
         />
       )}
 
-      <div className="page-content">
+      <div className='page-content'>
         <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<Welcome />} />
-          <Route path="/home" element={<ItemList />} />
-          <Route path="/home/:productId" element={<ProductDetails />} />
-          <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
-          <Route path="/register" element={<Register setToken={setToken} setUser={setUser} />} />
+          <Route path='*' element={<NotFound />} />
+          <Route path='/' element={<Welcome />} />
+          <Route path='/home' element={<ItemList />} />
+          <Route path='/home/:productId' element={<ProductDetails />} />
+          <Route path='/login' element={<Login setToken={setToken} setUser={setUser} />} />
+          <Route path='/register' element={<Register setToken={setToken} setUser={setUser} />} />
 
           {/* User routes */}
-          <Route path="/account" element={isAuthenticated ? <Account user={user} /> : <Navigate to="/login" />} />
-          <Route path="/profile/:username" element={isAuthenticated ? <Profile user={user} /> : <Navigate to="/login" />} />
-          <Route path="/account/orders" element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to="/login" />} />
-          <Route path="/cart" element={isAuthenticated ? <Cart user={user} /> : <Navigate to="/login" />} />
-          <Route path="/checkout" element={isAuthenticated ? <Checkout user={user} /> : <Navigate to="/login" />} />
+          <Route path='/account' element={isAuthenticated ? <Account user={user} /> : <Navigate to='/login' />} />
+          <Route
+            path='/profile/:username'
+            element={isAuthenticated ? <Profile user={user} /> : <Navigate to='/login' />}
+          />
+          <Route
+            path='/account/orders'
+            element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to='/login' />}
+          />
+          <Route path='/cart' element={isAuthenticated ? <Cart user={user} /> : <Navigate to='/login' />} />
+          <Route path='/checkout' element={isAuthenticated ? <Checkout user={user} /> : <Navigate to='/login' />} />
 
           {/* Admin routes using AdminLayout + permissions */}
           <Route
-            path="/admin/*"
+            path='/admin/*'
             element={isAuthenticated && user?.user_role === "admin" ? <AdminLayout /> : <AdminRedirect />}
           >
             <Route index element={<Dashboard />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="users" element={<AdminUserList />} />
-            <Route path="users/:id/edit" element={<AdminEditUser />} />
-            <Route path="inventory" element={<Inventory />} />
-            <Route path="orders" element={<AdminOrders />} />
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='users' element={<AdminUserList />} />
+            <Route path='users/:id/edit' element={<AdminEditUser />} />
+            <Route path='inventory' element={<Inventory />} />
+            <Route path='orders' element={<AdminOrders />} />
           </Route>
         </Routes>
       </div>
