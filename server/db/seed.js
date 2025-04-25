@@ -35,14 +35,14 @@ const seedUsers = async () => {
       password: "hashedpassword1",
       name: "Monkey D. Luffy",
       address: "1 Sunny Go St",
-      user_role: "customer",
+      user_role: "admin",
     }),
     createUser({
       email: "zoro@example.com",
       password: "hashedpassword2",
       name: "Roronoa Zoro",
       address: "2 Swords Ave",
-      user_role: "customer",
+      user_role: "admin",
     }),
     createUser({
       email: "nami@example.com",

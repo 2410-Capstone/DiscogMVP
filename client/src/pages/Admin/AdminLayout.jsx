@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopbar from "./AdminTopbar";
 
-const AdminLayout = () => {
+const AdminLayout = ({ user }) => {
   return (
     <div className="admin-console">
-      <AdminSidebar />
+      <AdminSidebar user={user} />
       <div className="admin-content">
         <AdminTopbar />
         <main className="admin-main">
