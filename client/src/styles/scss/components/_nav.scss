@@ -63,13 +63,14 @@
   text-decoration: none;
 }
 
-.nav-logo:hover,
-.lognav-logo:hover,
-.product-nav-button:hover,
-.back-to-products-button:hover {
-  animation: double_flash 1.5s ease-in-out forwards;
-  transform: scale(1.1);
-}
+
+// .nav-logo:hover,
+// .lognav-logo:hover,
+// .product-nav-button:hover,
+// .back-to-products-button:hover {
+//   animation: double_flash 1.5s ease-in-out forwards;
+//   transform: scale(1.1);
+// }
 
 .profile-pic {
   width: 40px;
