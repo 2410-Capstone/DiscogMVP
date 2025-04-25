@@ -287,15 +287,12 @@ router.delete("/:id", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
+    if (req.user.user_role !== "admin") {
+      return res.status(403).json({ error: "Only admins can delete orders" });
+    }
     const deletedOrder = await deleteOrder(orderId);
     if (!deletedOrder) {
       return res.status(404).json({ error: "Order not found" });
-    }
-    if (deletedOrder.user_id !== req.user.id) {
-      return res.status(403).json({ error: "Forbidden from deleting order" });
-    }
-    if (["shipped", "delivered"].includes(deletedOrder.order_status)) {
-      return res.status(400).json({ error: "Cannot cancel shipped or delivered orders" });
     }
     res.json({ message: "Order deleted successfully" });
   } catch (error) {
@@ -306,12 +303,12 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
   const { itemId } = req.params;
 
   try {
+    if (req.user.user_role !== "admin") {
+      return res.status(403).json({ error: "Only admins can delete order items" });
+    }
     const deletedOrderItem = await deleteOrderItem(itemId);
     if (!deletedOrderItem) {
       return res.status(404).json({ error: "Order item not found" });
-    }
-    if (deletedOrderItem.user_id !== req.user.id) {
-      return res.status(403).json({ error: "Forbidden from deleting order item" });
     }
     res.json({ message: "Order item deleted successfully" });
   } catch (error) {
