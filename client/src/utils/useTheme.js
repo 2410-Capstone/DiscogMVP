@@ -6,7 +6,7 @@ export function useTheme() {
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: light)").matches;
     const initial = stored || (prefersDark ? "dark" : "light");
     setTheme(initial);
     document.body.setAttribute("data-theme", initial);

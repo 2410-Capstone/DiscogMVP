@@ -5,8 +5,8 @@
     justify-content: center;
     height: 100vh;
     text-align: center;
-    background: linear-gradient(135deg, #1e1e2f, #3c3c5f);
-    color: #fff;
+    background: var(--bg-color);
+    color: var(--text-color);;
     padding: 2rem;
   }
   
@@ -21,17 +21,13 @@
   }
   
   .home-link {
-    color: #61dafb;
+    color: var(--text-color);
     font-size: 1.1rem;
     text-decoration: none;
-    border: 2px solid #61dafb;
     padding: 0.5rem 1.2rem;
     border-radius: 6px;
     transition: all 0.3s ease;
   }
   
-  .home-link:hover {
-    background-color: #61dafb;
-    color: #1e1e2f;
-  }
+
   

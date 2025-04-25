@@ -12,34 +12,34 @@ const Profile = () => {
   const params = new URLSearchParams(location.search);
   const USE_MOCK_DATA = params.get("mock") === "true";
 
-  // Mock data
-  const mockProfile = {
-    username: "MonkeydLuffy",
+  // // Mock data
+  // const mockProfile = {
+  //   username: "MonkeydLuffy",
 
-    bio: "King of the Pirates • Long-life fan of wanting to be king of the pirates",
-    about:
-      "I'm going to be the king of the pirates.",
-    location: "The Grand Line",
-    email: "hello@example.com",
-    products: [
-      {
-        name: "Neon Genesis OST",
-        description: "Description of Neon Genesis OST",
-        link: "#"
-      },
-      {
-        name: "Cowboy Bebop Vinyl",
-        description: "Cowboy Bebop Description",
-        link: "#"
-      }
-    ],
-    interests: ["Pop Punk", "Classical", "Emo", "Electro", "Indie Rock"],
-    socials: [
-      { platform: "GitHub", url: "https://github.com/" },
-      { platform: "LinkedIn", url: "https://linkedin.com/" },
-    ],
-    updatedAt: "2025-04-18T00:00:00Z"
-  };
+  //   bio: "King of the Pirates • Long-life fan of wanting to be king of the pirates",
+  //   about:
+  //     "I'm going to be the king of the pirates.",
+  //   location: "The Grand Line",
+  //   email: "hello@example.com",
+  //   products: [
+  //     {
+  //       name: "Neon Genesis OST",
+  //       description: "Description of Neon Genesis OST",
+  //       link: "#"
+  //     },
+  //     {
+  //       name: "Cowboy Bebop Vinyl",
+  //       description: "Cowboy Bebop Description",
+  //       link: "#"
+  //     }
+  //   ],
+  //   interests: ["Pop Punk", "Classical", "Emo", "Electro", "Indie Rock"],
+  //   socials: [
+  //     { platform: "GitHub", url: "https://github.com/" },
+  //     { platform: "LinkedIn", url: "https://linkedin.com/" },
+  //   ],
+  //   updatedAt: "2025-04-18T00:00:00Z"
+  // };
 
   const [profile, setProfile] = useState(USE_MOCK_DATA ? mockProfile : null);
   const [loading, setLoading] = useState(!USE_MOCK_DATA);

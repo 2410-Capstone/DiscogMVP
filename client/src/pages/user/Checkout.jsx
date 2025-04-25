@@ -58,8 +58,10 @@ const Checkout = () => {
   }
 
   return (
+    <div className="checkout-page">
     <div className="checkout-container">
       <h1>Checkout</h1>
+      <div className="full-width-divider" />
       
       <div className="order-summary">
         <h3>Order Summary</h3>
@@ -102,6 +104,7 @@ const Checkout = () => {
         shippingAddress={shippingAddress}
         email={email}
       />
+    </div>
     </div>
   );
 };

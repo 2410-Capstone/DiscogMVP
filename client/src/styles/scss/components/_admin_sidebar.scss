@@ -1,46 +1,45 @@
 .admin-sidebar {
     width: 220px;
-    background-color: #1e1e2f;
-    color: white;
+    background-color: var(--card-bg);
+    color: black;
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-  
-  .admin-title {
+}
+
+.admin-title {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 2rem;
     text-align: center;
-  }
-  
-  .admin-nav {
+}
+
+.admin-nav {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-  
-  .admin-link {
-    color: white;
+}
+
+.admin-link {
+    color: var(--text-color);
     text-decoration: none;
     padding: 0.75rem 1rem;
     border-radius: 6px;
     font-weight: 500;
     transition: background 0.2s ease;
-  
-    &.active {
-      background: #3a3a56;
-    }
-  
-    &:hover {
-      background: #2a2a44;
-    }
-  }
-  
 
-  .admin-header {
+    &.active {
+        background: #3a3a56;
+        color: white;
+    }
+
+    &:hover {
+        background: #2a2a44;
+    }
+}
+
+.admin-header {
     padding-bottom: 2rem;
     padding-left: 1rem;
-
-  }
+}
