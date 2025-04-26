@@ -1,60 +1,48 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
-export default function Login({ setToken, setUser }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
-
+  
     try {
       const loginRes = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const loginData = await loginRes.json();
       console.log("Login Response:", loginData);
-
-      if (!loginData.token) throw new Error("Invalid credentials");
-
-      localStorage.setItem("token", loginData.token);
-      setToken(loginData.token);
-      console.log("JWT Token set:", loginData.token); 
-
-      const userRes = await fetch("api/auth/me", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${loginData.token}`,
-        },
-      });
-
-      const userData = await userRes.json();
-      console.log("User Data:", userData);
-      if (!userData?.id) throw new Error("Failed to fetch user data");
-
-      localStorage.setItem("user", JSON.stringify(userData));
-      setUser(userData);
-
-      if (userData.user_role === 'admin') {
-        toast.success(`Welcome Admin ${userData.name}`, { autoClose: 2500 });
+  
+      if (!loginData.token || !loginData.user) throw new Error("Invalid login response");
+  
+      login(loginData.user, loginData.token);
+  
+      if (loginData.user.user_role === 'admin') {
+        toast.success(`Welcome Admin ${loginData.user.name}`, { autoClose: 2500 });
         navigate("/admin/dashboard");
       } else {
-        toast.success(`Welcome back, ${userData.name}`, { autoClose: 2500 });
+        toast.success(`Welcome back, ${loginData.user.name}`, { autoClose: 2500 });
         navigate("/account");
-      }          
+      }
     } catch (err) {
       setError(err.message);
     }
   };
+  
 
   return (
     <div className="login-page">

@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
-export default function Register({ setToken, setUser }) {
+
+export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,27 +31,25 @@ export default function Register({ setToken, setUser }) {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        if (res.status === 409 || data.error === "Email already exists") {
-          toast.error("An account with this email already exists.");
-        } else {
-          toast.error(data.error || "Registration failed.");
-        }
-        throw new Error(data.error || `Registration failed (${res.status})`);
-      }
+if (!res.ok || !data.token || !data.user) {
+  if (res.status === 409 || data.error === "Email already exists") {
+    toast.error("An account with this email already exists.");
+  } else {
+    toast.error(data.error || "Registration failed.");
+  }
+  throw new Error(data.error || `Registration failed (${res.status})`);
+}
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
 
-      setToken(data.token);
-      setUser(data.user);
+      login(data.user, data.token);
+
 
       toast.success("Registration successful! Welcome!");
       setName("");
       setEmail("");
       setPassword("");
 
-      navigate("/dashboard");
+      navigate("/account");
     } catch (err) {
       console.error("Registration error details:", {
         error: err,

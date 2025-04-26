@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <GoogleOAuthProvider clientId={clientId}>
       <BrowserRouter>
         <>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
           <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
         </>
       </BrowserRouter>

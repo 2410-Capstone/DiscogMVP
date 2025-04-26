@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import DiscogsImage from '../../components/products/DiscogsImage';
-
+// import DiscogsImage from '../../components/products/DiscogsImage';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -83,7 +82,7 @@ const Inventory = () => {
         </thead>
         <tbody>
           {filtered.map((product) => (
-            <tr key={product.id}>
+            <tr key={product.id} className="inventory-item">
               <td>
                 {product.release_id ? (
                   <img src={product.image_url || "/placeholder.png"} alt="Album Art" className="thumbnail" />
@@ -100,7 +99,9 @@ const Inventory = () => {
               </td>
               <td>{getStockStatus(product.stock)}</td>
               <td>
-                <Link to={`/admin/products/${product.id}/edit`}>Edit</Link>
+                <Link to={`/admin/edit-product/${product.id}`}>
+                  <button className="edit-button">Edit</button>
+                </Link>
               </td>
             </tr>
           ))}

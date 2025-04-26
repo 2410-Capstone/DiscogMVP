@@ -1,27 +1,26 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Search } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
 import SearchBar from "./SearchBar";
 import cartImg from "../assets/bag.png";
 import defaultProfilePic from "../assets/default-profile.png";
 
-function Navbar({ isAuthenticated, setUser, setToken, onSearch, user }) {
+function Navbar({ isAuthenticated, onSearch }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
   const profileRef = useRef(null);
+  const { user, logout } = useContext(AuthContext);
 
   const isOnMainPage = location.pathname === "/";
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setUser(null);
-    setToken("");
-    navigate("/");
-  };
+    logout();
+    navigate("/login");
+  };  
 
   const toggleSearch = () => {
     setSearchVisible((prev) => !prev);
