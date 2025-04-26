@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const OrderConfirmation = () => {
   const { state } = useLocation();
-  const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
-    if (!state?.orderDetails) {
-      navigate("/");
-      return;
+    if (state?.orderDetails) {
+      setOrderDetails(state.orderDetails);
     }
-    setOrderDetails(state.orderDetails);
-  }, [state, navigate]);
+  }, [state]);
 
   return (
     <div>
-      <h1>OrderConfirmation Component</h1>
+      <h1>Order Confirmation</h1>
+      {orderDetails ? (
+        <div>
+          <p>Order ID: {orderDetails.id}</p>
+          <p>Thank you for your purchase!</p>
+        </div>
+      ) : (
+        <p>No order details found.</p>
+      )}
     </div>
   );
 };
