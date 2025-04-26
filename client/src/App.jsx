@@ -33,6 +33,7 @@ import AdminEditUser from "./pages/Admin/EditUser";
 import Inventory from "./pages/Admin/Inventory";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
+import EditProduct from "./pages/Admin/EditProduct";
 
 function App() {
   const location = useLocation();
@@ -117,14 +118,9 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<ItemList />} />
           <Route path="/home/:productId" element={<ProductDetails />} />
-          <Route
-            path="/login"
-            element={<Login setToken={setToken} setUser={setUser} />}
-          />
-          <Route
-            path="/register"
-            element={<Register setToken={setToken} setUser={setUser} />}
-          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
 
           {/* User routes */}
           <Route
@@ -188,6 +184,7 @@ function App() {
             <Route path="users" element={<AdminUserList />} />
             <Route path="users/:id/edit" element={<AdminEditUser />} />
             <Route path="inventory" element={<Inventory />} />
+            <Route path="edit-product/:id" element={<EditProduct />} />
             <Route path="orders" element={<AdminOrders />} />
           </Route>
         </Routes>
