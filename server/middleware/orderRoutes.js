@@ -11,7 +11,7 @@ const { getOrderItems } = require("../db/orders");
 const { deleteOrder } = require("../db/orders");
 const { deleteOrderItem } = require("../db/orders");
 const { calculateOrderTotal } = require("../db/orders");
-const isAdmin = require('../middleware/isAdminMiddleware');
+const isAdmin = require("../middleware/isAdminMiddleware");
 const router = express.Router();
 
 router.get("/orders", authenticateToken, async (req, res, next) => {
@@ -26,13 +26,11 @@ router.get("/orders", authenticateToken, async (req, res, next) => {
   }
 });
 
-
-
-
 // Adding purchased albums for current user to be displayed on page/profile
 router.get("/user/albums", authenticateToken, async (req, res, next) => {
   try {
-    const result = await pool.query(/*sql*/`
+    const result = await pool.query(
+      /*sql*/ `
       SELECT 
         pr.id AS product_id,
         pr.description AS title,
@@ -44,7 +42,9 @@ router.get("/user/albums", authenticateToken, async (req, res, next) => {
       JOIN products pr ON oi.product_id = pr.id
       WHERE o.user_id = $1
       ORDER BY o.created_at DESC
-    `, [req.user.id]);
+    `,
+      [req.user.id]
+    );
 
     res.json(result.rows);
   } catch (error) {
@@ -53,15 +53,10 @@ router.get("/user/albums", authenticateToken, async (req, res, next) => {
   }
 });
 
-
-
-
-
-
 // Get all orders for admin
 router.get("/admin/all", authenticateToken, isAdmin, async (req, res, next) => {
   try {
-    const result = await pool.query(/*sql*/`
+    const result = await pool.query(/*sql*/ `
       SELECT 
         o.id AS order_id,
         o.total,
@@ -150,17 +145,37 @@ router.patch("/:id", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
-    const updatedOrder = await updateOrder({
-      order_id: orderId,
-      updates: { order_status, tracking_number, shipping_address },
-    });
-
-    if (!updatedOrder) {
-      return res.status(404).json({ error: "Order not found failed to update" });
+    const order = await getOrderById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
     }
-    if (updatedOrder.user_id !== req.user.id && req.user.user_role !== "admin") {
+    if (req.user.user_role === "admin") {
+      const updatedOrder = await updateOrder({
+        order_id: orderId,
+        updates: { order_status, tracking_number, shipping_address },
+      });
+      return res.json(updatedOrder);
+    }
+    if (order.user_id !== req.user.id) {
       return res.status(403).json({ error: "Forbidden from updating order" });
     }
+    if (["shipped", "delivered"].includes(order.order_status)) {
+      return res.status(400).json({ error: "Cannot update shipped or delivered orders" });
+    }
+    const updates = {};
+    if (order_status === "cancelled") {
+      updates.order_status = "cancelled";
+    }
+    if (shipping_address) {
+      updates.shipping_address = shipping_address;
+    }
+    if (Object.keys(updates).length === 0) {
+      return res.status(403).json({ error: "You can only cancel or update shipping address" });
+    }
+    const updatedOrder = await updateOrder({
+      order_id: orderId,
+      updates,
+    });
     res.json(updatedOrder);
   } catch (error) {
     next(error);
@@ -272,12 +287,12 @@ router.delete("/:id", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
+    if (req.user.user_role !== "admin") {
+      return res.status(403).json({ error: "Only admins can delete orders" });
+    }
     const deletedOrder = await deleteOrder(orderId);
     if (!deletedOrder) {
       return res.status(404).json({ error: "Order not found" });
-    }
-    if (deletedOrder.user_id !== req.user.id) {
-      return res.status(403).json({ error: "Forbidden from deleting order" });
     }
     res.json({ message: "Order deleted successfully" });
   } catch (error) {
@@ -288,12 +303,12 @@ router.delete("/:orderId/items/:itemId", authenticateToken, async (req, res, nex
   const { itemId } = req.params;
 
   try {
+    if (req.user.user_role !== "admin") {
+      return res.status(403).json({ error: "Only admins can delete order items" });
+    }
     const deletedOrderItem = await deleteOrderItem(itemId);
     if (!deletedOrderItem) {
       return res.status(404).json({ error: "Order item not found" });
-    }
-    if (deletedOrderItem.user_id !== req.user.id) {
-      return res.status(403).json({ error: "Forbidden from deleting order item" });
     }
     res.json({ message: "Order item deleted successfully" });
   } catch (error) {

@@ -126,7 +126,7 @@ const Cart = () => {
             cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
                 <div className="item-image">
-                  <DiscogsImage releaseId={item.product_id} />
+                  <DiscogsImage imageUrl={item.image_url} />
                 </div>
                 <div className="item-details">
                   <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
