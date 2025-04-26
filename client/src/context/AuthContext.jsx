@@ -8,21 +8,28 @@ export const AuthProvider = ({ children }) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
   const [token, setToken] = useState(() => localStorage.getItem('token') || '');
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    if (token && !user) {
-      fetch('/api/auth/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then(res => res.json())
-        .then(data => setUser(data))
-        .catch(() => {
+    const fetchUser = async () => {
+      if (token && !user) {
+        try {
+          const res = await fetch('/api/auth/me', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          setUser(data);
+        } catch {
           setUser(null);
           setToken('');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
-        });
-    }
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUser();
   }, [token]);
 
   const login = (userData, userToken) => {
@@ -40,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

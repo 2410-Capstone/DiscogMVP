@@ -1,5 +1,8 @@
 import "./styles/scss/App.scss";
 import React, { useEffect, useState, useRef } from "react";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext"; 
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -35,34 +38,35 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
 import EditProduct from "./pages/Admin/EditProduct";
 
+
 function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
-
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, token, loading } = useContext(AuthContext);
+  // const [user, setUser] = useState(null);
+  // const [token, setToken] = useState(null);
+  // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem("token");
+  //   const storedUser = localStorage.getItem("user");
 
-    try {
-      const parsedUser = JSON.parse(storedUser);
-      console.log("User role on load:", parsedUser?.user_role);
-      if (storedToken && parsedUser) {
-        setToken(storedToken);
-        setUser(parsedUser);
-      }
-    } catch (err) {
-      console.error("Failed to parse stored user:", err);
-    }
+  //   try {
+  //     const parsedUser = JSON.parse(storedUser);
+  //     console.log("User role on load:", parsedUser?.user_role);
+  //     if (storedToken && parsedUser) {
+  //       setToken(storedToken);
+  //       setUser(parsedUser);
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to parse stored user:", err);
+  //   }
 
-    setLoading(false);
-  }, []);
+  //   setLoading(false);
+  // }, []);
 
-  if (loading) return null;
+  if (loading) return <div>Loading...</div>;
 
   const isAuthenticated = !!token;
 
@@ -105,8 +109,8 @@ function App() {
       {!isAdminRoute && (
         <Navbar
           isAuthenticated={isAuthenticated}
-          setUser={setUser}
-          setToken={setToken}
+          // setUser={setUser}
+          // setToken={setToken}
           onSearch={setSearchTerm}
           user={user}
         />

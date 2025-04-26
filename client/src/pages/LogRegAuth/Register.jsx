@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
-export default function Register({ setToken, setUser }) {
+export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,20 +25,17 @@ export default function Register({ setToken, setUser }) {
 
       const data = await res.json();
 
-      if (!res.ok) {
+      if (!res.ok || !data.token || !data.user) {
         throw new Error(data.message || `Registration failed (${res.status})`);
       }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      login(data.user, data.token);
 
-      setToken(data.token);
-      setUser(data.user);
 
       //TEMP, to be updated later with a redirect or something
       alert("Registration successful! You are now logged in.");
 
-      navigate("/dashboard");
+      navigate("/account");
     } catch (err) {
       console.error("Registration error details:", {
         error: err,
