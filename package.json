@@ -8,7 +8,8 @@
     "seed": "node server/db/seed.js",
     "test": "jest",
     "backfill:genres": "node server/utils/backfillGenres.cjs",
-    "backfill:images": "node server/utils/fetchDiscogsImages.cjs"
+    "backfill:images": "node server/utils/fetchDiscogsImages.cjs",
+    "backfill:bio": "node server/utils/backfillBio.cjs"
   },
   "keywords": [],
   "author": "",

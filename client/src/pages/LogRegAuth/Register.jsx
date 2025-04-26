@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 export default function Register({ setToken, setUser }) {
@@ -13,6 +14,11 @@ export default function Register({ setToken, setUser }) {
     event.preventDefault();
     setError(null);
 
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters.");
+      return;
+    }
+
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -23,7 +29,12 @@ export default function Register({ setToken, setUser }) {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || `Registration failed (${res.status})`);
+        if (res.status === 409 || data.error === "Email already exists") {
+          toast.error("An account with this email already exists.");
+        } else {
+          toast.error(data.error || "Registration failed.");
+        }
+        throw new Error(data.error || `Registration failed (${res.status})`);
       }
 
       localStorage.setItem("token", data.token);
@@ -32,8 +43,10 @@ export default function Register({ setToken, setUser }) {
       setToken(data.token);
       setUser(data.user);
 
-      //TEMP, to be updated later with a redirect or something
-      alert("Registration successful! You are now logged in.");
+      toast.success("Registration successful! Welcome!");
+      setName("");
+      setEmail("");
+      setPassword("");
 
       navigate("/dashboard");
     } catch (err) {

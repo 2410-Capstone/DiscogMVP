@@ -64,7 +64,8 @@ const createTables = async () => {
         stock INTEGER DEFAULT 0,
         release_id TEXT,
         created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
+        updated_at TIMESTAMP DEFAULT NOW(),
+        artist_details TEXT
       );
       `);
 
