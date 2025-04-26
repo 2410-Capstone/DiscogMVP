@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server/startServer.js",
     "start": "node server/startServer.js",
-    "seed": "node server/db/seed.js",
+    "seed": "node server/db/seed.js && npm run backfill:genres && npm run backfill:images",
     "test": "jest",
     "backfill:genres": "node server/utils/backfillGenres.cjs",
     "backfill:images": "node server/utils/fetchDiscogsImages.cjs",
