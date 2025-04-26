@@ -27,7 +27,6 @@ router.get('/all', async (req, res) => {
   }
 });
 
-
 router.get('/:id', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM products WHERE id = $1', [req.params.id]);
@@ -40,7 +39,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch product' });
   }
 });
-
 
 // Protected product routes
 router.post('/', authenticateToken, isAdmin, 
@@ -78,7 +76,7 @@ router.put('/:id', authenticateToken, isAdmin,
     body('price').isFloat({ min: 0.01 }),
     body('stock').isInt({ min: 0 }),
     body('genre').notEmpty().trim().escape(),
-    body('image').optional().isURL()
+    // body('image').optional().isURL()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -86,14 +84,28 @@ router.put('/:id', authenticateToken, isAdmin,
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { artist, description, price, image, genre, stock } = req.body;
+    const { artist, description, price, genre, stock } = req.body;
 
     try {
+
+      // Fetch the existing product to keep its current image_url
+      const existingProduct = await pool.query(
+        'SELECT image_url FROM products WHERE id = $1',
+        [req.params.id]
+      );
+      
+      if (existingProduct.rows.length === 0) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      
+      const existingImageUrl = existingProduct.rows[0].image_url;
+
+      // Update product without changing the image_url
       const result = await pool.query(
         `UPDATE products 
          SET artist = $1, description = $2, price = $3, image_url = $4, genre = $5, stock = $6
          WHERE id = $7 RETURNING *`,
-        [artist, description, price, image, genre, stock, req.params.id]
+        [artist, description, price, existingImageUrl, genre, stock, req.params.id]
       );
 
       if (result.rows.length === 0) {
