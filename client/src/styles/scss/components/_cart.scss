@@ -3,12 +3,20 @@
   height: 24px;
   object-fit: contain;
   cursor: pointer;
+  display: block;
+  margin: auto;
+  padding: 4px;
 }
+
+
+.cart-title {
+  color: black;
+}
+
 
 .cart-page {
   background-color: #ffffff;
   padding: 10rem 1rem;
-  color: var(--text-color);
   min-height: 100vh;
 
 
@@ -144,12 +152,13 @@
       flex-direction: column;
       gap: 1rem;
     
-      .summary-header {
+      .summary-heading {
         display: flex;
         justify-content: space-between;
         font-weight: 700;
         font-size: 1.05rem;
         margin-bottom: 0.5rem;
+        color: black;
       }
     
       .summary-divider {
@@ -177,6 +186,7 @@
         margin-top: 0.5rem;
         padding-top: 0.75rem;
         border-top: 1px solid #ddd;
+        color: black;
       }
     
       .checkout-btn {

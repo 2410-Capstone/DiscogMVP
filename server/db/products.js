@@ -15,14 +15,14 @@ const getProductById = async ({ id }) => {
 }
 
 
-const createProduct = async ({ artist, description, price, image_url, genre, stock, release_id }) => {
+const createProduct = async ({ artist, description, price, image_url, genre, stock, release_id, artist_details }) => {
   try {
     console.log("Creating product with release_id:", release_id);
     const { rows: [product] } = await pool.query(/*sql*/ `
-      INSERT INTO products (artist, description, price, image_url, genre, stock, release_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO products (artist, description, price, image_url, genre, stock, release_id, artist_details)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *;
-    `, [artist, description, price, image_url, genre, stock, release_id]);
+    `, [artist, description, price, image_url, genre, stock, release_id, artist_details]);
     return product;
   } catch (error) {
     console.error("Error creating product:", error);

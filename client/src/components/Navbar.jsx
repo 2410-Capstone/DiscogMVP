@@ -55,25 +55,17 @@ function Navbar({ isAuthenticated, onSearch }) {
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-left">
-            <Link to="/" className="nav-logo">DiscogMVP</Link>
+            <Link to="/home" className="nav-logo">DiscogMVP</Link>
           </div>
 
-          {!isOnMainPage && (
-            <div className="nav-center">
-              <Link to="/home" className="nav-button">Home</Link>
-            </div>
-          )}
+         <div className="nav-right">
+         <button className="nav-button search-icon" onClick={toggleSearch} aria-label="Toggle Search">
+  <Search size={16} />
+</button>
 
-          <div className="nav-right">
-            <button className="nav-button" onClick={toggleSearch} aria-label="Toggle Search">
-              <Search size={20} />
-            </button>
-
-            {isAuthenticated && (
-              <Link to="/cart" className="nav-button">
-                <img src={cartImg} alt="Cart" className="cart-icon" />
-              </Link>
-            )}
+            <Link to="/cart" className="nav-button" aria-label="Cart">
+    <img src={cartImg} alt="Cart" className="cart-icon" />
+  </Link>
 
             {isAuthenticated ? (
               <div className="account-dropdown" ref={profileRef}>

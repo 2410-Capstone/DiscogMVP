@@ -176,13 +176,9 @@ function App() {
           {/* Admin routes using AdminLayout + permissions */}
           <Route
             path="/admin/*"
-            element={
-              isAuthenticated && user?.user_role === "admin" ? (
-                <AdminLayout />
-              ) : (
-                <AdminRedirect />
-              )
-            }
+
+            element={isAuthenticated && user?.user_role === "admin" ? <AdminLayout user={user} /> : <AdminRedirect />}
+
           >
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />

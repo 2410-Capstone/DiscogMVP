@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
+
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -16,6 +17,11 @@ export default function Register() {
     event.preventDefault();
     setError(null);
 
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters.");
+      return;
+    }
+
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -25,15 +31,23 @@ export default function Register() {
 
       const data = await res.json();
 
-      if (!res.ok || !data.token || !data.user) {
-        throw new Error(data.message || `Registration failed (${res.status})`);
-      }
+if (!res.ok || !data.token || !data.user) {
+  if (res.status === 409 || data.error === "Email already exists") {
+    toast.error("An account with this email already exists.");
+  } else {
+    toast.error(data.error || "Registration failed.");
+  }
+  throw new Error(data.error || `Registration failed (${res.status})`);
+}
+
 
       login(data.user, data.token);
 
 
-      //TEMP, to be updated later with a redirect or something
-      alert("Registration successful! You are now logged in.");
+      toast.success("Registration successful! Welcome!");
+      setName("");
+      setEmail("");
+      setPassword("");
 
       navigate("/account");
     } catch (err) {

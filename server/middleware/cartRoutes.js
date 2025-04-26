@@ -1,6 +1,6 @@
 const express = require('express');
 const pool = require('../db/pool');
-const { addProductToCart, getOrCreateCart, updateCartItemQuantity, removeProductFromCart } = require('../db/carts');
+const { addProductToCart, getOrCreateCart, updateCartItemQuantity, removeProductFromCart, clearCart, getCartItems } = require('../db/carts');
 
 const authenticateToken = require('../middleware/authMiddleware');
 
@@ -86,7 +86,8 @@ router.post('/', authenticateToken, async (req, res) => {
  // DELETE /cart/clear
  router.delete('/clear', authenticateToken, async (req, res) => {
   try {
-    const clearedItems = await clearCart({ user_id: req.user.userId });
+    
+    const clearedItems = await clearCart({ user_id: req.user.id });
     res.json({ message: 'Cart cleared', clearedItems });
   } catch (error) {
     console.error(error);

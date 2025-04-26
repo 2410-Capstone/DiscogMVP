@@ -147,13 +147,16 @@ function StripeForm({ email, cartItems, shippingAddress }) {
         setStatus("succeeded");
         try {
           await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
-            method: "POST",
+            method: "DELETE",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ userId }),
           });
+          //Delete items from local cart after successful checkout. I was clearing it in the backend but not here as well.
+          localStorage.removeItem("cart");
+
           navigate("/order-confirmation", {
             state: {
               orderDetails: {

@@ -35,14 +35,14 @@ const seedUsers = async () => {
       password: "hashedpassword1",
       name: "Monkey D. Luffy",
       address: "1 Sunny Go St",
-      user_role: "customer",
+      user_role: "admin",
     }),
     createUser({
       email: "zoro@example.com",
       password: "hashedpassword2",
       name: "Roronoa Zoro",
       address: "2 Swords Ave",
-      user_role: "customer",
+      user_role: "admin",
     }),
     createUser({
       email: "nami@example.com",
@@ -192,9 +192,11 @@ const seedProducts = async () => {
         description: album.title,
         price,
         image_url: album.url,
-        genre: album.genre || "Unknown",
+        genre: album.genre?.[0] || "Unknown",
         stock,
         release_id,
+        artist_details: album.artist_details || null,
+
       });
       products.push(product);
       console.log(`Seeded: ${album.artist} - ${album.title}`);
