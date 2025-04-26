@@ -102,6 +102,9 @@ export default function ProductDetails() {
         <h1 className="product-title">{product.title}</h1>
         <p className="product-artist">{product.artist}</p>
         <p className="product-description">{product.description}</p>
+        <div className="product-artist-details">
+      <p>{product.artist_details}</p>
+    </div>
 
         {token && (
           <div className="button-container">

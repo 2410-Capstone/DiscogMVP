@@ -192,9 +192,11 @@ const seedProducts = async () => {
         description: album.title,
         price,
         image_url: album.url,
-        genre: album.genre || "Unknown",
+        genre: album.genre?.[0] || "Unknown",
         stock,
         release_id,
+        artist_details: album.artist_details || null,
+
       });
       products.push(product);
       console.log(`Seeded: ${album.artist} - ${album.title}`);
