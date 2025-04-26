@@ -15,7 +15,6 @@ const AddProduct = () => {
   const [success, setSuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
