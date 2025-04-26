@@ -33,3 +33,44 @@
     animation: shiny-wipe 1.2s ease-out forwards;
     opacity: 1;
 }
+
+
+.quantity-label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .cart_btn {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.2s ease;
+  
+    &:hover {
+      background-color: #e0e0e0;
+      border-radius: 4px;
+    }
+  }
+  
+  .cart_quantity {
+    min-width: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: black;
+  }
+  

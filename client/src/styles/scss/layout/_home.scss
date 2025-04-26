@@ -1,7 +1,7 @@
 .home-page {
     padding-top: 6rem;
     min-height: 100vh;
-    background: var(--card-bg);
+    background: var(--bg-color);
     background-size: cover;
     background-position: center;
     color: var(--text-color);
@@ -11,12 +11,11 @@
     animation: disney_fade_slide 0.8s ease-out forwards;
 }
 
-
 .home-page h1:not(.home-header) {
     font-size: 3rem;
     margin-bottom: 1rem;
     position: relative;
-    background: linear-gradient(0deg, #798181, #003b5c);
+    background: var(--accent-grad);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;

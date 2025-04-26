@@ -114,7 +114,9 @@ const Cart = () => {
   return (
     <main className="cart-page">
       <div className="cart-container">
-        <h2 className="cart-heading">Shopping cart</h2>
+        <div lassName="cart-title">
+          <h2>Shopping cart</h2>
+          </div>
         <div className="full-width-divider" />
 
         <section className="cart-items">
@@ -129,12 +131,22 @@ const Cart = () => {
                 <div className="item-details">
                   <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
                   <p>Format: Vinyl</p>
-                  <p>
-                    Quantity: 
-                    <button className="cart_btn cart_btn--minus" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1, item)}>-</button>
-                    <span className="cart_quantity"> {item.quantity} </span>
-                    <button className="cart_btn cart_btn--plus" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1, item)}>+</button>
-                  </p>
+                  <p className="quantity-label">Quantity:</p>
+<div className="quantity-controls">
+  <button
+    className="cart_btn cart_btn--minus"
+    onClick={() => handleUpdateQuantity(item.id, item.quantity - 1, item)}
+  >
+    -
+  </button>
+  <span className="cart_quantity">{item.quantity}</span>
+  <button
+    className="cart_btn cart_btn--plus"
+    onClick={() => handleUpdateQuantity(item.id, item.quantity + 1, item)}
+  >
+    +
+  </button>
+</div>
                   <p>Price: ${item.price.toFixed(2)}</p>
                   <p className="item-subtotal">
                     Subtotal: ${(item.price * item.quantity).toFixed(2)}

@@ -59,3 +59,37 @@
   }
   
   
+
+  .admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e3e6f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+  
+  .admin-right-tools {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .settings-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    color: #333;
+  
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  
+    svg {
+      stroke: #555;
+    }
+  }

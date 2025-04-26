@@ -1,116 +1,115 @@
 .inventory-container {
-    padding: 3rem 2rem;
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fade_slide 0.5s ease;
-  
-    .inventory-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-  
-      h2 {
-        font-size: 1.75rem;
+  padding: 3rem 2rem;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fade_slide 0.5s ease;
+
+  .inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+
+    .add-button {
+      background-color: var(--accent-color);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      font-weight: 500;
+
+      &:hover {
+        background-color: var(--accent-hover);
+      }
+    }
+  }
+
+  .inventory-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    input {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--input-bg);
+      color: var(--text-color);
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:hover {
+        background: var(--accent-hover);
+      }
+    }
+  }
+
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+
+    thead {
+      background-color: var(--card-bg);
+      th {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
         font-weight: 600;
       }
-  
-      .add-button {
-        background-color: var(--accent-color);
-        color: white;
-        padding: 0.6rem 1.2rem;
-        border-radius: 8px;
-        text-decoration: none;
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--border-color);
         transition: background 0.2s ease;
-        font-weight: 500;
-  
+
         &:hover {
-          background-color: var(--accent-hover);
+          background-color: rgba(255, 255, 255, 0.05);
         }
-      }
-    }
-  
-    .inventory-controls {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-  
-      input {
-        flex: 1;
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        background: var(--input-bg);
-        color: var(--text-color);
-      }
-  
-      button {
-        padding: 0.5rem 1rem;
-        border: none;
-        background: var(--accent-color);
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-  
-        &:hover {
-          background: var(--accent-hover);
-        }
-      }
-    }
-  
-    .inventory-table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow-x: auto;
-  
-      thead {
-        background-color: var(--card-bg);
-        th {
+
+        td {
           padding: 0.75rem 1rem;
-          text-align: left;
-          border-bottom: 1px solid var(--border-color);
-          font-weight: 600;
-        }
-      }
-  
-      tbody {
-        tr {
-          border-bottom: 1px solid var(--border-color);
-          transition: background 0.2s ease;
-  
-          &:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+          vertical-align: middle;
+
+          img {
+            border-radius: 8px;
+            max-height: 50px;
+            object-fit: cover;
           }
-  
-          td {
-            padding: 0.75rem 1rem;
-            vertical-align: middle;
-  
-            img {
-              border-radius: 8px;
-              max-height: 50px;
-              object-fit: cover;
-            }
-  
-            a {
-              color: var(--accent-color);
-              text-decoration: none;
-              font-weight: 500;
-  
-              &:hover {
-                text-decoration: underline;
-              }
+
+          a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+
+            &:hover {
+              text-decoration: underline;
             }
           }
         }
       }
     }
   }
-  
+}
