@@ -45,7 +45,7 @@
 
   cursor: pointer;
 
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out
 }
 
 .search-icon:hover {
@@ -158,4 +158,14 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+.search-icon svg {
+  stroke: white;
+  transition: transform 0.2s ease-in-out;
+}
+
+.search-icon:hover svg {
+  transform: scale(1.1);
+  stroke: #ccc;
 }
