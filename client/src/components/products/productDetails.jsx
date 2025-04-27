@@ -2,19 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import DiscogsImage from "./DiscogsImage";
-
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
-
   const [products, setProducts] = useState([]);
-  const [productImages, setProductImages] = useState({});
   const { productId } = useParams();
-
   const navigate = useNavigate();
   const scrollRef = useRef(null);
 
@@ -24,7 +19,6 @@ export default function ProductDetails() {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/products/${productId}`
         );
-        console.log("Fetching product from:", import.meta.env.VITE_BACKEND_URL);
         const productDetails = await response.json();
         setProduct(productDetails);
       } catch (error) {
@@ -39,7 +33,6 @@ export default function ProductDetails() {
         );
         const data = await response.json();
         setProducts(data);
-        setProductImages({});
       } catch (error) {
         console.error("Failed to load related products", error);
       }
@@ -47,11 +40,10 @@ export default function ProductDetails() {
 
     getProduct();
     getAllProducts();
-  }, [productId]);
+  }, [productId,]);
 
   const handleAddToCart = async () => {
     if (!product) return;
-
     try {
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/carts/items`,
@@ -81,6 +73,12 @@ export default function ProductDetails() {
     }
   };
 
+  const handleDetailsClick = (id) => {
+    navigate(`/home/${id}`);
+  };
+  
+  
+
   if (!product) return <p>Loading...</p>;
 
   return (
@@ -103,20 +101,17 @@ export default function ProductDetails() {
         <p className="product-artist">{product.artist}</p>
         <p className="product-description">{product.description}</p>
         <div className="product-artist-details">
-      <p>{product.artist_details}</p>
-    </div>
+          <p>{product.artist_details}</p>
+        </div>
 
         {token && (
-          <div className="button-container">
-            {/* <button className="checkout-button" disabled={!product.isAvailable}> */}
-
+          <div className="cart-button-container">
             <button
               className="add-to-cart-button"
               onClick={handleAddToCart}
               disabled={!product}
             >
-              Add to cart
-
+              Add to Cart
             </button>
           </div>
         )}
@@ -126,18 +121,27 @@ export default function ProductDetails() {
 
       <div className="related-products" ref={scrollRef}>
         <h2>More Products</h2>
-
-
-        {/* I need to work on this part here 
         <div className="products-grid">
-          {products.map((item) => (
-            <ProductCard
-              key={item.id}
-              item={item}
-              handleDetailsClick={handleDetailsClick}
-            />
-          ))}
-        </div>*/}
+  {products
+    .filter((item) => item.id !== product.id)
+    .map((item) => (
+      <div
+        key={item.id}
+        className="related-product-card"
+        onClick={() => handleDetailsClick(item.id)}
+      >
+        <img
+          src={item.image_url}
+          alt={item.title}
+          className="related-card-image"
+        />
+        <div className="related-card-info">
+          <h3 className="related-card-title">{item.title}</h3>
+          <p className="related-card-artist">{item.artist}</p>
+        </div>
+      </div>
+    ))}
+</div>
       </div>
     </div>
   );

@@ -1,70 +1,126 @@
 .product-card {
-    background: #F3F4F6;
-    border-radius: 6px;
-    padding: 2rem 1.25rem;
-    max-width: 320px;
+  background: #F3F4F6;
+  border-radius: 6px;
+  padding: 1.5rem 1rem;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  .card-image {
     width: 100%;
-    text-align: center;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    max-width: 220px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1d1d1f;
+
+  }
+
+  .card-artist {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 0.15rem;
+  }
+
+  .card-genre {
+    font-size: 0.8rem;
+    color: #6e6e73;
+    font-style: italic;
+    margin-bottom: 0.25rem;
+  }
+
+  .market-price {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1b1b23;
+    margin-top: 0.5rem;
+  }
+
+  .add-to-bag-button, .details-button {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: white;
+    background-color: #595252;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #655e5e;
+    }
+  }
+}
+
+  
+
+
+
+.related-product-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    width: 160px;
+    height: 260px;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-
-    .card-image {
-        width: 100%;
-        max-width: 220px;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        border-radius: 16px;
-        margin-bottom: 1.25rem;
-        
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: start;
+  
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px var(--shadow-color);
     }
-
-    .card-title {
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: #1d1d1f;
-        margin-bottom: 0.4rem;
+  
+    .related-card-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background-color: var(--bg-color);
     }
-
-    .card-artist {
-        font-size: 0.95rem;
-        color: #444;
-        margin-bottom: 0.2rem;
+  
+    .related-card-info {
+      padding: 8px;
+      text-align: center;
+      width: 100%;
     }
-
-    .card-genre {
-        font-size: 0.85rem;
-        color: #6e6e73;
-        font-style: italic;
-        margin-bottom: 0.6rem;
+  
+    .related-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-color);
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-
-    .market-price {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #1b1b23;
-        margin-top: 0.75rem;
+  
+    .related-card-artist {
+      font-size: 0.85rem;
+      color: var(--text-color);
+      opacity: 0.7;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-
-    .add-to-bag-button, .details-button {
-        width: 100%;
-        margin-top: 0.5rem;
-        padding: 0.6rem 1rem;
-        font-weight: 500;
-        font-size: 0.95rem;
-        color: white;
-        background-color: #595252;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-
-        &:hover {
-            background-color: #655e5e;
-        }
-    }
-}
+  }
+  
