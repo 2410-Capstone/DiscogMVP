@@ -1,23 +1,14 @@
-.inventory-container {
-  padding: 3rem 2rem;
+.admin-inventory {
   color: var(--text-color);
-  background-color: var(--bg-color);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  max-width: 1200px;
-  margin: 0 auto;
-  animation: fade_slide 0.5s ease;
 
   .inventory-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 
     h2 {
-      font-size: 1.75rem;
+      font-size: 1.3rem;
       font-weight: 600;
     }
 
@@ -27,22 +18,24 @@
       padding: 0.6rem 1.2rem;
       border-radius: 8px;
       text-decoration: none;
-      transition: background 0.2s ease;
       font-weight: 500;
+      transition: background 0.2s ease;
 
       &:hover {
-        background-color: var(--accent-hover);
+        background: var(--accent-hover);
       }
     }
   }
 
   .inventory-controls {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 
     input {
       flex: 1;
+      min-width: 200px;
       padding: 0.5rem 1rem;
       border: 1px solid var(--border-color);
       border-radius: 8px;
@@ -56,8 +49,8 @@
       background: var(--accent-color);
       color: white;
       border-radius: 8px;
-      cursor: pointer;
       font-weight: 500;
+      cursor: pointer;
 
       &:hover {
         background: var(--accent-hover);
@@ -65,49 +58,103 @@
     }
   }
 
-  .inventory-table {
+  .inventory-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .admin-table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto;
 
     thead {
-      background-color: var(--card-bg);
+      background: #f7f7f7;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: #333;
+
       th {
-        padding: 0.75rem 1rem;
+        padding: 0.85rem 1rem;
         text-align: left;
-        border-bottom: 1px solid var(--border-color);
-        font-weight: 600;
       }
     }
 
     tbody {
       tr {
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #eee;
         transition: background 0.2s ease;
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.05);
+          background-color: #fafafa;
         }
+      }
 
-        td {
-          padding: 0.75rem 1rem;
-          vertical-align: middle;
+      td {
+        padding: 0.85rem 1rem;
+        color: #555;
+        position: relative;
+        text-align: left;
 
-          img {
-            border-radius: 8px;
-            max-height: 50px;
-            object-fit: cover;
-          }
+        img.thumbnail {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
 
-          a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
+  .edit-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border: 1px solid var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
-            &:hover {
-              text-decoration: underline;
-            }
-          }
+    &:hover {
+      background: var(--accent-hover-light);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .admin-table {
+      thead {
+        display: none;
+      }
+
+      tbody, tr, td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        background: #f9f9f9;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      td {
+        padding: 0.5rem 0;
+        text-align: right;
+
+        &::before {
+          content: attr(data-label);
+          position: absolute;
+          left: 1rem;
+          top: 0;
+          font-weight: 600;
+          color: #888;
+          font-size: 0.8rem;
         }
       }
     }

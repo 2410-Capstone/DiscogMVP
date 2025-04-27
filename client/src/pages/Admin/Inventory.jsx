@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import DiscogsImage from '../../components/products/DiscogsImage';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -49,9 +48,9 @@ const Inventory = () => {
   };
 
   return (
-    <div className="inventory-container">
+    <div className="admin-inventory">
       <div className="inventory-header">
-        <h2>Inventory Management</h2>
+        <h2>Inventory</h2>
         <Link to="/admin/products/new" className="add-button">Add Product</Link>
       </div>
 
@@ -67,46 +66,48 @@ const Inventory = () => {
         </button>
       </div>
 
-      <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Artist</th>
-            <th>Description</th>
-            <th>Genre</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map((product) => (
-            <tr key={product.id} className="inventory-item">
-              <td>
-                {product.release_id ? (
-                  <img src={product.image_url || "/placeholder.png"} alt="Album Art" className="thumbnail" />
-                ) : (
-                  'No Image'
-                )}
-              </td>
-              <td>{product.artist}</td>
-              <td>{product.description}</td>
-              <td>{product.genre}</td>
-              <td>${product.price}</td>
-              <td style={{ color: product.stock === 0 ? 'red' : 'green' }}>
-                {product.stock}
-              </td>
-              <td>{getStockStatus(product.stock)}</td>
-              <td>
-                <Link to={`/admin/edit-product/${product.id}`}>
-                  <button className="edit-button">Edit</button>
-                </Link>
-              </td>
+      <div className="inventory-table-wrapper">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Artist</th>
+              <th>Description</th>
+              <th>Genre</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Edit</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filtered.map((product) => (
+              <tr key={product.id}>
+                <td data-label="Image">
+                  {product.release_id ? (
+                    <img src={product.image_url || "/placeholder.png"} alt="Album Art" className="thumbnail" />
+                  ) : (
+                    'No Image'
+                  )}
+                </td>
+                <td data-label="Artist">{product.artist}</td>
+                <td data-label="Description">{product.description}</td>
+                <td data-label="Genre">{product.genre}</td>
+                <td data-label="Price">${product.price}</td>
+                <td data-label="Stock" style={{ color: product.stock === 0 ? 'red' : 'green' }}>
+                  {product.stock}
+                </td>
+                <td data-label="Status">{getStockStatus(product.stock)}</td>
+                <td data-label="Edit">
+                  <Link to={`/admin/edit-product/${product.id}`}>
+                    <button className="edit-btn">Edit</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
