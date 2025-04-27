@@ -1,0 +1,38 @@
+@use "../variables/_other_theme_variables";
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid other_theme_variables.$border-color;
+  border-radius: other_theme_variables.$border-radius;
+  background-color: white;
+  transition: all 0.3s ease;
+
+  &--focus {
+    box-shadow: 0 0 0 1px other_theme_variables.$primary-color;
+  }
+
+  &--invalid {
+    border-color: other_theme_variables.$error-color;
+  }
+
+  &--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+}
+
+.stripe-element-container {
+  position: relative;
+  margin: other_theme_variables.$spacing-unit 0;
+  padding: other_theme_variables.$spacing-unit;
+  border: 1px solid other_theme_variables.$border-color;
+  border-radius: other_theme_variables.$border-radius;
+  background-color: white;
+}
+
+.stripe-element-card {
+  font-size: 16px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  color: #aab7c4;
+}

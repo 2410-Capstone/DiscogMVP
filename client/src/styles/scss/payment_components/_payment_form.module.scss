@@ -1,6 +1,6 @@
 @use "sass:color";
 @use "sass:math";
-@use "../variables/variables" as vars;
+@use "../variables/_other_theme_variables" as vars;
 
 .container {
   max-width: 500px;

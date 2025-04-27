@@ -109,6 +109,55 @@
     }
   }
 
+
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  
+    th,
+    td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      text-align: left;
+    }
+  
+    th {
+      color: white;
+    }
+  
+    td {
+      color: black;
+    }
+  
+    thead {
+      background-color: #333;
+      color: #fff;
+    }
+  
+    select {
+      padding: 0.25rem;
+    }
+  
+    ul {
+      padding-left: 1rem;
+      margin: 0;
+    }
+  
+    img {
+      width: 75px;
+      height: 75px;
+      object-fit: cover;
+    }
+  }
+  
+
+
+
+
+
   .edit-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
