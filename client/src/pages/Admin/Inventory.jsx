@@ -6,6 +6,10 @@ const Inventory = () => {
   const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortAsc, setSortAsc] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,6 +21,9 @@ const Inventory = () => {
         setFiltered(data);
       } catch (err) {
         console.error(err);
+        setError(err.message || 'Failed to load inventory');
+      } finally {
+        setLoading(false);
       }
     };
     fetchProducts();
@@ -46,6 +53,9 @@ const Inventory = () => {
     if (stock < 5) return 'Low stock';
     return 'In stock';
   };
+
+  if (error) return <div className="error-message">Error: {error}</div>;
+  if (loading) return <div>Loading inventory...</div>;  
 
   return (
     <div className="admin-inventory">

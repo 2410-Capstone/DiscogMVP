@@ -20,6 +20,11 @@ const AddProduct = () => {
     setError("");
     setSuccess(false);
 
+    if (parseFloat(price) <= 0 || parseInt(stock) < 0) {
+      setError('Price must be greater than $0 and stock cannot be negative.');
+      return;
+    }    
+
     try {
       const response = await fetch("/api/products", {
         method: "POST",

@@ -32,6 +32,11 @@ const AdminTopbar = () => {
     profileTimeout.current = setTimeout(() => setProfileOpen(false), 300);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    navigate('/login'); 
+  };
+  
   return (
     <header className="admin-topbar">
       <h1 className="admin-header-title">Dashboard</h1>
@@ -100,7 +105,7 @@ const AdminTopbar = () => {
               <button className="dropdown-item" onClick={() => navigate("/home")}>
                 Home View
               </button>
-              <button className="dropdown-item">
+              <button className="dropdown-item" onClick={handleLogout}>
                 Logout
               </button>
             </div>

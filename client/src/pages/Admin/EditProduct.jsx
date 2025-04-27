@@ -40,6 +40,12 @@ const EditProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (parseFloat(form.price) <= 0 || parseInt(form.stock) < 0) {
+      toast.error('Price must be greater than $0 and stock cannot be negative.');
+      return;
+    }
+    
     try {
       const res = await fetch(`/api/products/${id}`, {
         method: 'PUT',
