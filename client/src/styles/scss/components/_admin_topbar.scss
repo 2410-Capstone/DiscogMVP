@@ -1,95 +1,200 @@
 .admin-topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #e3e6f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-color);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e3e6f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
   }
-  
-  .admin-header-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1b1e23;
+}
+
+.admin-header-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-color);
+  padding-right: 1rem;
+}
+
+.admin-header-tools {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
   }
-  
-  .admin-header-tools {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+}
+
+.admin-search {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+  outline: none;
+
+  @media (max-width: 768px) {
+    display: none;
   }
-  
-  .admin-search {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+}
+
+.admin-search-icon {
+  display: none;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: block;
+    color: #333;
+    font-size: 1.2rem;
+  }
+}
+
+.admin-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2f80ed;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  object-fit: cover;
+  position: relative;
+}
+
+.back-to-user-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .back-text {
+    display: inline;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.4rem 0.6rem;
+    font-size: 0;
+    border: none;
+    background: none;
+
+    &::before {
+      content: '←';
+      font-size: 1.4rem;
+    }
+
+    .back-text {
+      display: none;
+    }
+  }
+}
+
+.settings-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  color: #333;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f3f3f3;
+  }
+
+  svg {
+    stroke: #555;
+  }
+}
+
+.settings-dropdown {
+  position: relative;
+
+  .settings-dropdown-menu {
+    position: absolute;
+    top: 2.5rem;
+    right: 0;
+    background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #f1f1f1;
-    outline: none;
-  }
-  
-  .admin-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #2f80ed;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    cursor: pointer;
-  }
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    min-width: 160px;
+    z-index: 100;
 
-  .back-to-user-btn {
-    background: transparent;
-    border: 1px solid #ccc;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-    border-radius: 6px;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  
-    &:hover {
-      background-color: #f3f3f3;
-      border-color: #aaa;
-    }
-  }
-  
-  
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: #333;
+      background: white;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
 
-  .admin-topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #e3e6f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  }
-  
-  .admin-right-tools {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .settings-icon-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem;
-    border-radius: 6px;
-    transition: background 0.2s ease;
-    color: #333;
-  
-    &:hover {
-      background-color: #f3f3f3;
-    }
-  
-    svg {
-      stroke: #555;
+      &:hover {
+        background: #f7f7f7;
+      }
     }
   }
+}
+
+.profile-dropdown {
+  position: relative;
+
+  .profile-dropdown-menu {
+    position: absolute;
+    top: 2.5rem;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    min-width: 160px;
+    z-index: 100;
+
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: #333;
+      background: white;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #f7f7f7;
+      }
+    }
+  }
+}

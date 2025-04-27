@@ -2,11 +2,12 @@
 
   
   .checkout-page {
-    background-color: #ffffff;
+    background-color: var(--bg-color);
     padding: 10rem 1rem;
     color: var(--text-color);
     min-height: 100vh;
   
+    
   
     .checkout-container {
       display: grid;
@@ -19,12 +20,13 @@
       @media (max-width: 768px) {
         grid-template-columns: 1fr;
       }
+
     }
   
     .full-width-divider {
       grid-column: 1 / -1;
       height: 1px;
-      background: #ddd;
+      background: #d1d1d19e;
       margin: 1rem 0 2rem;
     }
     

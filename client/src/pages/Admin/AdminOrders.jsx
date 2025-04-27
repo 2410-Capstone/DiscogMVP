@@ -5,14 +5,13 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
+  const [expandedOrderId, setExpandedOrderId] = useState(null); // <-- New
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await fetch('/api/orders/admin/all', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
 
         if (!res.ok) throw new Error('Failed to fetch orders');
@@ -24,7 +23,6 @@ const AdminOrders = () => {
         setLoading(false);
       }
     };
-
     fetchOrders();
   }, []);
 
@@ -57,10 +55,17 @@ const AdminOrders = () => {
     ? orders
     : orders.filter(order => order.order_status === statusFilter);
 
+  const toggleExpand = (orderId) => {
+    setExpandedOrderId(prev => (prev === orderId ? null : orderId));
+  };
+
   return (
     <div className="admin-orders">
-      <h1>Admin Orders</h1>
+      <div className="order-title">
+      <h2>Orders</h2>
+      </div>
 
+      <div className="order-filter">
       <label>
         Filter by status:{" "}
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
@@ -71,6 +76,7 @@ const AdminOrders = () => {
           <option value="delivered">Delivered</option>
         </select>
       </label>
+      </div>
 
       {loading ? (
         <p>Loading orders...</p>
@@ -92,17 +98,18 @@ const AdminOrders = () => {
           </thead>
           <tbody>
             {filteredOrders.map(order => (
-              <tr key={order.order_id}>
-                <td>{order.order_id}</td>
-                <td>{order.user_name}</td>
-                <td>{order.email}</td>
-                <td>${Number(order.total || 0).toFixed(2)}</td>
-                <td>{new Date(order.created_at).toLocaleString()}</td>
-                <td>{order.payment_status || "N/A"}</td>
-                <td>
+              <tr key={order.order_id} onClick={() => toggleExpand(order.order_id)} className="order-row">
+                <td data-label="Order #">{order.order_id}</td>
+                <td data-label="User">{order.user_name}</td>
+                <td data-label="Email">{order.email}</td>
+                <td data-label="Total">${Number(order.total || 0).toFixed(2)}</td>
+                <td data-label="Date">{new Date(order.created_at).toLocaleString()}</td>
+                <td data-label="Payment">{order.payment_status || "N/A"}</td>
+                <td data-label="Status">
                   <select
                     value={order.order_status}
                     onChange={e => handleStatusChange(order.order_id, e.target.value)}
+                    onClick={(e) => e.stopPropagation()} // Prevent row click when changing select
                   >
                     <option value="created">Created</option>
                     <option value="processing">Processing</option>
@@ -110,17 +117,21 @@ const AdminOrders = () => {
                     <option value="delivered">Delivered</option>
                   </select>
                 </td>
-                <td>{order.tracking_number || "N/A"}</td>
-                <td>{order.shipping_address}</td>
-                <td>
-                  <ul>
-                    {order.items.map((item, i) => (
-                      <li key={i}>
-                        {item.artist} - {item.description} (${item.price} x {item.quantity})
-                      </li>
-                    ))}
-                  </ul>
-                </td>
+                {expandedOrderId === order.order_id && (
+                  <>
+                    <td data-label="Tracking #">{order.tracking_number || "N/A"}</td>
+                    <td data-label="Shipping Address">{order.shipping_address}</td>
+                    <td data-label="Items">
+                      <ul>
+                        {order.items.map((item, i) => (
+                          <li key={i}>
+                            {item.artist} - {item.description} (${item.price} x {item.quantity})
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>

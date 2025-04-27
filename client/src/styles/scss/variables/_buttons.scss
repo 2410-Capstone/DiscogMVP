@@ -1,3 +1,19 @@
+
+.remove-btn, .edit-btn {
+  background: none;
+  border: none;
+  color: #0056b3;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+
+  &:hover {
+    text-decoration: underline;
+  }}
+
+
+
 .sign-button,
 .reg-button,
 .checkout-button,
