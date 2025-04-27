@@ -5,7 +5,8 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
-  const [expandedOrderId, setExpandedOrderId] = useState(null); // <-- New
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -19,6 +20,7 @@ const AdminOrders = () => {
         setOrders(data);
       } catch (err) {
         toast.error(err.message || 'Could not fetch admin orders');
+        setError(err.message || 'Failed to load orders');
       } finally {
         setLoading(false);
       }
@@ -58,6 +60,10 @@ const AdminOrders = () => {
   const toggleExpand = (orderId) => {
     setExpandedOrderId(prev => (prev === orderId ? null : orderId));
   };
+
+  if (error) return <div className="error-message">Error: {error}</div>;
+  if (loading) return <div>Loading orders...</div>;
+
 
   return (
     <div className="admin-orders">

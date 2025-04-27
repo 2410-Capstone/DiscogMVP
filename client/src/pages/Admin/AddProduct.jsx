@@ -14,11 +14,18 @@ const AddProduct = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const [artistDetails, setArtistDetails] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
+
+    if (parseFloat(price) <= 0 || parseInt(stock) < 0) {
+      setError('Price must be greater than $0 and stock cannot be negative.');
+      return;
+    }    
 
     try {
       const response = await fetch("/api/products", {
@@ -114,6 +121,17 @@ const AddProduct = () => {
             required
           />
         </div>
+
+        <div className="form-group">
+          <label>Artist Details</label>
+            <textarea
+              value={artistDetails}
+              onChange={(e) => setArtistDetails(e.target.value)}
+              rows={5}
+              placeholder="Enter artist biography, background, etc."
+            />
+        </div>
+
 
         <div className="form-group">
           <label>Album Art URL</label>
