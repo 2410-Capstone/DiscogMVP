@@ -8,8 +8,71 @@ const Inventory = () => {
   const [sortAsc, setSortAsc] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingStockId, setEditingStockId] = useState(null);
+  const [newStockValue, setNewStockValue] = useState(""); 
 
 
+  // When stock number is clicked from inventory table, this function allows the admin to edit stock number
+  const startEditingStock = (productId, currentStock) => {
+    setEditingStockId(productId);
+    setNewStockValue(currentStock);
+  };
+  
+  const handleStockSave = async (productId) => {
+    if (newStockValue === "") {
+      setEditingStockId(null);
+      return;
+    }
+  
+    const parsedStock = parseInt(newStockValue, 10);
+  
+    if (isNaN(parsedStock) || parsedStock < 0) {
+      alert("Invalid stock quantity. Must be a non-negative number.");
+      setEditingStockId(null);
+      return;
+    }
+  
+    try {
+      const res = await fetch(`/api/products/${productId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          ...products.find(p => p.id === productId),
+          stock: parsedStock,
+        }),
+      });
+  
+      if (!res.ok) {
+        throw new Error('Failed to update stock');
+      }
+  
+      const updatedProduct = await res.json();
+  
+      setProducts(prev =>
+        prev.map(product =>
+          product.id === productId ? { ...product, stock: updatedProduct.stock } : product
+        )
+      );
+  
+      setFiltered(prev =>
+        prev.map(product =>
+          product.id === productId ? { ...product, stock: updatedProduct.stock } : product
+        )
+      );
+  
+      setEditingStockId(null);
+      setNewStockValue("");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update stock.");
+      setEditingStockId(null);
+    }
+  };
+  
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -105,7 +168,27 @@ const Inventory = () => {
                 <td data-label="Genre">{product.genre}</td>
                 <td data-label="Price">${product.price}</td>
                 <td data-label="Stock" style={{ color: product.stock === 0 ? 'red' : 'green' }}>
-                  {product.stock}
+                  {editingStockId === product.id ? (
+                    <input
+                      type="number"
+                      min="0"
+                      value={newStockValue}
+                      onChange={(e) => setNewStockValue(e.target.value)}
+                      onBlur={() => handleStockSave(product.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleStockSave(product.id);
+                      }}
+                      autoFocus
+                      style={{ width: "60px" }}
+                    />
+                  ) : (
+                    <span
+                      onClick={() => startEditingStock(product.id, product.stock)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {product.stock}
+                    </span>
+                  )}
                 </td>
                 <td data-label="Status">{getStockStatus(product.stock)}</td>
                 <td data-label="Edit">
