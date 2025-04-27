@@ -1,10 +1,9 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
-import { Search } from "lucide-react";
+import { Search, ShoppingBag } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 import { useTheme } from "../utils/useTheme";
 import SearchBar from "./SearchBar";
-import cartImg from "../assets/bag.png";
 import defaultProfilePic from "../assets/default-profile.png";
 
 function Navbar({ isAuthenticated, onSearch }) {
@@ -60,13 +59,15 @@ function Navbar({ isAuthenticated, onSearch }) {
           </div>
 
           <div className="nav-right">
-            <button className="nav-button search-icon" onClick={toggleSearch} aria-label="Toggle Search">
+            <button className="nav-button-search-icon" onClick={toggleSearch} aria-label="Toggle Search">
               <Search size={16} />
             </button>
 
             <Link to="/cart" className="nav-button" aria-label="Cart">
-              <img src={cartImg} alt="Cart" className="cart-icon" />
+            <ShoppingBag size={24} strokeWidth={1.5} className="cart-icon" />
+
             </Link>
+
 
             {isAuthenticated ? (
               <div className="account-dropdown" ref={profileRef}>

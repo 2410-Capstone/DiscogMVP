@@ -1,12 +1,13 @@
 .cart-icon {
+  color: var(--text-color);
   width: 24px;
   height: 24px;
-  object-fit: contain;
-  cursor: pointer;
   display: block;
   margin: auto;
   padding: 4px;
 }
+
+
 
 .cart-title {
   color: black;

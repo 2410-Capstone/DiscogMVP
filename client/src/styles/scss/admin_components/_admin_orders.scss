@@ -79,6 +79,20 @@
   }
 
 
+  .payment-status {
+    font-weight: 600;
+  }
+  
+  .payment-failed {
+    color: red;
+  }
+  
+  .payment-paid {
+    color: green;
+  }
+  
+
+
   @media (max-width: 900px) {
     thead {
       display: none;
