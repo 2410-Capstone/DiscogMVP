@@ -22,7 +22,8 @@ import ItemList from "./pages/Home";
 import Account from "./pages/user/Account";
 import Profile from "./pages/User/Profile";
 
-import ProductDetails from "./components/products/ProductDetails";
+import ProductDetails from "./components/products/productDetails";
+
 import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";

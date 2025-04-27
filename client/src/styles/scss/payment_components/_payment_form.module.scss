@@ -12,35 +12,56 @@
   padding: math.div(vars.$spacing-unit * 1.5, 1);
   border: 1px solid vars.$border-color;
   border-radius: vars.$border-radius * 2;
+  display: flex;
+  flex-direction: column;
+  gap: math.div(vars.$spacing-unit * 2, 1);
 }
 
 .formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: math.div(vars.$spacing-unit, 2);
   margin-bottom: math.div(vars.$spacing-unit * 1.5, 1);
-}
 
-.label {
-  display: block;
-  margin-bottom: math.div(vars.$spacing-unit, 2);
-  font-weight: 500;
-  color: vars.$text-color;
-}
-
-.input {
-  width: 100%;
-  padding: vars.$spacing-unit * 0.75;
-  border: 1px solid vars.$border-color;
-  border-radius: vars.$border-radius;
-  font-size: vars.$font-size-base;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: vars.$primary-color;
+  label {
+    font-weight: 500;
+    color: vars.$text-color;
+    font-size: vars.$font-size-base;
   }
 
-  &:disabled {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 100%;
+    padding: vars.$spacing-unit * 0.75;
+    border: 1px solid vars.$border-color;
+    border-radius: vars.$border-radius;
+    font-size: vars.$font-size-base;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$primary-color;
+    }
+
+    &:disabled {
+      background-color: #f5f5f5;
+      cursor: not-allowed;
+    }
+  }
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.cityZipRow {
+  display: flex;
+  gap: math.div(vars.$spacing-unit, 1);
+
+  .formGroup {
+    flex: 1;
   }
 }
 
@@ -54,6 +75,7 @@
   font-size: vars.$font-size-base;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  align-self: flex-start;
 
   &:hover:not(:disabled) {
     background-color: color.scale(vars.$primary-color, $lightness: -10%);

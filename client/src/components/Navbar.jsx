@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
 import { Search } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
+import { useTheme } from "../utils/useTheme";
 import SearchBar from "./SearchBar";
 import cartImg from "../assets/bag.png";
 import defaultProfilePic from "../assets/default-profile.png";
@@ -14,13 +15,14 @@ function Navbar({ isAuthenticated, onSearch }) {
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
   const profileRef = useRef(null);
   const { user, logout } = useContext(AuthContext);
+  const { theme, toggleTheme } = useTheme();
 
   const isOnMainPage = location.pathname === "/";
 
   const handleLogout = () => {
     logout();
     navigate("/login");
-  };  
+  };
 
   const toggleSearch = () => {
     setSearchVisible((prev) => !prev);
@@ -31,7 +33,6 @@ function Navbar({ isAuthenticated, onSearch }) {
     setProfileDropdownVisible((prev) => !prev);
   };
 
-  // Close profile dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -58,14 +59,14 @@ function Navbar({ isAuthenticated, onSearch }) {
             <Link to="/home" className="nav-logo">DiscogMVP</Link>
           </div>
 
-         <div className="nav-right">
-         <button className="nav-button search-icon" onClick={toggleSearch} aria-label="Toggle Search">
-  <Search size={16} />
-</button>
+          <div className="nav-right">
+            <button className="nav-button search-icon" onClick={toggleSearch} aria-label="Toggle Search">
+              <Search size={16} />
+            </button>
 
             <Link to="/cart" className="nav-button" aria-label="Cart">
-    <img src={cartImg} alt="Cart" className="cart-icon" />
-  </Link>
+              <img src={cartImg} alt="Cart" className="cart-icon" />
+            </Link>
 
             {isAuthenticated ? (
               <div className="account-dropdown" ref={profileRef}>
@@ -83,6 +84,9 @@ function Navbar({ isAuthenticated, onSearch }) {
                     {user?.user_role === "admin" && (
                       <Link to="/admin/dashboard" className="dropdown-link">Admin Dashboard</Link>
                     )}
+                    <button onClick={toggleTheme} className="dropdown-link">
+                      {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                    </button>
                     <button onClick={handleLogout} className="dropdown-link logout-button">Logout</button>
                   </div>
                 )}
