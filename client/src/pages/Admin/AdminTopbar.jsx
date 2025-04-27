@@ -1,6 +1,7 @@
 import { useTheme } from "../../utils/useTheme";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import { Settings, Search, User } from "lucide-react";
 import defaultProfilePic from "../../assets/default-profile.png";
 
@@ -8,6 +9,8 @@ const AdminTopbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { user, logout } = useContext(AuthContext);
+  
   const navigate = useNavigate();
 
 
@@ -32,6 +35,11 @@ const AdminTopbar = () => {
     profileTimeout.current = setTimeout(() => setProfileOpen(false), 300);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  }
+  
   return (
     <header className="admin-topbar">
       <h1 className="admin-header-title">Dashboard</h1>
@@ -100,7 +108,7 @@ const AdminTopbar = () => {
               <button className="dropdown-item" onClick={() => navigate("/home")}>
                 Home View
               </button>
-              <button className="dropdown-item">
+              <button onClick={handleLogout} className="dropdown-item"> 
                 Logout
               </button>
             </div>
@@ -112,3 +120,5 @@ const AdminTopbar = () => {
 };
 
 export default AdminTopbar;
+
+
