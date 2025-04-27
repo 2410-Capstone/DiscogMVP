@@ -14,6 +14,8 @@ const AddProduct = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const [artistDetails, setArtistDetails] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,6 +121,17 @@ const AddProduct = () => {
             required
           />
         </div>
+
+        <div className="form-group">
+          <label>Artist Details</label>
+            <textarea
+              value={artistDetails}
+              onChange={(e) => setArtistDetails(e.target.value)}
+              rows={5}
+              placeholder="Enter artist biography, background, etc."
+            />
+        </div>
+
 
         <div className="form-group">
           <label>Album Art URL</label>

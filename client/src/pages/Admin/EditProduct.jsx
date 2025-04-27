@@ -132,6 +132,17 @@ const EditProduct = () => {
         </label>
 
         <label>
+          Artist Details:
+          <textarea
+            name="artist_details"
+            value={form.artist_details || ''}
+            onChange={handleChange}
+            rows={5}
+            placeholder="Enter artist biography or details"
+          />
+        </label>
+
+        <label>
           Price:
           <input
             type="number"
