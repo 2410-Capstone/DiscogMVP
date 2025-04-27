@@ -14,7 +14,7 @@
 
     .add-button {
       background-color: var(--accent-color);
-      color: white;
+      color: var(--text-color);
       padding: 0.6rem 1.2rem;
       border-radius: 8px;
       text-decoration: none;
@@ -47,7 +47,7 @@
       padding: 0.5rem 1rem;
       border: none;
       background: var(--accent-color);
-      color: white;
+      color: var(--text-color);
       border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
@@ -62,7 +62,7 @@
     width: 100%;
     overflow-x: auto;
     border: 1px solid var(--border-color);
-    background: var(--card-bg);
+    background: var(--bg-color);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   }
@@ -90,12 +90,13 @@
 
         &:hover {
           background-color: #fafafa;
+          background: var(--admin-text-hover);
         }
       }
 
       td {
         padding: 0.85rem 1rem;
-        color: #555;
+        color: var(--text-color);
         position: relative;
         text-align: left;
 
@@ -109,13 +110,12 @@
     }
   }
 
-
   .inventory-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
     font-size: 0.95rem;
-  
+
     th,
     td {
       padding: 0.75rem;
@@ -123,47 +123,42 @@
       vertical-align: top;
       text-align: left;
     }
-  
+
     th {
       color: white;
     }
-  
+
     td {
       color: black;
     }
-  
+
     thead {
       background-color: #333;
       color: #fff;
     }
-  
+
     select {
       padding: 0.25rem;
     }
-  
+
     ul {
       padding-left: 1rem;
       margin: 0;
     }
-  
+
     img {
       width: 75px;
       height: 75px;
       object-fit: cover;
     }
   }
-  
-
-
-
-
 
   .edit-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
     border: 1px solid var(--accent-color);
     background: transparent;
-    color: var(--accent-color);
+    color: var(--primary-accent);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -179,7 +174,9 @@
         display: none;
       }
 
-      tbody, tr, td {
+      tbody,
+      tr,
+      td {
         display: block;
         width: 100%;
       }

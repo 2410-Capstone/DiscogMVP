@@ -135,7 +135,7 @@ const Inventory = () => {
           onChange={handleSearch}
         />
         <button onClick={handleSort}>
-          Sort by Price {sortAsc ? '⬆️' : '⬇️'}
+          Sort by Price {sortAsc ? '⬆' : '⬇'}
         </button>
       </div>
 

@@ -76,6 +76,18 @@ const UserOrders = () => {
               <h3>Order ID: {order.id}</h3>
               <p>Status: {order_statuses_map[order.order_status]}</p>
               <p>Total: ${Number(order.total).toFixed(2)}</p>
+              <p
+                style={{
+                  color:
+                    order.payment_status === "failed"
+                      ? "red"
+                      : order.payment_status === "paid"
+                      ? "green"
+                      : "inherit",
+                }}
+              >
+                Payment: {order.payment_status}
+              </p>
               {(order.order_status === "created" || order.order_status === "processing") && (
                 <button onClick={() => handleCancel(order.id)}>Cancel Order</button>
               )}
@@ -85,6 +97,7 @@ const UserOrders = () => {
       ) : (
         <p>No current orders found</p>
       )}
+
       <h2>Order History</h2>
       {completedOrders.length > 0 ? (
         <ul>
@@ -93,6 +106,18 @@ const UserOrders = () => {
               <h3>Order ID: {order.id}</h3>
               <p>Status: {order_statuses_map[order.order_status]}</p>
               <p>Total: ${Number(order.total).toFixed(2)}</p>
+              <p
+                style={{
+                  color:
+                    order.payment_status === "failed"
+                      ? "red"
+                      : order.payment_status === "paid"
+                      ? "green"
+                      : "inherit",
+                }}
+              >
+                Payment: {order.payment_status}
+              </p>
               <p>
                 Placed: {new Date(order.created_at).toLocaleDateString()} - Shipped:{" "}
                 {order.tracking_number ? new Date(order.updated_at).toLocaleDateString() : "Not shipped yet"}
