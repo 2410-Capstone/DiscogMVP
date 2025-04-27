@@ -7,7 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import PropTypes from "prop-types";
-import styles from "../styles/scss/components/_payment_form.module.scss";
+import styles from "../styles/scss/payment_components/_payment_form.module.scss";
 import { useNavigate } from "react-router-dom";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
