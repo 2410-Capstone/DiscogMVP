@@ -93,13 +93,13 @@ const Inventory = () => {
           <tbody>
             {filtered.map((product) => (
               <tr key={product.id}>
-                <td data-label="Image">
-                  {product.release_id ? (
-                    <img src={product.image_url || "/placeholder.png"} alt="Album Art" className="thumbnail" />
-                  ) : (
-                    'No Image'
-                  )}
-                </td>
+              <td data-label="Image">
+                {product.image_url ? (
+                  <img src={product.image_url} alt="Album Art" className="thumbnail" />
+                ) : (
+                  <img src="/placeholder.png" alt="Placeholder" className="thumbnail" />
+                )}
+              </td>
                 <td data-label="Artist">{product.artist}</td>
                 <td data-label="Description">{product.description}</td>
                 <td data-label="Genre">{product.genre}</td>
