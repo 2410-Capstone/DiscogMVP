@@ -37,6 +37,7 @@ import Inventory from "./pages/Admin/Inventory";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
 import EditProduct from "./pages/Admin/EditProduct";
+import AddProduct from "./pages/Admin/AddProduct";
 
 
 function App() {
@@ -185,6 +186,7 @@ function App() {
             <Route path="users/:id/edit" element={<AdminEditUser />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="edit-product/:id" element={<EditProduct />} />
+            <Route path="products/new" element={<AddProduct />} />
             <Route path="orders" element={<AdminOrders />} />
           </Route>
         </Routes>
