@@ -6,6 +6,7 @@ const AdminUserList = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [deletedUserId, setDeletedUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,6 +23,8 @@ const AdminUserList = () => {
         setUsers(data);
       } catch (err) {
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUsers();
