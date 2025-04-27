@@ -114,7 +114,7 @@ const Cart = () => {
   return (
     <main className="cart-page">
       <div className="cart-container">
-        <div lassName="cart-title">
+        <div className="cart-title">
           <h2>Shopping cart</h2>
           </div>
         <div className="full-width-divider" />
