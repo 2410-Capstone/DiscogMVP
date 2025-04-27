@@ -8,14 +8,13 @@ const ItemList = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [genreFilter, setGenreFilter] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/products`
-        );
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
 
@@ -43,7 +42,7 @@ const ItemList = () => {
       toast.error("Please log in to add items to your cart.");
       return;
     }
-  
+
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/items`, {
         method: "POST",
@@ -56,42 +55,114 @@ const ItemList = () => {
           quantity: 1,
         }),
       });
-  
+
       if (!res.ok) {
         const data = await res.json();
         console.error("Add to cart failed:", data);
         toast.error(data.error || "Could not add to cart.");
         return;
       }
-  
+
       toast.success("Item added to cart!");
     } catch (err) {
       console.error("Error adding to cart:", err);
       toast.error("Error adding item to cart.");
     }
   };
+  const handleFilterChange = (genre) => {
+    if (genreFilter.includes(genre)) {
+      setGenreFilter(genreFilter.filter((g) => g !== genre));
+    } else {
+      setGenreFilter([...genreFilter, genre]);
+    }
+  };
+  const filteredItems = items.filter((item) => {
+    if (genreFilter.length === 0) return true;
+    return genreFilter.includes(item.genre);
+  });
+  const handleFilterClick = (genre) => {
+    if (genreFilter.includes(genre)) {
+      setGenreFilter(genreFilter.filter((g) => g !== genre));
+    } else {
+      setGenreFilter([...genreFilter, genre]);
+    }
+  };
+  const handleAllGenresClick = () => {
+    if (genreFilter.length > 0) {
+      setGenreFilter([]);
+    } else {
+      setGenreFilter(["Rock", "Electronic", "Hip Hop", "Jazz", "Classical"]);
+    }
+  };
+  const handleRockClick = () => {
+    handleFilterClick("Rock");
+  };
+  const handleElectronicClick = () => {
+    handleFilterClick("Electronic");
+  };
+  const handleHipHopClick = () => {
+    handleFilterClick("Hip Hop");
+  };
+  const handleIndieClick = () => {
+    handleFilterClick("Jazz");
+  };
+  const handleJazzClick = () => {
+    handleFilterClick("Classical");
+  };
+
+  useEffect(() => {
+    console.log(items.map((p) => p.genre));
+  }, [items]);
   return (
-    <main className="home-page">
-      <header className="home-header">
-        <h1 className="hero-title">Choose your album</h1>
+    <main className='home-page'>
+      <header className='home-header'>
+        <h1 className='hero-title'>Choose your album</h1>
         <br></br>
-        <div className="filter-bar">
-          <button className="filter-button active">All genres</button>
-          <button className="filter-button">Rock</button>
-          <button className="filter-button">Electronic</button>
-          <button className="filter-button">Hip Hop</button>
-          <button className="filter-button">Indie</button>
+        <div className='filter-bar'>
+          <button className='filter-button active' onClick={() => handleAllGenresClick()}>
+            All genres
+          </button>
+          <button
+            className={`filter-button${genreFilter.includes("Rock") ? " active" : ""}`}
+            onClick={() => handleFilterClick("Rock")}
+          >
+            Rock
+          </button>
+          <button
+            className={`filter-button${genreFilter.includes("Electronic") ? " active" : ""}`}
+            onClick={() => handleElectronicClick("Electronic")}
+          >
+            Electronic
+          </button>
+          <button
+            className={`filter-button${genreFilter.includes("Hip Hop") ? " active" : ""}`}
+            onClick={() => handleHipHopClick("Hip Hop")}
+          >
+            Hip Hop
+          </button>
+          <button
+            className={`filter-button${genreFilter.includes("Jazz") ? " active" : ""}`}
+            onClick={() => handleIndieClick("Jazz")}
+          >
+            Jazz
+          </button>
+          <button
+            className={`filter-button${genreFilter.includes("Classical") ? " active" : ""}`}
+            onClick={() => handleJazzClick("Classical")}
+          >
+            Classical
+          </button>
         </div>
       </header>
 
-      <section className="product-section">
+      <section className='product-section'>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
-          <p className="error">{error}</p>
-        ) : items.length ? (
-          <div className="product-grid">
-            {items.map((item) => (
+          <p className='error'>{error}</p>
+        ) : filteredItems.length ? (
+          <div className='product-grid'>
+            {filteredItems.map((item) => (
               <ProductCard
                 key={item.id}
                 item={item}

@@ -40,6 +40,12 @@ const EditProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (parseFloat(form.price) <= 0 || parseInt(form.stock) < 0) {
+      toast.error('Price must be greater than $0 and stock cannot be negative.');
+      return;
+    }
+    
     try {
       const res = await fetch(`/api/products/${id}`, {
         method: 'PUT',
@@ -122,6 +128,17 @@ const EditProduct = () => {
             name="genre"
             value={form.genre || ''}
             disabled
+          />
+        </label>
+
+        <label>
+          Artist Details:
+          <textarea
+            name="artist_details"
+            value={form.artist_details || ''}
+            onChange={handleChange}
+            rows={5}
+            placeholder="Enter artist biography or details"
           />
         </label>
 
