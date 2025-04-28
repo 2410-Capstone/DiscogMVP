@@ -31,17 +31,16 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Support</h4>
           <div className="footer-links">
-            <Link to="/support">Help Center</Link>
             <Link to="/contact">Contact Us</Link>
-            <Link to="/shipping-info">Shipping Info</Link>
+            {/* <Link to="/faq">FAQ</Link>  Maybe? */}
           </div>
         </div>
 
         <div className="footer-section">
           <h4>Legal</h4>
-          <div className="footer-links">
-            <Link to="/privacy-policy">Privacy Policy</Link>
-            <Link to="/terms">Terms</Link>
+          <div className="footer-links">  
+            {/* <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/terms">Terms</Link> */}
             <Link to="/refund-policy">Refund Policy</Link>
           </div>
         </div>
