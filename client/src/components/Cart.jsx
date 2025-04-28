@@ -17,6 +17,10 @@ const Cart = () => {
   const fetchCart = async () => {
     setIsLoading(true);
     if (isGuest) {
+      const guestCart = getGuestCart().map((item) => ({
+        ...item,
+        price: Number(item.price) || 0,
+      }));
       setCartItems(getGuestCart());
       setIsLoading(false);
       return;
@@ -160,8 +164,8 @@ const Cart = () => {
                       +
                     </button>
                   </div>
-                  <p>Price: ${item.price.toFixed(2)}</p>
-                  <p className='item-subtotal'>Subtotal: ${(item.price * item.quantity).toFixed(2)}</p>
+                  <p>Price: ${Number(item.price).toFixed(2)}</p>
+                  <p className='item-subtotal'>Subtotal: ${(Number(item.price) * item.quantity).toFixed(2)}</p>
                   <button className='remove-btn' onClick={() => handleRemoveItem(item.id)}>
                     Remove
                   </button>
