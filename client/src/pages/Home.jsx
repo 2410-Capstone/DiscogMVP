@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getGuestCart, setGuestCart } from "../utils/cart";
 
 import ProductCard from "../components/products/ProductCard";
 
@@ -39,7 +40,15 @@ const ItemList = () => {
   const handleAddToCart = async (item) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("Please log in to add items to your cart.");
+      let guestCart = getGuestCart();
+      const existing = guestCart.find((it) => it.id === item.id);
+      if (existing) {
+        guestCart = guestCart.map((it) => (it.id === item.id ? { ...it, quantity: it.quantity + 1 } : it));
+      } else {
+        guestCart.push({ ...item, quantity: 1 });
+      }
+      setGuestCart(guestCart);
+      toast.success("Item added to cart!");
       return;
     }
 

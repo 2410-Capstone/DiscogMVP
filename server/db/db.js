@@ -32,7 +32,7 @@ const createTables = async () => {
     //created Enum types for the tables enum = enumeration create our own data types to
     // (prevent errors with naming types) was not aware of this previously. Also, my understanding is this is the information admin's can access
     await pool.query(/*sql*/ `
-      CREATE TYPE role AS ENUM ('customer', 'admin');
+      CREATE TYPE role AS ENUM ('customer', 'admin', 'guest');
       CREATE TYPE c_status AS ENUM ('active', 'checked_out');
       CREATE TYPE o_status AS ENUM ('created', 'processing', 'shipped', 'delivered', 'cancelled');
       CREATE TYPE p_status AS ENUM ('pending', 'paid', 'failed');
@@ -44,8 +44,8 @@ const createTables = async () => {
     CREATE TABLE users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        name VARCHAR(255) NOT NULL,
+        password VARCHAR(255),
+        name VARCHAR(255),
         address VARCHAR(255),
         user_role role NOT NULL DEFAULT 'customer',
         created_at TIMESTAMP DEFAULT NOW(),

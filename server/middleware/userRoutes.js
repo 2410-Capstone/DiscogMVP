@@ -41,6 +41,22 @@ router.get("/:id", authenticateToken, async (req, res) => {
   }
 });
 
+// Guest user
+router.post("/guest", async (req, res) => {
+  const { email, name, address } = req.body;
+  try {
+    const result = await pool.query(
+      `INSERT INTO users (email, name, address, user_role)
+       VALUES ($1, $2, $3, 'guest')
+       RETURNING id, email, name, address, user_role`,
+      [email, name, address]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error("Error creating guest user:", err);
+    res.status(500).json({ error: "Failed to create guest user" });
+  }
+});
 // PUT /users/:id - Self only
 router.put(
   "/:id",
