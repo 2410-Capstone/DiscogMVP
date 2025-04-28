@@ -47,12 +47,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="footer-middle">
-        <p>
-          More ways to shop: <Link to="/store-locator">Find a Store</Link> or <Link to="/shop-online">Browse Online</Link>.
-        </p>
-      </div>
-
+  
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} DiscogMVP. All rights reserved.</p>
 
