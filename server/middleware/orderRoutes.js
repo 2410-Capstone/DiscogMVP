@@ -15,7 +15,19 @@ const isAdmin = require("../middleware/isAdminMiddleware");
 const router = express.Router();
 
 //guest user orders
-
+// GET /api/orders/guest.
+router.get("/guest", async (req, res) => {
+  const { orderId, email } = req.query;
+  if (!orderId || !email) {
+    return res.status(400).json({ error: "Order ID and email are required" });
+  }
+  const order = await getOrderById(orderId);
+  if (!order || order.email !== email) {
+    return res.status(404).json({ error: "Order not found" });
+  }
+  res.json(order);
+});
+// POST /api/orders/guest
 router.post("/guest", async (req, res, next) => {
   const { email, name, address, items } = req.body;
   const order_status = req.body.order_status || "created";
