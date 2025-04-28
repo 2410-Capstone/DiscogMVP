@@ -13,16 +13,18 @@ import Footer from "./components/Footer";
 
 import Welcome from "./pages/Welcome";
 import ItemList from "./pages/Home";
-import Account from "./pages/user/Account";
+import Account from "./pages/User/Account";
 import Profile from "./pages/User/Profile";
 
-import ProductDetails from "./components/products/ProductDetails";
+import ProductDetails from "./components/products/productDetails";
+
 import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";
 import Checkout from "./pages/user/Checkout";
-import UserOrders from "./pages/user/UserOrders";
+
 import GuestOrderLookup from "./pages/user/GuestOrderLookup";
+import UserOrders from "./pages/User/UserOrders";
 
 import AdminLayout from "./pages/Admin/AdminLayout";
 import Dashboard from "./pages/Admin/Dashboard";

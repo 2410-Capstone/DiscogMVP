@@ -2,6 +2,12 @@
 //I have to go through this for conflicts with other component-specific styling
 
 
+
+.page-content { // the content area above the footer
+  flex: 1;
+}
+
+
 body {
   font-family: "Inter", "Helvetica", "Arial", sans-serif;
   font-size: var(--body-font-size, 14px);

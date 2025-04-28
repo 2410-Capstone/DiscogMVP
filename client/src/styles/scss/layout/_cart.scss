@@ -1,24 +1,22 @@
 .cart-icon {
+  color: var(--text-color);
   width: 24px;
   height: 24px;
-  object-fit: contain;
-  cursor: pointer;
   display: block;
   margin: auto;
   padding: 4px;
 }
 
 
+
 .cart-title {
   color: black;
 }
-
 
 .cart-page {
   background-color: #ffffff;
   padding: 10rem 1rem;
   min-height: 100vh;
-
 
   .cart-container {
     display: grid;
@@ -39,11 +37,9 @@
     background: #ddd;
     margin: 1rem 0 2rem;
   }
-  
 
   .cart-items {
     padding-top: 0;
-    
 
     .cart-heading {
       font-size: 2.2rem;
@@ -53,8 +49,6 @@
       border-bottom: none;
     }
 
-    
-
     .cart-item {
       display: flex;
       gap: 1.5rem;
@@ -63,7 +57,6 @@
 
       &:last-child {
         border-bottom: none;
-
       }
 
       border-bottom: 1px solid #ddd;
@@ -147,11 +140,11 @@
       width: 100%;
       border: 1px solid #eee;
       font-size: 0.95rem;
-    
+
       display: flex;
       flex-direction: column;
       gap: 1rem;
-    
+
       .summary-heading {
         display: flex;
         justify-content: space-between;
@@ -160,24 +153,24 @@
         margin-bottom: 0.5rem;
         color: black;
       }
-    
+
       .summary-divider {
         height: 1px;
         background: #ddd;
         margin: 0.5rem 0;
       }
-    
+
       .summary-line {
         display: flex;
         justify-content: space-between;
         padding: 0.35rem 0;
         color: #111;
-    
+
         &.muted {
           color: #777;
         }
       }
-    
+
       .summary-total {
         display: flex;
         justify-content: space-between;
@@ -188,8 +181,9 @@
         border-top: 1px solid #ddd;
         color: black;
       }
-    
-      .checkout-btn {
+
+      .checkout-btn,
+      .continue-btn {
         margin-top: 1.5rem;
         width: 100%;
         padding: 0.75rem 1rem;
@@ -201,17 +195,15 @@
         font-weight: 500;
         cursor: pointer;
         transition: opacity 0.2s ease;
-    
+
         &:hover {
           opacity: 0.9;
         }
       }
     }
-    
 
-      @media (max-width: 768px) {
-        margin-top: 2rem;
-      }
+    @media (max-width: 768px) {
+      margin-top: 2rem;
     }
   }
-
+}

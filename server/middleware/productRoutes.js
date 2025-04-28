@@ -54,12 +54,12 @@ router.post('/', authenticateToken, isAdmin,
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { artist, description, price, image_url, genre, stock } = req.body;
+    const { artist, description, price, image_url, genre, stock, artist_details } = req.body;
     
     try {
       const result = await pool.query(
-        'INSERT INTO products (artist, description, price, image_url, genre, stock) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [artist, description, price, image_url, genre, stock]
+        'INSERT INTO products (artist, description, price, image_url, genre, stock, artist_details) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [artist, description, price, image_url, genre, stock, artist_details]
       );
       res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -84,7 +84,7 @@ router.put('/:id', authenticateToken, isAdmin,
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { artist, description, price, genre, stock } = req.body;
+    const { artist, description, price, genre, stock, artist_details } = req.body;
 
     try {
 
@@ -103,9 +103,9 @@ router.put('/:id', authenticateToken, isAdmin,
       // Update product without changing the image_url
       const result = await pool.query(
         `UPDATE products 
-         SET artist = $1, description = $2, price = $3, image_url = $4, genre = $5, stock = $6
-         WHERE id = $7 RETURNING *`,
-        [artist, description, price, existingImageUrl, genre, stock, req.params.id]
+         SET artist = $1, description = $2, price = $3, image_url = $4, genre = $5, stock = $6, artist_details = $7
+         WHERE id = $8 RETURNING *`,
+        [artist, description, price, existingImageUrl, genre, stock, artist_details, req.params.id]
       );
 
       if (result.rows.length === 0) {

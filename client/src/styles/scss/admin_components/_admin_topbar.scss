@@ -74,7 +74,7 @@
   padding: 0.4rem 0.8rem;
   font-size: 1rem;
   border-radius: 6px;
-  color: #333;
+  color: rgb(142, 142, 142);
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -83,7 +83,6 @@
   gap: 0.5rem;
 
   &:hover {
-    background-color: black;
     color: white;
   }
 
@@ -115,13 +114,13 @@
   padding: 0.3rem;
   border-radius: 6px;
   transition: background 0.2s ease;
-  color: #333;
+  color: #646464;
   background: transparent;
   border: none;
   cursor: pointer;
 
   &:hover {
-    background-color: #f3f3f3;
+    color: white;
   }
 
   svg {

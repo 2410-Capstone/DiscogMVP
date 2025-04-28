@@ -15,9 +15,8 @@
 
 
 .sign-button,
-.reg-button,
-.checkout-button,
-.return-button {
+.reg-button
+{
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -26,9 +25,7 @@
 }
 
 .sign-button::before,
-.reg-button::before,
-.checkout-button::before,
-.return-button::before {
+.reg-button::before {
     content: "";
     position: absolute;
     top: 0;
@@ -43,9 +40,7 @@
 }
 
 .sign-button:hover::before,
-.reg-button:hover::before,
-.checkout-button:hover::before,
-.return-button:hover::before {
+.reg-button:hover::before {
     animation: shiny-wipe 1.2s ease-out forwards;
     opacity: 1;
 }

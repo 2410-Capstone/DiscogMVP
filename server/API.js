@@ -11,6 +11,7 @@ const orderRoutes = require('./middleware/orderRoutes');
 const userRoutes = require('./middleware/userRoutes');
 const paymentRoutes = require('./middleware/paymentRoutes');
 const discogsRoutes = require('./middleware/discogsRoutes');
+const adminRoutes = require('./middleware/adminRoutes');
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/discogs', discogsRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Test route to see if the backend is working. needed it for testing but leaving it for now
 app.get('/api/test', (req, res) => {
