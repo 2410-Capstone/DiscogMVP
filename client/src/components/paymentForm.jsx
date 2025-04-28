@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import PropTypes from "prop-types";
 import styles from "../styles/scss/payment_components/_payment_form.module.scss";
 import { useNavigate } from "react-router-dom";
@@ -103,41 +98,51 @@ function StripeForm({ email, cartItems, shippingAddress }) {
     setStatus("processing");
 
     try {
-      const res = await fetch("http://localhost:3000/api/payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          userId: userId,
-          email: emailInput,
-          cartItems,
-          shippingAddress,
-        }),
-      });
-
+      let res;
+      if (!userId || !token) {
+        // Guest checkout
+        res = await fetch("/api/payment/guest", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: emailInput,
+            cartItems,
+            shippingAddress,
+          }),
+        });
+      } else {
+        res = await fetch("http://localhost:3000/api/payment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            userId: userId,
+            email: emailInput,
+            cartItems,
+            shippingAddress,
+          }),
+        });
+      }
       const { clientSecret, error: backendError, orderId } = await res.json();
 
       if (backendError) {
         throw new Error(backendError);
       }
 
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              email: emailInput,
-              address: {
-                line1: shippingAddress,
-              },
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            email: emailInput,
+            address: {
+              line1: shippingAddress,
             },
           },
-          receipt_email: emailInput,
-        }
-      );
+        },
+        receipt_email: emailInput,
+      });
 
       if (error) {
         throw error;
@@ -163,10 +168,7 @@ function StripeForm({ email, cartItems, shippingAddress }) {
                 cartItems: cartItems,
                 shippingAddress: shippingAddress,
                 orderNumber: orderId,
-                total: cartItems.reduce(
-                  (total, item) => total + item.price * item.quantity,
-                  0
-                ),
+                total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
                 email: emailInput,
               },
             },
@@ -189,9 +191,7 @@ function StripeForm({ email, cartItems, shippingAddress }) {
   };
 
   if (!stripe || !elements) {
-    return (
-      <div className={styles.loadingMessage}>Loading payment system...</div>
-    );
+    return <div className={styles.loadingMessage}>Loading payment system...</div>;
   }
 
   return (
@@ -204,12 +204,12 @@ function StripeForm({ email, cartItems, shippingAddress }) {
       ) : (
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
+            <label htmlFor='email' className={styles.label}>
               Email
             </label>
             <input
-              id="email"
-              type="email"
+              id='email'
+              type='email'
               value={emailInput}
               onChange={(e) => setEmailInput(e.target.value)}
               required
@@ -220,18 +220,15 @@ function StripeForm({ email, cartItems, shippingAddress }) {
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Card Details</label>
-            <div className="stripe-element-container">
-              <CardElement
-                className="stripe-element-card"
-                onChange={handleCardChange}
-              />
+            <div className='stripe-element-container'>
+              <CardElement className='stripe-element-card' onChange={handleCardChange} />
             </div>
           </div>
 
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}
 
           <button
-            type="submit"
+            type='submit'
             disabled={!stripe || status === "processing" || !cardComplete}
             className={styles.button}
           >
@@ -247,8 +244,7 @@ StripeForm.propTypes = {
   email: PropTypes.string.isRequired,
   cartItems: PropTypes.arrayOf(
     PropTypes.shape({
-      product_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
+      product_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       price: PropTypes.number.isRequired,
       quantity: PropTypes.number.isRequired,
     })
