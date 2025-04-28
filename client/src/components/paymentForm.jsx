@@ -4,6 +4,7 @@ import { Elements, CardElement, useStripe, useElements } from "@stripe/react-str
 import PropTypes from "prop-types";
 import styles from "../styles/scss/payment_components/_payment_form.module.scss";
 import { useNavigate } from "react-router-dom";
+import { clearGuestCart } from "../utils/cart";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -151,14 +152,19 @@ function StripeForm({ email, cartItems, shippingAddress }) {
       if (paymentIntent.status === "succeeded") {
         setStatus("succeeded");
         try {
-          await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ userId }),
-          });
+          if (!userId || !token) {
+            // Guest: clear guest cart
+            clearGuestCart();
+          } else {
+            await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ userId }),
+            });
+          }
           //Delete items from local cart after successful checkout. I was clearing it in the backend but not here as well.
           localStorage.removeItem("cart");
 
