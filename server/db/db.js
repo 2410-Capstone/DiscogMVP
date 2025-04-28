@@ -141,6 +141,29 @@ const createTables = async () => {
       FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
       );
     `);
+    /*Create Wishlist tables */
+
+    await pool.query(/*sql*/ `
+    CREATE TABLE IF NOT EXISTS wishlists (
+      id SERIAL PRIMARY KEY,
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      is_public BOOLEAN DEFAULT false,
+      share_id UUID DEFAULT gen_random_uuid(),
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+    `);
+    /* Wishlist Items*/
+    await pool.query(/*sql*/ `
+      CREATE TABLE IF NOT EXISTS wishlist_items (
+        id SERIAL PRIMARY KEY,
+        wishlist_id INTEGER REFERENCES wishlists(id) ON DELETE CASCADE,
+        product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+        UNIQUE (wishlist_id, product_id) -- prevent duplicate entries
+      );
+    `);
+
     /* This was the first time I used indexes supposedly it helped with faster, searching for a large database It makes 
      it to where our queries don't have to scan the whole table, but utilizes the indexes to find the products,items, orders ect.
      I also learned that indexes are not automatically created for foreign keys so Basically it links the foreign keys to the tables they're associated with.

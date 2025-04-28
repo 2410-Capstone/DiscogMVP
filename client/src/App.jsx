@@ -39,6 +39,7 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
 import EditProduct from "./pages/Admin/EditProduct";
 import AddProduct from "./pages/Admin/AddProduct";
+import Wishlist from "./pages/user/Wishlist";
 
 
 function App() {
@@ -173,7 +174,7 @@ function App() {
               isAuthenticated ? <OrderConfirmation /> : <Navigate to="/login" />
             }
           />
-
+<Route path="wishlist/:wishlistId" element={<Wishlist />} />
           {/* Admin routes using AdminLayout + permissions */}
           <Route
             path="/admin/*"
@@ -189,6 +190,7 @@ function App() {
             <Route path="edit-product/:id" element={<EditProduct />} />
             <Route path="products/new" element={<AddProduct />} />
             <Route path="orders" element={<AdminOrders />} />
+            
           </Route>
         </Routes>
       </div>

@@ -10,6 +10,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/98688",
     artist_details: "Skinny Puppy was a Canadian band with members [a=cEvin Key] (keyboards, percussion) and [a=Nivek Ogre] (vocals), founded in late 1982 in Vancouver, BC. They got a contract at [l=Nettwerk] via the demo tape \"Back And Forth\" and released their first EP \"Remission\" in 1984. Their records were released in Europe by [l1792]. They released their first LP \"Bites\" in 1985, now with member [a=Wilhelm Schroeder] (better known as [a=Bill Leeb]) on keyboards. In 1986, Schroeder was replaced on keyboards by [a=Dwayne R. Goettel] (then in the group [a=Psyche (2)]). Over a career spanning 20+ years and as many releases, Skinny Puppy has remained fresh and vital to its many fans, and is considered as one of the most important bands in the industrial/gothic/ebm genre, inspiring such acts as [a=Nine Inch Nails] and [a=Marilyn Manson]. Skinny Puppy disbanded for a time, following the death of Goettel by overdose in August 1995. Their final album \"The Process\" was completed and released in early 1996, and quickly became a bridge that earned the band many new fans. After a 5 year absence, they reformed in 2000 for a one-off concert appearance at the Doomsday festival in Dresden, Germany (which has since been released as Back And Forth, Vol. 5 in 2001). The first studio album since their reformation \"The Greater Wrong Of The Right\" was released after years of anticipation in 2004. They embarked on a worldwide tour in support, and a DVD has been released documenting the North American leg. 2007 saw the release of \"Mythmaker\", and in 2011 the band released its final album with label SPV, \"hanDover\". They signed with Metropolis Records in 2012, and released the live album \"Bootlegged, Broke And In Solvent Seas\". The band released their 12th studio album \"Weapon\" on May 28, 2013. They had two final legs of tours in 2023 with their final date December 5th where they announced the break up and Ogre destroyed the band mascot \"Cedric\".",
+    genre: "Industrial",
   },
   {
     original_artist: "NIN",
@@ -20,6 +21,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/9154868",
     artist_details: "Industrial rock band Nine Inch Nails (abbreviated as NIN and stylized as NIИ) was formed in 1988 by [a27457] in Cleveland, Ohio. Reznor has served as the main producer, singer, songwriter, instrumentalist, and sole member of Nine Inch Nails for 28 years. This changed in December 2016 when [a259284] officially became the second member of the band. Nine Inch Nails straddles a wide range of many styles of rock music and other genres that require an electronic sound, which can often cause drastic changes in sound from album to album. However NIN albums in general have many identifiable characteristics in common, such as recurring leitmotifs, chromatic melodies, dissonance, terraced dynamics and common lyrical themes. Nine Inch Nails is most famously known for the melding of industrial elements with pop sensibilities in their first albums. This move was considered instrumental in bringing the industrial genre as a whole into the mainstream, although genre purists and Trent Reznor alike have refused to identify NIN as an industrial band. In 2020, Nine Inch Nails was inducted into the Rock And Roll Hall Of Fame.",
+    genre: "Industrial",
   },
   {
     original_artist: "Einsturzende Neubauten",
@@ -30,6 +32,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/86094",
     artist_details: "Experimental German group, formed in West Berlin in 1980. The band is notable for predominantly using custom built instruments constructed out of scrap metal and power tools. Their name in English literally means \"Collapsing New Buildings,\" where \"New Buildings\" describes a type of architecture common in post-WWII Germany (large concrete box-style buildings) and \"Collapsing\" is an adjective in this context, not a verb.",
+    genre: "Industrial",
   },
   {
     original_artist: "Test Dept",
@@ -40,6 +43,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/332406",
     artist_details: "The group was formed in New Cross, south-east London in late 1981. All unemployed, and with listening tastes ranging from soul to classical music, they searched out whatever they could find to make music with, and for the most part this consisted of scrap metal salvaged from waste ground and derelict factories. The reason had as much to do with lack of money as it had to do with a dislike for conventional rock instruments. Originally, they used bass guitars and other conventional instruments, but these were fairly rapidly dropped as they obtained more industrial percussion, and found that these created a stronger and more consistent sound. They also, probably later on, gained the rights for some of their music and can been seen listed as copyright holders on some re-issues. Some examples can be seen on the [l=Test Dept.] page.",
+    genre: "Industrial",
   },
   {
     original_artist: "ohGr",
@@ -50,6 +54,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/228268",
     artist_details: "ohGr is a band formed by Nivek Ogre, of Skinny Puppy, and musician/engineer Mark Walk. Although the pedigree of the group's members might suggest otherwise, ohGr is not strictly an industrial group, as it draws heavily from elements of electro-pop, metal, and even hip hop. The sound diverges heavily from that of Ogre's earlier Skinny Puppy work, incorporating a more conventional structure as well as a lighter tone, lyrically and musically.",
+    genre: "Electro",
   },
   {
     original_artist: "Ministry",
@@ -60,6 +65,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/39626",
     artist_details: "Ministry is the brainchild of [a86726]. Beginning in 1981, playing synth-pop with a strong disco influence, they released their first 12\" on",
+    genre: "Industrial Metal",
   },
   {
     original_artist: "Rammstein",
@@ -70,6 +76,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/257648",
     artist_details: "Rammstein (German pronunciation: [ˈʁamʃtaɪn]) is a German rock band, formed in 1994 in Berlin. Since its formation, Rammstein's six-man lineup has remained unchanged - singer Till Lindemann, guitarists Richard Z. Kruspe and Paul H. Landers, bassist Oliver \"Ollie\" Riedel, drummer Christoph \"Doom\" Schneider and keyboardist Christian \"Flake\" Lorenz. Rammstein were among the founding bands of a German/Austrian subgenre in the mid-1990's where industrial rock and (groove) metal were mixed in a vein that became known as [b]NDH[/b], [i]Neue Deutsche Härte[/i] (lit. New German Hardness), clearly inspired by industrial acts like  [a25404], [a36932] and [a12209], but also metal bands like [a85885] and [a34058]. The majority of their songs are in German, but they have also performed songs entirely or partially in other languages, including English, Spanish, French and Russian. Rammstein's award-winning live shows are known for their pyrotechnic elements and both on and off-stage theatrics, and nowadays, they call their music [i]Tanz Metal[/i] (\"Dance Metal\"). There has been some controversy around their name. During their formative years 1993/94, they were throwing out names while in [a271460]'s tour bus, and someone wrote [i]Rammstein Flugschau[/i] (\"Rammstein Air Show\") on the wall. [b]Ramstein Air Base[/b] outside Kaiserslautern in southern Germany is mainly the headquarters for the US Air Forces in Europe and Africa. In 1988 there was a horrible accident during an Italian air show that killed 70 people. They contemplated other names, like [i]Milch[/i] (Milk), [i]Erde[/i] (Earth) and [i]Mutter[/i] (Mother), but the misspelt [i]Rammstein[/i] stuck with them. They have long since distanced themselves from the old name and story. ",
+    genre: "Industrial Metal",
   },
   {
     original_artist: "Cyberaktif",
@@ -80,6 +87,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/311967",
     artist_details: "Cyberaktif is Canadian industrial band formed briefly in 1990, emerged through a collaboration between [a=Bill Leeb] of [a=Front Line Assembly], [a=cEvin Key] and [a=Dwayne R. Goettel] of [a=Skinny Puppy]. Originally conceived to explore an alternative trajectory for Skinny Puppy with Leeb on board, the project materialized with the support of [l=Wax Trax! Records]. The label contributed to the production of the album 'Tenebrae Vision' and its two singles, 'Nothing Stays' and 'Temper.' [a=Blixa Bargeld] from [a=Einstürzende Neubauten] made guest appearances on the tracks 'Paradiessiets' and 'Meltdown.'  After the album 'Tenebrae Vision' release, the project went on hiatus. However, in 2023, Cyberaktif reactivated, featuring [a=Rhys Fulber] in place of [a=Dwayne R. Goettel], and subsequently released the album 'Endgame' in 2024.",
+    genre: "Industrial",
   },
   {
     original_artist: "Front 242",
@@ -90,6 +98,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/44605",
     artist_details: "Front 242 were formed in Aarschot, Belgium, by Daniel Bressanutti and Dirk Bergen in 1981. Together they produced the first single \"Principles / Body To Body\" (released Oct '81). Jean-Luc De Meyer (vocals) and Patrick Codenys (synth) were looking for support from Daniel to complete the first single in thier project \"Under Viewer\". Daniel offered them to work on the second single \"U.Men / Ethics\" (released Apr. '82) and on Front 242. Richard Jonckheere (Richard 23) - not yet an official member of the group - already had a small singing part in the song \"U.Men\". The first album \"Geography\" followed in Dec '82. Richard 23 was increasingly integrated into the group, especially because of his presence on stage. In contrast, Richard criticized the lack of this imposing presence in Dirk. Dirk then taked over management, but then leaved the band in April '83. With this line-up, the band released many albums of EBM, gaining more popularity with every release (EBM stands for Electronic Body Music, a term first used on their album \"No Comment\" appearing on the inner sleeve but not used as or considered as a genre name yet. The term was actually established as a genre through a marketing concept by promoter [a=Jens-Markus Wegener]. It was strongly pushed to German media to promote the SPV compilation [m11378] in 1987/1988. Sometimes the term itself is also credited to Kraftwerk from an interview in 1978, but according to Wegener the Kraftwerk reference wasn’t known at that time neither to him nor Front 242.). They also established a solid live reputation, with an energetic show in para-military outfits. The year 1993 brought a radical change in style, with guest musicians, the disappearance of their military look and the exploration of both harder (guitar samples) and softer (female vocals, ambient) sounds. After many years of silence, except for a few live/remix-albums, Front 242 re-appeared in the spotlight in the late nineties with their Re:boot-tour, bringing modern, techno-like cover versions of their own songs. In 2003 they took a step back towards their EBM-roots, with the release of \"Pulse\" and \"Still & Raw\". Before Front 242, the members were already involved in other projects, like [a148769] ([a43841]), [a217080] ([a92674] & [a43842]) and Tranik Ind. ([a232851]).",
+    genre: "EBM",
   },
   {
     original_artist: "cEvin Key",
@@ -100,6 +109,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/11065",
     artist_details: "cEvin Key is a Canadian musician (keyboard, guitar, bass, percussion) and songwriter, forrmerly of Industrial/Electronic Rock pioneers [a=Skinny Puppy], born February 13, 1961 in Vancouver, Canada.",
+    genre: "Abstract",
   },
   {
     original_artist: "Noise Unit",
@@ -110,6 +120,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/95865",
     artist_details: "Noise Unit started out as a collaboration between Bill Leeb and Marc Verhaeghen of Klinik. Together they produced the first two albums. The third album brought the project back to life with Rhys Fulber obviously taking over from Marc. \"Decoder\" was supposedly made from the leftovers of the aborted Front Line Assembly album \"Toxic.\" The album \"Drill\" was a collaboration with Haujobb and Klinik.",
+    genre: "EBM",
   },
   {
     original_artist: "Haloblack",
@@ -120,6 +131,7 @@ const albums = [
     type: "release",
     url: "https://api.discogs.com/releases/258396",
     artist_details: "",
+    genre: "Industrial",
   },
   {
     original_artist: "Author & punisher",
@@ -130,6 +142,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/6511549",
     artist_details: "One-man industrial doom metal band from San Diego, CA, made up of mechanical engineer and artist Tristan Shone, started in January 2004.",
+    genre: "Industrial Metal",
   },
   {
     original_artist: "i, Parasite",
@@ -140,6 +153,7 @@ const albums = [
     type: "release",
     url: "https://api.discogs.com/releases/176461",
     artist_details: "After two releases on an independent label (1999's debut Turin and 2000's remix maxi-CD Horseslayer), Christopher Jon broke away to do things his way, forming DARK[b]VISION[/b]MEDIA to release I, Parasite's 2003 release [b]On This Cold Floor[/b], which has received critical acclaim from around the world, and has been featured heavily on MTV's The Real World and Road Rules.  Christopher recently contributed synth programming and noise textures to the new [b]Cradle Of Filth[/b] album, [b]Thornography[/b].",
+    genre: "Electro",
   },
   {
     original_artist: "Chemlab",
@@ -150,6 +164,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/87853",
     artist_details: "American industrial rock band founded in 1989 in Washington D.C.",
+    genre: "Industrial",
   },
   {
     original_artist: "Youth Code",
@@ -160,6 +175,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/8394610",
     artist_details: "EBM / Industrial duo from Los Angeles, formed in 2012.",
+    genre: "Industrial",
   },
   {
     original_artist: "Echo Beds",
@@ -170,6 +186,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/8773328",
     artist_details: "",
+    genre: "Industrial",
   },
   {
     original_artist: "...Of Tanz Victims",
@@ -180,6 +197,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/655671",
     artist_details: "Montreal, Quebec-based group formed in 1984. Band members include Robert de la Carignan, a.k.a. Robert Mailloux (guitar, bass, vocals), Denis Wooty, a.k.a. Dany Wauthy and Roy Batty (synthesizers, drum machine, vocals) and Sat W. Ford, a.k.a. Stefan Figiel and Stephan Faulkner (sampling, percussion, vocals).",
+    genre: "Industrial",
   },
   {
     original_artist: "Throbbing Gristle",
@@ -190,6 +208,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/70587",
     artist_details: "Industrial group. Growing out of the extreme performance art group [a=COUM Transmissions]. Their first performances were in 1976 and their last gig was in San Francisco in 1981 (recorded and released as \"Mission Of Dead Souls\"),",
+    genre: "Industrial",
   },
   {
     original_artist: "DISTRUSTER",
@@ -200,6 +219,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/27552465",
     artist_details: "Dark Electro-Industrial duo from San Francisco, CA. Formed in 2020.",
+    genre: "Industrial",
   },
   {
     original_artist: "Interpol",
@@ -210,6 +230,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1055329",
     artist_details: "Interpol is an American rock band from Manhattan, New York. Formed in 1997, their original line-up consisted of Paul Banks (lead vocals, rhythm guitar), Daniel Kessler (lead guitar, backing vocals), Carlos Dengler (bass guitar, keyboards), and Greg Drudy (drums). Drudy left the band in 2000 and was replaced by Sam Fogarino. Dengler left to pursue other projects in 2010, with Banks taking on the additional role of bassist instead of hiring a new one. [a=Brad Truax] (bass) and [a=Brandon Curtis] (keyboards, backing vocals) have been part of the touring band since 2010, but the band officially operates as a trio on studio recordings.",
+    genre: "Alternative Rock",
   },
   {
     original_artist: "Billy Bragg",
@@ -220,6 +241,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1135506",
     artist_details: "British singer-songwriter, born on December 20, 1957 in Barking, Essex. The 'Bard of Barking' has a long and successful career, particularly known in the UK for his combination of music and left-wing politics.",
+    genre: "Folk Rock",
   },
   {
     original_artist: "Nouvelle Vague",
@@ -230,6 +252,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/774868",
     artist_details: "French band formed in 2003 by [a31258] and [a218095], specialising in jazzy Bossa nova cover versions of new wave songs sung by a female guest vocalist. The band decided to continue after the death of Libaux in 2021.",
+    genre: "Bossa Nova",
   },
   {
     original_artist: "Tom Waits",
@@ -239,7 +262,8 @@ const albums = [
     title: "Mule Variations",
     type: "master",
     url: "https://api.discogs.com/releases/339638",
-    artist_details: "Born December 7th. 1949, in Pomona, California. Tom Waits first album, \"Closing Time\", was released in 1973. A contemporary artist, Waits is mostly known for his lyrical and poetical songwriting and raspy gravelly voice. His own inspiration is rooted in early blues and beat poetry with influences like [a=Howlin' Wolf] and [a=Jack Kerouac]. Apart from music, Waits also has a strong presence in movies. He has appeared in works by Francis Ford Coppola, the Coen Brothers, Jim Jarmusch, Terry Gilliam, and Robert Altman. Previously worked as a dishwasher at Napoleone Pizza House in San Diego, California before being promoted to pizza chef.",
+    artist_details: "Born December 7th. 1949, in Pomona, California. Tom Waits first album, \"Closing Time\",was released in 1973. A contemporary artist, Waits is mostly known for his lyrical and poetical songwriting and raspy gravelly voice. His own inspiration is rooted in early blues and beat poetry with influences like [a=Howlin' Wolf] and [a=Jack Kerouac]. Apart from music, Waits also has a strong presence in movies. He has appeared in works by Francis Ford Coppola, the Coen Brothers, Jim Jarmusch, Terry Gilliam, and Robert Altman. Previously worked as a dishwasher at Napoleone Pizza House in San Diego, California before being promoted to pizza chef.",
+    genre: "Abstract",
   },
   {
     original_artist: "The xx",
@@ -250,6 +274,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/3855300",
     artist_details: "[b]The xx[/b] [i](constantly credited with lower case \"xx\")[/i] are an English indie pop band from Wandsworth, London, formed in 2005.",
+    genre: "Indie Rock",
   },
   {
     original_artist: "Parliament",
@@ -260,6 +285,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/3000728",
     artist_details: "American funk group, led by [a=George Clinton]. Founded in 1955 as The Parliaments, renamed Parliament in 1969. Sister act of [a29923]. Inducted into Rock And Roll Hall of Fame in 1997 (Performer).",
+    genre: "P.Funk",
   },
   {
     original_artist: "Ohio Players",
@@ -270,6 +296,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/493029",
     artist_details: "The Ohio Players formed in 1959 in Dayton, Ohio, USA.  Originally named [a1041403], they were the studio house band at [l186272] Renamed the Ohio Players, the group signed to Capitol Records in Los Angeles in the mid '60s. In 1972, the band signed to Westbound Records in Detroit and achieved commercial success, after which it recorded for Mercury Records.",
+    genre: "Funk",
   },
   {
     original_artist: "Daft Punk",
@@ -280,6 +307,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/4570366",
     artist_details: "Daft Punk were a French electronic music duo formed in 1993 by [a=Thomas Bangalter] (born January 3, 1975) and [a=Guy-Manuel de Homem-Christo] (born February 8, 1974). Bangalter and de Homem-Christo were previously in the rock band [a=Darlin'] with [a=Laurent Brancowitz]. After Brancowitz left the group to join his brother's band, [a=Phoenix], the remaining duo formed Daft Punk. On February 22, 2021, it was announced that they had disbanded for unknown reasons.",
+    genre: "Disco",
   },
   {
     original_artist: "Miguel",
@@ -290,6 +318,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/11895336",
     artist_details: "If his last name is credited please use the [a=Miguel Jontel Pimentel] profile.",
+    genre: "Contemporary R&B",
   },
   {
     original_artist: "Mac Miller",
@@ -300,6 +329,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/15247638",
     artist_details: "Mac Miller (born January 19, 1992 in Point Breeze, Pittsburgh, Pennsylvania, USA - died September 7, 2018 in Studio City, California, USA) was an American rapper, singer, songwriter and record producer. He was signed to [l=Rostrum Records] until 2015, when he switched label to [l=Warner Bros. Records].",
+    genre: "Hip Hop",
   },
   {
     original_artist: "Funkadelic",
@@ -310,6 +340,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/773587",
     artist_details: "Funkadelic is an American band most prominent during the 1970s. The band and its sister act [a8887], both led by [a=George Clinton], began the funk music culture of that decade. Inducted into Rock And Roll Hall of Fame in 1997 (Performer).",
+    genre: "P.Funk",
   },
   {
     original_artist: "Wild Cherry",
@@ -319,7 +350,8 @@ const albums = [
     title: "Wild Cherry",
     type: "master",
     url: "https://api.discogs.com/releases/346778",
-    artist_details: "Wild Cherry started as a straight rock band, playing Ohio style melodic hard rock with proto power pop influences. They cut a couple records on their own, before getting signed to Terry Knight's Brown Bag label. These records did not have much impact, and the band broke up for a while. In 1975 or thereabouts original Wild Cherry leader Rob Parissi recruited some musicians from the Pittsburgh area, and started a new Wild Cherry. This band tried to crack the rock clubs, but in the time since the original band's breakup, musical tastes, and clubs, were changing to more dance music. Parissi wrote a song from experience called \"Play that Funky Music\", and in doing so, the band followed their lead and became a funk/disco/dance band.",
+    artist_details: "Wild Cherry started as a straight rock band, playing Ohio style melodic hard rock with proto power pop influences. They cut a couple records on their own, before getting signed to Terry Knight's Brown Bag label. These records did not have much impact, and the band broke up for a while. In 1975 or thereabouts original Wild Cherry leader Rob Parissi recruited some musicians from the Pittsburgh area, and started a new Wild Cherry. This band tried to crack the rock clubs, but in the time since the original band's breakup, musical tastes, and clubs, were changing to more dance music. Parissi wrote a song from experience called \"Play that Funky Music\",and in doing so, the band followed their lead and became a funk/disco/dance band.",
+    genre: "Funk",
   },
   {
     original_artist: "MICHELLE",
@@ -330,6 +362,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/22516595",
     artist_details: "6 piece pop / R&B group based in New York City (USA) aka We Are Michelle",
+    genre: "Indie Pop",
   },
   {
     original_artist: "Eddie Harris",
@@ -340,6 +373,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/758200",
     artist_details: "American jazz and funk saxophonist, pianist, vocalist and composer. In the mid-1960s he pioneered the usage of amplified electric Varitone saxophones. Often associated with the publisher [l=Hargrove Music]. Born October 20, 1934, Chicago, Illinois, USA - Died November 5, 1996, Los Angeles, California, USA.  For the US soul songwriter associated with [a=George Jackson (3)], see [a=Edward Harris Jr].",
+    genre: "Jazz-Funk",
   },
   {
     original_artist: "Anderson .Paak",
@@ -350,6 +384,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/13835553",
     artist_details: "Brandon Paak Anderson (born February 8, 1986), better known by his stage name Anderson Paak (stylized as Anderson .Paak), is an American musician and record producer from Oxnard, California. He released his debut album, O.B.E. Vol. 1 in 2012, under the pseudonym Breezy Lovejoy. He went on to release Venice in 2014, under his current moniker. Paak followed with Malibu, in 2016, which received a nomination for Best Urban Contemporary Album at the Grammy Awards. Apart from his solo career, Paak is also one-half of [a=NxWorries], alongside record producer [a=Knxwledge]. He is accompanied by the band [a=The Free Nationals], who play a variety of instruments such as electric guitar, bass, piano, keyboards and drums and also serve as backing vocalists. in 2021, he collaborates with [a1357693] and forms the superduo [a8897713]",
+    genre: "Hip Hop",
   },
   {
     original_artist: "Beck",
@@ -360,6 +395,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/128270",
     artist_details: "American musician, singer-songwriter and multi-instrumentalist. born July 8, 1970, in Los Angeles, California, USA. Son of [a=David Campbell] and [a=Bibbe Hansen], grandson of [a=Al Hansen]. He was married to [a=Marissa Ribisi] from 2004–2019. When his parents split, he and his younger brother stayed with their mother. Beck dropped out of school at the age of 14 and drifted around for about a decade, ending up back in Los Angeles. While playing some open-mike events, he got noticed by the little local label Bong Load Custom Records. In 1993, \"Loser\" was released to the world in a limited pressing of 500 copies and sent out to radio DJs across the U.S. The song became quite popular, and subsequently DGC/Geffen/MCA signed Beck in November of 1993, while giving him the freedom to work with independent labels and to make uncommercial music. The DGC release of Loser in January 1994 became an international hit.",
+    genre: "Synth-pop",
   },
   {
     original_artist: "Childish Gambino",
@@ -370,6 +406,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/11116099",
     artist_details: "American actor, writer, comedian, and musician, born 25 September 1983 at Edwards Air Force Base, California, and raised in Stone Mountain, Georgia, USA The name Childish Gambino was created using the Wu-Tang Name Generator",
+    genre: "Contemporary R&B",
   },
   {
     original_artist: "Slothrust",
@@ -380,6 +417,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/20248945",
     artist_details: "American alternative rock band from Boston, MA The band relocated to Los Angeles by early 2018 to work on recordings for [i]The Pact[/i] LP, released later that year. In August 2021, the band announced the earlier departure of [a=Kyle Bann] from the group, and in September announced the addition of Brooks Allison as touring bassist in support of the [i]Parallel Timeline[/i] album.",
+    genre: "Alternative Rock",
   },
   {
     original_artist: "MARINA",
@@ -390,6 +428,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/2315153",
     artist_details: "Stage name used by Welsh singer-songwriter Marina Diamandis from 2007 to 2017. Since 2018 Diamandis has performed as Marina Born 10 October 1985 in Abergavenny, Wales to a Greek father and Welsh mother.",
+    genre: "Pop Rock",
   },
   {
     original_artist: "The Dresden Dolls",
@@ -400,6 +439,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/5594924",
     artist_details: "The duo of The Dresden Dolls make music based around arrangements of drums (by Brian), piano and vocals (by Amanda), which they call their style of music \"Brechtian Punk Cabaret\". They started in mid-2000 in Boston, Massachusetts, releasing a compilation of live tracks, then their self-titled debut album. In spring 2005, they got set up as the opening band for [a=Nine Inch Nails], even without [A=Trent Reznor] attending any of their live shows beforehand.",
+    genre: "Art Rock",
   },
   {
     original_artist: "AC/DC",
@@ -410,6 +450,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1949857",
     artist_details: "Hard Rock band from Australia, formed in 1973 by Angus and Malcolm Young, they teamed up with Dave Evans (vocals), Larry Van Kriedt (bass) and Colin Burgess (drums). The first official live performance took place on December 31, 1973 at Chequers in Sydney, Australia. In 1974 both Larry Van Kriedt and Colin Burgess left and were replaced by Rob Bailey (bass) and Peter Clack (drums), a further change in 1974 saw Peter Clack leave and Tony Currenti (drums) join the band. In June 1974 they were signed by Harry Vanda & George Young (Malcolm & Angus's brother) to Albert Productions. In November 1974, Dave Evans left the band and was replaced by Bon Scott (vocals & bagpipes). Rob Bailey also left in 1974 and was replaced by George Young (bass). In 1975 Phil Rudd (drums) replaced Tony Currenti and Mark Evans (bass) replaced George Young. In June 1977 Mark Evans left and is replaced by Cliff Williams (bass) for their first tour of the USA. On the 19 Feb 1980 Bon Scott died at the age of 33. Brian Johnson (ex Geordie) joined the band to replace him on vocals and the album \"Back In Black\" was released, a tribute to Bon Scott, this album became the 2nd largest selling album of all time with over 40 million copies sold worldwide. In May 1983, Phil Rudd had a parting of the ways and was replaced by Simon Wright (drums), aged 20 then. November 1989 Simon Wright left and is replaced by Chris Slade (ex Manfred Mann's Earth Band, Uriah Heep & The Firm). In summer 1994 Phil Rudd \"quietly\" rejoined the band, but left again in 2015, which led to Slade's return. Malcolm Young left AC/DC in 2014 for health reasons. Brian Johnson was forced to stop touring in April 2016 because of hearing issues. To complete the 2016 tour dates, Axl Rose was recruited as a guest singer. In September 2016 Cliff Williams retired from the group. In 2020 it was announced that the band had reunited with Brian Johnson, Phil Rudd and Cliff Williams. AC/DC are Australia's most successful rock band ever, and are popular around the world. The band was inducted into Rock And Roll Hall Of Fame in 2003 as a performer.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Pink Floyd",
@@ -420,6 +461,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/9287809",
     artist_details: "Pink Floyd was an English rock band from London. Founded in late 1965, the group achieved worldwide acclaim, initially with innovative psychedelic music, and later in a genre that came to be termed progressive rock.Distinguished by philosophical lyrics, musical experimentation, frequent use of sound effects and elaborate live shows, Pink Floyd remains one of the most commercially successful and influential groups in the history of popular music.",
+    genre: "Prog Rock",
   },
   {
     original_artist: "Lipstick on the Mirror",
@@ -430,6 +472,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/4174848",
     artist_details: "Melodic post-grunge outfit Pop Evil formed in Grand Rapids, Michigan in 2001. Formerly known as TenFive, in November 2007, Pop Evil signed a management deal with G&G Entertainment.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "The Rolling Stones",
@@ -440,6 +483,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/375854",
     artist_details: "English rock band formed in London in May 1962. They are one of the longest-lived and most commercially successful groups in rock history. Inducted into the Rock And Roll Hall of Fame in 1989 (Performer).",
+    genre: "Blues Rock",
   },
   {
     original_artist: "Nirvana",
@@ -450,6 +494,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/7097051",
     artist_details: "Rock band from Aberdeen, Washington, USA, formed in 1987. Emerging from the Seattle grunge scene of the late 1980s/early 1990s, Nirvana was a power trio of musicians who brought a new aesthetic to the rock scene of the time. They had already released their debut LP \"[m=13773]\" with Sub Pop, but their 1991 major-label debut for [l=DGC]/[l=Geffen Records], \"[m=13814]\" broke the band and grunge into the mainstream of America. Singer/guitarist [a=Kurt Cobain]'s death by suicide in April 1994 brought the band to an end.",
+    genre: "Grunge",
   },
   {
     original_artist: "Fleetwood Mac",
@@ -460,6 +505,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/526351",
     artist_details: "Founded in London in July 1967 (by ex-[url=http://www.discogs.com/artist/John+Mayall+%26+The+Bluesbreakers]Bluesbreakers[/url] members, Peter Green and Mick Fleetwood), \"Peter Green's Fleetwood Mac\" instantly became a major force in the UK blues scene, along with their eponymous first album. Following \"Mr. Wonderful\" & \"Then Play On\" the driving force of Peter Green had deteriorated as he lapsed into a personal crisis by 1970. The group reorganized, under the leadership of Fleetwood, and slowly took on a new direction - away from the blues and into the mainstream of international popularity, known simply as [b]Fleetwood Mac[/b].",
+    genre: "Pop Rock",
   },
   {
     original_artist: "Bruce Springsteen",
@@ -470,6 +516,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1874253",
     artist_details: "Born: September 23, 1949, Long Branch, New Jersey, USA. Nicknamed \"The Boss\", Springsteen is an American singer-songwriter and rock musician, widely known for his brand of poetic lyrics, his Jersey Shore roots, his distinctive voice, and his lengthy and energetic stage performances. He released his first album in 1973. The backing group that played for him is called [a=The E-Street Band]. Inducted into Rock And Roll Hall of Fame (Performer) and Songwriters Hall of Fame in 1999. Older brother of [a=Pamela Springsteen]. Married [a=Patti Scialfa] on June 8, 1991. On July 25, 1990, Scialfa gave birth to the couple's first child, [a=Evan James Springsteen]. ",
+    genre: "Pop Rock",
   },
   {
     original_artist: "Meat Loaf",
@@ -479,7 +526,8 @@ const albums = [
     title: "Bat Out Of Hell II: Back Into Hell",
     type: "master",
     url: "https://api.discogs.com/releases/8383491",
-    artist_details: "American musician and actor, born September 27, 1947,  Dallas - Texas, died January 20, 2022 in Nashville, Tennessee, noted for the 'Bat Out of Hell' album trilogy consisting of \"Bat Out of Hell\", \"Bat Out of Hell II: Back Into Hell\" and \"Bat Out of Hell III: The Monster is Loose\". \"Bat Out of Hell\" has sold more than 43 million copies worldwide. After 35 years, it still sells an estimated 200,000 copies annually and stayed on the charts for over nine years, making it one of the best selling albums of all time.",
+    artist_details: "American musician and actor, born September 27, 1947,  Dallas - Texas, died January 20, 2022 in Nashville, Tennessee, noted for the 'Bat Out of Hell' album trilogy consisting of \"Bat Out of Hell\",\"Bat Out of Hell II: Back Into Hell\" and \"Bat Out of Hell III: The Monster is Loose\". \"Bat Out of Hell\" has sold more than 43 million copies worldwide. After 35 years, it still sells an estimated 200,000 copies annually and stayed on the charts for over nine years, making it one of the best selling albums of all time.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Linkin Park",
@@ -490,6 +538,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/26654555",
     artist_details: "Alternative rock band from Agoura Hills, California. US.",
+    genre: "Nu Metal",
   },
   {
     original_artist: "Metallica",
@@ -500,6 +549,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/6025044",
     artist_details: "Thrash Metal (Heavy Metal) band from Los Angeles, California (USA). Metallica formed in 1981 by vocalist/guitarist [a251874] and drummer [a251550].  The duo first met through an ad in a Los Angeles-based music newspaper.  At the time, Ulrich had little musical experience and no band but managed to secure a slot on an upcoming compilation record called “[m=63482]”.   Metallica’s contribution, “Hit The Lights”, featured Hetfield, Ulrich and lead guitarist [a648330].  Afterwards, [a509874] became the band's bassist and [a251808] joined the band as lead guitarist.  This line-up would re-record \"Hit The Lights\" for subsequent re-pressings of \"Metal Massacre\" and would also issue several demos.  In 1983, McGovney quit the group and was replaced by [a364982], which also saw the band relocate to San Francisco.  Metallica then traveled to New York after signing a deal with [l=Megaforce Records].  However, once in New York, the band fired Mustaine.  It would mark the beginning of a long feud between Mustaine and Metallica, mostly fueled by remarks Mustaine would make to the press.  Mustaine was replaced by Kirk Hammett of [a=Exodus (6)]. Metallica's debut LP, \"Kill 'Em All\", was released in 1983.  It was followed in 1984 by \"Ride The Lightning\".  This led to a major label deal with [l=Elektra].  In 1986, the band released \"Master Of Puppets\", which is considered by many to be one of the greatest heavy metal records of all time.  In September of that year, while on tour in Sweden, the band was involved in a bus accident which took the life of Cliff Burton.  Eventually, [a390503] (of [a=Flotsam And Jetsam]) was hired as the band's new bassist and he made his debut on 1987's \"Garage Days Re-Revisited\", an EP of cover tunes.  The full-length \"...And Justice For All\" followed in 1988, featuring the track \"One\" which was chosen as the subject for their first promotional music video. In 1990, Metallica hooked up with producer [a=Bob Rock] for a self-titled release that would become better known as \"The Black Album\", due to its cover art. Released in 1991, the black album would become one of the best-selling rock albums of all time, selling over 16 million copies in the US alone.",
+    genre: "Thrash",
   },
   {
     original_artist: "Beartooth",
@@ -510,6 +560,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/28575079",
     artist_details: "American metalcore/hardcore punk band formed in 2012.",
+    genre: "Metalcore",
   },
   {
     original_artist: "Nickelback",
@@ -520,6 +571,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1131632",
     artist_details: "Alternative rock band from Hanna, Alberta (Canada). The band was formed in 1995. The band having sold almost 50 million albums worldwide, ranking as the 11th best selling music act of the 2000s, and is the 2nd best selling foreign act in the U.S. behind The Beatles for the 2000's.",
+    genre: "Post-Grunge",
   },
   {
     original_artist: "Guns N' Roses",
@@ -530,6 +582,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/7492229",
     artist_details: "Hard rock band from Los Angeles, California. Formed 1985. The band was founded by W. Axl Rose and Izzy Stradlin', along with Tracii Guns, Rob Gardner and Ole Beich, with Axl Rose being the only constant member throughout the band's history.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Queen",
@@ -540,6 +593,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/2170885",
     artist_details: "Queen is a British rock band formed in London in 1970 from the previously disbanded [a667383] Rock band. Originally called Smile, later in 1970 singer [a79949] came up with the new name for the band. [a268365] joined in March 1971 giving them their fourth and final bass player.The band has released a total of 18 number-one albums, 18 number-one singles and 10 number-one DVDs, and have sold over 300 million albums worldwide, making them one of the world's best-selling music artists. They have been honoured with seven Ivor Novello awards and were inducted into the Rock and Roll Hall of Fame in 2001. Lead singer Freddie Mercury died in November 1991 of AIDS-related complications. A year after his death, in April 20 1992 held a tribute concert for the lead singer to commemorate his life featuring all three remaining members and along with many great guest singers and guitarists. Since the death of Freddie Mercury in 1991, [a253217] and [a208268] continued as various \"Queen+\" incarnations. John Deacon has retired from the music business, and opted out of almost all post-Mercury Queen activities, saying \"As far as we are concerned, this is it. There is no point carrying on. It is impossible to replace Freddie\".",
+    genre: "Hard Rock",
   },
   {
     original_artist: "The Who",
@@ -550,6 +604,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/487464",
     artist_details: "English rock band formed in Hammersmith, London in 1964.They were inducted into Rock And Roll Hall of Fame in 1990 (Performer).",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Soundgarden",
@@ -560,6 +615,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/5757840",
     artist_details: "As one of the first bands to record for the legendary [l=Sub Pop] Records, Soundgarden is generally regarded as one of the founding fathers of grunge, even though most of their work was of a far more rock/metallic nature than the likes of [a=Pearl Jam], [a=Mudhoney], or [a=Nirvana]. From a metallic standpoint, their peak was 1991's Badmotorfinger, with the later albums showing a more alternative side to the band (and also produced their biggest hit single, \"Black Hole Sun\"). The band parted ways amicably in April of 1997 to pursue other interests. Most notable of these was vocalist Chris Cornell joining forces with the core of [a=Rage Against The Machine] in [a=Audioslave]. At precisely midnight on January 1, 2010, U.S. EST, Chris Cornell posted on his Twitter and Facebook: \"The 12 year break is over & school is back in session. Knights of the Soundtable ride again!\" On May 18, 2017, around midnight, vocalist Chris Cornell was found dead in MGM Grand hotel room after a show in Detroit.",
+    genre: "Alternative Rock",
   },
   {
     original_artist: "The Strokes",
@@ -570,6 +626,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/667892",
     artist_details: "The Strokes are an American rock band from New York City. Formed in 1998, the band is composed of singer Julian Casablancas, guitarists Nick Valensi and Albert Hammond Jr., bassist Nikolai Fraiture, and drummer Fabrizio Moretti. Following the conclusion of five-album deals with RCA and Rough Trade, the band has continued to release new music through Casablancas' Cult Records. The band's debut album, Is This It (2001), was met with widespread critical acclaim and helped usher in the garage rock revival movement of the early 21st century; it was ranked No. 8 on Rolling Stone's 100 \"Best Debut Albums of All Time\", No. 2 on Rolling Stone's \"100 Best Albums of the '00s\", No. 199 on Rolling Stone's \"500 Greatest Albums of All Time\", and No. 4 on NME's \"Top 500 Albums of All Time\".",
+    genre: "Indie Rock",
   },
   {
     original_artist: "Red Hot Chili Peppers",
@@ -580,6 +637,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/403972",
     artist_details: "Funk/alternative rock band formed in 1982 in Los Angeles, California, United States",
+    genre: "Alternative Rock",
   },
   {
     original_artist: "Green Day",
@@ -590,6 +648,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1203470",
     artist_details: "Pop punk/alternative rock band from East Bay, California. USA. Formed 1987. They were originally called Sweet Children, but changed their name before their first release.",
+    genre: "Pop Punk",
   },
   {
     original_artist: "Foo Fighters",
@@ -600,6 +659,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/2815082",
     artist_details: "Alternative Rock band from Seattle, Washington, USA. Formed 1994, originally a one-man-band created by [a=Dave Grohl] in 1994-1995.",
+    genre: "Alternative Rock",
   },
   {
     original_artist: "Rush",
@@ -610,6 +670,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/3658022",
     artist_details: "Canadian heavy progressive rock trio, formed in 1968 in Toronto, Canada. Disbanded in 2018. Rush retired from touring after the R40 tour when [a=Neil Peart] announced he would retire due to health reasons. In January 2018, [a=Alex Lifeson] said in an interview that Rush's career had come to an end. On January 7, 2020, after a three-year illness, Neil Ellwood Peart died of glioblastoma at age 67, his passing was officially announced on January 10, 2020.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Rush",
@@ -620,6 +681,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/741589",
     artist_details: "Canadian heavy progressive rock trio, formed in 1968 in Toronto, Canada. Disbanded in 2018. Rush retired from touring after the R40 tour when [a=Neil Peart] announced he would retire due to health reasons. In January 2018, [a=Alex Lifeson] said in an interview that Rush's career had come to an end. On January 7, 2020, after a three-year illness, Neil Ellwood Peart died of glioblastoma at age 67, his passing was officially announced on January 10, 2020.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Rush",
@@ -630,6 +692,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/625567",
     artist_details: "Canadian heavy progressive rock trio, formed in 1968 in Toronto, Canada. Disbanded in 2018. Rush retired from touring after the R40 tour when [a=Neil Peart] announced he would retire due to health reasons. In January 2018, [a=Alex Lifeson] said in an interview that Rush's career had come to an end. On January 7, 2020, after a three-year illness, Neil Ellwood Peart died of glioblastoma at age 67, his passing was officially announced on January 10, 2020.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Rush",
@@ -640,6 +703,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/741593",
     artist_details: "Canadian heavy progressive rock trio, formed in 1968 in Toronto, Canada. Disbanded in 2018. Rush retired from touring after the R40 tour when [a=Neil Peart] announced he would retire due to health reasons. In January 2018, [a=Alex Lifeson] said in an interview that Rush's career had come to an end. On January 7, 2020, after a three-year illness, Neil Ellwood Peart died of glioblastoma at age 67, his passing was officially announced on January 10, 2020.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Miles Davis",
@@ -650,6 +714,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/2772432",
     artist_details: "Trumpeter, bandleader, composer, and one of the most important figures in jazz music history, and music history in general. Davis adopted a variety of musical directions in a five-decade career that kept him at the forefront of many major stylistic developments in jazz.",
+    genre: "Modal",
   },
   {
     original_artist: "JOHN COLTRANE",
@@ -660,6 +725,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/9636353",
     artist_details: "American saxophonist and jazz composer.Born: 23 September 1926 in Hamlet, North Carolina, USA. Died: 17 July 1967 in Huntington, Long Island, New York, USA (aged 40) from liver cancer. Coltrane's early recordings capture a musician in the relatively conventional confines of bebop and hardbop, but his enduring legacy primarily rests on the modal jazz pioneered by his classic quartet (1961-65) and by free jazz explorations late in his career. Extensively recorded as a leader, he appeared as a sideman on many other albums, performing with other major figures in jazz like [a=Miles Davis] and [a=Thelonious Monk]. Coltrane received numerous awards including a posthumous \"Special Citation\" from the Pulitzer Prize Board in 2007 for his 'masterful improvisation, supreme musicianship and iconic centrality to the history of jazz'. As his life progressed, his music and outlook became increasingly spiritual. After his death he was proclaimed as a saint by the African Orthodox church that took his name. Coltrane's second wife was pianist [a=Alice Coltrane]; their son [a=Ravi Coltrane] is also a saxophonist.",
+    genre: "Jazz",
   },
   {
     original_artist: "JOHN COLTRANE",
@@ -670,6 +736,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/6536984",
     artist_details: "American saxophonist and jazz composer. Born: 23 September 1926 in Hamlet, North Carolina, USA. Died: 17 July 1967 in Huntington, Long Island, New York, USA (aged 40) from liver cancer. Coltrane's early recordings capture a musician in the relatively conventional confines of bebop and hardbop, but his enduring legacy primarily rests on the modal jazz pioneered by his classic quartet (1961-65) and by free jazz explorations late in his career. Extensively recorded as a leader, he appeared as a sideman on many other albums, performing with other major figures in jazz like [a=Miles Davis] and [a=Thelonious Monk]. Coltrane received numerous awards including a posthumous \"Special Citation\" from the Pulitzer Prize Board in 2007 for his 'masterful improvisation, supreme musicianship and iconic centrality to the history of jazz'. As his life progressed, his music and outlook became increasingly spiritual. After his death he was proclaimed as a saint by the African Orthodox church that took his name. Coltrane's second wife was pianist [a=Alice Coltrane]; their son [a=Ravi Coltrane] is also a saxophonist.",
+    genre: "Hard Bop",
   },
   {
     original_artist: "JOHN COLTRANE",
@@ -680,6 +747,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/4709678",
     artist_details: "American saxophonist and jazz composer. Born: 23 September 1926 in Hamlet, North Carolina, USA. Died: 17 July 1967 in Huntington, Long Island, New York, USA (aged 40) from liver cancer. Coltrane's early recordings capture a musician in the relatively conventional confines of bebop and hardbop, but his enduring legacy primarily rests on the modal jazz pioneered by his classic quartet (1961-65) and by free jazz explorations late in his career. Extensively recorded as a leader, he appeared as a sideman on many other albums, performing with other major figures in jazz like [a=Miles Davis] and [a=Thelonious Monk]. Coltrane received numerous awards including a posthumous \"Special Citation\" from the Pulitzer Prize Board in 2007 for his 'masterful improvisation, supreme musicianship and iconic centrality to the history of jazz'. As his life progressed, his music and outlook became increasingly spiritual. After his death he was proclaimed as a saint by the African Orthodox church that took his name. Coltrane's second wife was pianist [a=Alice Coltrane]; their son [a=Ravi Coltrane] is also a saxophonist.",
+    genre: "Hard Bop",
 
   },
   {
@@ -691,6 +759,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/2163687",
     artist_details: "Hard / arena rock band from Boston, Massachusetts, USA, formed in 1976.",
+    genre: "Hard Rock",
   },
   {
     original_artist: "Herbert Von Karajan: Berlin Philharmonic",
@@ -701,6 +770,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1554703",
     artist_details: "Wolfgang Amadeus Mozart was born on January 27, 1756, the son of [a=Leopold Mozart]. He was a prolific and highly influential composer of classical music. His enormous output of more than six hundred compositions includes works that are widely acknowledged as pinnacles of symphonic, chamber, piano, operatic, and choral music. Mozart is among the most enduringly popular of European composers, and many of his works are part of the standard concert repertoire. He died on December 5, 1791.",
+    genre: "Classical",
   },
   {
     original_artist: "Bach Festival",
@@ -711,6 +781,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/6197654",
     artist_details: "North American brass quintet based out of Boston and founded by trumpeter [a776852] who died on April 27, 2015. The term \"quintet\" was fluid as the members and guest musicians who accompanied Rolf Smedvig varied greatly on their releases and concerts.",
+    genre: "Baroque",
   },
   {
     original_artist: "James Levine: Chicago Symphony Orchestra",
@@ -721,6 +792,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/6767529",
     artist_details: "Austrian composer and conductor. Born 7 July 1860 in Kalischt, Bohemia (today Kaliště, Czech Republic) and died 18 May 1911 in Vienna, Austria.Gustav Mahler (German pronunciation: [ˈɡʊstaf ˈmaːlɐ]; was a late-Romantic Austrian-Bohemian composer and one of the leading conductors of his generation. As a composer, he acted as a bridge between the 19th century Austro-German tradition and the modernism of the early 20th century. While in his lifetime his status as a conductor was established beyond question, his own music gained wide popularity only after periods of relative neglect which included a ban on its performance in much of Europe during the Nazi era. After 1945 the music was discovered and championed by a new generation of listeners; Mahler then became one of the most frequently performed and recorded of all composers, a position he has sustained into the 21st century. Born in humble circumstances, Mahler showed his musical gifts at an early age. After graduating from the Vienna Conservatory in 1878, he held a succession of conducting posts of rising importance in the opera houses of Europe, culminating in his appointment in 1897 as director of the Vienna Court Opera (Hofoper). During his ten years in Vienna, Mahler—who had converted to Catholicism from Judaism to secure the post—experienced regular opposition and hostility from the anti-Semitic press. Nevertheless, his innovative productions and insistence on the highest performance standards ensured his reputation as one of the greatest of opera conductors, particularly as an interpreter of the stage works of [a=Richard Wagner] and [a=Wolfgang Amadeus Mozart]. Late in his life he was briefly director of New York's [a=The Metropolitan Opera] and [a=The New York Philharmonic Orchestra].",
+    genre: "Romantic",
   },
   {
     original_artist: "Claudio Abbado: Chicago Symphony Orchestra",
@@ -731,6 +803,7 @@ const albums = [
     type: "release",
     url: "https://api.discogs.com/releases/10302788",
     artist_details: "Claudio Abbado, OMRI was an Italian conductor.He was the son of violinist, conductor, and teacher [a=Michelangelo Abbado], and brother of pianist [a=Marcello Abbado].Born June 26, 1933 in Milan, Italy. Died January 20, 2014 in Bologna, Italy (aged 80) He was the music director of La Scala from 1968 to May 1986. He founded the Orchestra della Scala for the performance of orchestral repertoire in concert. From 1986 to 1991 he was music director of [l613318].",
+    genre: "Romantic",
   },
   {
     original_artist: "TOWER OF POWER",
@@ -741,6 +814,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/525590",
     artist_details: "American funk/soul group from  Oakland, California active since 1968.",
+    genre: "Soul",
   },
   {
     original_artist: "TOTO",
@@ -751,6 +825,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/1464270",
     artist_details: "Originally a group of Los Angeles based studio musicians including guitarist [a=Steve Lukather], keyboardist [a=David Paich], bassist [a=David Hungate], and the Porcaro Brothers (drummer [a=Jeff Porcaro], keyboardist [a=Steve Porcaro] and later bassist [a=Mike Porcaro]), aside from doing session work for other stars, Toto had a lengthy career of hits in their own right.  Their commercial peak was 1982's \"TOTO IV\", which won several Grammy awards, including Album Of The Year.  Toto is best known for their hits \"Africa,\" \"Hold The Line\", \"Rosanna\", \"Georgy Porgy\" (covered by 3D and Eric Benet and sampled by MC Lyte on her track \"Poor Georgie\"), and \"I Won't Hold You Back\", the last of which Roger Sanchez used for his worldwide hit \"Another Chance.\"  After Steve Lukather decided to leave Toto in order to concentrate on his solo career, the band became officially defunct as of mid-2008, although in 2010 they reformed, allegedly for a short series of concerts only, to support their former bassist Mike Porcaro, who had been diagnosed with ALS (Lou Gehrig's disease.). However, the band continues to tour. In October 2020, Lukather and [a=Joseph Williams] announced a renewed line-up and plans for a tour.",
+    genre: "Pop Rock",
   },
   {
     original_artist: "CHICAGO",
@@ -761,6 +836,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/889883",
     artist_details: "American pop/jazz-rock group. One of the biggest-selling bands in U.S. history, hailing from the Windy City (Chicago, Illinois). Formed in 1967 as \"The Big Thing\", they were one of the first groups to successfully fuse rock with a horn section. This blend worked well for them into the late 1970s, until they started to shift towards a more adult-contemporary style, with bassist [a=Peter Cetera] becoming the main vocalist. They haven't put out much original material in recent years but tour to the masses every year since they started. In dance music circles, they are best known for their minor hit, \"Streetplayer\", which [a=Kenny \"Dope\" Gonzalez] sampled for his 1995 track, \"The Bomb!\" (released under the alias of [a=The Bucketheads]). NOTE: When dating reissues and repressing - The cursive (trademarked) \"Chicago TM\" logo starts to appear after 1976 on labels (as seen here) [r=941537]  Pre-1975 USA pressings do not show the cursive logo until after 1976.",
+    genre: "Soft Rock",
   },
   {
     original_artist: "ELTON JOHN",
@@ -771,6 +847,7 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/630617",
     artist_details: "Note: Please use the entry [a825268] when just the two of them are credited together. English singer-songwriter, composer and pianist, born March 25, 1947, Pinner, Middlesex. Elton John has been one of the dominant forces in rock and popular music, especially during the 1970s. He has sold over 200 million records, making him one of the most successful artists of all time. He has more than 50 Top 40 hits including seven consecutive No. 1 U.S. albums, 59 Top 40 singles, 16 Top 10, four No. 2 hits, and nine No. 1 hits. He has won five Grammy awards and two Academy Awards. His success has had a profound impact on popular music and has contributed to the continued popularity of the piano in rock and roll. Inducted into Songwriters Hall of Fame in 1992 and Rock And Roll Hall of Fame in 1994 (as performer).",
+    genre: "Pop Rock",
   },
   {
     original_artist: "TALKING HEADS",
@@ -781,15 +858,18 @@ const albums = [
     type: "master",
     url: "https://api.discogs.com/releases/266652",
     artist_details: "Talking Heads were an American rock band formed in 1975 in New York City and disbanded in 1991. The band comprised [a3918] (lead vocals, guitar), [a47110] (drums), [a47111] (bass), and [a126729] (keyboards, guitar). They released eight albums, in addition to several well received live albums. The band reunited, minus David Byrne, as [a67229] for one unsuccessful album. Inducted into Rock And Roll Hall of Fame in 2002 (Performer). Genres: New wave, Post-Punk, Art Punk, Pop Rock, Art Pop, Funk Rock, Ethno  and Disco.",
+    genre: "Funk",
   },
   {
     original_artist: "METALLICA",
     original_title: "The Black Album",
+    id: 6651,
     artist: "METALLICA",
     title: "The Black Album",
     type: "unknown",
     url: "",
     artist_details: "Thrash Metal (Heavy Metal) band from Los Angeles, California (USA). Metallica formed in 1981 by vocalist/guitarist [a251874] and drummer [a251550].  The duo first met through an ad in a Los Angeles-based music newspaper.  At the time, Ulrich had little musical experience and no band but managed to secure a slot on an upcoming compilation record called “[m=63482]”.   Metallica’s contribution, “Hit The Lights”, featured Hetfield, Ulrich and lead guitarist [a648330].  Afterwards, [a509874] became the band's bassist and [a251808] joined the band as lead guitarist.  This line-up would re-record \"Hit The Lights\" for subsequent re-pressings of \"Metal Massacre\" and would also issue several demos.  In 1983, McGovney quit the group and was replaced by [a364982], which also saw the band relocate to San Francisco.  Metallica then traveled to New York after signing a deal with [l=Megaforce Records].  However, once in New York, the band fired Mustaine.  It would mark the beginning of a long feud between Mustaine and Metallica, mostly fueled by remarks Mustaine would make to the press.  Mustaine was replaced by Kirk Hammett of [a=Exodus (6)]. Metallica's debut LP, \"Kill 'Em All\", was released in 1983.  It was followed in 1984 by \"Ride The Lightning\".  This led to a major label deal with [l=Elektra].  In 1986, the band released \"Master Of Puppets\", which is considered by many to be one of the greatest heavy metal records of all time.  In September of that year, while on tour in Sweden, the band was involved in a bus accident which took the life of Cliff Burton.  Eventually, [a390503] (of [a=Flotsam And Jetsam]) was hired as the band's new bassist and he made his debut on 1987's \"Garage Days Re-Revisited\", an EP of cover tunes.  The full-length \"...And Justice For All\" followed in 1988, featuring the track \"One\" which was chosen as the subject for their first promotional music video. In 1990, Metallica hooked up with producer [a=Bob Rock] for a self-titled release that would become better known as \"The Black Album\", due to its cover art. Released in 1991, the black album would become one of the best-selling rock albums of all time, selling over 16 million copies in the US alone.",
+    genre: "Heavy Metal",
   },
 ];
 
