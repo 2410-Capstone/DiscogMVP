@@ -35,6 +35,7 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
 import EditProduct from "./pages/Admin/EditProduct";
 import AddProduct from "./pages/Admin/AddProduct";
+import Wishlist from "./pages/user/Wishlist";
 
 function App() {
   const location = useLocation();
@@ -128,10 +129,14 @@ function App() {
             path='/account/orders'
             element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to='/login' />}
           />
+
+<Route path="wishlist/:wishlistId" element={<Wishlist />} />
+
           <Route path='/guest-order-lookup' element={<GuestOrderLookup />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
+
 
           {/* Admin routes using AdminLayout + permissions */}
           <Route
@@ -139,6 +144,9 @@ function App() {
             element={isAuthenticated && user?.user_role === "admin" ? <AdminLayout user={user} /> : <AdminRedirect />}
           >
             <Route index element={<Dashboard />} />
+
+          
+
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='users' element={<AdminUserList />} />
             <Route path='users/:id/edit' element={<AdminEditUser />} />
@@ -146,6 +154,7 @@ function App() {
             <Route path='edit-product/:id' element={<EditProduct />} />
             <Route path='products/new' element={<AddProduct />} />
             <Route path='orders' element={<AdminOrders />} />
+
           </Route>
         </Routes>
       </div>
