@@ -127,12 +127,9 @@ function App() {
             element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to='/login' />}
           />
           <Route path='/guest-order-lookup' element={<GuestOrderLookup />} />
-          <Route path='/cart' element={isAuthenticated ? <Cart /> : <Navigate to='/login' />} />
-          <Route path='/checkout' element={isAuthenticated ? <Checkout /> : <Navigate to='/login' />} />
-          <Route
-            path='/order-confirmation'
-            element={isAuthenticated ? <OrderConfirmation /> : <Navigate to='/login' />}
-          />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/order-confirmation' element={<OrderConfirmation />} />
 
           {/* Admin routes using AdminLayout + permissions */}
           <Route
