@@ -103,6 +103,7 @@ export default function ProductDetails() {
         <div className="product-artist-details">
           <p>{product.artist_details}</p>
         </div>
+        <p className="store-price">${Number(product.price).toFixed(2)}</p>
 
         {token && (
           <div className="cart-button-container">
