@@ -145,14 +145,7 @@ function App() {
           >
             <Route index element={<Dashboard />} />
 
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="users" element={<AdminUserList />} />
-            <Route path="users/:id/edit" element={<AdminEditUser />} />
-            <Route path="inventory" element={<Inventory />} />
-            <Route path="edit-product/:id" element={<EditProduct />} />
-            <Route path="products/new" element={<AddProduct />} />
-            <Route path="orders" element={<AdminOrders />} />
-            
+          
 
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='users' element={<AdminUserList />} />
