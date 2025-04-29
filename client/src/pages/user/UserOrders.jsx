@@ -102,6 +102,7 @@ const UserOrders = () => {
       {completedOrders.length > 0 ? (
         <ul>
           {completedOrders.map((order) => (
+          
             <li key={order.id}>
               <h3>Order ID: {order.id}</h3>
               <p>Status: {order_statuses_map[order.order_status]}</p>

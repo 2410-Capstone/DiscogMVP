@@ -17,6 +17,7 @@ const ItemList = () => {
     const fetchItems = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products${sortOrder !== 'title' ? `?sort=${sortOrder}` : ''}`);
+
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
 
@@ -35,6 +36,9 @@ const ItemList = () => {
     fetchItems();
   }, [sortOrder]);
 
+
+
+  
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
   };
@@ -185,7 +189,7 @@ const ItemList = () => {
                 key={item.id}
                 item={item}
                 handleDetailsClick={handleDetailsClick}
-                handleAddToCart={() => handleAddToCart(item)}
+                handleAddToCart={handleAddToCart}
               />
             ))}
           </div>
