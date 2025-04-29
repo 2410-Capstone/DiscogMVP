@@ -60,7 +60,7 @@ const updatePaymentStatus = async ({ paymentId, status }) => {
  * @param {string} currency - e.g. 'usd'
  * @returns {Promise<object>} PaymentIntent object
  */
-async function createStripePaymentIntent(userId, cartItems, shippingAddress) {
+async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
   const client = await pool.connect();
 
   try {
@@ -74,23 +74,34 @@ async function createStripePaymentIntent(userId, cartItems, shippingAddress) {
     await client.query(
       `INSERT INTO orders (id, user_id, total, shipping_address) 
        VALUES ($1, $2, $3, $4)`,
-      [orderId, userId, amount, shippingAddress]
+      [orderId, userId, amount, JSON.stringify(shippingInfo)] // Save full object
     );
+    
 
     // Create order_items
     for (let item of cartItems) {
+      const productId = item.product_id || item.id; // fallback if item.product_id is undefined
+    
+      if (!productId) {
+        throw new Error(`Missing product ID for item: ${JSON.stringify(item)}`);
+      }
+    
       await client.query(
         `INSERT INTO order_items (order_id, product_id, quantity, price)
          VALUES ($1, $2, $3, $4)`,
-        [orderId, item.product_id, item.quantity, item.price]
+        [orderId, productId, item.quantity, item.price]
       );
     }
+    
 
     // Create PaymentIntent on Stripe
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Stripe wants amounts in cents
       currency: 'usd',
-      metadata: { orderId, userId }
+      metadata: {
+        orderId,
+        ...(userId ? { userId } : { guestEmail: shippingInfo.email }),
+      }      
     });
 
     await client.query('COMMIT');
