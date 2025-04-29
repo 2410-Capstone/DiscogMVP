@@ -17,6 +17,14 @@ router.get("/", async (req, res) => {
   } else {
     orderByClause = "ORDER BY description ASC"; // Default: alphabetical
   }
+  let whereGenreClause = "WHERE stock > 0";
+  let values = [];
+  if (genre) {
+    whereGenreClause += " AND genre = $1";
+    values.push(genre);
+  }
+  const offset = (page - 1) * limit;
+  const query = /*sql*/ `SELECT * FROM products ${whereGenreClause} ${orderByClause} LIMIT $2 OFFSET $3`;
 
   try {
     const result = await pool.query(`SELECT * FROM products WHERE stock > 0 ${orderByClause}`);
