@@ -25,6 +25,7 @@ router.get("/", async (req, res) => {
   }
   const offset = (page - 1) * limit;
   const query = /*sql*/ `SELECT * FROM products ${whereGenreClause} ${orderByClause} LIMIT $2 OFFSET $3`;
+  values.push(limit, offset);
 
   try {
     const result = await pool.query(`SELECT * FROM products WHERE stock > 0 ${orderByClause}`);
