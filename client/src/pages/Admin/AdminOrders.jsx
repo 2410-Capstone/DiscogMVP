@@ -126,7 +126,27 @@ const AdminOrders = () => {
                 {expandedOrderId === order.order_id && (
                   <>
                     <td data-label="Tracking #">{order.tracking_number || "N/A"}</td>
-                    <td data-label="Shipping Address">{order.shipping_address}</td>
+                    <td data-label="Shipping Address">
+                      {(() => {
+                        try {
+                          const addr = JSON.parse(order.shipping_address);
+
+                          if (addr && typeof addr === "object") {
+                            return (
+                              <div style={{ whiteSpace: "pre-line" }}>
+                                <div>{addr.addressLine1}</div>
+                                {addr.addressLine2 && <div>{addr.addressLine2}</div>}
+                                <div>{addr.city}, {addr.state} {addr.zip}</div>
+                              </div>
+                            );
+                          } else {
+                            return <div>{order.shipping_address}</div>;
+                          }
+                        } catch {
+                          return <div>{order.shipping_address}</div>;
+                        }
+                      })()}
+                    </td>
                     <td data-label="Items">
                       <ul>
                         {order.items.map((item, i) => (
