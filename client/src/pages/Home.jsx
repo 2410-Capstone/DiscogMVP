@@ -113,17 +113,17 @@ const ItemList = () => {
     }
   };
 
-  const handleFilterChange = (genre) => {
-    if (genreFilter.includes(genre)) {
-      setGenreFilter(genreFilter.filter((g) => g !== genre));
-    } else {
-      setGenreFilter([...genreFilter, genre]);
-    }
-  };
-  const filteredItems = items.filter((item) => {
-    if (genreFilter.length === 0) return true;
-    return genreFilter.includes(item.genre);
-  });
+  // const handleFilterChange = (genre) => {
+  //   if (genreFilter.includes(genre)) {
+  //     setGenreFilter(genreFilter.filter((g) => g !== genre));
+  //   } else {
+  //     setGenreFilter([...genreFilter, genre]);
+  //   }
+  // };
+  // const filteredItems = items.filter((item) => {
+  //   if (genreFilter.length === 0) return true;
+  //   return genreFilter.includes(item.genre);
+  // });
   const handleFilterClick = (genre) => {
     if (genreFilter.includes(genre)) {
       setGenreFilter(genreFilter.filter((g) => g !== genre));
@@ -212,7 +212,8 @@ const ItemList = () => {
           <p>Loading...</p>
         ) : error ? (
           <p className='error'>{error}</p>
-        ) : filteredItems.length ? (
+        ) : items.length ? (
+          <>
           <div className='product-grid'>
             {filteredItems.map((item) => (
               <ProductCard
@@ -223,6 +224,18 @@ const ItemList = () => {
               />
             ))}
           </div>
+            <div className='pagination'>
+              <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                Prev
+              </button>
+              <span>
+                Page {page} of {Math.ceil(total / limit)}
+              </span>
+              <button disabled={page === Math.ceil(total / limit)} onClick={() => setPage(page + 1)}>
+                Next
+              </button>
+            </div>
+          </>
         ) : (
           <p>No items found.</p>
         )}
