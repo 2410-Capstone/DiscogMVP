@@ -5,6 +5,28 @@ import { getGuestCart, setGuestCart } from "../utils/cart";
 
 import ProductCard from "../components/products/ProductCard";
 
+const genres = [
+  "Rock",
+  "Electronic",
+  "Hip Hop",
+  "Jazz",
+  "Classical",
+  "Pop",
+  "R&B",
+  "Country",
+  "Reggae",
+  "Blues",
+  "Folk",
+  "Metal",
+  "Punk",
+  "Indie",
+  "Alternative",
+  "Soul",
+  "Gospel",
+  "Latin",
+  "World Music",
+];
+
 const ItemList = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
