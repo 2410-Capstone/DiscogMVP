@@ -37,17 +37,50 @@ const deleteUser = async ({ userId }) => {
 const getAllOrders = async () => {
   try {
     const { rows } = await pool.query(/*sql*/ `
-      SELECT o.id, o.user_id, o.email, o.order_status, o.created_at
+      SELECT 
+        o.id AS order_id,
+        o.user_id,
+        u.email,
+        o.order_status,
+        o.created_at,
+        o.updated_at,
+        u.address AS shipping_address,
+        (
+          SELECT json_agg(
+            json_build_object(
+              'product_id', oi.product_id,
+              'quantity', oi.quantity,
+              'price', oi.price
+            )
+          )
+          FROM order_items oi
+          WHERE oi.order_id = o.id
+        ) AS order_items,
+        (
+          SELECT json_agg(
+            json_build_object(
+              'payment_method', p.payment_method,
+              'billing_name', p.billing_name,
+              'billing_address', p.billing_address,
+              'amount', p.amount,
+              'payment_status', p.payment_status
+            )
+          )
+          FROM payments p
+          WHERE p.order_id = o.id
+        ) AS payments
       FROM orders o
       JOIN users u ON o.user_id = u.id
       ORDER BY o.created_at DESC;
-      `);
-      return rows;
+    `);
+
+    return rows;
   } catch (error) {
     console.log("Error fetching orders:", error);
     throw error;
   }
-}
+};
+
 
 const updateOrderStatus = async ({ orderId, status }) => {
   try {
