@@ -7,8 +7,19 @@ const isAdmin = require('../middleware/isAdminMiddleware');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+  const sort = req.query.sort;
+
+  let orderByClause;
+  if (sort === 'asc') {
+    orderByClause = 'ORDER BY price ASC';
+  } else if (sort === 'desc') {
+    orderByClause = 'ORDER BY price DESC';
+  } else {
+    orderByClause = 'ORDER BY description ASC'; // Default: alphabetical
+  }
+
   try {
-    const result = await pool.query('SELECT * FROM products WHERE stock > 0');
+    const result = await pool.query(`SELECT * FROM products WHERE stock > 0 ${orderByClause}`);
     res.json(result.rows);
   } catch (err) {
     console.error(err);
