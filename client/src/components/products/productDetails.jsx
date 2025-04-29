@@ -71,7 +71,7 @@ export default function ProductDetails() {
       return;
     }
 
-    // Logged-in user flow
+   
     try {
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/carts/items`,
