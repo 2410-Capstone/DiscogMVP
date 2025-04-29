@@ -10,12 +10,14 @@ const ItemList = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [genreFilter, setGenreFilter] = useState([]);
+  const [sortOrder, setSortOrder] = useState('title'); // default: A–Z
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/all`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products${sortOrder !== 'title' ? `?sort=${sortOrder}` : ''}`);
+
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
 
@@ -32,7 +34,7 @@ const ItemList = () => {
     };
 
     fetchItems();
-  }, []);
+  }, [sortOrder]);
 
 
 
@@ -164,6 +166,14 @@ const ItemList = () => {
           >
             Classical
           </button>
+        </div>
+        <div className="sort-dropdown">
+          <label htmlFor="sortOrder">Sort by: </label>
+          <select id="sortOrder" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+            <option value="title">Title (A–Z)</option>
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+          </select>
         </div>
       </header>
 
