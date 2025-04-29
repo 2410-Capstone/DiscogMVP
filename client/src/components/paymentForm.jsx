@@ -98,6 +98,48 @@ useEffect(() => {
     }
   
     setStatus("processing");
+
+    let orderId = null;
+    let guestUserId = null;
+
+    if (isGuest) {
+      console.log("Guest cartItems being sent:", cartItems);
+
+      const guestOrderResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/guest`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailInput.trim(),
+          name: shippingInfo.name,
+          address: `${shippingInfo.addressLine1}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zip}`,
+          items: cartItems
+            .filter(item => item.id && item.quantity)
+            .map(item => ({
+              product_id: item.id,
+              quantity: item.quantity
+            })),
+        }),
+      });
+    
+      const text = await guestOrderResponse.text();
+
+      let guestOrderData;
+      try {
+        guestOrderData = JSON.parse(text);
+      } catch (err) {
+        console.error("Backend did not return valid JSON:", text);
+        throw new Error("Guest order failed: server error");
+      }
+      
+      if (!guestOrderResponse.ok) {
+        throw new Error(guestOrderData.error || "Failed to create guest order");
+      }
+      
+      orderId = guestOrderData.orderId;
+      guestUserId = guestOrderData.user?.id;
+      console.log("Guest orderId:", orderId, "Guest userId:", guestUserId);
+
+    }
   
     try {
       console.log("Final Payload:", {
@@ -111,17 +153,20 @@ useEffect(() => {
           "Content-Type": "application/json",
           Authorization: token ? `Bearer ${token}` : "",
         },
+    
         body: JSON.stringify({
-          userId: userId || null, // guest = null
+          userId: userId || guestUserId,
           cartItems,
+          orderId,
           shippingInfo: {
             ...shippingInfo,
             email: emailInput.trim(),
           }
         }),
+        
       });
   
-      const { clientSecret, error: backendError, orderId } = await res.json();
+      const { clientSecret, error: backendError, orderId: confirmedOrderId } = await res.json();
   
       if (backendError) {
         throw new Error(backendError);
@@ -152,6 +197,7 @@ useEffect(() => {
   
       if (paymentIntent.status === "succeeded") {
         setStatus("succeeded");
+
         try {
           if (!userId) {
             // Guest: clear guest cart
@@ -173,7 +219,7 @@ useEffect(() => {
               orderDetails: {
                 cartItems: cartItems,
                 shippingAddress: shippingInfo,
-                orderNumber: orderId,
+                orderNumber: confirmedOrderId || orderId,
                 total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
                 email: emailInput,
               },
