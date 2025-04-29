@@ -214,16 +214,16 @@ const ItemList = () => {
           <p className='error'>{error}</p>
         ) : items.length ? (
           <>
-          <div className='product-grid'>
-            {filteredItems.map((item) => (
-              <ProductCard
-                key={item.id}
-                item={item}
-                handleDetailsClick={handleDetailsClick}
-                handleAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+            <div className='product-grid'>
+              {items.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  item={item}
+                  handleDetailsClick={handleDetailsClick}
+                  handleAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
             <div className='pagination'>
               <button disabled={page === 1} onClick={() => setPage(page - 1)}>
                 Prev
