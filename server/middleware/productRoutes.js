@@ -28,8 +28,13 @@ router.get("/", async (req, res) => {
   values.push(limit, offset);
 
   try {
-    const result = await pool.query(`SELECT * FROM products WHERE stock > 0 ${orderByClause}`);
-    res.json(result.rows);
+    const result = await pool.query(query, values);
+    let countQuery = `SELECT COUNT(*) FROM products ${whereGenreClause}`;
+    const countValues = values.slice(0, genre ? 1 : 0);
+    const countResult = await pool.query(countQuery, countValues);
+    const total = parseInt(countResult.rows[0].count, 10);
+
+    res.json({ products: result.rows, total });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch products" });
