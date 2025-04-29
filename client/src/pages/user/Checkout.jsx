@@ -13,6 +13,14 @@ const Checkout = () => {
   const [error, setError] = useState(null);
   const [currentStep, setCurrentStep] = useState("shipping");
   const [guestEmail, setGuestEmail] = useState("");
+  const [shippingName, setShippingName] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [zip, setZip] = useState("");
+  const [phone, setPhone] = useState("");
+
 
   const isGuest = !localStorage.getItem("token");
 
@@ -58,12 +66,33 @@ const Checkout = () => {
       alert("Please enter your email address.");
       return;
     }
-    if (!shippingAddress.trim()) {
-      alert("Please enter your shipping address.");
+    if (!shippingName.trim() || !addressLine1.trim() || !city.trim() || !shippingState.trim() || !zip.trim()) {
+      alert("Please complete all required shipping fields.");
       return;
     }
     setCurrentStep("payment");
   };
+  
+  const shippingInfo = {
+    name: shippingName,
+    addressLine1,
+    addressLine2,
+    city,
+    state: shippingState,
+    zip,
+    phone,
+    email: isGuest ? guestEmail : localStorage.getItem("userEmail") || "",
+  };
+
+  const isShippingComplete = (
+    shippingName.trim() &&
+    addressLine1.trim() &&
+    city.trim() &&
+    shippingState.trim() &&
+    zip.trim() &&
+    (isGuest ? guestEmail.trim() : true) // If guest, require email. If logged in, ignore
+  );
+  
 
   if (error) {
     return (
@@ -140,21 +169,102 @@ const Checkout = () => {
                     />
                   </div>
                 )}
-                <div className='shipping-address'>
-                  <label htmlFor='shipping-address'>Shipping Address</label>
-                  <input
-                    id='shipping-address'
-                    type='text'
-                    value={shippingAddress}
-                    onChange={(e) => setShippingAddress(e.target.value)}
-                    placeholder='1234 Fake Ln'
-                    required
-                  />
-                </div>
+                  <div className="shipping-fields">
+                    <div className="shipping-name">
+                      <label htmlFor="shipping-name">Full Name</label>
+                      <input
+                        id="shipping-name"
+                        type="text"
+                        value={shippingName}
+                        onChange={(e) => setShippingName(e.target.value)}
+                        placeholder="John Doe"
+                        required
+                      />
+                    </div>
 
-                <button onClick={handleShippingContinue} className='continue-btn'>
-                  Continue to Payment
-                </button>
+                    <div className="shipping-address-line1">
+                      <label htmlFor="address-line1">Address Line 1</label>
+                      <input
+                        id="address-line1"
+                        type="text"
+                        value={addressLine1}
+                        onChange={(e) => setAddressLine1(e.target.value)}
+                        placeholder="1234 Fake St"
+                        required
+                      />
+                    </div>
+
+                    <div className="shipping-address-line2">
+                      <label htmlFor="address-line2">Address Line 2 (Optional)</label>
+                      <input
+                        id="address-line2"
+                        type="text"
+                        value={addressLine2}
+                        onChange={(e) => setAddressLine2(e.target.value)}
+                        placeholder="Apt 101"
+                      />
+                    </div>
+
+                    <div className="shipping-city">
+                      <label htmlFor="city">City</label>
+                      <input
+                        id="city"
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="New York"
+                        required
+                      />
+                    </div>
+
+                    <div className="shipping-state">
+                      <label htmlFor="state">State</label>
+                      <input
+                        id="state"
+                        type="text"
+                        value={shippingState}
+                        onChange={(e) => setShippingState(e.target.value)}
+                        placeholder="NY"
+                        required
+                      />
+                    </div>
+
+                    <div className="shipping-zip">
+                      <label htmlFor="zip">Zip Code</label>
+                      <input
+                        id="zip"
+                        type="text"
+                        value={zip}
+                        onChange={(e) => setZip(e.target.value)}
+                        placeholder="10001"
+                        required
+                      />
+                    </div>
+
+                    <div className="shipping-phone">
+                      <label htmlFor="phone">Phone Number (Optional)</label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="(555) 555-5555"
+                      />
+                    </div>
+                  </div>
+
+
+                  <button
+                    onClick={handleShippingContinue}
+                    className='continue-btn'
+                    disabled={!isShippingComplete}
+                    style={{
+                      opacity: isShippingComplete ? 1 : 0.5,
+                      cursor: isShippingComplete ? 'pointer' : 'not-allowed'
+                    }}
+                  >
+                    Continue to Payment
+                  </button>
               </>
             )}
 
@@ -162,11 +272,10 @@ const Checkout = () => {
               <>
                 <h3>Payment Information</h3>
                 <div className='payment-form-wrapper'>
-                  <PaymentForm
-                    cartItems={cartItems}
-                    shippingAddress={shippingAddress}
-                    email={isGuest ? guestEmail : localStorage.getItem("userEmail") || ""}
-                  />
+                <PaymentForm
+                  cartItems={cartItems}
+                  shippingInfo={shippingInfo}
+                />
                 </div>
               </>
             )}
