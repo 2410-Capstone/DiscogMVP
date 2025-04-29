@@ -143,6 +143,7 @@ const Inventory = () => {
         <table className="admin-table">
           <thead>
             <tr>
+              <th>Date Added</th>
               <th>Image</th>
               <th>Artist</th>
               <th>Description</th>
@@ -156,6 +157,7 @@ const Inventory = () => {
           <tbody>
             {filtered.map((product) => (
               <tr key={product.id}>
+                <td>{new Date(product.created_at).toLocaleDateString()}</td>
               <td data-label="Image">
                 {product.image_url ? (
                   <img src={product.image_url} alt="Album Art" className="thumbnail" />
