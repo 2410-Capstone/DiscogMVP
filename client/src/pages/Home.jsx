@@ -41,15 +41,19 @@ const ItemList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/products${sortOrder !== "title" ? `?sort=${sortOrder}` : ""}`
-        );
+        const param = new URLSearchParams();
+        if (sortOrder !== "title") params.append("sort", sortOrder);
+        if (genreFilter.length === 1) param.append("genre", genreFilter[0]);
+        param.append("page", page);
+        param.append("limit", limit);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${param.toString()}`);
 
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
 
-        if (Array.isArray(data)) {
-          setItems(data);
+        if (Array.isArray(data.products)) {
+          setItems(data.products);
+          setTotal(data.total || 0);
         } else {
           throw new Error("Invalid data format received");
         }
@@ -61,7 +65,7 @@ const ItemList = () => {
     };
 
     fetchItems();
-  }, [sortOrder]);
+  }, [sortOrder, genreFilter, page, limit]);
 
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
