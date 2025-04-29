@@ -8,30 +8,34 @@
   .footer-top {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--border-color);
-
+    text-align: center;
+  
     .footer-section {
+      min-width: 180px;
+  
       h4 {
         font-weight: 600;
         font-size: 1rem;
         margin-bottom: 0.75rem;
       }
-
+  
       .footer-links {
         display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-
+        flex-direction: column;
+        gap: 0.5rem;
+  
         a {
           text-decoration: none;
           color: var(--text-color);
           font-size: 0.85rem;
           transition: color 0.3s;
-
+  
           &:hover {
             color: var(--primary-accent);
             text-decoration: underline;
@@ -40,6 +44,7 @@
       }
     }
   }
+  
 
   .footer-middle {
     max-width: 1200px;
