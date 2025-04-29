@@ -13,38 +13,47 @@ function StripeForm({ cartItems, shippingInfo }) {
   const elements = useElements();
   const navigate = useNavigate();
   const [status, setStatus] = useState("default");
-  const [emailInput, setEmailInput] = useState(shippingInfo.email || "");
+  const [emailInput, setEmailInput] = useState(() => shippingInfo?.email || "");
   const [errorMessage, setErrorMessage] = useState("");
   const [cardComplete, setCardComplete] = useState(false);
   const [token, setToken] = useState(null);
-
   const [userId, setUserId] = useState(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const isGuest = !localStorage.getItem("token");
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
 
-    if (!storedToken) {
-      //console.warn("⚠️ No token found in localStorage");
-      setIsLoadingUser(false);
-      return;
-    }
+// Sync email if it was passed from shippingInfo
+useEffect(() => {
+  if (!emailInput && shippingInfo?.email) {
+    setEmailInput(shippingInfo.email);
+  }
+}, [shippingInfo?.email, emailInput]);
 
-    const payload = parseJwt(storedToken);
-    console.log("✅ Decoded JWT payload:", payload);
 
-    const extractedId = payload?.id || payload?.userId;
 
-    if (!extractedId) {
-      //console.error("❌ User ID not found in token payload:", payload);
-      setErrorMessage("User ID missing in token");
-    } else {
-      setUserId(extractedId);
-      setToken(storedToken);
-    }
+// Decode token and extract userId if logged in
+useEffect(() => {
+  const storedToken = localStorage.getItem("token");
 
+  if (!storedToken) {
     setIsLoadingUser(false);
-  }, []);
+    return;
+  }
+
+  const payload = parseJwt(storedToken);
+  console.log("Decoded JWT payload:", payload);
+
+  const extractedId = payload?.id || payload?.userId;
+
+  if (!extractedId) {
+    setErrorMessage("User ID missing in token");
+  } else {
+    setUserId(extractedId);
+    setToken(storedToken);
+  }
+
+  setIsLoadingUser(false);
+}, []);
 
   //had trouble reading the cookie so we are splitting it up and reading it
   function parseJwt(token) {
@@ -91,6 +100,11 @@ function StripeForm({ cartItems, shippingInfo }) {
     setStatus("processing");
   
     try {
+      console.log("Final Payload:", {
+        userId,
+        cartItems,
+        shippingInfo,
+      });      
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment`, {
         method: "POST",
         headers: {
@@ -100,7 +114,10 @@ function StripeForm({ cartItems, shippingInfo }) {
         body: JSON.stringify({
           userId: userId || null, // guest = null
           cartItems,
-          shippingInfo,
+          shippingInfo: {
+            ...shippingInfo,
+            email: emailInput.trim(),
+          }
         }),
       });
   
@@ -192,20 +209,26 @@ function StripeForm({ cartItems, shippingInfo }) {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor='email' className={styles.label}>
-              Email
-            </label>
-            <input
-              id='email'
-              type='email'
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              required
-              disabled={status === "processing"}
-              className={styles.input}
-            />
-          </div>
+          {isGuest ? (
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.label}>Email</label>
+              <input
+                id="email"
+                type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                required
+                className={styles.input}
+              />
+            </div>
+          ) : (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Email</label>
+              <div className={styles.disabledField}>
+                {emailInput?.trim() || shippingInfo?.email?.trim() || "Loading..."}
+              </div>
+            </div>
+          )}
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Card Details</label>
