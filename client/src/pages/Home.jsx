@@ -42,6 +42,9 @@ const ItemList = () => {
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
   };
+
+
+  
   const handleAddToCart = async (item) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -83,6 +86,9 @@ const ItemList = () => {
       toast.error("Error adding item to cart.");
     }
   };
+
+
+
   const handleFilterChange = (genre) => {
     if (genreFilter.includes(genre)) {
       setGenreFilter(genreFilter.filter((g) => g !== genre));

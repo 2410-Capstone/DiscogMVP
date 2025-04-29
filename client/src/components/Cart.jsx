@@ -21,7 +21,7 @@ const Cart = () => {
         ...item,
         price: Number(item.price) || 0,
       }));
-      setCartItems(getGuestCart());
+      setCartItems(guestCart);
       setIsLoading(false);
       return;
     }
@@ -59,11 +59,21 @@ const Cart = () => {
 
   const handleUpdateQuantity = async (itemId, newQuantity, item) => {
     if (isGuest) {
-      let updatedCart = getGuestCart().map((it) => (it.id === itemId ? { ...it, quantity: newQuantity } : it));
+      if (newQuantity < 1) {
+        const updatedCart = getGuestCart().filter((it) => it.id !== itemId);
+        setGuestCart(updatedCart);
+        setCartItems(updatedCart);
+        return;
+      }
+
+      const updatedCart = getGuestCart().map((it) =>
+        it.id === itemId ? { ...it, quantity: newQuantity } : it
+      );
       setGuestCart(updatedCart);
       setCartItems(updatedCart);
       return;
     }
+
     if (newQuantity < 1) {
       const confirmDelete = window.confirm(`Remove "${item.artist}" from cart?`);
       if (!confirmDelete) return;
@@ -80,7 +90,9 @@ const Cart = () => {
         body: JSON.stringify({ quantity: newQuantity }),
       });
 
-      setCartItems((prev) => prev.map((it) => (it.id === itemId ? { ...it, quantity: newQuantity } : it)));
+      setCartItems((prev) =>
+        prev.map((it) => (it.id === itemId ? { ...it, quantity: newQuantity } : it))
+      );
     } catch (err) {
       console.error("Failed to update quantity:", err);
     }
@@ -88,7 +100,7 @@ const Cart = () => {
 
   const handleRemoveItem = async (itemId) => {
     if (isGuest) {
-      let updatedCart = getGuestCart().filter((it) => it.id !== itemId);
+      const updatedCart = getGuestCart().filter((it) => it.id !== itemId);
       setGuestCart(updatedCart);
       setCartItems(updatedCart);
       return;
@@ -106,7 +118,8 @@ const Cart = () => {
     }
   };
 
-  const calculateTotal = () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const calculateTotal = () =>
+    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   const handleCheckout = () => {
     navigate("/checkout", {
@@ -120,53 +133,57 @@ const Cart = () => {
 
   if (isLoading) {
     return (
-      <main className='cart-page'>
-        <div className='cart-container'>
-          <p className='cart-loading'>Loading cart...</p>
+      <main className="cart-page">
+        <div className="cart-container">
+          <p className="cart-loading">Loading cart...</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className='cart-page'>
-      <div className='cart-container'>
-        <div className='cart-title'>
+    <main className="cart-page">
+      <div className="cart-container">
+        <div className="cart-title">
           <h2>Shopping cart</h2>
         </div>
-        <div className='full-width-divider' />
+        <div className="full-width-divider" />
 
-        <section className='cart-items'>
+        <section className="cart-items">
           {cartItems.length === 0 ? (
-            <p className='cart-empty'>Your cart is empty</p>
+            <p className="cart-empty">Your cart is empty</p>
           ) : (
             cartItems.map((item) => (
-              <div className='cart-item' key={item.id}>
-                <div className='item-image'>
+              <div className="cart-item" key={item.id}>
+                <div className="item-image">
                   <DiscogsImage imageUrl={item.image_url} />
                 </div>
-                <div className='item-details'>
-                  <h3 className='item-title'>{item.artist || `Album #${item.product_id}`}</h3>
+                <div className="item-details">
+                  <h3 className="item-title">
+                    {item.artist || `Album #${item.product_id}`}
+                  </h3>
                   <p>Format: Vinyl</p>
-                  <p className='quantity-label'>Quantity:</p>
-                  <div className='quantity-controls'>
+                  <p className="quantity-label">Quantity:</p>
+                  <div className="quantity-controls">
                     <button
-                      className='cart_btn cart_btn--minus'
+                      className="cart_btn cart_btn--minus"
                       onClick={() => handleUpdateQuantity(item.id, item.quantity - 1, item)}
                     >
                       -
                     </button>
-                    <span className='cart_quantity'>{item.quantity}</span>
+                    <span className="cart_quantity">{item.quantity}</span>
                     <button
-                      className='cart_btn cart_btn--plus'
+                      className="cart_btn cart_btn--plus"
                       onClick={() => handleUpdateQuantity(item.id, item.quantity + 1, item)}
                     >
                       +
                     </button>
                   </div>
                   <p>Price: ${Number(item.price).toFixed(2)}</p>
-                  <p className='item-subtotal'>Subtotal: ${(Number(item.price) * item.quantity).toFixed(2)}</p>
-                  <button className='remove-btn' onClick={() => handleRemoveItem(item.id)}>
+                  <p className="item-subtotal">
+                    Subtotal: ${(Number(item.price) * item.quantity).toFixed(2)}
+                  </p>
+                  <button className="remove-btn" onClick={() => handleRemoveItem(item.id)}>
                     Remove
                   </button>
                 </div>
@@ -175,29 +192,29 @@ const Cart = () => {
           )}
         </section>
 
-        <aside className='cart-summary'>
-          <div className='summary-box'>
-            <h3 className='summary-heading'>Order Summary</h3>
+        <aside className="cart-summary">
+          <div className="summary-box">
+            <h3 className="summary-heading">Order Summary</h3>
 
-            <div className='summary-line'>
+            <div className="summary-line">
               <span>Item(s) Subtotal</span>
               <span>${calculateTotal().toFixed(2)}</span>
             </div>
-            <div className='summary-line muted'>
+            <div className="summary-line muted">
               <span>Shipping</span>
               <span>TBD</span>
             </div>
-            <div className='summary-line muted'>
+            <div className="summary-line muted">
               <span>Tax</span>
               <span>TBD</span>
             </div>
 
-            <div className='summary-total'>
+            <div className="summary-total">
               <span>Total</span>
               <strong>${calculateTotal().toFixed(2)}</strong>
             </div>
 
-            <button className='checkout-btn' onClick={handleCheckout}>
+            <button className="checkout-btn" onClick={handleCheckout}>
               Checkout
             </button>
           </div>
