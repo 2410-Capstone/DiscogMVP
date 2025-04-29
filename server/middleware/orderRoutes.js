@@ -77,7 +77,11 @@ router.post("/guest", async (req, res, next) => {
       updates: { total },
     });
 
-    res.status(201).json(result.rows[0]);
+    res.status(201).json({
+      user: result.rows[0],
+      orderId: newOrder.id
+    });
+        
   } catch (error) {
     next(error);
   }
