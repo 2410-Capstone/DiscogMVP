@@ -128,7 +128,6 @@ const Account = ({ user }) => {
                 <h4>Settings</h4>
                 <Link to='#'>Manage Account</Link>
                 <div className='settings-block'>
-                  <Link to={`/profile/${user.username || user.id}`}>Edit Profile</Link>
                 </div>
               </div>
             </div>
