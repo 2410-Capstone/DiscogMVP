@@ -24,7 +24,7 @@ const Cart = () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
         const data = await res.json();
-        setAllProducts(data);
+        setAllProducts(data.products || data);
       } catch (err) {
         console.error("Failed to fetch more products:", err);
       }
