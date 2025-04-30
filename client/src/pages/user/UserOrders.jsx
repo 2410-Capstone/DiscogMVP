@@ -50,6 +50,13 @@ const UserOrders = () => {
   };
   const currentOrders = orders.filter((order) => incomplete_statuses.includes(order.order_status));
   const completedOrders = orders.filter((order) => complete_statuses.includes(order.order_status));
+  const formatDate = (dateStr) =>
+    new Date(dateStr).toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  
 
   const handleCancel = async (orderId) => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
@@ -74,45 +81,42 @@ const UserOrders = () => {
   };
 
   const renderOrder = (order) => (
-    <li key={order.id} className="user-order">
-      <h3>Order ID: {order.id}</h3>
-      <p>Status: {order_statuses_map[order.order_status]}</p>
-      <p>Total: ${Number(order.total).toFixed(2)}</p>
-      {order.tracking_number && <p>Tracking #: {order.tracking_number}</p>}
-      <p className={`payment-status ${order.payment_status}`}>
-        Payment: {order.payment_status}
-      </p>
-      <p>
-        Placed: {new Date(order.created_at).toLocaleDateString()}
-        {order.updated_at && ` - Updated: ${new Date(order.updated_at).toLocaleDateString()}`}
-      </p>
-
-      {order.items?.length > 0 && (
-        <ul className="order-items">
-          {order.items.map((item, index) => (
-            <li key={index} className="order-item">
-              <img
-                src={item.image_url}
-                alt={item.description}
-                className="item-image"
-                width={60}
-                height={60}
-              />
-
-              <div className="item-info">
-                <p>{item.artist} — {item.description}</p>
-                <p>Qty: {item.quantity}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {(order.order_status === "created" || order.order_status === "processing") && (
-        <button onClick={() => handleCancel(order.id)}>Cancel Order</button>
-      )}
-    </li>
+    <div key={order.id} className="order-card">
+      <div className="order-header">
+        <p>Order Placed: {formatDate(order.created_at)}</p>
+        <p>Total: ${Number(order.total).toFixed(2)}</p>
+        <p>Tracking #: {order.tracking_number || "N/A"}</p>
+      </div>
+  
+      <div className="order-summary">
+        <p>Status: {order_statuses_map[order.order_status]}</p>
+        <p>Updated: {order.updated_at ? formatDate(order.updated_at) : "N/A"}</p>
+        <p className={`payment-status ${order.payment_status}`}>
+          Payment: {order.payment_status}
+        </p>
+      </div>
+  
+      <div className="order-items">
+        {order.items?.map((item, index) => (
+          <div key={index} className="order-item">
+            <img src={item.image_url} alt={item.description} className="item-image" />
+            <div className="item-details">
+              <p>{item.artist} — {item.description}</p>
+              <p>Qty: {item.quantity}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+  
+      <div className="order-actions">
+        {order.order_status === "delivered" && <button>Return Item</button>}
+        {(order.order_status === "created" || order.order_status === "processing") && (
+          <button onClick={() => handleCancel(order.id)}>Cancel Order</button>
+        )}
+      </div>
+    </div>
   );
+  
 
   return (
     <div className="user-orders-container">

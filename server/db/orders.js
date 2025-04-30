@@ -26,7 +26,7 @@ const getOrderByUserId = async (user_id) => {
       `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
       [user_id]
     );
-    
+
     for (const order of orders) {
       const { rows: items } = await pool.query(/*sql*/
         `SELECT 
@@ -43,6 +43,13 @@ const getOrderByUserId = async (user_id) => {
       );
 
       order.items = items;
+
+      const { rows: [payment] } = await pool.query(/*sql*/`
+        SELECT payment_status FROM payments WHERE order_id = $1
+      `, [order.id]);
+    
+      order.payment_status = payment ? payment.payment_status : "unpaid";
+
     }
 
     return orders;
