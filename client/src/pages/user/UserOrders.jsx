@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 // import "../styles/scss/components/UserOrders.module.scss";
 
 const UserOrders = () => {
@@ -75,8 +77,11 @@ const UserOrders = () => {
       setOrders((prevOrders) =>
         prevOrders.map((order) => (order.id === orderId ? { ...order, order_status: "cancelled" } : order))
       );
+
+      toast.success("Order cancelled successfully!");
     } catch (err) {
       setError(err.message || "Error cancelling order");
+      toast.error("Failed to cancel order.");
     }
   };
 
