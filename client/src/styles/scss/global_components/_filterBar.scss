@@ -26,11 +26,16 @@
   padding: 0.5rem 1rem;
   border: none;
   background: var(--accent-grad);
-  color: var(--glass-button-text);
+  color: var(--bg-color);
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.filterButton:hover {
+  background: var(--primary-accent);
+  color: var(--bg-color);
 }
 
 .filterButton.active {
