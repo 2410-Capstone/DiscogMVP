@@ -3,7 +3,7 @@ const router = express.Router();
 const { createStripePaymentIntent, createPayment } = require("../db/payments");
 
 router.post("/", async (req, res) => {
-  const { userId, cartItems, shippingInfo } = req.body;
+  const { userId, orderId, cartItems, shippingInfo } = req.body;
 
   // Helper: check for empty string or missing
   const isEmpty = (val) => typeof val !== "string" || val.trim() === "";
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const result = await createStripePaymentIntent(userId, cartItems, shippingInfo);
+    const result = await createStripePaymentIntent(userId, cartItems, shippingInfo, orderId);
     res.json(result);
   } catch (err) {
     console.error("Error in /payment route:", err);

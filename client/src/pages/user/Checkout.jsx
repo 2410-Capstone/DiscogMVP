@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PaymentForm from "../../components/paymentForm";
 import DiscogsImage from "../../components/products/DiscogsImage";
-import { getGuestCart, getCartFromCookies } from "../../utils/cart"; // <-- Make sure these are implemented
+import { getGuestCart, getCartFromCookies } from "../../utils/cart";
+import { AuthContext } from "../../context/AuthContext";
 
 const Checkout = () => {
   const { state } = useLocation();
@@ -12,6 +13,7 @@ const Checkout = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentStep, setCurrentStep] = useState("shipping");
+
   const [guestEmail, setGuestEmail] = useState("");
   const [shippingName, setShippingName] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
@@ -21,35 +23,56 @@ const Checkout = () => {
   const [zip, setZip] = useState("");
   const [phone, setPhone] = useState("");
 
+  const [showRegisterPrompt, setShowRegisterPrompt] = useState(true);
+  const [wantsToRegister, setWantsToRegister] = useState(null);
 
-  const isGuest = !localStorage.getItem("token");
+  const { user } = useContext(AuthContext);
+  const isGuest = !user;
   
-
   useEffect(() => {
-    let items = state?.cartItems;
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      // Try cookies (for logged-in users)
-      items = getCartFromCookies ? getCartFromCookies() : [];
-      // If still empty, try guest cart (for guests)
-      if (!items || items.length === 0) {
-        items = getGuestCart ? getGuestCart() : [];
-      }
-      // If still empty, redirect
-      if (!items || items.length === 0) {
-        setError("No cart items found - redirecting to cart");
-        navigate("/cart");
-        return;
+    if (wantsToRegister) {
+      navigate("/register?from=checkout");
+    }
+  }, [wantsToRegister, navigate]);
+
+useEffect(() => {
+  let items = null;
+
+  const passedCart = state?.cartItems;
+  if (Array.isArray(passedCart) && passedCart.length > 0) {
+    items = passedCart;
+  } else {
+    const stored = localStorage.getItem("cart");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          items = parsed.map(item => ({
+            ...item,
+            quantity: item.quantity || 1,
+          }));
+          console.log("Loaded cart from localStorage:", items);
+        }
+      } catch (err) {
+        console.warn("Failed to parse stored cart:", err);
       }
     }
-    try {
-      setCartItems(items);
-      verifyCart(items, state?.cartTotal || calculateTotal(items));
-      setIsLoading(false);
-    } catch (err) {
-      setError(err.message);
-      console.error("Checkout error:", err);
-    }
-  }, [state, navigate]);
+  }
+
+  if (!items || items.length === 0) {
+    items = getCartFromCookies?.() || getGuestCart?.() || [];
+  }
+
+  if (!items || items.length === 0) {
+    setError("No cart items found - redirecting to cart");
+    navigate("/cart");
+    return;
+  }
+
+  setCartItems(items);
+  verifyCart(items, state?.cartTotal || calculateTotal(items));
+  setIsLoading(false);
+}, [state, navigate]);
 
   const calculateTotal = (items) => {
     return (items || []).reduce((total, item) => total + (Number(item.price) || 0) * (item.quantity || 1), 0);
@@ -109,19 +132,41 @@ const Checkout = () => {
     return <div>Loading your cart...</div>;
   }
 
-  if (!Array.isArray(cartItems) || cartItems.length === 0) {
+  if (!isLoading && (!Array.isArray(cartItems) || cartItems.length === 0)) {
     return (
       <div className='error-message'>
         <h2>No items in cart</h2>
         <button onClick={() => navigate("/cart")}>Back to Cart</button>
       </div>
     );
-  }
+  }  
 
   return (
     <div className='checkout-page'>
       <div className='checkout-wrapper'>
         {/* Title */}
+        
+        {/* CONNOR IM SORRY FOR ADDING THIS - SYDNEY */}
+        {!isLoading && isGuest && showRegisterPrompt && wantsToRegister === null && cartItems.length > 0 && (
+          <div>
+            <p>Would you like to create an account?</p>
+            <button
+              onClick={() => {
+                if (cartItems.length > 0) {
+                  localStorage.setItem("cartBeforeRegister", JSON.stringify(cartItems));
+                  localStorage.setItem("redirectAfterRegister", "checkout");
+                  setWantsToRegister(true);
+                } else {
+                  alert("Cart is empty — cannot continue to registration.");
+                }
+              }}
+            >
+              Yes, sign me up
+            </button>
+            <button onClick={() => setShowRegisterPrompt(false)}>Continue as guest</button>
+          </div>
+        )}
+
         <section className='checkout-section'>
           <h1 className='checkout-title'>Checkout</h1>
         </section>

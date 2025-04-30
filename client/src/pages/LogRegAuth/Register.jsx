@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
@@ -40,16 +40,32 @@ if (!res.ok || !data.token || !data.user) {
   throw new Error(data.error || `Registration failed (${res.status})`);
 }
 
+    login(data.user, data.token);
 
-      login(data.user, data.token);
-
-
-      toast.success("Registration successful! Welcome!");
-      setName("");
-      setEmail("");
-      setPassword("");
-
+    const redirectAfterRegister = localStorage.getItem("redirectAfterRegister");
+    const cartBeforeRegister = localStorage.getItem("cartBeforeRegister");
+    
+    if (redirectAfterRegister === "checkout") {
+      try {
+        const parsed = JSON.parse(cartBeforeRegister);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          localStorage.setItem("cart", JSON.stringify(parsed));
+          toast.success("Registration successful!");
+        } else {
+          toast.info("Registration successful, but your cart was empty.");
+        }
+      } catch (err) {
+        toast.error("Something went wrong restoring your cart.");
+      }
+    
+      localStorage.removeItem("redirectAfterRegister");
+      localStorage.removeItem("cartBeforeRegister");
+      navigate("/checkout");
+    } else {
+      toast.success("Registration successful! Welcome.");
       navigate("/account");
+    }
+    
     } catch (err) {
       console.error("Registration error details:", {
         error: err,

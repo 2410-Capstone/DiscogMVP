@@ -62,7 +62,7 @@ const updatePaymentStatus = async ({ paymentId, status }) => {
  * @param {string} currency - e.g. 'usd'
  * @returns {Promise<object>} PaymentIntent object
  */
-async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
+async function createStripePaymentIntent(userId, cartItems, shippingInfo, orderId) {
   const client = await pool.connect();
 
   try {
@@ -96,13 +96,30 @@ async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
     }, 0);
 
     // Create order
-    const orderId = uuidv4();
-    const trackingNumber = generateTrackingNumber();
-    await client.query(/*sql*/
-      `INSERT INTO orders (id, user_id, total, shipping_address, tracking_number) 
-       VALUES ($1, $2, $3, $4, $5)`,
-      [orderId, resolvedUserId, amount, JSON.stringify(shippingInfo), trackingNumber]
-    );
+    let finalOrderId = orderId;
+
+    if (!finalOrderId) {
+      finalOrderId = uuidv4();
+      const trackingNumber = generateTrackingNumber();
+      await client.query(
+        `INSERT INTO orders (id, user_id, total, shipping_address, tracking_number) 
+         VALUES ($1, $2, $3, $4, $5)`,
+        [finalOrderId, resolvedUserId, amount, JSON.stringify(shippingInfo), trackingNumber]
+      );
+    
+      for (let item of cartItems) {
+        const productId = item.product_id || item.id;
+        if (!productId) {
+          throw new Error(`Missing product ID for item: ${JSON.stringify(item)}`);
+        }
+        await client.query(
+          `INSERT INTO order_items (order_id, product_id, quantity, price)
+           VALUES ($1, $2, $3, $4)`,
+          [finalOrderId, productId, item.quantity, item.price]
+        );
+      }
+    }
+    
     
     
 
@@ -136,7 +153,7 @@ async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
 
     return {
       clientSecret: paymentIntent.client_secret,
-      orderId: orderId
+      orderId: finalOrderId
     };
 
   } catch (err) {
