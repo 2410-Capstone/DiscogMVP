@@ -2,27 +2,75 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getGuestCart, setGuestCart } from "../utils/cart";
-
+import FilterBar from "../components/FilterBar";
 import ProductCard from "../components/products/ProductCard";
+
+const genres = [
+  "Industrial",
+  "Hard Rock",
+  "Romantic",
+  "Pop Punk",
+  "Contemporary R&B",
+  "Bossa Nova",
+  "Jazz",
+  "Pop Rock",
+  "Alternative Rock",
+  "Soft Rock",
+  "Indie Rock",
+  "Industrial Metal",
+  "Hard Bop",
+  "Funk",
+  "Electro",
+  "Jazz-Funk",
+  "Modal",
+  "P.Funk",
+  "Thrash",
+  "Nu Metal",
+  "Indie Pop",
+  "Synth-pop",
+  "Classical",
+  "Abstract",
+  "Grunge",
+  "Disco",
+  "Blues Rock",
+  "Post-Grunge",
+  "Soul",
+  "EBM",
+  "Prog Rock",
+  "Hip Hop",
+  "Art Rock",
+  "Baroque",
+  "Metalcore",
+  "Folk Rock",
+];
 
 const ItemList = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [genreFilter, setGenreFilter] = useState([]);
-  const [sortOrder, setSortOrder] = useState('title'); // default: A–Z
+  const [sortOrder, setSortOrder] = useState("title"); // default: A–Z
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(50);
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products${sortOrder !== 'title' ? `?sort=${sortOrder}` : ''}`);
+        const params = new URLSearchParams();
+        if (sortOrder !== "title") params.append("sort", sortOrder);
+        if (genreFilter.length === 1) params.append("genre", genreFilter[0]);
+        params.append("page", page);
+        params.append("limit", limit);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`);
 
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
-
-        if (Array.isArray(data)) {
-          setItems(data);
+        console.log(data); // Debugging line
+        if (Array.isArray(data.products)) {
+          setItems(data.products);
+          setTotal(data.total || 0);
         } else {
           throw new Error("Invalid data format received");
         }
@@ -34,17 +82,12 @@ const ItemList = () => {
     };
 
     fetchItems();
-  }, [sortOrder]);
+  }, [sortOrder, genreFilter, page, limit]);
 
-
-
-  
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
   };
 
-
-  
   const handleAddToCart = async (item) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -87,47 +130,15 @@ const ItemList = () => {
     }
   };
 
-
-
-  const handleFilterChange = (genre) => {
-    if (genreFilter.includes(genre)) {
-      setGenreFilter(genreFilter.filter((g) => g !== genre));
-    } else {
-      setGenreFilter([...genreFilter, genre]);
-    }
-  };
-  const filteredItems = items.filter((item) => {
-    if (genreFilter.length === 0) return true;
-    return genreFilter.includes(item.genre);
-  });
   const handleFilterClick = (genre) => {
     if (genreFilter.includes(genre)) {
       setGenreFilter(genreFilter.filter((g) => g !== genre));
     } else {
-      setGenreFilter([...genreFilter, genre]);
+      setGenreFilter([genre]);
     }
   };
   const handleAllGenresClick = () => {
-    if (genreFilter.length > 0) {
-      setGenreFilter([]);
-    } else {
-      setGenreFilter(["Rock", "Electronic", "Hip Hop", "Jazz", "Classical"]);
-    }
-  };
-  const handleRockClick = () => {
-    handleFilterClick("Rock");
-  };
-  const handleElectronicClick = () => {
-    handleFilterClick("Electronic");
-  };
-  const handleHipHopClick = () => {
-    handleFilterClick("Hip Hop");
-  };
-  const handleIndieClick = () => {
-    handleFilterClick("Jazz");
-  };
-  const handleJazzClick = () => {
-    handleFilterClick("Classical");
+    setGenreFilter([]);
   };
 
   useEffect(() => {
@@ -138,47 +149,18 @@ const ItemList = () => {
       <header className='home-header'>
         <h1 className='hero-title'>Choose your album</h1>
         <br></br>
-        <div className='filter-bar'>
-          <button className='filter-button active' onClick={() => handleAllGenresClick()}>
-            All genres
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Rock") ? " active" : ""}`}
-            onClick={() => handleFilterClick("Rock")}
-          >
-            Rock
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Electronic") ? " active" : ""}`}
-            onClick={() => handleElectronicClick("Electronic")}
-          >
-            Electronic
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Hip Hop") ? " active" : ""}`}
-            onClick={() => handleHipHopClick("Hip Hop")}
-          >
-            Hip Hop
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Jazz") ? " active" : ""}`}
-            onClick={() => handleIndieClick("Jazz")}
-          >
-            Jazz
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Classical") ? " active" : ""}`}
-            onClick={() => handleJazzClick("Classical")}
-          >
-            Classical
-          </button>
-        </div>
-        <div className="sort-dropdown">
-          <label htmlFor="sortOrder">Sort by: </label>
-          <select id="sortOrder" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-            <option value="title">Title (A–Z)</option>
-            <option value="asc">Price: Low to High</option>
-            <option value="desc">Price: High to Low</option>
+        <FilterBar
+          genres={genres}
+          genreFilter={genreFilter}
+          onFilterClick={handleFilterClick}
+          onAllClick={handleAllGenresClick}
+        />
+        <div className='sort-dropdown'>
+          <label htmlFor='sortOrder'>Sort by: </label>
+          <select id='sortOrder' value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+            <option value='title'>Title (A–Z)</option>
+            <option value='asc'>Price: Low to High</option>
+            <option value='desc'>Price: High to Low</option>
           </select>
         </div>
       </header>
@@ -188,17 +170,30 @@ const ItemList = () => {
           <p>Loading...</p>
         ) : error ? (
           <p className='error'>{error}</p>
-        ) : filteredItems.length ? (
-          <div className='product-grid'>
-            {filteredItems.map((item) => (
-              <ProductCard
-                key={item.id}
-                item={item}
-                handleDetailsClick={handleDetailsClick}
-                handleAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+        ) : items.length ? (
+          <>
+            <div className='product-grid'>
+              {items.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  item={item}
+                  handleDetailsClick={handleDetailsClick}
+                  handleAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+            <div className='pagination'>
+              <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                Prev
+              </button>
+              <span>
+                Page {page} of {Math.ceil(total / limit)}
+              </span>
+              <button disabled={page === Math.ceil(total / limit)} onClick={() => setPage(page + 1)}>
+                Next
+              </button>
+            </div>
+          </>
         ) : (
           <p>No items found.</p>
         )}
