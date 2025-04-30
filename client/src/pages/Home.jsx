@@ -34,23 +34,23 @@ const ItemList = () => {
   const [genreFilter, setGenreFilter] = useState([]);
   const [sortOrder, setSortOrder] = useState("title"); // default: A–Z
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const param = new URLSearchParams();
+        const params = new URLSearchParams();
         if (sortOrder !== "title") params.append("sort", sortOrder);
-        if (genreFilter.length === 1) param.append("genre", genreFilter[0]);
-        param.append("page", page);
-        param.append("limit", limit);
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${param.toString()}`);
+        if (genreFilter.length === 1) params.append("genre", genreFilter[0]);
+        params.append("page", page);
+        params.append("limit", limit);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`);
 
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
-
+        console.log(data); // Debugging line
         if (Array.isArray(data.products)) {
           setItems(data.products);
           setTotal(data.total || 0);
@@ -128,27 +128,11 @@ const ItemList = () => {
     if (genreFilter.includes(genre)) {
       setGenreFilter(genreFilter.filter((g) => g !== genre));
     } else {
-      setGenreFilter([...genreFilter, genre]);
+      setGenreFilter([genre]);
     }
   };
   const handleAllGenresClick = () => {
     setGenreFilter([]);
-  };
-
-  const handleRockClick = () => {
-    handleFilterClick("Rock");
-  };
-  const handleElectronicClick = () => {
-    handleFilterClick("Electronic");
-  };
-  const handleHipHopClick = () => {
-    handleFilterClick("Hip Hop");
-  };
-  const handleIndieClick = () => {
-    handleFilterClick("Jazz");
-  };
-  const handleJazzClick = () => {
-    handleFilterClick("Classical");
   };
 
   useEffect(() => {

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   // Pagination and sorting
-  const { sort, genre, page = 1, limit = 10 } = req.query;
+  const { sort, genre, page = 1, limit = 50 } = req.query;
   let orderByClause;
   if (sort === "asc") {
     orderByClause = "ORDER BY price ASC";
@@ -24,13 +24,15 @@ router.get("/", async (req, res) => {
     values.push(genre);
   }
   const offset = (page - 1) * limit;
-  const query = /*sql*/ `SELECT * FROM products ${whereGenreClause} ${orderByClause} LIMIT $2 OFFSET $3`;
-  values.push(limit, offset);
+  const query = /*sql*/ `SELECT * FROM products ${whereGenreClause} ${orderByClause} LIMIT $${
+    values.length + 1
+  }::int OFFSET $${values.length + 2}::int`;
+  values.push(Number(limit), Number(offset));
 
   try {
     const result = await pool.query(query, values);
     let countQuery = `SELECT COUNT(*) FROM products ${whereGenreClause}`;
-    const countValues = values.slice(0, genre ? 1 : 0);
+    const countValues = genre ? [genre] : [];
     const countResult = await pool.query(countQuery, countValues);
     const total = parseInt(countResult.rows[0].count, 10);
 
