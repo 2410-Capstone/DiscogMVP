@@ -30,7 +30,14 @@ const UserOrders = () => {
 
   if (loading) return <div>Loading your orders...</div>;
   if (error) return <div>{error}</div>;
-  if (orders.length === 0) return <div>No orders found</div>;
+  if (orders.length === 0) {
+    return (
+      <div className="user-orders-container">
+        <h2>Order History</h2>
+        <p>You haven’t placed any orders yet.</p>
+      </div>
+    );
+  }
 
   const complete_statuses = ["shipped", "delivered", "cancelled"];
   const incomplete_statuses = ["created", "processing"];
@@ -66,33 +73,53 @@ const UserOrders = () => {
     }
   };
 
-  return (
-    <div className='user-orders-container'>
-      <h2>Current Orders</h2>
-      {currentOrders.length > 0 ? (
-        <ul className='user-orders-list'>
-          {currentOrders.map((order) => (
-            <li key={order.id}>
-              <h3>Order ID: {order.id}</h3>
-              <p>Status: {order_statuses_map[order.order_status]}</p>
-              <p>Total: ${Number(order.total).toFixed(2)}</p>
-              <p
-                style={{
-                  color:
-                    order.payment_status === "failed"
-                      ? "red"
-                      : order.payment_status === "paid"
-                      ? "green"
-                      : "inherit",
-                }}
-              >
-                Payment: {order.payment_status}
-              </p>
-              {(order.order_status === "created" || order.order_status === "processing") && (
-                <button onClick={() => handleCancel(order.id)}>Cancel Order</button>
-              )}
+  const renderOrder = (order) => (
+    <li key={order.id} className="user-order">
+      <h3>Order ID: {order.id}</h3>
+      <p>Status: {order_statuses_map[order.order_status]}</p>
+      <p>Total: ${Number(order.total).toFixed(2)}</p>
+      {order.tracking_number && <p>Tracking #: {order.tracking_number}</p>}
+      <p className={`payment-status ${order.payment_status}`}>
+        Payment: {order.payment_status}
+      </p>
+      <p>
+        Placed: {new Date(order.created_at).toLocaleDateString()}
+        {order.updated_at && ` - Updated: ${new Date(order.updated_at).toLocaleDateString()}`}
+      </p>
+
+      {order.items?.length > 0 && (
+        <ul className="order-items">
+          {order.items.map((item, index) => (
+            <li key={index} className="order-item">
+              <img
+                src={item.image_url}
+                alt={item.description}
+                className="item-image"
+                width={60}
+                height={60}
+              />
+
+              <div className="item-info">
+                <p>{item.artist} — {item.description}</p>
+                <p>Qty: {item.quantity}</p>
+              </div>
             </li>
           ))}
+        </ul>
+      )}
+
+      {(order.order_status === "created" || order.order_status === "processing") && (
+        <button onClick={() => handleCancel(order.id)}>Cancel Order</button>
+      )}
+    </li>
+  );
+
+  return (
+    <div className="user-orders-container">
+      <h2>Current Orders</h2>
+      {currentOrders.length > 0 ? (
+        <ul className="user-orders-list">
+          {currentOrders.map(renderOrder)}
         </ul>
       ) : (
         <p>No current orders found</p>
@@ -100,31 +127,8 @@ const UserOrders = () => {
 
       <h2>Order History</h2>
       {completedOrders.length > 0 ? (
-        <ul>
-          {completedOrders.map((order) => (
-          
-            <li key={order.id}>
-              <h3>Order ID: {order.id}</h3>
-              <p>Status: {order_statuses_map[order.order_status]}</p>
-              <p>Total: ${Number(order.total).toFixed(2)}</p>
-              <p
-                style={{
-                  color:
-                    order.payment_status === "failed"
-                      ? "red"
-                      : order.payment_status === "paid"
-                      ? "green"
-                      : "inherit",
-                }}
-              >
-                Payment: {order.payment_status}
-              </p>
-              <p>
-                Placed: {new Date(order.created_at).toLocaleDateString()} - Shipped:{" "}
-                {order.tracking_number ? new Date(order.updated_at).toLocaleDateString() : "Not shipped yet"}
-              </p>
-            </li>
-          ))}
+        <ul className="user-orders-history">
+          {completedOrders.map(renderOrder)}
         </ul>
       ) : (
         <p>No completed orders found</p>
