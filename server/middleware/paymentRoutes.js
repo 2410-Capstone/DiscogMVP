@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createStripePaymentIntent } = require("../db/payments");
+const { createStripePaymentIntent, createPayment } = require("../db/payments");
 
 router.post("/", async (req, res) => {
   const { userId, cartItems, shippingInfo } = req.body;
@@ -27,6 +27,39 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.error("Error in /payment route:", err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.post("/confirm", async (req, res) => {
+  const {
+    order_id,
+    amount,
+    billing_name,
+    billing_address,
+    payment_method = "credit_card",
+    payment_status = "paid",
+  } = req.body;
+
+  if (!order_id || !amount || !billing_name || !billing_address) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const payment = await createPayment({
+      order_id,
+      payment_method,
+      payment_status,
+      billing_name,
+      billing_address,
+      payment_date: new Date(),
+      amount,
+    });
+
+    res.status(201).json(payment);
+  } catch (err) {
+    console.error("Failed to save payment:", err.stack || err.message || err);
+
+    res.status(500).json({ error: "Failed to save payment" });
   }
 });
 
