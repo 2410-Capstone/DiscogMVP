@@ -132,12 +132,9 @@ const ItemList = () => {
     }
   };
   const handleAllGenresClick = () => {
-    if (genreFilter.length > 0) {
-      setGenreFilter([]);
-    } else {
-      setGenreFilter(["Rock", "Electronic", "Hip Hop", "Jazz", "Classical"]);
-    }
+    setGenreFilter([]);
   };
+
   const handleRockClick = () => {
     handleFilterClick("Rock");
   };
@@ -163,39 +160,21 @@ const ItemList = () => {
         <h1 className='hero-title'>Choose your album</h1>
         <br></br>
         <div className='filter-bar'>
-          <button className='filter-button active' onClick={() => handleAllGenresClick()}>
+          <button
+            className={`filter-button${genreFilter.length === 0 ? " active" : ""}`}
+            onClick={handleAllGenresClick}
+          >
             All genres
           </button>
-          <button
-            className={`filter-button${genreFilter.includes("Rock") ? " active" : ""}`}
-            onClick={() => handleFilterClick("Rock")}
-          >
-            Rock
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Electronic") ? " active" : ""}`}
-            onClick={() => handleElectronicClick("Electronic")}
-          >
-            Electronic
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Hip Hop") ? " active" : ""}`}
-            onClick={() => handleHipHopClick("Hip Hop")}
-          >
-            Hip Hop
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Jazz") ? " active" : ""}`}
-            onClick={() => handleIndieClick("Jazz")}
-          >
-            Jazz
-          </button>
-          <button
-            className={`filter-button${genreFilter.includes("Classical") ? " active" : ""}`}
-            onClick={() => handleJazzClick("Classical")}
-          >
-            Classical
-          </button>
+          {genres.map((genre) => (
+            <button
+              key={genre}
+              className={`filter-button${genreFilter.includes(genre) ? " active" : ""}`}
+              onClick={() => handleFilterClick(genre)}
+            >
+              {genre}
+            </button>
+          ))}
         </div>
         <div className='sort-dropdown'>
           <label htmlFor='sortOrder'>Sort by: </label>
