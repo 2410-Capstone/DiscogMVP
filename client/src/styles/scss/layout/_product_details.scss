@@ -125,42 +125,96 @@
     background-color: var(--grid);
     margin-top: 4rem;
   }
-  
-  .related-products {
-    padding: 8px;
-    background: linear-gradient(to bottom, transparent 10%, var(--bg-color) 100%);
-    z-index: 5;
-    overflow: hidden;
+    .related-products {
+    max-width: 1200px;
+    margin: 5rem auto;
+    padding: 0 1rem;
+
+    .genre-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-color);
+    
+        h2 {
+          font-size: 1.4rem;
+          font-weight: 400;
+          margin-bottom: 0.5rem;
+        
+        }
+    }
   
     h2 {
-      margin-left: 22px;
-      color: var(--text-color);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
     }
   
     .products-grid {
       display: flex;
-      gap: 16px;
       overflow-x: auto;
-      padding: 16px 8px 8px;
+      gap: 1.5rem;
       scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      padding-bottom: 1rem;
+  
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   
-    .products-grid::-webkit-scrollbar {
-      height: 6px;
-    }
+    .related-product-card {
+      flex: 0 0 auto;
+      width: 240px;
+      scroll-snap-align: start;
+      cursor: pointer;
   
-    .products-grid::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 4px;
-    }
+     
+      background: transparent;
   
-    .products-grid::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
+      .related-card-image {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        border-radius: 0;        
+        border: none;            
+      }
+  
+      .related-card-info {
+        margin-top: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+  
+        .related-card-artist {
+          font-size: 0.85rem;
+          color: #666;
+          font-weight: 400;
+        }
+  
+        .related-card-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #111;
+          line-height: 1.4;
+        }
+  
+        .related-card-price {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #000;
+        }
+  
+        .related-card-rating {
+          font-size: 0.75rem;
+          color: #555;
+          display: flex;
+          gap: 0.25rem;
+          align-items: center;
+        }
+      }
     }
   }
-  
+
   @keyframes fade_slide {
     0% {
       opacity: 0;
