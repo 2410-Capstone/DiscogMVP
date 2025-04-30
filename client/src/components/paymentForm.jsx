@@ -286,12 +286,13 @@ useEffect(() => {
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}
 
           <button
-            type='submit'
-            disabled={!stripe || status === "processing" || !cardComplete}
-            className={styles.button}
-          >
-            {status === "processing" ? "Processing..." : "Pay Now"}
-          </button>
+  type="submit"
+  disabled={!stripe || status === "processing" || !cardComplete}
+  className={`pay-button ${styles.button}`}
+>
+  {status === "processing" ? "Processing..." : "Pay Now"}
+</button>
+
         </form>
       )}
     </div>

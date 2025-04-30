@@ -59,11 +59,14 @@
   transition: transform 0.3s ease-in-out;
   background-size: 200% 200%;
   text-decoration: none;
-  
 }
 
 .nav-logo:hover {
   color: var(--hover);
+}
+
+.nav-logo {
+  padding: 0;
 }
 
 // .nav-logo:hover,
@@ -124,7 +127,6 @@
     box-shadow 0.3s ease;
   color: var(--text-color);
   border: 1px solid transparent;
-
 }
 
 .product-nav-button,
