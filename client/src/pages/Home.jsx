@@ -2,29 +2,46 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getGuestCart, setGuestCart } from "../utils/cart";
-
+import FilterBar from "../components/FilterBar";
 import ProductCard from "../components/products/ProductCard";
 
 const genres = [
-  "Rock",
-  "Electronic",
-  "Hip Hop",
+  "Industrial",
+  "Hard Rock",
+  "Romantic",
+  "Pop Punk",
+  "Contemporary R&B",
+  "Bossa Nova",
   "Jazz",
+  "Pop Rock",
+  "Alternative Rock",
+  "Soft Rock",
+  "Indie Rock",
+  "Industrial Metal",
+  "Hard Bop",
+  "Funk",
+  "Electro",
+  "Jazz-Funk",
+  "Modal",
+  "P.Funk",
+  "Thrash",
+  "Nu Metal",
+  "Indie Pop",
+  "Synth-pop",
   "Classical",
-  "Pop",
-  "R&B",
-  "Country",
-  "Reggae",
-  "Blues",
-  "Folk",
-  "Metal",
-  "Punk",
-  "Indie",
-  "Alternative",
+  "Abstract",
+  "Grunge",
+  "Disco",
+  "Blues Rock",
+  "Post-Grunge",
   "Soul",
-  "Gospel",
-  "Latin",
-  "World Music",
+  "EBM",
+  "Prog Rock",
+  "Hip Hop",
+  "Art Rock",
+  "Baroque",
+  "Metalcore",
+  "Folk Rock",
 ];
 
 const ItemList = () => {
@@ -113,17 +130,6 @@ const ItemList = () => {
     }
   };
 
-  // const handleFilterChange = (genre) => {
-  //   if (genreFilter.includes(genre)) {
-  //     setGenreFilter(genreFilter.filter((g) => g !== genre));
-  //   } else {
-  //     setGenreFilter([...genreFilter, genre]);
-  //   }
-  // };
-  // const filteredItems = items.filter((item) => {
-  //   if (genreFilter.length === 0) return true;
-  //   return genreFilter.includes(item.genre);
-  // });
   const handleFilterClick = (genre) => {
     if (genreFilter.includes(genre)) {
       setGenreFilter(genreFilter.filter((g) => g !== genre));
@@ -143,23 +149,12 @@ const ItemList = () => {
       <header className='home-header'>
         <h1 className='hero-title'>Choose your album</h1>
         <br></br>
-        <div className='filter-bar'>
-          <button
-            className={`filter-button${genreFilter.length === 0 ? " active" : ""}`}
-            onClick={handleAllGenresClick}
-          >
-            All genres
-          </button>
-          {genres.map((genre) => (
-            <button
-              key={genre}
-              className={`filter-button${genreFilter.includes(genre) ? " active" : ""}`}
-              onClick={() => handleFilterClick(genre)}
-            >
-              {genre}
-            </button>
-          ))}
-        </div>
+        <FilterBar
+          genres={genres}
+          genreFilter={genreFilter}
+          onFilterClick={handleFilterClick}
+          onAllClick={handleAllGenresClick}
+        />
         <div className='sort-dropdown'>
           <label htmlFor='sortOrder'>Sort by: </label>
           <select id='sortOrder' value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
