@@ -18,7 +18,7 @@ const OrderConfirmation = () => {
   if (!orderDetails) return null;
 
   return (
-    <div>
+    <div className="order-confirmation">
       <h2>Thank you for your order!</h2>
       <p>Order Number: {orderDetails.orderNumber}</p>
       <p>Email: {orderDetails.email}</p>
@@ -34,17 +34,21 @@ const OrderConfirmation = () => {
 
       <p>Total: ${orderDetails.total}</p>
       <h3>Items:</h3>
-      <ul>
+      <ul className="items-list">
         {orderDetails.cartItems.map((item, idx) => {
           const itemKey = item.product_id || item.id || `item-${idx}`;
           return (
-            <li key={item.product_id || item.id || `item-${idx}`}>
-              {item.quantity ?? 0} × {item.description ?? "Unnamed Item"} (${Number(item.price || 0).toFixed(2)})
+            <li key={itemKey} className="item">
+              <img src={item.image_url} alt={item.description ?? 'Item'} />
+              <div className="item-info">
+                <span>{item.quantity ?? 0} × {item.description ?? "Unnamed Item"}</span>
+                <span>${Number(item.price || 0).toFixed(2)}</span>
+              </div>
             </li>
-
           );
         })}
       </ul>
+
 
     </div>
   );
