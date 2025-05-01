@@ -9,6 +9,7 @@ const getAllUsers = async () => {
     const { rows } = await pool.query(/*sql*/ `
       SELECT id, email, name, address, user_role, created_at
       FROM users
+      WHERE user_role IN ('customer', 'admin')
       ORDER BY created_at DESC;
     `);
     return rows;

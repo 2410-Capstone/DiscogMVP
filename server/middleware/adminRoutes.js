@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/metrics', authenticateToken, isAdmin, async (req, res) => {
   try {
-    const usersResult = await pool.query('SELECT COUNT(*) FROM users');
+    const usersResult = await pool.query("SELECT COUNT(*) FROM users WHERE user_role IN ('customer', 'admin')");
     const productsResult = await pool.query('SELECT COUNT(*) FROM products');
     const ordersResult = await pool.query('SELECT COUNT(*) FROM orders');
     const revenueResult = await pool.query('SELECT COALESCE(SUM(total), 0) FROM orders');

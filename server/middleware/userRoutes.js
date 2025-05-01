@@ -10,7 +10,9 @@ const router = express.Router();
 router.get("/", authenticateToken, isAdmin, async (req, res) => {
   console.log("Requesting user list. Authenticated user:", req.user);
   try {
-    const result = await pool.query("SELECT id, email, name, address, user_role FROM users ORDER BY created_at DESC");
+    const result = await pool.query(
+      "SELECT id, email, name, address, user_role FROM users WHERE user_role IN ('customer', 'admin') ORDER BY created_at DESC"
+    );
     res.json(result.rows);
   } catch (err) {
     console.error(err);
