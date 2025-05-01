@@ -7,7 +7,6 @@
   padding: 4px;
 }
 
-
 .cart-title h2 {
   color: black;
   font-weight: 400;
@@ -16,15 +15,17 @@
 
 .cart-page {
   background-color: #ffffff;
-  padding: 6rem 1.5rem;
+  padding: 6rem 20px;
   min-height: 100vh;
 
   .cart-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
     align-items: start;
 
     @media (max-width: 768px) {
@@ -37,7 +38,6 @@
     height: 1px;
     background: #ddd;
     margin: 0;
-
   }
 
   .cart-items {
@@ -70,7 +70,7 @@
       .item-image {
         width: 120px;
         height: 120px;
-        border: 1px solid #ddd;
+
         border-radius: 4px;
         overflow: hidden;
         background: white;
@@ -138,8 +138,15 @@
 
         .item-image {
           width: 100%;
-          max-width: 150px;
-          margin-bottom: 1rem;
+          max-width: 200px;
+          height: auto;
+          margin-bottom: 1px;
+
+          img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+          }
         }
       }
     }
@@ -149,8 +156,6 @@
     align-self: start;
     margin-top: 0;
 
-
-
     .summary-box {
       background: #f5f5f5;
       border-radius: 4px;
@@ -158,6 +163,7 @@
       width: 100%;
       border: 1px solid #eee;
       font-size: 0.95rem;
+      min-width: 300px;
 
       display: flex;
       flex-direction: column;
@@ -167,7 +173,6 @@
         margin: 0;
         font-weight: 700;
       }
-      
 
       .summary-header {
         display: flex;
@@ -176,21 +181,18 @@
         font-weight: 700;
         font-size: 1.05rem;
         color: black;
-        
       }
-      
+
       .summary-title {
         margin: 0;
         font-weight: 700;
         font-size: 1.1rem;
       }
-      
+
       .summary-items {
         font-size: inherit;
         font-weight: 700;
       }
-      
-
 
       .summary-heading {
         display: flex;
@@ -255,17 +257,17 @@
   }
 }
 
-
 .also-like h2 {
   color: black;
   font-weight: 400;
-  font-size: 32px;
+  font-size: 28px;
   padding-top: 10vh;
-  
 }
 
 .summary-side {
   .checkout-btn {
+    position: relative;
+    overflow: hidden;
     margin-top: 1.5rem;
     width: 100%;
     padding: 0.75rem 1rem;
@@ -278,8 +280,23 @@
     cursor: pointer;
     transition: opacity 0.2s ease;
 
-    &:hover {
-      opacity: 0.9;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 300%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+      opacity: 0;
+      transition: none;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    &:hover::before {
+      animation: shiny-wipe 1.2s ease-out forwards;
+      opacity: 1;
     }
   }
 }

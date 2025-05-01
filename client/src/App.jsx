@@ -13,15 +13,16 @@ import Footer from "./components/Footer";
 
 import Welcome from "./pages/Welcome";
 import ItemList from "./pages/Home";
-import Account from "./pages/User/Account";
+import Account from "./pages/user/Account";
 import Profile from "./pages/User/Profile";
+import ManageAccount from "./pages/user/ManageAccount";
 
 import ProductDetails from "./components/products/productDetails";
 
 import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";
-import Checkout from "./pages/user/Checkout";
+import Checkout from "./pages/User/Checkout";
 
 import GuestOrderLookup from "./pages/user/GuestOrderLookup";
 import UserOrders from "./pages/User/UserOrders";
@@ -129,14 +130,17 @@ function App() {
             path='/account/orders'
             element={isAuthenticated ? <UserOrders user={user} /> : <Navigate to='/login' />}
           />
+          <Route
+            path='/account/manage-account'
+            element={isAuthenticated ? <ManageAccount user={user} /> : <Navigate to='/login' />}
+          />
 
-<Route path="wishlist/:wishlistId" element={<Wishlist />} />
+          <Route path='wishlist/:wishlistId' element={<Wishlist />} />
 
           <Route path='/guest-order-lookup' element={<GuestOrderLookup />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
-
 
           {/* Admin routes using AdminLayout + permissions */}
           <Route
@@ -145,8 +149,6 @@ function App() {
           >
             <Route index element={<Dashboard />} />
 
-          
-
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='users' element={<AdminUserList />} />
             <Route path='users/:id/edit' element={<AdminEditUser />} />
@@ -154,7 +156,6 @@ function App() {
             <Route path='edit-product/:id' element={<EditProduct />} />
             <Route path='products/new' element={<AddProduct />} />
             <Route path='orders' element={<AdminOrders />} />
-
           </Route>
         </Routes>
       </div>

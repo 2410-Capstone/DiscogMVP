@@ -118,10 +118,10 @@ const Cart = () => {
     }
 
     if (newQuantity < 1) {
-      const confirmDelete = window.confirm(`Remove "${item.artist}" from cart?`);
-      if (!confirmDelete) return;
-      return handleRemoveItem(itemId);
+      return handleRemoveItem(itemId); // 🔥 removes item immediately, no prompt
     }
+    
+
 
     try {
       await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/items/${itemId}`, {

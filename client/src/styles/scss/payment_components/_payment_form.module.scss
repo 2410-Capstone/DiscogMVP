@@ -3,7 +3,7 @@
 @use "../variables/_other_theme_variables" as vars;
 
 .container {
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   font-family: vars.$font-stack;
 }
@@ -11,10 +11,10 @@
 .form {
   padding: math.div(vars.$spacing-unit * 1.5, 1);
   border: 1px solid vars.$border-color;
-  border-radius: vars.$border-radius * 2;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
-  gap: math.div(vars.$spacing-unit * 2, 1);
+  // gap: math.div(vars.$spacing-unit * 2, 1);
 }
 
 .formGroup {
@@ -38,6 +38,8 @@
     border-radius: vars.$border-radius;
     font-size: vars.$font-size-base;
     transition: border-color 0.3s ease;
+    background-color: white;
+    color: black;
 
     &:focus {
       outline: none;
@@ -65,27 +67,27 @@
   }
 }
 
-.button {
-  width: 100%;
-  padding: vars.$spacing-unit * 0.75;
-  background-color: vars.$primary-color;
-  color: white;
-  border: none;
-  border-radius: vars.$border-radius;
-  font-size: vars.$font-size-base;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  align-self: flex-start;
+// .button {
+//   width: 100%;
+//   padding: vars.$spacing-unit * 0.75;
+//   background-color: vars.$primary-color;
+//   color: white;
+//   border: none;
+//   border-radius: vars.$border-radius;
+//   font-size: vars.$font-size-base;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease;
+//   align-self: flex-start;
 
-  &:hover:not(:disabled) {
-    background-color: color.scale(vars.$primary-color, $lightness: -10%);
-  }
+//   &:hover:not(:disabled) {
+//     background-color: color.scale(vars.$primary-color, $lightness: -10%);
+//   }
 
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-}
+//   &:disabled {
+//     opacity: 0.7;
+//     cursor: not-allowed;
+//   }
+// }
 
 .error {
   color: vars.$error-color;

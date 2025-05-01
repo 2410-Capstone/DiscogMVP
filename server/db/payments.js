@@ -124,19 +124,21 @@ async function createStripePaymentIntent(userId, cartItems, shippingInfo, orderI
     
 
     // Create order_items
-    for (let item of cartItems) {
-      const productId = item.product_id || item.id; // fallback if item.product_id is undefined
+    if (!orderId) {
+      for (let item of cartItems) {
+        const productId = item.product_id || item.id;
+        if (!productId) {
+          throw new Error(`Missing product ID for item: ${JSON.stringify(item)}`);
+        }
     
-      if (!productId) {
-        throw new Error(`Missing product ID for item: ${JSON.stringify(item)}`);
+        await client.query(/*sql*/
+          `INSERT INTO order_items (order_id, product_id, quantity, price)
+           VALUES ($1, $2, $3, $4)`,
+          [finalOrderId, productId, item.quantity, item.price]
+        );
       }
-    
-      await client.query(
-        `INSERT INTO order_items (order_id, product_id, quantity, price)
-         VALUES ($1, $2, $3, $4)`,
-        [orderId, productId, item.quantity, item.price]
-      );
     }
+    
     
 
     // Create PaymentIntent on Stripe

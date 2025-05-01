@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { createStripePaymentIntent, createPayment } = require("../db/payments");
+const { createOrder, createOrderItem } = require("../db/orders");
 
 router.post("/", async (req, res) => {
-  const { userId, orderId, cartItems, shippingInfo } = req.body;
+  const { userId, cartItems, shippingInfo } = req.body;
 
-  // Helper: check for empty string or missing
   const isEmpty = (val) => typeof val !== "string" || val.trim() === "";
 
   const requiredFields = ["email", "addressLine1", "city", "state", "zip"];
@@ -22,13 +22,36 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const result = await createStripePaymentIntent(userId, cartItems, shippingInfo, orderId);
+    // 1. Create the Order first
+    const shippingAddress = `${shippingInfo.addressLine1}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}`;
+    const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    const newOrder = await createOrder({
+      user_id: userId,
+      shipping_address: shippingAddress,
+      order_status: "created",
+      tracking_number: null,
+      total,
+    });
+
+    // 2. Create order_items linked to new order
+    for (const item of cartItems) {
+      await createOrderItem({
+        order_id: newOrder.id,
+        product_id: item.id,
+        quantity: item.quantity,
+      });
+    }
+
+    // 3. Pass new order ID to Stripe intent
+    const result = await createStripePaymentIntent(userId, cartItems, shippingInfo, newOrder.id);
     res.json(result);
   } catch (err) {
     console.error("Error in /payment route:", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 router.post("/confirm", async (req, res) => {
   const {
