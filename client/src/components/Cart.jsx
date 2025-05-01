@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -245,7 +246,7 @@ const Cart = () => {
             <div className="products-grid">
               {products.slice(0, 10).map((item) => (
                 <Link key={item.id} to={`/home/${item.id}`} className="related-product-card" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-                  <img src={item.image_url} alt={item.title} className="related-card-image" />
+                  <img src={`http://localhost:3000/public${item.image_url}`} alt={item.title} className="related-card-image" />
                   <div className="related-card-info">
                     <p className="related-card-artist">{item.category || "Vinyl"}</p>
                     <h3 className="related-card-title">{item.title}</h3>

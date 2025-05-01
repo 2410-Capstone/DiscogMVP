@@ -101,8 +101,8 @@ export default function ProductDetails() {
   if (!product) return <p>Loading...</p>;
 
   return (
-    <div className="product-details-page">
-      <div className="featured-product-bg">
+    <div className='product-details-page'>
+      <div className='featured-product-bg'>
       <img
         src={`http://localhost:3000/public${product.image_url}`}
         alt="Album Art"
@@ -135,27 +135,19 @@ export default function ProductDetails() {
 
       <div className='related-products' ref={scrollRef}>
         <h2>More Products</h2>
-        <div className="products-grid">
-  {products
-    .filter((item) => item.id !== product.id)
-    .map((item) => (
-      <div
-        key={item.id}
-        className="related-product-card"
-        onClick={() => handleDetailsClick(item.id)}
-      >
-        <img
-          src={`http://localhost:3000/public${item.image_url}`}
-          alt={item.title}
-          className="related-card-image"
-        />
-        <div className="related-card-info">
-          <h3 className="related-card-title">{item.title}</h3>
-          <p className="related-card-artist">{item.artist}</p>
+        <div className='products-grid'>
+          {(Array.isArray(products) ? products : [])
+            .filter((item) => item.id !== product.id)
+            .map((item) => (
+              <div key={item.id} className='related-product-card' onClick={() => handleDetailsClick(item.id)}>
+                <img src={item.image_url} alt={item.title} className='related-card-image' />
+                <div className='related-card-info'>
+                  <h3 className='related-card-title'>{item.title}</h3>
+                  <p className='related-card-artist'>{item.artist}</p>
+                </div>
+              </div>
+            ))}
         </div>
-      </div>
-    ))}
-</div>
       </div>
     </div>
   );
