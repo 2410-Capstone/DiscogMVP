@@ -1,20 +1,24 @@
 .filterBarWrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
-  background: var(--card-bg);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  padding: 0.5rem 1rem;
+  justify-content: center;
+  margin: 1.25rem auto;
+  border-radius: 6px;
+  background: transparent;
+  padding: 0.5rem 0;
+  max-width: 960px;
+  width: 100%;
 }
 
 .filterBar {
   display: flex;
+  align-items: center;
   overflow-x: auto;
-  white-space: nowrap;
-  gap: 0.5rem;
+  gap: 0.65rem;
   scrollbar-width: none;
-  background: transparent;
+  -ms-overflow-style: none;
+  flex: 1;
+  padding: 0 0.25rem;
 }
 
 .filterBar::-webkit-scrollbar {
@@ -23,36 +27,82 @@
 
 .filterButton {
   flex: 0 0 auto;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   border: none;
-  background: var(--accent-grad);
-  color: var(--bg-color);
   border-radius: 4px;
+  background-color:var(--but);
+  color: var(--text-color);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 400;
+  font-size: 0.95rem;
+  transition:
+    background 0.2s ease-in-out,
+    color 0.2s ease-in-out;
 }
+
 .filterButton:hover {
-  background: var(--primary-accent);
+  background: var(--text-hover);
   color: var(--bg-color);
 }
 
 .filterButton.active {
   background: var(--text-color);
   color: var(--bg-color);
+  font-weight: 600;
 }
 
 .scrollBtn {
-  background: none;
+  background: transparent;
   border: none;
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  border-radius: 6px;
   cursor: pointer;
-  padding: 0 0.5rem;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
   color: var(--text-color);
-  transition: color 0.2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05); 
+    color: var(--primary-accent);
+    transform: scale(1.1);
+  }
 }
 
-.scrollBtn:hover {
-  color: var(--primary-accent);
+
+.sort-dropdown-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding-right: 0.5rem;
+}
+
+.sort-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+
+
+  label {
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  select {
+    appearance: none;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--text-color);
+    border-radius: 6px;
+    transition: border-color 0.2s ease;
+
+  }
+  
 }

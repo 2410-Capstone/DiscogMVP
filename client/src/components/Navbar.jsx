@@ -68,6 +68,13 @@ function Navbar({ isAuthenticated, onSearch }) {
 
             </Link>
 
+            <button
+  className="theme-toggle-button"
+  onClick={toggleTheme}
+  aria-label="Toggle Theme"
+>
+{theme === "dark" ? "☀︎" : "☾"}
+</button>
 
             {isAuthenticated ? (
               <div className="account-dropdown" ref={profileRef}>

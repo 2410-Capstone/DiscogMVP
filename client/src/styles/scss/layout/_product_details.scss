@@ -172,10 +172,12 @@
 
     .related-card-image {
       width: 100%;
-      aspect-ratio: 4 / 5;
+      aspect-ratio: 1 / 1; // or use height: 240px;
       object-fit: cover;
-      border-radius: 0;
-      border: none;
+      background-color: #e0e0e0; // fallback background
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .related-card-info {

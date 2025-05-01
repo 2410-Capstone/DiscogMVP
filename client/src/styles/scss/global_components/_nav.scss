@@ -74,9 +74,29 @@
 .nav-right .nav-button-search-icon:hover,
 .nav-right a:hover,
 .nav-right button:hover {
-  color: var(--text-hover); 
+  color: var(--text-hover);
 }
 
+.theme-toggle-button {
+  font-size: 18px;
+  line-height: 1;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--text-hover);
+  }
+
+  height: 100%;
+  margin-top: 1px;
+}
 
 .profile-pic {
   width: 40px;
