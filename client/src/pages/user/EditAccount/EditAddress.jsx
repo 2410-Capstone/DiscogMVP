@@ -33,7 +33,7 @@ const EditShippingAddress = ({ currentAddress = "", onSave }) => {
   return (
     <form className='edit-address-form' onSubmit={handleSubmit}>
       <label>
-        Shipping Address:
+        Address:
         <input type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
       </label>
       {error && <div className='error'>{error}</div>}
