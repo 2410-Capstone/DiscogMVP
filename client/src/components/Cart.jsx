@@ -118,7 +118,7 @@ const Cart = () => {
     }
 
     if (newQuantity < 1) {
-      return handleRemoveItem(itemId); // 🔥 removes item immediately, no prompt
+      return handleRemoveItem(itemId); 
     }
     
 
@@ -224,7 +224,41 @@ const Cart = () => {
             <div className="summary-total"><span>Order total</span><strong>${calculateTotal().toFixed(2)}</strong></div>
           </div>
           <div className="summary-side">
-            <button className="checkout-btn" onClick={handleCheckout}>Checkout</button>
+          {isGuest ? (
+            <>
+              <button
+                className="checkout-btn"
+                onClick={() =>
+                  navigate("/register", {
+                    state: { fromCheckout: true },
+                  })
+                }
+              >
+                Sign Up & Checkout
+              </button>
+
+              <button
+                className="checkout-btn"
+                style={{ marginTop: "0.5rem" }}
+                onClick={() =>
+                  navigate("/checkout", {
+                    state: {
+                      cartItems,
+                      cartTotal: calculateTotal(),
+                      timestamp: Date.now(),
+                    },
+                  })
+                }
+              >
+                Continue As Guest
+              </button>
+            </>
+          ) : (
+            <button className="checkout-btn" onClick={handleCheckout}>
+              Checkout
+            </button>
+          )}
+
           </div>
         </aside>
 

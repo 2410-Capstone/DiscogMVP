@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { getGuestCart } from "../../utils/cart";
+
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
 
@@ -12,6 +14,9 @@ export default function Register() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const location = useLocation();
+  const fromCheckout = location.state?.fromCheckout;
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,10 +45,30 @@ if (!res.ok || !data.token || !data.user) {
   throw new Error(data.error || `Registration failed (${res.status})`);
 }
 
-
       login(data.user, data.token);
+      localStorage.setItem("userEmail", data.user.email);
 
+      const guestCart = getGuestCart()
+        .map(item => ({
+          product_id: item.product_id || item.id,
+          quantity: item.quantity,
+        }))
+        .filter(item => item.product_id && item.quantity > 0);
 
+      if (fromCheckout && guestCart.length) {
+        await fetch("/api/carts/sync", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${data.token}`,
+          },
+          body: JSON.stringify({ items: guestCart }),
+        });
+
+        localStorage.removeItem("guest_cart");
+        navigate("/checkout");
+        return;
+      }
       toast.success("Registration successful! Welcome!");
       setName("");
       setEmail("");
