@@ -1,52 +1,82 @@
-const express = require('express');
-const { body, validationResult } = require('express-validator');
-const pool = require('../db/pool');
-const authenticateToken = require('../middleware/authMiddleware');
-const isAdmin = require('../middleware/isAdminMiddleware');
+const express = require("express");
+const { body, validationResult } = require("express-validator");
+const pool = require("../db/pool");
+const authenticateToken = require("../middleware/authMiddleware");
+const isAdmin = require("../middleware/isAdminMiddleware");
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
+  // Pagination and sorting
+  const { sort, genre, page = 1, limit = 50 } = req.query;
+  let orderByClause;
+  if (sort === "asc") {
+    orderByClause = "ORDER BY price ASC";
+  } else if (sort === "desc") {
+    orderByClause = "ORDER BY price DESC";
+  } else {
+    orderByClause = "ORDER BY description ASC"; // Default: alphabetical
+  }
+  let whereGenreClause = "WHERE stock > 0";
+  let values = [];
+  if (genre) {
+    whereGenreClause += " AND genre = $1";
+    values.push(genre);
+  }
+  const offset = (page - 1) * limit;
+  const query = /*sql*/ `SELECT * FROM products ${whereGenreClause} ${orderByClause} LIMIT $${
+    values.length + 1
+  }::int OFFSET $${values.length + 2}::int`;
+  values.push(Number(limit), Number(offset));
+
   try {
-    const result = await pool.query('SELECT * FROM products WHERE stock > 0');
-    res.json(result.rows);
+    const result = await pool.query(query, values);
+    let countQuery = `SELECT COUNT(*) FROM products ${whereGenreClause}`;
+    const countValues = genre ? [genre] : [];
+    const countResult = await pool.query(countQuery, countValues);
+    const total = parseInt(countResult.rows[0].count, 10);
+
+    res.json({ products: result.rows, total });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to fetch products' });
+    res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 
 // Get all products regardless of stock level - admin function
-router.get('/all', async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM products ORDER BY created_at DESC');
+    const result = await pool.query("SELECT * FROM products ORDER BY created_at DESC");
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to fetch all products' });
+    res.status(500).json({ error: "Failed to fetch all products" });
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM products WHERE id = $1', [req.params.id]);
+    const result = await pool.query("SELECT * FROM products WHERE id = $1", [req.params.id]);
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to fetch product' });
+    res.status(500).json({ error: "Failed to fetch product" });
   }
 });
 
 // Protected product routes
-router.post('/', authenticateToken, isAdmin, 
+router.post(
+  "/",
+  authenticateToken,
+  isAdmin,
   [
-    body('artist').notEmpty().trim().escape(),
-    body('description').notEmpty().trim().escape(),
-    body('price').isFloat({ min: 0.01 }),
-    body('stock').isInt({ min: 0 })
+    body("artist").notEmpty().trim().escape(),
+    body("description").notEmpty().trim().escape(),
+    body("price").isFloat({ min: 0.01 }),
+    body("stock").isInt({ min: 0 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -55,27 +85,30 @@ router.post('/', authenticateToken, isAdmin,
     }
 
     const { artist, description, price, image_url, genre, stock, artist_details } = req.body;
-    
+
     try {
       const result = await pool.query(
-        'INSERT INTO products (artist, description, price, image_url, genre, stock, artist_details) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        "INSERT INTO products (artist, description, price, image_url, genre, stock, artist_details) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
         [artist, description, price, image_url, genre, stock, artist_details]
       );
       res.status(201).json(result.rows[0]);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Failed to create product' });
+      res.status(500).json({ error: "Failed to create product" });
     }
   }
 );
 
-router.put('/:id', authenticateToken, isAdmin, 
+router.put(
+  "/:id",
+  authenticateToken,
+  isAdmin,
   [
-    body('artist').notEmpty().trim().escape(),
-    body('description').notEmpty().trim().escape(),
-    body('price').isFloat({ min: 0.01 }),
-    body('stock').isInt({ min: 0 }),
-    body('genre').notEmpty().trim().escape(),
+    body("artist").notEmpty().trim().escape(),
+    body("description").notEmpty().trim().escape(),
+    body("price").isFloat({ min: 0.01 }),
+    body("stock").isInt({ min: 0 }),
+    body("genre").notEmpty().trim().escape(),
     // body('image').optional().isURL()
   ],
   async (req, res) => {
@@ -87,17 +120,13 @@ router.put('/:id', authenticateToken, isAdmin,
     const { artist, description, price, genre, stock, artist_details } = req.body;
 
     try {
-
       // Fetch the existing product to keep its current image_url
-      const existingProduct = await pool.query(
-        'SELECT image_url FROM products WHERE id = $1',
-        [req.params.id]
-      );
-      
+      const existingProduct = await pool.query("SELECT image_url FROM products WHERE id = $1", [req.params.id]);
+
       if (existingProduct.rows.length === 0) {
-        return res.status(404).json({ error: 'Product not found' });
+        return res.status(404).json({ error: "Product not found" });
       }
-      
+
       const existingImageUrl = existingProduct.rows[0].image_url;
 
       // Update product without changing the image_url
@@ -109,32 +138,30 @@ router.put('/:id', authenticateToken, isAdmin,
       );
 
       if (result.rows.length === 0) {
-        return res.status(404).json({ error: 'Product not found' });
+        return res.status(404).json({ error: "Product not found" });
       }
 
       res.json(result.rows[0]);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Failed to update product' });
+      res.status(500).json({ error: "Failed to update product" });
     }
   }
 );
 
-
-router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
+router.delete("/:id", authenticateToken, isAdmin, async (req, res) => {
   try {
-    const result = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [req.params.id]);
+    const result = await pool.query("DELETE FROM products WHERE id = $1 RETURNING *", [req.params.id]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    res.json({ message: 'Product deleted', product: result.rows[0] });
+    res.json({ message: "Product deleted", product: result.rows[0] });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to delete product' });
+    res.status(500).json({ error: "Failed to delete product" });
   }
 });
-
 
 module.exports = router;

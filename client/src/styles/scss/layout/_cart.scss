@@ -7,23 +7,25 @@
   padding: 4px;
 }
 
-
-
-.cart-title {
+.cart-title h2 {
   color: black;
+  font-weight: 400;
+  font-size: 32px;
 }
 
 .cart-page {
   background-color: #ffffff;
-  padding: 10rem 1rem;
+  padding: 6rem 20px;
   min-height: 100vh;
 
   .cart-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 3rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 1.5rem;
     align-items: start;
 
     @media (max-width: 768px) {
@@ -35,7 +37,7 @@
     grid-column: 1 / -1;
     height: 1px;
     background: #ddd;
-    margin: 1rem 0 2rem;
+    margin: 0;
   }
 
   .cart-items {
@@ -52,19 +54,23 @@
     .cart-item {
       display: flex;
       gap: 1.5rem;
-      padding: 2rem 0;
-      border-top: 1px solid #ddd;
+      padding: 1rem 0;
+      border-bottom: 1px thin #ddd;
+
+      &:not(:first-child) {
+        border-top: 1px solid #ddd;
+      }
 
       &:last-child {
         border-bottom: none;
       }
 
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px thin #ddd;
 
       .item-image {
         width: 120px;
         height: 120px;
-        border: 1px solid #ddd;
+
         border-radius: 4px;
         overflow: hidden;
         background: white;
@@ -83,7 +89,7 @@
         gap: 0.25rem;
 
         .item-title {
-          font-weight: 600;
+          font-weight: 400;
           font-size: 1rem;
           margin-bottom: 0.25rem;
           color: #111;
@@ -95,9 +101,19 @@
           color: #333;
         }
 
-        .item-subtotal {
-          font-weight: 600;
+        .item-price {
+          font-weight: 400;
+          font-size: 1.3rem;
           color: #000;
+        }
+
+        .item-subtotal {
+          font-weight: 400;
+          color: #000;
+
+          .subtotal-price {
+            font-weight: 700;
+          }
         }
 
         .remove-btn {
@@ -122,8 +138,15 @@
 
         .item-image {
           width: 100%;
-          max-width: 150px;
-          margin-bottom: 1rem;
+          max-width: 200px;
+          height: auto;
+          margin-bottom: 1px;
+
+          img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+          }
         }
       }
     }
@@ -140,10 +163,36 @@
       width: 100%;
       border: 1px solid #eee;
       font-size: 0.95rem;
+      min-width: 300px;
 
       display: flex;
       flex-direction: column;
       gap: 1rem;
+
+      .summary-heading {
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: black;
+      }
+
+      .summary-title {
+        margin: 0;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .summary-items {
+        font-size: inherit;
+        font-weight: 700;
+      }
 
       .summary-heading {
         display: flex;
@@ -152,6 +201,8 @@
         font-size: 1.05rem;
         margin-bottom: 0.5rem;
         color: black;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 0.5rem;
       }
 
       .summary-divider {
@@ -163,7 +214,6 @@
       .summary-line {
         display: flex;
         justify-content: space-between;
-        padding: 0.35rem 0;
         color: #111;
 
         &.muted {
@@ -182,7 +232,6 @@
         color: black;
       }
 
-      .checkout-btn,
       .continue-btn {
         margin-top: 1.5rem;
         width: 100%;
@@ -204,6 +253,50 @@
 
     @media (max-width: 768px) {
       margin-top: 2rem;
+    }
+  }
+}
+
+.also-like h2 {
+  color: black;
+  font-weight: 400;
+  font-size: 28px;
+  padding-top: 10vh;
+}
+
+.summary-side {
+  .checkout-btn {
+    position: relative;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 300%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+      opacity: 0;
+      transition: none;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    &:hover::before {
+      animation: shiny-wipe 1.2s ease-out forwards;
+      opacity: 1;
     }
   }
 }

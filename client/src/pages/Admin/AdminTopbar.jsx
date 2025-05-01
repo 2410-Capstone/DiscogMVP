@@ -102,9 +102,6 @@ const AdminTopbar = () => {
 
           {profileOpen && (
             <div className="profile-dropdown-menu">
-              <Link to="/admin/profile" className="dropdown-item">
-                <User size={16} /> Profile
-              </Link>
               <button className="dropdown-item" onClick={() => navigate("/home")}>
                 Home View
               </button>

@@ -4,7 +4,9 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const pool = require("./pool");
 const { v4: uuidv4 } = require('uuid');
 
-
+function generateTrackingNumber() {
+  return `TRACK${Math.floor(100000 + Math.random() * 900000)}XYZ`;
+}
 
 const createPayment = async ({
   order_id,
@@ -60,37 +62,74 @@ const updatePaymentStatus = async ({ paymentId, status }) => {
  * @param {string} currency - e.g. 'usd'
  * @returns {Promise<object>} PaymentIntent object
  */
-async function createStripePaymentIntent(userId, cartItems, shippingAddress) {
+async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
   const client = await pool.connect();
 
   try {
     await client.query('BEGIN');
+
+    let resolvedUserId = userId;
+
+    // Auto-create or reuse guest user if no token
+    if (!resolvedUserId) {
+      // Check if guest already exists
+      const { rows } = await client.query(
+        `SELECT id FROM users WHERE email = $1 AND user_role = 'guest'`,
+        [shippingInfo.email]
+      );
+
+      if (rows.length > 0) {
+        resolvedUserId = rows[0].id;
+      } else {
+        const guestRes = await client.query(
+          `INSERT INTO users (email, name, address, user_role)
+           VALUES ($1, $2, $3, 'guest')
+           RETURNING id`,
+          [shippingInfo.email, shippingInfo.name, shippingInfo.addressLine1]
+        );
+        resolvedUserId = guestRes.rows[0].id;
+      }
+    }
+
     const amount = cartItems.reduce((total, item) => {
       return total + parseFloat(item.price) * item.quantity;
     }, 0);
 
     // Create order
     const orderId = uuidv4();
-    await client.query(
-      `INSERT INTO orders (id, user_id, total, shipping_address) 
-       VALUES ($1, $2, $3, $4)`,
-      [orderId, userId, amount, shippingAddress]
+    const trackingNumber = generateTrackingNumber();
+    await client.query(/*sql*/
+      `INSERT INTO orders (id, user_id, total, shipping_address, tracking_number) 
+       VALUES ($1, $2, $3, $4, $5)`,
+      [orderId, resolvedUserId, amount, JSON.stringify(shippingInfo), trackingNumber]
     );
+    
+    
 
     // Create order_items
     for (let item of cartItems) {
+      const productId = item.product_id || item.id; // fallback if item.product_id is undefined
+    
+      if (!productId) {
+        throw new Error(`Missing product ID for item: ${JSON.stringify(item)}`);
+      }
+    
       await client.query(
         `INSERT INTO order_items (order_id, product_id, quantity, price)
          VALUES ($1, $2, $3, $4)`,
-        [orderId, item.product_id, item.quantity, item.price]
+        [orderId, productId, item.quantity, item.price]
       );
     }
+    
 
     // Create PaymentIntent on Stripe
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Stripe wants amounts in cents
       currency: 'usd',
-      metadata: { orderId, userId }
+      metadata: {
+        orderId,
+        ...(userId ? { userId } : { guestEmail: shippingInfo.email }),
+      }      
     });
 
     await client.query('COMMIT');

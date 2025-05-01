@@ -18,8 +18,8 @@ const Account = ({ user }) => {
         const res = await fetch("/api/orders/user/albums", {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         });
 
         if (!res.ok) {
@@ -45,7 +45,7 @@ const Account = ({ user }) => {
   };
 
   if (!user) {
-    return <div className="account-page">Loading your account...</div>;
+    return <div className='account-page'>Loading your account...</div>;
   }
 
   return (
@@ -54,7 +54,9 @@ const Account = ({ user }) => {
         <div className='account-wrapper greeting-wrap'>
           <h2 className='account-title'>Account</h2>
           <hr style={{ border: "none", height: "1px", backgroundColor: "#ccc", margin: "0.5rem 0", width: "100%" }} />
-          <button className='signout-button' onClick={handleLogout}>Sign out</button>
+          <button className='signout-button' onClick={handleLogout}>
+            Sign out
+          </button>
           <h2 className='greeting'>Hi, {user.name}.</h2>
           <p className='sub-greeting'>You’re signed in with {user.email}</p>
         </div>
@@ -108,7 +110,7 @@ const Account = ({ user }) => {
               <div className='settings-block'>
                 <h4>Shipping Address</h4>
                 <p>{user.address}</p>
-                <Link to='#'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Contact Info</h4>
@@ -117,19 +119,17 @@ const Account = ({ user }) => {
                   <br />
                   {user.phone}
                 </p>
-                <Link to='#'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Billing</h4>
                 <p>{user.billing}</p>
-                <Link to='#'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Settings</h4>
-                <Link to='#'>Manage Account</Link>
-                <div className='settings-block'>
-                  <Link to={`/profile/${user.username || user.id}`}>Edit Profile</Link>
-                </div>
+                <Link to='/account/manage-account'>Manage Account</Link>
+                <div className='settings-block'></div>
               </div>
             </div>
           </div>

@@ -1,0 +1,56 @@
+.edit-address-form {
+  background: var(--card-bg);
+  color: var(--text-color);
+  max-width: 400px;
+  margin: 2rem;
+  padding: 2rem 2rem 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.edit-address-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.edit-address-form input[type="text"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-address-form .error {
+  color: #e74c3c;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.edit-address-form button[type="submit"] {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--primary-accent);
+  color: var(--glass-button-text);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background 0.2s;
+}
+
+.edit-address-form button[type="submit"]:hover {
+  background: var(--accent-grad);
+  color: var(--text-color);
+}

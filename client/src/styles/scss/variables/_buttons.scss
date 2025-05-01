@@ -25,7 +25,7 @@
 }
 
 .sign-button::before,
-.reg-button::before {
+.reg-button::before, .continue-btn::before {
     content: "";
     position: absolute;
     top: 0;

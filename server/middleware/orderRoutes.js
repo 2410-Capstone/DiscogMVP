@@ -14,6 +14,78 @@ const { calculateOrderTotal } = require("../db/orders");
 const isAdmin = require("../middleware/isAdminMiddleware");
 const router = express.Router();
 
+//guest user orders
+// GET /api/orders/guest.
+router.get("/guest", async (req, res) => {
+  const { orderId, email } = req.query;
+  if (!orderId || !email) {
+    return res.status(400).json({ error: "Order ID and email are required" });
+  }
+  const order = await getOrderById(orderId);
+  if (!order || order.email !== email) {
+    return res.status(404).json({ error: "Order not found" });
+  }
+  res.json(order);
+});
+// POST /api/orders/guest
+router.post("/guest", async (req, res, next) => {
+  const { email, name, address, items } = req.body;
+  const order_status = req.body.order_status || "created";
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: "Order must include at least one item" });
+  }
+  for (const item of items) {
+    if (!item.product_id || !item.quantity) {
+      return res.status(400).json({ error: "Each item must have a product_id and quantity" });
+    }
+  }
+
+  try {
+    const result = await pool.query(
+      /*sql*/ `
+      INSERT INTO users (email, name, address, user_role)
+      VALUES ($1, $2, $3, 'guest')
+      RETURNING id, email, name, address, user_role
+    `,
+      [email, name, address]
+    );
+
+    const guestUserId = result.rows[0].id;
+    console.log("Guest user created with ID:", guestUserId);
+
+    const newOrder = await createOrder({
+      user_id: guestUserId,
+      shipping_address: address,
+      order_status: order_status,
+      tracking_number: null,
+      total: 0,
+    });
+
+    for (const item of items) {
+      await createOrderItem({
+        order_id: newOrder.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+      });
+    }
+
+    const total = await calculateOrderTotal(newOrder.id);
+
+    await updateOrder({
+      order_id: newOrder.id,
+      updates: { total },
+    });
+
+    res.status(201).json({
+      user: result.rows[0],
+      orderId: newOrder.id
+    });
+        
+  } catch (error) {
+    next(error);
+  }
+});
 router.get("/orders", authenticateToken, async (req, res, next) => {
   try {
     const orders = await getOrderByUserId(req.user.id);

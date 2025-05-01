@@ -1,5 +1,5 @@
 .product-card {
-  background: #F3F4F6;
+  background: #f3f4f6;
   border-radius: 6px;
   padding: 1.5rem 1rem;
   max-width: 320px;
@@ -9,14 +9,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   .card-image {
     width: 100%;
     max-width: 220px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 16px;
+    border-radius: 2px;
     margin-bottom: 0.75rem;
   }
 
@@ -24,7 +26,6 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: #1d1d1f;
-
   }
 
   .card-artist {
@@ -40,14 +41,15 @@
     margin-bottom: 0.25rem;
   }
 
-  .market-price {
+  .market-price p {
     font-size: 1rem;
     font-weight: 500;
     color: #1b1b23;
     margin-top: 0.5rem;
   }
 
-  .add-to-bag-button, .details-button {
+  .add-to-bag-button,
+  .details-button {
     width: 100%;
     margin-top: 0.25rem;
     padding: 0.5rem 0.75rem;
@@ -65,62 +67,3 @@
     }
   }
 }
-
-  
-
-
-
-.related-product-card {
-    background: var(--card-bg);
-    border-radius: 10px;
-    width: 160px;
-    height: 260px;
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 4px 12px var(--shadow-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    scroll-snap-align: start;
-  
-    &:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px var(--shadow-color);
-    }
-  
-    .related-card-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background-color: var(--bg-color);
-    }
-  
-    .related-card-info {
-      padding: 8px;
-      text-align: center;
-      width: 100%;
-    }
-  
-    .related-card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-color);
-      margin: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  
-    .related-card-artist {
-      font-size: 0.85rem;
-      color: var(--text-color);
-      opacity: 0.7;
-      margin: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-  

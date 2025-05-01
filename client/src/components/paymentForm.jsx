@@ -1,54 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import PropTypes from "prop-types";
 import styles from "../styles/scss/payment_components/_payment_form.module.scss";
 import { useNavigate } from "react-router-dom";
+import { clearGuestCart } from "../utils/cart";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-function StripeForm({ email, cartItems, shippingAddress }) {
+function StripeForm({ cartItems, shippingInfo }) {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
   const [status, setStatus] = useState("default");
-  const [emailInput, setEmailInput] = useState(email || "");
+  const [emailInput, setEmailInput] = useState(() => shippingInfo?.email || "");
   const [errorMessage, setErrorMessage] = useState("");
   const [cardComplete, setCardComplete] = useState(false);
   const [token, setToken] = useState(null);
-
   const [userId, setUserId] = useState(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const isGuest = !localStorage.getItem("token");
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
 
-    if (!storedToken) {
-      //console.warn("⚠️ No token found in localStorage");
-      setIsLoadingUser(false);
-      return;
-    }
+// Sync email if it was passed from shippingInfo
+useEffect(() => {
+  if (!emailInput && shippingInfo?.email) {
+    setEmailInput(shippingInfo.email);
+  }
+}, [shippingInfo?.email, emailInput]);
 
-    const payload = parseJwt(storedToken);
-    console.log("✅ Decoded JWT payload:", payload);
 
-    const extractedId = payload?.id || payload?.userId;
 
-    if (!extractedId) {
-      //console.error("❌ User ID not found in token payload:", payload);
-      setErrorMessage("User ID missing in token");
-    } else {
-      setUserId(extractedId);
-      setToken(storedToken);
-    }
+// Decode token and extract userId if logged in
+useEffect(() => {
+  const storedToken = localStorage.getItem("token");
 
+  if (!storedToken) {
     setIsLoadingUser(false);
-  }, []);
+    return;
+  }
+
+  const payload = parseJwt(storedToken);
+  console.log("Decoded JWT payload:", payload);
+
+  const extractedId = payload?.id || payload?.userId;
+
+  if (!extractedId) {
+    setErrorMessage("User ID missing in token");
+  } else {
+    setUserId(extractedId);
+    setToken(storedToken);
+  }
+
+  setIsLoadingUser(false);
+}, []);
 
   //had trouble reading the cookie so we are splitting it up and reading it
   function parseJwt(token) {
@@ -69,119 +74,184 @@ function StripeForm({ email, cartItems, shippingAddress }) {
   }
 
   const handleSubmit = async (e) => {
-    //console.log("📦 Token state:", token);
-    console.log("👤 User ID state:", userId);
-
     e.preventDefault();
-    //console.warn("⚠️ handleSubmit ran with missing userId");
-
-    if (!userId) {
-      setErrorMessage("User authentication required");
-      return;
-    }
-
+    console.log("User ID state:", userId);
+  
     if (!stripe || !elements) {
       setErrorMessage("Stripe not initialized");
       return;
     }
-
+  
     if (!cardComplete) {
       setErrorMessage("Please complete your card details");
       return;
     }
-
-    if (!emailInput || !shippingAddress) {
+  
+    if (!emailInput || !shippingInfo.addressLine1 || !shippingInfo.city || !shippingInfo.state || !shippingInfo.zip) {
       setErrorMessage("Please fill in all required fields");
       return;
     }
-
+  
     if (cartItems.length === 0) {
       setErrorMessage("Your cart is empty");
       return;
     }
-
+  
     setStatus("processing");
 
+    // let orderId = null;
+    // let guestUserId = null;
+
+    // if (isGuest) {
+    //   console.log("Guest cartItems being sent:", cartItems);
+
+    //   const guestOrderResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/guest`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       email: emailInput.trim(),
+    //       name: shippingInfo.name,
+    //       address: `${shippingInfo.addressLine1}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zip}`,
+    //       items: cartItems
+    //         .filter(item => item.id && item.quantity)
+    //         .map(item => ({
+    //           product_id: item.id,
+    //           quantity: item.quantity
+    //         })),
+    //     }),
+    //   });
+    
+    //   const text = await guestOrderResponse.text();
+
+    //   let guestOrderData;
+    //   try {
+    //     guestOrderData = JSON.parse(text);
+    //   } catch (err) {
+    //     console.error("Backend did not return valid JSON:", text);
+    //     throw new Error("Guest order failed: server error");
+    //   }
+      
+    //   if (!guestOrderResponse.ok) {
+    //     throw new Error(guestOrderData.error || "Failed to create guest order");
+    //   }
+      
+    //   orderId = guestOrderData.orderId;
+    //   guestUserId = guestOrderData.user?.id;
+    //   console.log("Guest orderId:", orderId, "Guest userId:", guestUserId);
+
+    // }
+  
     try {
-      const res = await fetch("http://localhost:3000/api/payment", {
+      console.log("Final Payload:", {
+        userId,
+        cartItems,
+        shippingInfo,
+      });      
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: token ? `Bearer ${token}` : "",
         },
+    
         body: JSON.stringify({
           userId: userId,
-          email: emailInput,
           cartItems,
-          shippingAddress,
+          // orderId,
+          shippingInfo: {
+            ...shippingInfo,
+            email: emailInput.trim(),
+          }
         }),
+        
       });
-
-      const { clientSecret, error: backendError, orderId } = await res.json();
-
+  
+      const { clientSecret, error: backendError, orderId: confirmedOrderId } = await res.json();
+  
       if (backendError) {
         throw new Error(backendError);
       }
-
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              email: emailInput,
-              address: {
-                line1: shippingAddress,
-              },
+  
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            email: emailInput,
+            address: {
+              line1: shippingInfo.addressLine1,
+              line2: shippingInfo.addressLine2 || undefined,
+              city: shippingInfo.city,
+              state: shippingInfo.state,
+              postal_code: shippingInfo.zip,
             },
+            name: shippingInfo.name,
+            phone: shippingInfo.phone || undefined,
           },
-          receipt_email: emailInput,
-        }
-      );
-
+        },
+        receipt_email: emailInput,
+      });
+  
       if (error) {
         throw error;
       }
-
+  
       if (paymentIntent.status === "succeeded") {
         setStatus("succeeded");
-        try {
-          await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ userId }),
-          });
-          //Delete items from local cart after successful checkout. I was clearing it in the backend but not here as well.
-          localStorage.removeItem("cart");
 
+          // Log the payment in your DB
+        try {
+          await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment/confirm`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              order_id: confirmedOrderId,
+              amount: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+              billing_name: shippingInfo.name,
+              billing_address: shippingInfo.addressLine1 || "Unknown",
+            }),
+          });
+        } catch (err) {
+          console.error("Failed to save payment to backend:", err);
+        }
+
+        try {
+          if (!userId) {
+            // Guest: clear guest cart
+            clearGuestCart();
+          } else {
+            await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ userId }),
+            });
+          }
+          localStorage.removeItem("cart");
+  
           navigate("/order-confirmation", {
             state: {
               orderDetails: {
                 cartItems: cartItems,
-                shippingAddress: shippingAddress,
-                orderNumber: orderId,
-                total: cartItems.reduce(
-                  (total, item) => total + item.price * item.quantity,
-                  0
-                ),
+                shippingAddress: shippingInfo,
+                orderNumber: confirmedOrderId,
+                total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
                 email: emailInput,
               },
             },
           });
         } catch (clearErr) {
-          console.error("⚠️ Cart clear failed:", clearErr);
+          console.error("Cart clear failed:", clearErr);
         }
-        // Rediredt to order conf page goes here
       }
     } catch (err) {
-      console.error("❌ Payment error:", err);
+      console.error("Payment error:", err);
       setStatus("error");
       setErrorMessage(err.message || "Payment failed. Please try again.");
     }
   };
+  
 
   const handleCardChange = (event) => {
     setCardComplete(event.complete);
@@ -189,9 +259,7 @@ function StripeForm({ email, cartItems, shippingAddress }) {
   };
 
   if (!stripe || !elements) {
-    return (
-      <div className={styles.loadingMessage}>Loading payment system...</div>
-    );
+    return <div className={styles.loadingMessage}>Loading payment system...</div>;
   }
 
   return (
@@ -203,40 +271,44 @@ function StripeForm({ email, cartItems, shippingAddress }) {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              required
-              disabled={status === "processing"}
-              className={styles.input}
-            />
-          </div>
+          {isGuest ? (
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.label}>Email</label>
+              <input
+                id="email"
+                type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                required
+                className={styles.input}
+              />
+            </div>
+          ) : (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Email</label>
+              <div className={styles.disabledField}>
+                {emailInput?.trim() || shippingInfo?.email?.trim() || "Loading..."}
+              </div>
+            </div>
+          )}
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Card Details</label>
-            <div className="stripe-element-container">
-              <CardElement
-                className="stripe-element-card"
-                onChange={handleCardChange}
-              />
+            <div className='stripe-element-container'>
+              <CardElement className='stripe-element-card' onChange={handleCardChange} />
             </div>
           </div>
 
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}
 
           <button
-            type="submit"
-            disabled={!stripe || status === "processing" || !cardComplete}
-            className={styles.button}
-          >
-            {status === "processing" ? "Processing..." : "Pay Now"}
-          </button>
+  type="submit"
+  disabled={!stripe || status === "processing" || !cardComplete}
+  className={`pay-button ${styles.button}`}
+>
+  {status === "processing" ? "Processing..." : "Pay Now"}
+</button>
+
         </form>
       )}
     </div>
@@ -244,17 +316,25 @@ function StripeForm({ email, cartItems, shippingAddress }) {
 }
 
 StripeForm.propTypes = {
-  email: PropTypes.string.isRequired,
   cartItems: PropTypes.arrayOf(
     PropTypes.shape({
-      product_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
+      product_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       price: PropTypes.number.isRequired,
       quantity: PropTypes.number.isRequired,
     })
   ).isRequired,
-  shippingAddress: PropTypes.string.isRequired,
+  shippingInfo: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    addressLine1: PropTypes.string.isRequired,
+    addressLine2: PropTypes.string,
+    city: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
+    zip: PropTypes.string.isRequired,
+    phone: PropTypes.string,
+  }).isRequired,
 };
+
 
 export default function PaymentForm(props) {
   return (
