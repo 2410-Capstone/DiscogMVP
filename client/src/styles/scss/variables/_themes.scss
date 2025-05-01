@@ -13,6 +13,7 @@ body[data-theme="light"] {
   --grid: black;
   --nav: white;
   --hover: grey;
+  --text-hover: #444;
   --admin-text-hover: #fafafa
   
 }
@@ -32,4 +33,7 @@ body[data-theme="dark"] {
   --accent-grad:linear-gradient(0deg, #c1cece, #6190a9);
   --nav:  rgba(0, 0, 0, 0.8);
   --admin-text-hover: black;
-}
+  --text-hover: white;
+  }
+  
+
