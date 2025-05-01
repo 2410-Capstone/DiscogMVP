@@ -1,7 +1,10 @@
+import React, { useState } from "react";
+
 const EditContactInfo = ({ currentEmail = "", onSave }) => {
   const [email, setEmail] = useState(currentEmail);
-  cont[(saving, setSaving)] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const confirmed = window.confirm("Are you sure you want to update your contact information?");
@@ -29,7 +32,7 @@ const EditContactInfo = ({ currentEmail = "", onSave }) => {
   return (
     <form className='edit-contact-info-form' onSubmit={handleSubmit}>
       <label>
-        Contact Information:
+        Change Email:
         <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
       </label>
       {error && <div className='error'>{error}</div>}
