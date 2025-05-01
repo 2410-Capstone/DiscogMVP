@@ -129,17 +129,20 @@ const Checkout = () => {
       </div>
       <div className="full-width-divider" />
 
-      <h2 className="checkout-subtitle">Where should we send your order?</h2>
+      <h2 className="checkout-subtitle">Where are we sending your order?</h2>
       {showSummary && (
   <div className="summary-overlay" onClick={() => setShowSummary(false)}>
     <div className="order-summary-panel" onClick={(e) => e.stopPropagation()}>
       <div className="summary-box">
-        <div className="summary-header">
-          <h3 className="summary-title">Order Summary</h3>
-          <span className="summary-items">
-            {cartItems.reduce((sum, item) => sum + item.quantity, 0)} item(s)
-          </span>
-        </div>
+      <div className="summary-header">
+  <h4 className="summary-title">Your Order Total</h4>
+  <div className="summary-items-row">
+    <span className="summary-items">{cartItems.length} item(s)</span>
+    <a href="/cart" className="edit-link">Edit bag</a>
+  </div>
+</div>
+
+
         <div className="summary-divider" />
         <div className="summary-line">
           <span>Items Subtotal</span>
@@ -263,15 +266,26 @@ const Checkout = () => {
       </button>
     </div>
   )}
-
-  {currentStep === "payment" && (
-    <section className="payment-info">
-      <h3>Payment Information</h3>
-      <div className="payment-form-wrapper">
-        <PaymentForm cartItems={cartItems} shippingInfo={shippingInfo} />
+{currentStep === "payment" && (
+  <section className="payment-info">
+    <h3>How do you want to pay?</h3>
+    <div className="payment-options">
+      <div className="payment-card selected">
+        <div className="label">Credit or Debit Card</div>
+        <div className="details">
+          Secure checkout powered by Stripe.<br />
+          Supports Visa, Mastercard, AMEX, and more.
+        </div>
+  
       </div>
-    </section>
-  )}
+      <div className="payment-form-wrapper">
+          <PaymentForm cartItems={cartItems} shippingInfo={shippingInfo} />
+        </div>
+    </div>
+  </section>
+)}
+
+
 </div>
     </div>
     </div>  

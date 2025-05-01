@@ -69,13 +69,14 @@
   padding: 0;
 }
 
-// .nav-logo:hover,
-// .lognav-logo:hover,
-// .product-nav-button:hover,
-// .back-to-products-button:hover {
-//   animation: double_flash 1.5s ease-in-out forwards;
-//   transform: scale(1.1);
-// }
+.nav-right .nav-item:hover,
+.nav-right .nav-button:hover,
+.nav-right .nav-button-search-icon:hover,
+.nav-right a:hover,
+.nav-right button:hover {
+  color: var(--text-hover); 
+}
+
 
 .profile-pic {
   width: 40px;

@@ -3,7 +3,7 @@
 @use "../variables/_other_theme_variables" as vars;
 
 .container {
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   font-family: vars.$font-stack;
 }
@@ -11,10 +11,10 @@
 .form {
   padding: math.div(vars.$spacing-unit * 1.5, 1);
   border: 1px solid vars.$border-color;
-  border-radius: vars.$border-radius * 2;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
-  gap: math.div(vars.$spacing-unit * 2, 1);
+  // gap: math.div(vars.$spacing-unit * 2, 1);
 }
 
 .formGroup {
@@ -38,6 +38,8 @@
     border-radius: vars.$border-radius;
     font-size: vars.$font-size-base;
     transition: border-color 0.3s ease;
+    background-color: white;
+    color: black;
 
     &:focus {
       outline: none;
