@@ -110,7 +110,7 @@ const Account = ({ user }) => {
               <div className='settings-block'>
                 <h4>Shipping Address</h4>
                 <p>{user.address}</p>
-                <Link to='#'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Contact Info</h4>
@@ -119,12 +119,12 @@ const Account = ({ user }) => {
                   <br />
                   {user.phone}
                 </p>
-                <Link to='#'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Billing</h4>
                 <p>{user.billing}</p>
-                <Link to='#'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Settings</h4>

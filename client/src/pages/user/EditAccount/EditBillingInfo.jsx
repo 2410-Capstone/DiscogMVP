@@ -54,11 +54,11 @@ const EditBillingInfo = ({ onBillingUpdate }) => {
       <form className='edit-billing-info-form' onSubmit={handleSubmit}>
         <div>
           <label>Name on Card:</label>
-          <input type='text' value={billingName} onChange={(e) => setBillingName(e.target.value)} required />
+          <input type='text' value={billingName} onChange={(e) => setBillingName(e.target.value)} />
         </div>
         <div>
           <label>Billing Address:</label>
-          <input type='text' value={billingAddress} onChange={(e) => setBillingAddress(e.target.value)} required />
+          <input type='text' value={billingAddress} onChange={(e) => setBillingAddress(e.target.value)} />
         </div>
         <div>
           <label>Phone Number:</label>
