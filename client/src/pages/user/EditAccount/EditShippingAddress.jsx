@@ -16,7 +16,7 @@ const EditShippingAddress = ({ currentAddress = "", onSave }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // token from auth context or localStorage
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ address }),
       });
