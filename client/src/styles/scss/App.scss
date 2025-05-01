@@ -35,3 +35,7 @@
 @use "./admin_components/inventory";
 @use "./user_components/user_orders";
 @use "./global_components/filterBar";
+@use "./user_components/edit_contact_info";
+@use "./user_components/edit_address";
+@use "./user_components/edit_billing_info";
+@use "./user_components/manage_account";

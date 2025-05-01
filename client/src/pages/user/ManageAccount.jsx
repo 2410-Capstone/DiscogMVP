@@ -7,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const ManageAccount = () => (
-  <div>
+  <div className='manage-account-container'>
     <h2>Manage Account</h2>
     <EditAddress />
     <EditContactInfo />

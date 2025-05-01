@@ -51,7 +51,7 @@ const EditBillingInfo = ({ onBillingUpdate }) => {
   return (
     <div>
       <h2>Edit Billing Information</h2>
-      <form onSubmit={handleSubmit}>
+      <form className='edit-billing-info-form' onSubmit={handleSubmit}>
         <div>
           <label>Name on Card:</label>
           <input type='text' value={billingName} onChange={(e) => setBillingName(e.target.value)} required />
