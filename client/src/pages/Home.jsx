@@ -144,62 +144,115 @@ const ItemList = () => {
   useEffect(() => {
     console.log(items.map((p) => p.genre));
   }, [items]);
-  return (
-    <main className='home-page'>
-      <header className='home-header'>
-        <h1 className='hero-title'>Choose your album</h1>
-        <br></br>
-        <FilterBar
-          genres={genres}
-          genreFilter={genreFilter}
-          onFilterClick={handleFilterClick}
-          onAllClick={handleAllGenresClick}
-        />
-        <div className='sort-dropdown'>
-          <label htmlFor='sortOrder'>Sort by: </label>
-          <select id='sortOrder' value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-            <option value='title'>Title (A–Z)</option>
-            <option value='asc'>Price: Low to High</option>
-            <option value='desc'>Price: High to Low</option>
-          </select>
+
+
+
+
+    return (
+      <main className="home-page">
+        <div className="home-content">
+          <header className="home-header">
+          <div class="hero-title animate-on-load">Choose your album</div>
+
+    
+            <FilterBar
+              genres={genres}
+              genreFilter={genreFilter}
+              onFilterClick={handleFilterClick}
+              onAllClick={handleAllGenresClick}
+            />
+
+          </header>
+          <div className="sort-dropdown-wrapper">
+  <div className="sort-dropdown">
+    <label htmlFor="sortOrder">Sort by: </label>
+    <select
+      id="sortOrder"
+      value={sortOrder}
+      onChange={(e) => setSortOrder(e.target.value)}
+    >
+      <option value="title">Title (A–Z)</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+</div>
+    
+          <section className="product-section">
+            {loading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p className="error">{error}</p>
+            ) : items.length ? (
+              <>
+  {genreFilter.length === 0 && sortOrder === "title" && (
+
+                <section className="focus-and-featured-section">
+                  <div className="scroll-grid-section">
+                    <h2 className="section-heading">Featured Picks</h2>
+                    <div className="scroll-grid">
+                      {items.slice(0, 10).map((item) => (
+                        <ProductCard
+                          key={`featured-${item.id}`}
+                          item={item}
+                          handleDetailsClick={handleDetailsClick}
+                          handleAddToCart={handleAddToCart}
+                        />
+                      ))}
+                    </div>
+                  </div>
+    
+                  <div className="scroll-grid-section">
+                    <h2 className="section-heading">Latest Additions</h2>
+                    <div className="scroll-grid">
+                      {items.slice(10, 20).map((item) => (
+                        <ProductCard
+                          key={`latest-${item.id}`}
+                          item={item}
+                          handleDetailsClick={handleDetailsClick}
+                          handleAddToCart={handleAddToCart}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+
+
+<h2 className="section-heading">Browse</h2>
+                <div className="product-grid">
+                  {items.map((item) => (
+                    <ProductCard
+                      key={item.id}
+                      item={item}
+                      handleDetailsClick={handleDetailsClick}
+                      handleAddToCart={handleAddToCart}
+                    />
+                  ))}
+                </div>
+    
+                <div className="pagination">
+                  <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                    Prev
+                  </button>
+                  <span>
+                    {page} of {Math.ceil(total / limit)}
+                  </span>
+                  <button
+                    disabled={page === Math.ceil(total / limit)}
+                    onClick={() => setPage(page + 1)}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p>No items found.</p>
+            )}
+          </section>
         </div>
-      </header>
-
-      <section className='product-section'>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p className='error'>{error}</p>
-        ) : items.length ? (
-          <>
-            <div className='product-grid'>
-              {items.map((item) => (
-                <ProductCard
-                  key={item.id}
-                  item={item}
-                  handleDetailsClick={handleDetailsClick}
-                  handleAddToCart={handleAddToCart}
-                />
-              ))}
-            </div>
-            <div className='pagination'>
-              <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-                Prev
-              </button>
-              <span>
-                Page {page} of {Math.ceil(total / limit)}
-              </span>
-              <button disabled={page === Math.ceil(total / limit)} onClick={() => setPage(page + 1)}>
-                Next
-              </button>
-            </div>
-          </>
-        ) : (
-          <p>No items found.</p>
-        )}
-      </section>
-    </main>
-  );
-};
-
-export default ItemList;
+      </main>
+    );
+  };
+  
+  export default ItemList;
