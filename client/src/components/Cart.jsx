@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DiscogsImage from './products/DiscogsImage';
+
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -126,7 +126,11 @@ const Cart = () => {
             cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
                 <div className="item-image">
-                  <DiscogsImage imageUrl={item.image_url} />
+                <img
+        src={`http://localhost:3000/public${item.image_url}`}
+        alt="Album Art"
+        className="card-image"
+      />
                 </div>
                 <div className="item-details">
                   <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>

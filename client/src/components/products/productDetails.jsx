@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
-import DiscogsImage from "./DiscogsImage";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -84,10 +84,11 @@ export default function ProductDetails() {
   return (
     <div className="product-details-page">
       <div className="featured-product-bg">
-        <DiscogsImage
-          imageUrl={product.image_url}
-          className="product-bg-image"
-        />
+      <img
+        src={`http://localhost:3000/public${product.image_url}`}
+        alt="Album Art"
+        className="card-image"
+      />
       </div>
 
       <button className="back-to-home-button" onClick={() => navigate("/home")}>
@@ -131,7 +132,7 @@ export default function ProductDetails() {
         onClick={() => handleDetailsClick(item.id)}
       >
         <img
-          src={item.image_url}
+          src={`http://localhost:3000/public${item.image_url}`}
           alt={item.title}
           className="related-card-image"
         />

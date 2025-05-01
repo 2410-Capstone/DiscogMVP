@@ -1,5 +1,5 @@
 import React from "react";
-import DiscogsImage from "./DiscogsImage";
+
 import MarketPrice from "./MarketPrice";
 
 const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
@@ -7,7 +7,11 @@ const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
 
   return (
     <div className="product-card" onClick={() => handleDetailsClick(id)}>
-      <DiscogsImage imageUrl={item.image_url} className="card-image" />
+      <img
+        src={`http://localhost:3000/public${item.image_url}`}
+        alt="Album Art"
+        className="card-image"
+      />
 
       <h3 className="card-title">{description || "Untitled"}</h3>
       <h3 className="card-artist">{artist || "Unknown Artist"}</h3>

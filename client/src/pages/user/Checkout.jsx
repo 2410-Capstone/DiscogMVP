@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PaymentForm from '../../components/paymentForm';
-import DiscogsImage from '../../components/products/DiscogsImage';
+
 
 const Checkout = () => {
   const { state } = useLocation();
