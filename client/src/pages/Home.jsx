@@ -44,7 +44,7 @@ const genres = [
   "Folk Rock",
 ];
 
-const ItemList = () => {
+const ItemList = ({ searchTerm = "" }) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -53,6 +53,7 @@ const ItemList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -144,6 +145,12 @@ const ItemList = () => {
   useEffect(() => {
     console.log(items.map((p) => p.genre));
   }, [items]);
+
+  const filteredProducts = items.filter(
+    (product) =>
+      (typeof product.artist === "string" && product.artist.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (typeof product.description === "string" && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
   return (
     <main className='home-page'>
       <header className='home-header'>
@@ -173,10 +180,10 @@ const ItemList = () => {
         ) : items.length ? (
           <>
             <div className='product-grid'>
-              {items.map((item) => (
+              {filteredProducts.map((product) => (
                 <ProductCard
-                  key={item.id}
-                  item={item}
+                  key={product.id}
+                  item={product}
                   handleDetailsClick={handleDetailsClick}
                   handleAddToCart={handleAddToCart}
                 />
