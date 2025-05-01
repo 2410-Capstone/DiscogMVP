@@ -22,13 +22,43 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
 
 const getOrderByUserId = async (user_id) => {
   try {
-    const { rows } = await pool.query(`SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`, [user_id]);
-    return rows;
+    const { rows: orders } = await pool.query(/*sql*/
+      `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
+      [user_id]
+    );
+
+    for (const order of orders) {
+      const { rows: items } = await pool.query(/*sql*/
+        `SELECT 
+          oi.product_id,
+          oi.quantity,
+          pr.artist,
+          pr.description,
+          pr.image_url,
+          pr.genre
+        FROM order_items oi
+        JOIN products pr ON oi.product_id = pr.id
+        WHERE oi.order_id = $1`,
+        [order.id]
+      );
+
+      order.items = items;
+
+      const { rows: [payment] } = await pool.query(/*sql*/`
+        SELECT payment_status FROM payments WHERE order_id = $1
+      `, [order.id]);
+    
+      order.payment_status = payment ? payment.payment_status : "unpaid";
+
+    }
+
+    return orders;
   } catch (error) {
-    console.error("Error fetching orders by user ID:", error);
+    console.error("Error fetching orders with items by user ID:", error);
     throw error;
   }
 };
+
 
 const getOrderById = async (order_id) => {
   try {

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 
 const AdminUserList = () => {
@@ -46,6 +48,7 @@ const AdminUserList = () => {
       if (!res.ok) throw new Error('Failed to delete user');
 
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+      toast.success("User deleted successfully");
     } catch (err) {
       setError(err.message);
     } finally {
