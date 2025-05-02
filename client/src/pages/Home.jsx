@@ -44,7 +44,7 @@ const genres = [
   "Folk Rock",
 ];
 
-const ItemList = () => {
+const ItemList = ({ searchTerm = "" }) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
