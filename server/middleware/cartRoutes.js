@@ -58,6 +58,41 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
+// Persist guest cart items after registration
+router.post('/sync', authenticateToken, async (req, res) => {
+  const { items } = req.body;
+  const userId = req.user.id;
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: 'No items to sync' });
+  }
+
+  try {
+    const cart = await getOrCreateCart(userId);
+
+    for (const item of items) {
+      const productId = item.product_id || item.id;
+      const quantity = item.quantity;
+    
+      if (!productId || !quantity || quantity < 1) continue;
+    
+      await pool.query(/*sql*/ `
+        INSERT INTO cart_items (cart_id, product_id, quantity)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (cart_id, product_id)
+        DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity
+      `, [cart.id, productId, quantity]);
+    }
+    
+
+    res.status(200).json({ message: 'Cart synced successfully' });
+  } catch (err) {
+    console.error("Cart sync failed:", err.message);
+    res.status(500).json({ error: 'Cart sync failed' });
+  }
+});
+
+
  // PUT /cart/items/:id
  router.put('/items/:id', authenticateToken, async (req, res) => {
   const cart_item_id = req.params.id;
