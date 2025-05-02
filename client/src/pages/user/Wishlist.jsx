@@ -1,81 +1,199 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
-export default function Wishlist() {
-  const { wishlistId } = useParams(); 
+const Wishlist = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [wishlist, setWishlist] = useState(null);
   const [items, setItems] = useState([]);
-  const [productIdToAdd, setProductIdToAdd] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (wishlistId) {
-      fetchWishlist();
-    }
-  }, [wishlistId]);
+    const fetchWishlistData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const token = localStorage.getItem('token');
+        if (!user?.id || !token) {
+          navigate('/login');
+          return;
+        }
 
-  async function fetchWishlist() {
-    try {
-      const res = await axios.get(`http://localhost:3000/api/wishlists/${wishlistId}`);
-      setItems(res.data.items);
-    } catch (err) {
-      console.error('Error fetching wishlist:', err);
-    }
-  }
+        const [wishlistRes, itemsRes] = await Promise.all([
+          axios.get(`http://localhost:3000/api/wishlists/${id}`, {
+            headers: { 
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }),
+          axios.get(`http://localhost:3000/api/wishlists/${id}/items`, {
+            headers: { 
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          })
+        ]);
 
-  async function addProduct() {
+        if (wishlistRes.data.user_id !== user.id) {
+          throw new Error("You don't have permission to view this wishlist");
+        }
+
+        setWishlist(wishlistRes.data);
+        setItems(itemsRes.data);
+
+      } catch (err) {
+        console.error('Error:', {
+          message: err.message,
+          response: err.response?.data,
+          config: err.config
+        });
+        setError(err.response?.data?.error || err.message || 'Failed to load wishlist');
+        
+        if (err.response?.status === 401) {
+          navigate('/login');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWishlistData();
+  }, [id, user?.id, navigate]);
+
+  const handleShare = async () => {
     try {
-      await axios.post(`http://localhost:3000/api/wishlists/${wishlistId}/items`, {
-        productId: productIdToAdd,
+      const res = await axios.put(`/api/wishlists/${id}/share`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-      setProductIdToAdd('');
-      fetchWishlist(); 
+      setWishlist(res.data);
     } catch (err) {
-      console.error('Error adding product:', err);
+      setError("Failed to share wishlist");
     }
-  }
-
-  async function removeProduct(productId) {
+  };
+  
+  const handleUnshare = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/wishlists/${wishlistId}/items/${productId}`);
-      fetchWishlist();
+      const res = await axios.put(`/api/wishlists/${id}/unshare`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setWishlist(res.data);
     } catch (err) {
-      console.error('Error removing product:', err);
+      setError("Failed to make private");
     }
-  }
+  };
+
+  const handleAddItem = async (productId) => {
+    try {
+      await axios.post(`http://localhost:3000/api/wishlists/${id}/items`, 
+        { productId },
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}
+      );
+      const res = await axios.get(`http://localhost:3000/api/wishlists/${id}/items`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setItems(res.data);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to add item');
+    }
+  };
+
+  const handleRemoveItem = async (productId) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/wishlists/${id}/items/${productId}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setItems(items.filter(item => item.id !== productId));
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to remove item');
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="error">{error}</div>;
+  if (!wishlist) return <div>Wishlist not found</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">My Wishlist</h1>
-
-      <div className="flex gap-2 mb-6">
-        <input
-          type="text"
-          placeholder="Enter Product ID"
-          value={productIdToAdd}
-          onChange={(e) => setProductIdToAdd(e.target.value)}
-          className="border p-2 rounded w-64"
-        />
-        <button onClick={addProduct} className="bg-blue-600 text-white px-4 py-2 rounded">
-          Add
-        </button>
+    <div className="wishlist">
+      <div className="wishlist-header">
+        <h2>{wishlist.name}</h2>
+        <p className="wishlist-visibility">
+          {wishlist.is_public ? 'Public' : 'Private'} Wishlist
+        </p>
       </div>
 
-      <ul className="space-y-2">
-        {items.map((item) => (
-          <li
-            key={item.product_id}
-            className="flex justify-between items-center border-b pb-2"
-          >
-            <span>{item.product_name || `Product ID: ${item.product_id}`}</span>
-            <button
-              onClick={() => removeProduct(item.product_id)}
-              className="bg-red-500 text-white px-2 py-1 rounded"
+      {/* Sharing Controls */}
+      <div className="sharing-controls">
+        {wishlist.is_public ? (
+          <>
+            <div className="share-link">
+              <p>Shareable link:</p>
+              <input 
+                type="text" 
+                value={`${window.location.origin}/wishlists/share/${wishlist.share_id}`}
+                readOnly
+              />
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}/wishlists/share/${wishlist.share_id}`
+                  );
+                  alert('Link copied to clipboard!');
+                }}
+                className="btn-copy"
+              >
+                Copy Link
+              </button>
+            </div>
+            <button 
+              onClick={handleUnshare}
+              className="btn-unshare"
             >
-              Remove
+              Stop Sharing
             </button>
-          </li>
-        ))}
-      </ul>
+          </>
+        ) : (
+          <button 
+            onClick={handleShare}
+            className="btn-share"
+          >
+            Share This Wishlist
+          </button>
+        )}
+      </div>
+
+      {/* Wishlist Items */}
+      <div className="wishlist-items">
+        {items.length === 0 ? (
+          <p className="empty-message">No items in this wishlist yet.</p>
+        ) : (
+          <ul className="items-list">
+            {items.map(item => (
+              <li key={item.id} className="item-card">
+                <div className="item-info">
+                  <h3>{item.name}</h3>
+                  <p className="price">${item.price}</p>
+                  {item.description && (
+                    <p className="description">{item.description}</p>
+                  )}
+                </div>
+                <button 
+                  onClick={() => handleRemoveItem(item.id)}
+                  className="btn-remove"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
-}
+};
+
+export default Wishlist;

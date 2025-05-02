@@ -1,7 +1,11 @@
 node_modules
+.gitignore
 package-lock.json
 DS_Store
 .DS_Store
 .env
 .env.example
 .env.test
+/server/utils/public
+/public
+/server/public

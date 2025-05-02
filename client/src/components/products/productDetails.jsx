@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
-import DiscogsImage from "./DiscogsImage";
+import AddToWishlistButton from "../AddToWishlistButton";
+
 import { toast } from "react-toastify";
 import { getGuestCart, setGuestCart } from "../../utils/cart";
 import "react-toastify/dist/ReactToastify.css";
@@ -103,7 +104,11 @@ export default function ProductDetails() {
   return (
     <div className='product-details-page'>
       <div className='featured-product-bg'>
-        <DiscogsImage imageUrl={product.image_url} className='product-bg-image' />
+      <img
+        src={`http://localhost:3000/public${product.image_url}`}
+        alt="Album Art"
+        className="card-image"
+      />
       </div>
 
       <button className='back-to-home-button' onClick={() => navigate("/home")}>
@@ -115,6 +120,7 @@ export default function ProductDetails() {
       <div className='product-overlay'>
         <h1 className='product-title'>{product.title}</h1>
         <p className='product-artist'>{product.artist}</p>
+        <AddToWishlistButton productId={product.id} />
         <p className='product-description'>{product.description}</p>
         <div className='product-artist-details'>
           <p>{product.artist_details}</p>

@@ -86,6 +86,65 @@ const getProductsInWishlist = async ({ wishlist_id }) => {
   }
 };
 
+
+const getUserWishlists = async (user_id) => {
+  try {
+    console.log("Querying wishlists for user:", user_id);
+    const { rows } = await pool.query(`
+      SELECT w.*, 
+        (SELECT COUNT(*) FROM wishlist_items WHERE wishlist_id = w.id) as items_count
+      FROM wishlists w
+      WHERE w.user_id = $1::uuid
+    `, [user_id]);
+    
+    console.log("Query results:", rows);
+    return rows;
+    
+  } catch (error) {
+    console.error("Database error:", {
+      message: error.message,
+      query: error.query
+    });
+    throw error;
+  }
+};
+
+const updateWishlist = async ({ id, name, is_public }) => {
+  try {
+    const { rows: [wishlist] } = await pool.query(`
+      UPDATE wishlists 
+      SET name = $1, is_public = $2 
+      WHERE id = $3
+      RETURNING *;
+    `, [name, is_public, id]);
+    return wishlist;
+  } catch (error) {
+    console.error("Error updating wishlist:", error);
+    throw error;
+  }
+};
+
+const deleteWishlist = async (id) => {
+  try {
+    await pool.query('DELETE FROM wishlists WHERE id = $1;', [id]);
+  } catch (error) {
+    console.error("Error deleting wishlist:", error);
+    throw error;
+  }
+};
+
+const isProductInWishlist = async ({ wishlist_id, product_id }) => {
+  try {
+    const { rows: [item] } = await pool.query(`
+      SELECT 1 FROM wishlist_items 
+      WHERE wishlist_id = $1 AND product_id = $2;
+    `, [wishlist_id, product_id]);
+    return !!item;
+  } catch (error) {
+    console.error("Error checking product in wishlist:", error);
+    throw error;
+  }
+};
 module.exports = {
   createWishlist,
   getWishlistById,
@@ -93,4 +152,8 @@ module.exports = {
   addProductToWishlist,
   removeProductFromWishlist,
   getProductsInWishlist,
+  getUserWishlists,
+  updateWishlist,
+  deleteWishlist,
+  isProductInWishlist
 };

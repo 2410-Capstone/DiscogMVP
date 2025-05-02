@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import DiscogsImage from "./products/DiscogsImage";
 import { getGuestCart, setGuestCart, clearGuestCart } from "../utils/cart";
 import { Link } from "react-router-dom"; 
 
@@ -191,7 +190,13 @@ const Cart = () => {
           ) : (
             cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
-                <div className="item-image"><DiscogsImage imageUrl={item.image_url} /></div>
+                <div className="item-image">
+                <img
+        src={`http://localhost:3000/public${item.image_url}`}
+        alt="Album Art"
+        className="card-image"
+      />
+                </div>
                 <div className="item-details">
                   <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
                   <p>Format: Vinyl</p>
@@ -275,7 +280,7 @@ const Cart = () => {
             <div className="products-grid">
               {products.slice(0, 10).map((item) => (
                 <Link key={item.id} to={`/home/${item.id}`} className="related-product-card" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-                  <img src={item.image_url} alt={item.title} className="related-card-image" />
+                  <img src={`http://localhost:3000/public${item.image_url}`} alt={item.title} className="related-card-image" />
                   <div className="related-card-info">
                     <p className="related-card-artist">{item.category || "Vinyl"}</p>
                     <h3 className="related-card-title">{item.title}</h3>

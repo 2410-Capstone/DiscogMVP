@@ -57,7 +57,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/wishlists', wishlistRoutes);
 
 //images will be served from here
-app.use("/public/images", express.static(path.join(__dirname, '..', 'public', 'images')));
+app.use("/public/images", express.static(path.join(__dirname, '..', 'public/images')));
 
 
 

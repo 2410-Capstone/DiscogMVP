@@ -1,17 +1,25 @@
 import React from "react";
-import DiscogsImage from "./DiscogsImage";
+
+import MarketPrice from "./MarketPrice";
 
 const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
   const { id, description, artist, genre, price, image_url } = item;
 
   return (
     <div className="product-card" onClick={() => handleDetailsClick(id)}>
-      <DiscogsImage imageUrl={image_url} className="card-image" />
+
+      <img
+        src={`http://localhost:3000/public${item.image_url}`}
+        alt="Album Art"
+        className="card-image"
+      />
+
       
      
       <div className="card-title">{description || "Untitled"}</div>
        <div className="card-artist">{artist || "Unknown Artist"}</div>
       <div className="card-genre">{genre || "Unknown Genre"}</div>
+
 
       <div className="card-footer">
       <div className="market-price">

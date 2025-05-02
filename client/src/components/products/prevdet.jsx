@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import DiscogsImage from "./DiscogsImage"; 
+
 
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
@@ -25,7 +25,11 @@ export default function ProductDetails() {
   
   return (
     <div className="product-details-page">
-      <DiscogsImage releaseId={item.id} className="product-image" />
+            <img
+        src={`http://localhost:3000/public${item.id}`}
+        alt="Album Art"
+        className="card-image"
+      />
       <div className="product-info">
         <h3>{item.title || "Untitled"}</h3>
         <p>{item.description || "No description available."}</p>

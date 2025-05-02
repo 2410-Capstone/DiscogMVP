@@ -1,30 +1,34 @@
-// This script fetches images from the Discogs API for each product in the database
 require('dotenv').config({ path: '../../.env' });
 
 const { Pool } = require('pg');
 const fetch = require('node-fetch');
+const fs = require('fs');
+const path = require('path');
+
+const imagesDir = path.resolve(__dirname, '../..', 'public/images');
+if (!fs.existsSync(imagesDir)) {
+  fs.mkdirSync(imagesDir, { recursive: true });
+}
+
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Fallback in case .env fails to load (it failed for me)
-const DATABASE_URL = process.env.DATABASE_URL || 'postgres://localhost:5432/music_capstone_db';
-const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN || 'your_fallback_token';
+const DATABASE_URL = process.env.DATABASE_URL || 'postgres://postgres:admin@localhost:5432/music_capstone_db';
+const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN || 'DISCOGS_KEY';
 
 // Initialize DB pool
 const pool = new Pool({ connectionString: DATABASE_URL });
 
 (async () => {
   try {
-    // Debug: confirm which DB you're using
     const currentDb = await pool.query('SELECT current_database()');
     console.log('Connected to DB:', currentDb.rows[0].current_database);
 
-    // Confirm schema includes release_id
     const schemaRes = await pool.query(`
       SELECT column_name 
       FROM information_schema.columns 
       WHERE table_name = 'products' AND table_schema = 'public';
     `);
-    
+
     const productColumns = schemaRes.rows.map(row => row.column_name);
     console.log('Columns in products table:', productColumns);
 
@@ -32,17 +36,16 @@ const pool = new Pool({ connectionString: DATABASE_URL });
       throw new Error("'release_id' column is missing from 'products' table");
     }
 
-    // Fetch products
     const { rows: products } = await pool.query('SELECT id, release_id FROM products');
 
     for (const product of products) {
       const { id, release_id } = product;
-    
+
       if (!release_id || isNaN(release_id)) {
         console.log(`⏭Skipping product ${id} — invalid release_id:`, release_id);
         continue;
       }
-    
+
       try {
         const res = await fetch(`https://api.discogs.com/releases/${release_id}`, {
           headers: {
@@ -50,32 +53,60 @@ const pool = new Pool({ connectionString: DATABASE_URL });
             'User-Agent': 'DiscogMVP',
           },
         });
-    
+
         if (!res.ok) {
           console.warn(`Failed fetch for ${release_id}: ${res.status}`);
           continue;
         }
-    
+
         const data = await res.json();
         const imageUrl = data.images?.[0]?.uri;
-    
+
         if (imageUrl) {
+          
+          const imageRes = await fetch(imageUrl, {
+            headers: {
+              'User-Agent': 'DiscogMVP',
+            }
+          });
+          if (!imageRes.ok) {
+            console.warn(`Failed to download image for product ${id}`);
+            continue;
+          }
+
+          const buffer = await imageRes.buffer();
+
+          
+          const contentType = imageRes.headers.get('content-type');
+          let extension = '.jpg';
+          if (contentType === 'image/png') {
+            extension = '.png';
+          }
+
+          
+          const savePath = path.join(imagesDir, `product-${id}${extension}`);
+          fs.writeFileSync(savePath, buffer);
+          console.log(`✅ Saved image for product ${id} to ${savePath}`);
+
+          
+          const localPath = `/images/product-${id}${extension}`;
           await pool.query(
             'UPDATE products SET image_url = $1 WHERE id = $2',
-            [imageUrl, id]
+            [localPath, id]
           );
-          console.log(`Updated image for product ${id} (release ${release_id})`);
+
+          console.log(`🔄 Updated DB for product ${id}`);
         } else {
-          console.log(`No image for product ${id} (release ${release_id})`);
+          console.log(`No image found for product ${id} (release ${release_id})`);
         }
       } catch (err) {
-        console.error(`Error processing release_id ${release_id}:`, err.message);
+        console.error(`❌ Error processing release_id ${release_id}:`, err.message);
       }
-    
-      await sleep(1000); // wait 1 second to avoid 429 rate limit
-    }    
 
-    console.log('Finished updating product images.');
+      await sleep(1000); 
+    }
+
+    console.log('🎉 Finished updating product images.');
     process.exit();
   } catch (err) {
     console.error('Unexpected error:', err.message);
