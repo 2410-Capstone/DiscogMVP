@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import AddToWishlistButton from "../AddToWishlistButton";
 
 import { toast } from "react-toastify";
 import { getGuestCart, setGuestCart } from "../../utils/cart";
@@ -119,6 +120,7 @@ export default function ProductDetails() {
       <div className='product-overlay'>
         <h1 className='product-title'>{product.title}</h1>
         <p className='product-artist'>{product.artist}</p>
+        <AddToWishlistButton productId={product.id} />
         <p className='product-description'>{product.description}</p>
         <div className='product-artist-details'>
           <p>{product.artist_details}</p>

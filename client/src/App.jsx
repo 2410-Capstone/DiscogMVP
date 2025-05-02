@@ -22,7 +22,7 @@ import ProductDetails from "./components/products/productDetails";
 import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";
-import Checkout from "./pages/User/Checkout";
+import Checkout from "./pages/user/Checkout";
 
 import GuestOrderLookup from "./pages/user/GuestOrderLookup";
 import UserOrders from "./pages/User/UserOrders";
@@ -37,6 +37,10 @@ import OrderConfirmation from "./pages/user/OrderConfirmation";
 import EditProduct from "./pages/Admin/EditProduct";
 import AddProduct from "./pages/Admin/AddProduct";
 import Wishlist from "./pages/user/Wishlist";
+import WishlistsPage from "./components/WishlistsPage";
+import WishlistShare from "./components/wishlistShare";
+import CreateWishlist from "./components/CreateWishlist";
+import PublicWishlistPage from "./pages/user/PublicWishlistPage";
 
 function App() {
   const location = useLocation();
@@ -135,7 +139,23 @@ function App() {
             element={isAuthenticated ? <ManageAccount user={user} /> : <Navigate to='/login' />}
           />
 
-          <Route path='wishlist/:wishlistId' element={<Wishlist />} />
+
+          <Route 
+            path="/wishlists" 
+            element={isAuthenticated ? <WishlistsPage /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/wishlists/new" 
+            element={isAuthenticated ? <CreateWishlist /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/wishlists/:id" 
+            element={isAuthenticated ? <Wishlist /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/wishlists/share/:shareId" 
+            element={<PublicWishlistPage />}  // Public view doesn't require auth
+          />
 
           <Route path='/guest-order-lookup' element={<GuestOrderLookup />} />
           <Route path='/cart' element={<Cart />} />
