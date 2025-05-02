@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FullSearchResults from "./components/FullSearchResults.jsx";
+
 
 import Welcome from "./pages/Welcome";
 import ItemList from "./pages/Home";
@@ -51,6 +53,22 @@ function App() {
   // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [genreFilter, setGenreFilter] = useState([]);
+  const [allItems, setAllItems] = useState([]);
+
+useEffect(() => {
+  const fetchAllItems = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?limit=999`);
+      const data = await res.json();
+      setAllItems(data.products || []);
+    } catch (err) {
+      console.error("Failed to load products for global search:", err);
+    }
+  };
+
+  fetchAllItems();
+}, []);
+
 
   // useEffect(() => {
   //   const storedToken = localStorage.getItem("token");
@@ -112,13 +130,13 @@ function App() {
   return (
     <>
       {!isAdminRoute && (
-        <Navbar
-          isAuthenticated={isAuthenticated}
-          // setUser={setUser}
-          // setToken={setToken}
-          onSearch={handleSearch}
-          user={user}
-        />
+    <Navbar
+    isAuthenticated={isAuthenticated}
+    user={user}
+    onSearch={handleSearch}
+    allItems={allItems}
+  />
+  
       )}
 
       <div className='page-content'>
@@ -129,6 +147,10 @@ function App() {
             path='/home'
             element={<ItemList searchTerm={searchTerm} genreFilter={genreFilter} setGenreFilter={setGenreFilter} />}
           />
+        <Route path="/search" element={<FullSearchResults allItems={allItems} />} />
+
+
+
           <Route path='/home/:productId' element={<ProductDetails />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
@@ -170,6 +192,8 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
+
+          
 
           {/* Admin routes using AdminLayout + permissions */}
           <Route
