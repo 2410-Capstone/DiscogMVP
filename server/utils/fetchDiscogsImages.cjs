@@ -1,9 +1,10 @@
-require('dotenv').config({ path: '../../.env' });
+// require('dotenv').config({ path: '../../.env' });
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const { Pool } = require('pg');
 const fetch = require('node-fetch');
 const fs = require('fs');
-const path = require('path');
 
 const imagesDir = path.resolve(__dirname, '../..', 'public/images');
 if (!fs.existsSync(imagesDir)) {
