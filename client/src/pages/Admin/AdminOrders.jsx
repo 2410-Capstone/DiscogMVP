@@ -60,6 +60,35 @@ const AdminOrders = () => {
   const toggleExpand = (orderId) => {
     setExpandedOrderId(prev => (prev === orderId ? null : orderId));
   };
+  
+  const cancelOrder = async (orderId) => {
+    const confirmed = window.confirm("Are you sure you want to cancel this order?");
+    if (!confirmed) return;
+  
+    try {
+      const res = await fetch(`/api/orders/${orderId}/cancel`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+  
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to cancel order');
+  
+      setOrders(prev =>
+        prev.map(order =>
+          order.order_id === orderId ? { ...order, order_status: 'cancelled' } : order
+        )
+      );
+      toast.success("Order cancelled!");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+  
+  
 
   if (error) return <div className="error-message">Error: {error}</div>;
   if (loading) return <div>Loading orders...</div>;
@@ -112,17 +141,42 @@ const AdminOrders = () => {
                 <td data-label="Date">{new Date(order.created_at).toLocaleString()}</td>
                 <td data-label="Payment">{order.payment_status || "N/A"}</td>
                 <td data-label="Status">
-                  <select
-                    value={order.order_status}
-                    onChange={e => handleStatusChange(order.order_id, e.target.value)}
-                    onClick={(e) => e.stopPropagation()} // Prevent row click when changing select
-                  >
-                    <option value="created">Created</option>
-                    <option value="processing">Processing</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                  </select>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <select
+                      value={order.order_status}
+                      onChange={e => handleStatusChange(order.order_id, e.target.value)}
+                      onClick={(e) => e.stopPropagation()} // Prevent row toggle on select
+                    >
+                      <option value="created">Created</option>
+                      <option value="processing">Processing</option>
+                      <option value="shipped">Shipped</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+
+                    {(order.order_status === 'created' || order.order_status === 'processing') && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          cancelOrder(order.order_id);
+                        }}
+                        className="cancel-btn"
+                        style={{
+                          marginTop: '2px',
+                          backgroundColor: '#555',
+                          color: '#fff',
+                          border: 'none',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
                 </td>
+
                 <td data-label="Tracking #">{order.tracking_number || "N/A"}</td>
                 <td data-label="Shipping Address">
                   {(() => {
