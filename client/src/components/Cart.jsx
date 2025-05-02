@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { useNavigate } from 'react-router-dom';
+import { getGuestCart, setGuestCart, clearGuestCart } from "../utils/cart";
 
 
 const Cart = () => {
