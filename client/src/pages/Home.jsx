@@ -44,19 +44,24 @@ const genres = [
   "Folk Rock",
 ];
 
-const ItemList = ({ searchTerm = "" }) => {
+const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [genreFilter, setGenreFilter] = useState([]);
+  // const [genreFilter, setGenreFilter] = useState([]);
   const [sortOrder, setSortOrder] = useState("title"); // default: A–Z
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(50);
+  const [limit] = useState(50);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
+
+  useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true);
       try {
         const params = new URLSearchParams();
         if (sortOrder !== "title") params.append("sort", sortOrder);
@@ -68,7 +73,7 @@ const ItemList = ({ searchTerm = "" }) => {
 
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
-        console.log(data); // Debugging line
+        // console.log(data); // Debugging line
         if (Array.isArray(data.products)) {
           setItems(data.products);
           setTotal(data.total || 0);
@@ -83,7 +88,7 @@ const ItemList = ({ searchTerm = "" }) => {
     };
 
     fetchItems();
-  }, [sortOrder, genreFilter, page, limit]);
+  }, [sortOrder, genreFilter, page, limit, searchTerm]);
 
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
@@ -181,7 +186,7 @@ const ItemList = ({ searchTerm = "" }) => {
             <p>Loading...</p>
           ) : error ? (
             <p className='error'>{error}</p>
-          ) : items.length ? (
+          ) : filteredItems.length ? (
             <>
               {genreFilter.length === 0 && sortOrder === "title" && (
                 <section className='focus-and-featured-section'>

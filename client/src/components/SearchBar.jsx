@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 //need to install lucide react
 
@@ -8,16 +8,16 @@ function SearchBar({ onSearch }) {
   const handleChange = (event) => {
     const newQuery = event.target.value;
     setQuery(newQuery);
-    onSearch(newQuery); 
+    onSearch(newQuery);
   };
 
   return (
     <input
-      type="text"
+      type='text'
       value={query}
       onChange={handleChange}
-      placeholder="Search products..."
-      className="search-bar"
+      placeholder='Search products...'
+      className='search-bar'
       autoFocus
     />
   );
