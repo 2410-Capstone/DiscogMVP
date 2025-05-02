@@ -73,7 +73,7 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
             <button className='theme-toggle-button' onClick={toggleTheme} aria-label='Toggle Theme'>
               {theme === "dark" ? "☀︎" : "☾"}
             </button>
-            <SearchBar onSearch={onSearch} />
+
             {isAuthenticated ? (
               <div className='account-dropdown' ref={profileRef}>
                 <img
@@ -120,6 +120,7 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
 
       {isSearchVisible && (
         <div className='dropdown show' onMouseLeave={() => setSearchVisible(false)}>
+          <SearchBar onSearch={onSearch} />
           <div className='dropdown-links'>
             {/* <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
             <Link to="/product-search" className="dropdown-link">Product Search</Link> */}
