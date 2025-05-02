@@ -61,6 +61,7 @@ const ItemList = ({ searchTerm = "" }) => {
         const params = new URLSearchParams();
         if (sortOrder !== "title") params.append("sort", sortOrder);
         if (genreFilter.length === 1) params.append("genre", genreFilter[0]);
+        if (searchTerm) params.append("search", searchTerm);
         params.append("page", page);
         params.append("limit", limit);
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`);
