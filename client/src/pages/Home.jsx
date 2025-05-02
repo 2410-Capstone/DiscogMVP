@@ -140,6 +140,12 @@ const ItemList = ({ searchTerm = "" }) => {
   const handleAllGenresClick = () => {
     setGenreFilter([]);
   };
+  const filteredItems = items.filter(
+    (item) =>
+      !searchTerm ||
+      (typeof item.artist === "string" && item.artist.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (typeof item.description === "string" && item.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   useEffect(() => {
     console.log(items.map((p) => p.genre));
@@ -181,7 +187,7 @@ const ItemList = ({ searchTerm = "" }) => {
                   <div className='scroll-grid-section'>
                     <h2 className='section-heading'>Featured Picks</h2>
                     <div className='scroll-grid'>
-                      {items.slice(0, 10).map((item) => (
+                      {filteredItems.slice(0, 10).map((item) => (
                         <ProductCard
                           key={`featured-${item.id}`}
                           item={item}
@@ -195,7 +201,7 @@ const ItemList = ({ searchTerm = "" }) => {
                   <div className='scroll-grid-section'>
                     <h2 className='section-heading'>Latest Additions</h2>
                     <div className='scroll-grid'>
-                      {items.slice(10, 20).map((item) => (
+                      {filteredItems.slice(10, 20).map((item) => (
                         <ProductCard
                           key={`latest-${item.id}`}
                           item={item}
@@ -210,7 +216,7 @@ const ItemList = ({ searchTerm = "" }) => {
 
               <h2 className='section-heading'>Browse</h2>
               <div className='product-grid'>
-                {items.map((item) => (
+                {filteredItems.map((item) => (
                   <ProductCard
                     key={item.id}
                     item={item}
