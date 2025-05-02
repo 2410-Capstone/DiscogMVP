@@ -6,50 +6,17 @@ import FilterBar from "../components/FilterBar";
 import ProductCard from "../components/products/ProductCard";
 
 const genres = [
-  "Industrial",
-  "Hard Rock",
-  "Romantic",
-  "Pop Punk",
-  "Contemporary R&B",
-  "Bossa Nova",
-  "Jazz",
-  "Pop Rock",
-  "Alternative Rock",
-  "Soft Rock",
-  "Indie Rock",
-  "Industrial Metal",
-  "Hard Bop",
-  "Funk",
-  "Electro",
-  "Jazz-Funk",
-  "Modal",
-  "P.Funk",
-  "Thrash",
-  "Nu Metal",
-  "Indie Pop",
-  "Synth-pop",
-  "Classical",
-  "Abstract",
-  "Grunge",
-  "Disco",
-  "Blues Rock",
-  "Post-Grunge",
-  "Soul",
-  "EBM",
-  "Prog Rock",
-  "Hip Hop",
-  "Art Rock",
-  "Baroque",
-  "Metalcore",
-  "Folk Rock",
+  "Industrial", "Hard Rock", "Romantic", "Pop Punk", "Contemporary R&B", "Bossa Nova", "Jazz", "Pop Rock",
+  "Alternative Rock", "Soft Rock", "Indie Rock", "Industrial Metal", "Hard Bop", "Funk", "Electro", "Jazz-Funk",
+  "Modal", "P.Funk", "Thrash", "Nu Metal", "Indie Pop", "Synth-pop", "Classical", "Abstract", "Grunge", "Disco",
+  "Blues Rock", "Post-Grunge", "Soul", "EBM", "Prog Rock", "Hip Hop", "Art Rock", "Baroque", "Metalcore", "Folk Rock"
 ];
 
 const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [genreFilter, setGenreFilter] = useState([]);
-  const [sortOrder, setSortOrder] = useState("title"); // default: A–Z
+  const [sortOrder, setSortOrder] = useState("title");
   const [page, setPage] = useState(1);
   const [limit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -69,11 +36,11 @@ const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
         if (searchTerm) params.append("search", searchTerm);
         params.append("page", page);
         params.append("limit", limit);
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`);
 
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`);
         if (!response.ok) throw new Error(`Error: ${response.status}`);
+
         const data = await response.json();
-        // console.log(data); // Debugging line
         if (Array.isArray(data.products)) {
           setItems(data.products);
           setTotal(data.total || 0);
@@ -99,11 +66,9 @@ const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
     if (!token) {
       let guestCart = getGuestCart();
       const existing = guestCart.find((it) => it.id === item.id);
-      if (existing) {
-        guestCart = guestCart.map((it) => (it.id === item.id ? { ...it, quantity: it.quantity + 1 } : it));
-      } else {
-        guestCart.push({ ...item, quantity: 1 });
-      }
+      guestCart = existing
+        ? guestCart.map((it) => (it.id === item.id ? { ...it, quantity: it.quantity + 1 } : it))
+        : [...guestCart, { ...item, quantity: 1 }];
       setGuestCart(guestCart);
       toast.success("Item added to cart!");
       return;
@@ -116,46 +81,37 @@ const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          product_id: item.id,
-          quantity: 1,
-        }),
+        body: JSON.stringify({ product_id: item.id, quantity: 1 }),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        console.error("Add to cart failed:", data);
         toast.error(data.error || "Could not add to cart.");
         return;
       }
 
       toast.success("Item added to cart!");
     } catch (err) {
-      console.error("Error adding to cart:", err);
       toast.error("Error adding item to cart.");
     }
   };
 
   const handleFilterClick = (genre) => {
-    if (genreFilter.includes(genre)) {
-      setGenreFilter(genreFilter.filter((g) => g !== genre));
-    } else {
-      setGenreFilter([genre]);
-    }
+    setGenreFilter(
+      genreFilter.includes(genre)
+        ? genreFilter.filter((g) => g !== genre)
+        : [genre]
+    );
   };
-  const handleAllGenresClick = () => {
-    setGenreFilter([]);
-  };
+
+  const handleAllGenresClick = () => setGenreFilter([]);
+
   const filteredItems = items.filter(
     (item) =>
       !searchTerm ||
       (typeof item.artist === "string" && item.artist.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (typeof item.description === "string" && item.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-
-  useEffect(() => {
-    console.log(items.map((p) => p.genre));
-  }, [items]);
 
   return (
     <main className='home-page'>
@@ -170,6 +126,7 @@ const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
             onAllClick={handleAllGenresClick}
           />
         </header>
+
         <div className='sort-dropdown-wrapper'>
           <div className='sort-dropdown'>
             <label htmlFor='sortOrder'>Sort by: </label>

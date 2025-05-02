@@ -1,0 +1,80 @@
+/* ====== FULL SEARCH PAGE ====== */
+
+.full-search-page {
+    padding-top: 6rem;
+    min-height: 100vh;
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+    animation: disney_fade_slide 0.8s ease-out forwards;
+  }
+  
+  .full-search-page h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+    background: var(--accent-grad);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: fadeIn 1.2s ease-out forwards;
+  }
+  
+  .full-search-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .full-search-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem 0;
+    animation: soft-fade-slide 0.9s ease-out forwards;
+    animation-delay: 0.2s;
+  
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .full-search-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .full-search-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px var(--shadow-color);
+  }
+  
+  .full-search-card img {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-bottom: 0.75rem;
+  }
+  
+  .full-search-card .title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  
+  .full-search-card .artist {
+    font-size: 0.9rem;
+    color: var(--text-muted, #888);
+  }
+  

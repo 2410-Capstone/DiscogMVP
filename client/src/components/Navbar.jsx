@@ -7,9 +7,12 @@ import { useTheme } from "../utils/useTheme";
 import SearchBar from "./SearchBar";
 import defaultProfilePic from "../assets/default-profile.png";
 
+// ...imports remain unchanged
+
 function Navbar({ isAuthenticated, onSearch, ...props }) {
   const navigate = useNavigate();
   const location = useLocation();
+  
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
@@ -51,14 +54,27 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
     }
   }, [isSearchVisible]);
 
+  useEffect(() => {
+    // Cleanup blur when navigating to another page
+    const content = document.querySelector(".page-content");
+    if (content) content.classList.remove("blurred");
+    document.body.style.overflow = "auto";
+  }, [location.pathname]);
+
+  const closeSearchImmediately = () => {
+    setSearchVisible(false);
+    setDropdownVisible(false);
+    const content = document.querySelector(".page-content");
+    if (content) content.classList.remove("blurred");
+    document.body.style.overflow = "auto";
+  };
+
   return (
     <>
       <nav className='navbar'>
         <div className='nav-container'>
           <div className='nav-left'>
-            <Link to='/home' className='nav-logo'>
-              DiscogMVP
-            </Link>
+            <Link to='/home' className='nav-logo'>DiscogMVP</Link>
           </div>
 
           <div className='nav-right'>
@@ -84,46 +100,44 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
                 />
                 {profileDropdownVisible && (
                   <div className='account-dropdown-menu'>
-                    <Link to='/account' className='dropdown-link'>
-                      Account
-                    </Link>
-                    <Link to='/account/orders' className='dropdown-link'>
-                      Order History
-                    </Link>
+                    <Link to='/account' className='dropdown-link'>Account</Link>
+                    <Link to='/account/orders' className='dropdown-link'>Order History</Link>
                     {user?.user_role === "admin" && (
-                      <Link to='/admin/dashboard' className='dropdown-link'>
-                        Admin Dashboard
-                      </Link>
+                      <Link to='/admin/dashboard' className='dropdown-link'>Admin Dashboard</Link>
                     )}
                     <button onClick={toggleTheme} className='dropdown-link'>
                       {theme === "dark" ? "Light Mode" : "Dark Mode"}
                     </button>
-                    <button onClick={handleLogout} className='dropdown-link logout-button'>
-                      Logout
-                    </button>
+                    <button onClick={handleLogout} className='dropdown-link logout-button'>Logout</button>
                   </div>
                 )}
               </div>
             ) : (
               <>
-                <Link to='/login' className='nav-button'>
-                  Login
-                </Link>
-                <Link to='/register' className='nav-button'>
-                  Register
-                </Link>
+                <Link to='/login' className='nav-button'>Login</Link>
+                <Link to='/register' className='nav-button'>Register</Link>
               </>
             )}
           </div>
         </div>
       </nav>
 
-      {isSearchVisible && (
-        <div className='dropdown show' onMouseLeave={() => setSearchVisible(false)}>
-          <SearchBar onSearch={onSearch} />
+{isSearchVisible && (
+  <div className='dropdown show'>
+    <SearchBar
+      onSearch={onSearch}
+      allItems={props.allItems || []}
+      onCloseSearch={closeSearchImmediately}
+    />
+  </div>
+)}
+
+
+
+      {isDropdownVisible && (
+        <div className='dropdown show'>
           <div className='dropdown-links'>
-            {/* <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
-            <Link to="/product-search" className="dropdown-link">Product Search</Link> */}
+            {/* Optional links */}
           </div>
         </div>
       )}

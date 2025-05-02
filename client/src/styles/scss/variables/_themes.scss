@@ -16,6 +16,7 @@ body[data-theme="light"] {
   --text-hover: #444;
   --admin-text-hover: #fafafa;
   --but: transparent;
+  --search: rgba(0, 0, 0, 0.08);
   
 }
 
@@ -32,10 +33,11 @@ body[data-theme="dark"] {
   --placeholder-color: rgba(255, 255, 255, 0.5);
   --grid: rgba(255, 255, 255, 0.5);
   --accent-grad:linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
-  --nav:  rgba(0, 0, 0, 0.8);
+  --nav:  black;
   --admin-text-hover: black;
   --text-hover: white;
-  --but:
+  --search: rgb(64, 64, 64);
+  --but: transparent
 }
   
 
