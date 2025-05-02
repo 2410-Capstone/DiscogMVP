@@ -1,69 +1,156 @@
 .product-card {
-  background: #f3f4f6;
-  border-radius: 6px;
-  padding: 1.5rem 1rem;
-  max-width: 320px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+
+  max-height: 520px;
+  overflow: hidden;
+}
+
+.product-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  justify-content: flex-start;
+  padding: 0.75rem 0;
+  background: transparent;
+  
+  height: 100%; // fill the grid cell
+  max-height: 520px;
 
   .card-image {
     width: 100%;
-    max-width: 220px;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 2px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
     margin-bottom: 0.75rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+   
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
+      transform: translateY(-2px);
+    }
   }
 
+
+  .card-title,
+  .card-artist,
+  .card-genre {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+    line-height: 1.2;
+    min-height: 1.2em; // ensures consistent vertical spacing
+  }
+  
+
+
   .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1d1d1f;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.1rem;
+    
   }
 
   .card-artist {
-    font-size: 0.9rem;
-    color: #444;
-    margin-bottom: 0.15rem;
+    font-size: 0.85rem;
+    color:var(--text-color);
+    font-weight: 400;
+    margin-bottom: 0;
   }
 
   .card-genre {
     font-size: 0.8rem;
-    color: #6e6e73;
+    color: var(--text-color);
     font-style: italic;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .market-price p {
     font-size: 1rem;
-    font-weight: 500;
-    color: #1b1b23;
-    margin-top: 0.5rem;
+    font-weight: 400;
+    color: var(--text-color);
+   
+    text-align: left; 
   }
 
-  .add-to-bag-button,
-  .details-button {
-    width: 100%;
-    margin-top: 0.25rem;
-    padding: 0.5rem 0.75rem;
-    font-weight: 500;
+  .card-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+
+  .add-to-bag-button {
+    all: unset;
     font-size: 0.95rem;
-    color: white;
-    background-color: #595252;
-    border: none;
-    border-radius: 6px;
+    font-weight: 500;
+    color: var(--text-color);
     cursor: pointer;
-    transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #655e5e;
+      text-decoration: underline;
     }
   }
 }
+
+
+
+
+
+
+//   .add-to-bag-button,
+//   .details-button {
+//     all: unset;
+//     font-weight: 300;
+//     color: var(--text-color);
+//     cursor: pointer;
+//     text-decoration: none;
+//     line-height: 1.3;
+
+//     &:hover {
+//       text-decoration: underline;
+//     }
+//   }
+// }
+
+// .card-footer {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-start;
+//   margin-top: 0;
+//   gap: rem;
+// }
+
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+.add-to-bag-button,
+.details-button {
+  all: unset;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.market-price p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+  text-align: right;
+}
+
+
+

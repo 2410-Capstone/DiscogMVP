@@ -119,7 +119,7 @@ function App() {
         <Routes>
           <Route path='*' element={<NotFound />} />
           <Route path='/' element={<Welcome />} />
-          <Route path='/home' element={<ItemList />} />
+          <Route path='/home' element={<ItemList searchTerm={searchTerm} />} />
           <Route path='/home/:productId' element={<ProductDetails />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
