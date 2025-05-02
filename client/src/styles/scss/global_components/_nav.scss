@@ -128,10 +128,7 @@
   padding: 8px;
   background: none;
   cursor: pointer;
-  transition:
-    background 0.3s,
-    transform 0.3s,
-    box-shadow 0.3s ease;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s ease;
   color: var(--text-color);
   border: 1px solid transparent;
 }
@@ -142,10 +139,7 @@
   padding: 8px;
   background: none;
   cursor: pointer;
-  transition:
-    background 0.3s,
-    transform 0.3s,
-    box-shadow 0.3s ease;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s ease;
   color: var(--text-color);
   border: 1px solid transparent;
 }
