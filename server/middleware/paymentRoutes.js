@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { createStripePaymentIntent, createPayment } = require("../db/payments");
+const pool = require("../db/pool");
+const authenticateToken = require("../middleware/authMiddleware");
+
 
 router.post("/", async (req, res) => {
   const { userId, cartItems, shippingInfo } = req.body;
@@ -62,5 +65,33 @@ router.post("/confirm", async (req, res) => {
     res.status(500).json({ error: "Failed to save payment" });
   }
 });
+
+router.get("/latest", authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.user;
+
+    const result = await pool.query(/*sql*/
+      `SELECT billing_name, billing_address
+       FROM payments
+       WHERE order_id IN (
+         SELECT id FROM orders WHERE user_id = $1
+       )
+       ORDER BY payment_date DESC
+       LIMIT 1`,
+      [userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "No billing info found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error fetching billing info:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 
 module.exports = router;

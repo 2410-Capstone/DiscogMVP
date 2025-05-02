@@ -55,6 +55,33 @@ useEffect(() => {
   setIsLoadingUser(false);
 }, []);
 
+useEffect(() => {
+  const maybeFillMissingBillingInfo = async () => {
+    if (!shippingInfo.name || !shippingInfo.addressLine1) {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (res.ok) {
+          const user = await res.json();
+          if (!shippingInfo.name) shippingInfo.name = user.name;
+          if (!shippingInfo.addressLine1) shippingInfo.addressLine1 = user.address;
+        }
+      } catch (err) {
+        console.error("Could not fetch fallback billing info:", err);
+      }
+    }
+  };
+
+  if (userId) {
+    maybeFillMissingBillingInfo();
+  }
+}, [userId]);
+
+
   //had trouble reading the cookie so we are splitting it up and reading it
   function parseJwt(token) {
     try {
@@ -200,6 +227,10 @@ useEffect(() => {
 
           // Log the payment in your DB
         try {
+          console.log("Sending to backend:", {
+            name: shippingInfo.name,
+            addressLine1: shippingInfo.addressLine1,
+          });          
           await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment/confirm`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -207,7 +238,8 @@ useEffect(() => {
               order_id: confirmedOrderId,
               amount: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
               billing_name: shippingInfo.name,
-              billing_address: shippingInfo.addressLine1 || "Unknown",
+              billing_address: `${shippingInfo.addressLine1}${shippingInfo.addressLine2 ? ", " + shippingInfo.addressLine2 : ""}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}`
+
             }),
           });
         } catch (err) {

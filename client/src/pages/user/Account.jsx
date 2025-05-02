@@ -5,13 +5,38 @@ const Account = ({ user }) => {
   const navigate = useNavigate();
   const [purchasedAlbums, setPurchasedAlbums] = useState([]);
   const [loadingAlbums, setLoadingAlbums] = useState(true);
+  const [billingInfo, setBillingInfo] = useState(null);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
       document.body.setAttribute("data-theme", storedTheme);
     }
-
+  }, []);
+  
+  useEffect(() => {
+    const fetchBillingInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("/api/payment/latest", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (res.ok) {
+          const data = await res.json();
+          setBillingInfo(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch billing info", err);
+      }
+    };
+  
+    fetchBillingInfo();
+  }, []);
+  
+  useEffect(() => {
     const fetchPurchasedAlbums = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -21,11 +46,11 @@ const Account = ({ user }) => {
             "Content-Type": "application/json",
           },
         });
-
+  
         if (!res.ok) {
           throw new Error("Failed to fetch purchased albums");
         }
-
+  
         const data = await res.json();
         setPurchasedAlbums(data);
       } catch (err) {
@@ -34,9 +59,10 @@ const Account = ({ user }) => {
         setLoadingAlbums(false);
       }
     };
-
+  
     fetchPurchasedAlbums();
   }, []);
+  
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -123,7 +149,16 @@ const Account = ({ user }) => {
               </div>
               <div className='settings-block'>
                 <h4>Billing</h4>
-                <p>{user.billing}</p>
+                <p>
+                {billingInfo?.billing_name && billingInfo?.billing_address ? (
+                  <>
+                    {billingInfo.billing_name}<br />
+                    {billingInfo.billing_address}
+                  </>
+                ) : (
+                  "No billing information available"
+                )}
+                </p>
                 <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
