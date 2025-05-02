@@ -111,9 +111,9 @@ function Navbar({ isAuthenticated, onSearch }) {
       {isSearchVisible && (
         <div className="dropdown show" onMouseLeave={() => setSearchVisible(false)}>
           <SearchBar onSearch={onSearch} />
-          <div className="dropdown-links">
-            <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
-            <Link to="/product-search" className="dropdown-link">Product Search</Link>
+          <div className='dropdown-links'>
+            {/* <Link to="/previously-viewed" className="dropdown-link">Previously Viewed</Link>
+            <Link to="/product-search" className="dropdown-link">Product Search</Link> */}
           </div>
         </div>
       )}
