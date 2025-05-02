@@ -50,6 +50,7 @@ function App() {
   // const [token, setToken] = useState(null);
   // const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [genreFilter, setGenreFilter] = useState([]);
 
   // useEffect(() => {
   //   const storedToken = localStorage.getItem("token");
@@ -103,6 +104,11 @@ function App() {
     return shouldRedirect ? <Navigate to='/login' replace /> : <div>Redirecting...</div>;
   };
 
+  const handleSearch = (query) => {
+    setSearchTerm(query);
+    setGenreFilter([]);
+  };
+
   return (
     <>
       {!isAdminRoute && (
@@ -110,7 +116,7 @@ function App() {
           isAuthenticated={isAuthenticated}
           // setUser={setUser}
           // setToken={setToken}
-          onSearch={setSearchTerm}
+          onSearch={handleSearch}
           user={user}
         />
       )}
@@ -119,7 +125,10 @@ function App() {
         <Routes>
           <Route path='*' element={<NotFound />} />
           <Route path='/' element={<Welcome />} />
-          <Route path='/home' element={<ItemList searchTerm={searchTerm} />} />
+          <Route
+            path='/home'
+            element={<ItemList searchTerm={searchTerm} genreFilter={genreFilter} setGenreFilter={setGenreFilter} />}
+          />
           <Route path='/home/:productId' element={<ProductDetails />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

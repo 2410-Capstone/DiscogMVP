@@ -44,30 +44,36 @@ const genres = [
   "Folk Rock",
 ];
 
-const ItemList = () => {
+const ItemList = ({ searchTerm = "", genreFilter, setGenreFilter }) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [genreFilter, setGenreFilter] = useState([]);
+  // const [genreFilter, setGenreFilter] = useState([]);
   const [sortOrder, setSortOrder] = useState("title"); // default: A–Z
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(50);
+  const [limit] = useState(50);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
+
+  useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true);
       try {
         const params = new URLSearchParams();
         if (sortOrder !== "title") params.append("sort", sortOrder);
         if (genreFilter.length === 1) params.append("genre", genreFilter[0]);
+        if (searchTerm) params.append("search", searchTerm);
         params.append("page", page);
         params.append("limit", limit);
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?${params.toString()}`);
 
         if (!response.ok) throw new Error(`Error: ${response.status}`);
         const data = await response.json();
-        console.log(data); // Debugging line
+        // console.log(data); // Debugging line
         if (Array.isArray(data.products)) {
           setItems(data.products);
           setTotal(data.total || 0);
@@ -82,7 +88,7 @@ const ItemList = () => {
     };
 
     fetchItems();
-  }, [sortOrder, genreFilter, page, limit]);
+  }, [sortOrder, genreFilter, page, limit, searchTerm]);
 
   const handleDetailsClick = (itemId) => {
     navigate(`/home/${itemId}`);
@@ -140,58 +146,54 @@ const ItemList = () => {
   const handleAllGenresClick = () => {
     setGenreFilter([]);
   };
+  const filteredItems = items.filter(
+    (item) =>
+      !searchTerm ||
+      (typeof item.artist === "string" && item.artist.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (typeof item.description === "string" && item.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   useEffect(() => {
     console.log(items.map((p) => p.genre));
   }, [items]);
 
+  return (
+    <main className='home-page'>
+      <div className='home-content'>
+        <header className='home-header'>
+          <div className='hero-title animate-on-load'>Choose your album</div>
 
+          <FilterBar
+            genres={genres}
+            genreFilter={genreFilter}
+            onFilterClick={handleFilterClick}
+            onAllClick={handleAllGenresClick}
+          />
+        </header>
+        <div className='sort-dropdown-wrapper'>
+          <div className='sort-dropdown'>
+            <label htmlFor='sortOrder'>Sort by: </label>
+            <select id='sortOrder' value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+              <option value='title'>Title (A–Z)</option>
+              <option value='asc'>Price: Low to High</option>
+              <option value='desc'>Price: High to Low</option>
+            </select>
+          </div>
+        </div>
 
-
-    return (
-      <main className="home-page">
-        <div className="home-content">
-          <header className="home-header">
-          <div class="hero-title animate-on-load">Choose your album</div>
-
-    
-            <FilterBar
-              genres={genres}
-              genreFilter={genreFilter}
-              onFilterClick={handleFilterClick}
-              onAllClick={handleAllGenresClick}
-            />
-
-          </header>
-          <div className="sort-dropdown-wrapper">
-  <div className="sort-dropdown">
-    <label htmlFor="sortOrder">Sort by: </label>
-    <select
-      id="sortOrder"
-      value={sortOrder}
-      onChange={(e) => setSortOrder(e.target.value)}
-    >
-      <option value="title">Title (A–Z)</option>
-      <option value="asc">Price: Low to High</option>
-      <option value="desc">Price: High to Low</option>
-    </select>
-  </div>
-</div>
-    
-          <section className="product-section">
-            {loading ? (
-              <p>Loading...</p>
-            ) : error ? (
-              <p className="error">{error}</p>
-            ) : items.length ? (
-              <>
-  {genreFilter.length === 0 && sortOrder === "title" && (
-
-                <section className="focus-and-featured-section">
-                  <div className="scroll-grid-section">
-                    <h2 className="section-heading">Featured Picks</h2>
-                    <div className="scroll-grid">
-                      {items.slice(0, 10).map((item) => (
+        <section className='product-section'>
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p className='error'>{error}</p>
+          ) : filteredItems.length ? (
+            <>
+              {genreFilter.length === 0 && sortOrder === "title" && (
+                <section className='focus-and-featured-section'>
+                  <div className='scroll-grid-section'>
+                    <h2 className='section-heading'>Featured Picks</h2>
+                    <div className='scroll-grid'>
+                      {filteredItems.slice(0, 10).map((item) => (
                         <ProductCard
                           key={`featured-${item.id}`}
                           item={item}
@@ -201,11 +203,11 @@ const ItemList = () => {
                       ))}
                     </div>
                   </div>
-    
-                  <div className="scroll-grid-section">
-                    <h2 className="section-heading">Latest Additions</h2>
-                    <div className="scroll-grid">
-                      {items.slice(10, 20).map((item) => (
+
+                  <div className='scroll-grid-section'>
+                    <h2 className='section-heading'>Latest Additions</h2>
+                    <div className='scroll-grid'>
+                      {filteredItems.slice(10, 20).map((item) => (
                         <ProductCard
                           key={`latest-${item.id}`}
                           item={item}
@@ -218,41 +220,37 @@ const ItemList = () => {
                 </section>
               )}
 
+              <h2 className='section-heading'>Browse</h2>
+              <div className='product-grid'>
+                {filteredItems.map((item) => (
+                  <ProductCard
+                    key={item.id}
+                    item={item}
+                    handleDetailsClick={handleDetailsClick}
+                    handleAddToCart={handleAddToCart}
+                  />
+                ))}
+              </div>
 
-<h2 className="section-heading">Browse</h2>
-                <div className="product-grid">
-                  {items.map((item) => (
-                    <ProductCard
-                      key={item.id}
-                      item={item}
-                      handleDetailsClick={handleDetailsClick}
-                      handleAddToCart={handleAddToCart}
-                    />
-                  ))}
-                </div>
-    
-                <div className="pagination">
-                  <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-                    Prev
-                  </button>
-                  <span>
-                    {page} of {Math.ceil(total / limit)}
-                  </span>
-                  <button
-                    disabled={page === Math.ceil(total / limit)}
-                    onClick={() => setPage(page + 1)}
-                  >
-                    Next
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p>No items found.</p>
-            )}
-          </section>
-        </div>
-      </main>
-    );
-  };
-  
-  export default ItemList;
+              <div className='pagination'>
+                <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                  Prev
+                </button>
+                <span>
+                  {page} of {Math.ceil(total / limit)}
+                </span>
+                <button disabled={page === Math.ceil(total / limit)} onClick={() => setPage(page + 1)}>
+                  Next
+                </button>
+              </div>
+            </>
+          ) : (
+            <p>No items found.</p>
+          )}
+        </section>
+      </div>
+    </main>
+  );
+};
+
+export default ItemList;

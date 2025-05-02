@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   // Pagination and sorting
-  const { sort, genre, page = 1, limit = 50 } = req.query;
+  const { sort, genre, page = 1, limit = 50, search } = req.query;
   let orderByClause;
   if (sort === "asc") {
     orderByClause = "ORDER BY price ASC";
@@ -17,23 +17,36 @@ router.get("/", async (req, res) => {
   } else {
     orderByClause = "ORDER BY description ASC"; // Default: alphabetical
   }
-  let whereGenreClause = "WHERE stock > 0";
+
+  let whereClauses = ["stock > 0"];
   let values = [];
+  let idx = 1;
+
   if (genre) {
-    whereGenreClause += " AND genre = $1";
+    whereClauses.push(`genre = $${idx++}`);
     values.push(genre);
   }
+  if (search) {
+    whereClauses.push(`(LOWER(artist) LIKE $${idx} OR LOWER(description) LIKE $${idx})`);
+    values.push(`%${search.toLowerCase()}%`);
+    idx++;
+  }
+
+  const whereClause = whereClauses.length ? `WHERE ${whereClauses.join(" AND ")}` : "";
   const offset = (page - 1) * limit;
-  const query = /*sql*/ `SELECT * FROM products ${whereGenreClause} ${orderByClause} LIMIT $${
-    values.length + 1
-  }::int OFFSET $${values.length + 2}::int`;
   values.push(Number(limit), Number(offset));
+  const query = `
+  SELECT * FROM products
+  ${whereClause}
+  ${orderByClause}
+  LIMIT $${values.length - 1}::int OFFSET $${values.length}::int
+`;
+  // values.push(Number(limit), Number(offset));
 
   try {
     const result = await pool.query(query, values);
-    let countQuery = `SELECT COUNT(*) FROM products ${whereGenreClause}`;
-    const countValues = genre ? [genre] : [];
-    const countResult = await pool.query(countQuery, countValues);
+    let countQuery = `SELECT COUNT(*) FROM products ${whereClause}`;
+    const countResult = await pool.query(countQuery, values.slice(0, values.length - 2));
     const total = parseInt(countResult.rows[0].count, 10);
 
     res.json({ products: result.rows, total });
