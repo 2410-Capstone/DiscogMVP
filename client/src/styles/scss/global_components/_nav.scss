@@ -15,6 +15,11 @@
   justify-content: center;
   align-items: center;
   text-decoration: none;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+
 }
 
 .nav-container {

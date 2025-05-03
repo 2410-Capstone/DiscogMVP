@@ -100,10 +100,11 @@ const Account = ({ user }) => {
                   <p>You haven’t purchased any albums yet.</p>
                 ) : (
                   purchasedAlbums.map((album) => (
-                    <div key={album.id} className='album-card'>
-                      <img src={album.image_url || "/placeholder.png"} alt={album.title} />
-                      <p className='title'>{album.title}</p>
-                    </div>
+                    <Link to={`/home/${album.id}`} key={album.id} className='album-card'>
+                    <img src={album.image_url || "/placeholder.png"} alt={album.title} />
+                    <p className='title'>{album.title}</p>
+                  </Link>
+                  
                   ))
                 )}
               </div>
@@ -160,11 +161,11 @@ const Account = ({ user }) => {
                 )}
                 </p>
                 <Link to='/account/manage-account'>Edit</Link>
-              </div>
+              {/* </div>
               <div className='settings-block'>
                 <h4>Settings</h4>
                 <Link to='/account/manage-account'>Manage Account</Link>
-                <div className='settings-block'></div>
+                <div className='settings-block'></div> */}
               </div>
             </div>
           </div>
