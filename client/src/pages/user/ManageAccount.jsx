@@ -24,29 +24,28 @@ const ManageAccount = () => {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("token");
 
+  const fetchUser = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to fetch user info");
+      const userData = await res.json();
+      setUser(userData);
+    } catch (err) {
+      console.error(err);
+      navigate("/login", { replace: true });
+    }
+  };
+
   useEffect(() => {
     if (!token || isTokenExpired(token)) {
       localStorage.removeItem("token");
       navigate("/login", { replace: true });
       return;
     }
-
-    const fetchUser = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!res.ok) throw new Error("Failed to fetch user info");
-        const userData = await res.json();
-        setUser(userData);
-      } catch (err) {
-        console.error(err);
-        navigate("/login", { replace: true });
-      }
-    };
-
     fetchUser();
   }, [navigate, token]);
 
@@ -55,18 +54,22 @@ const ManageAccount = () => {
   return (
     <div className='manage-account-container'>
       <h2>Manage Account</h2>
-      <div className="account-card">
-        <EditAddress userId={user.id} token={token} currentAddress={user.address} />
+      <div className='account-card'>
+        <EditAddress
+          userId={user.id}
+          token={token}
+          currentAddress={user.address}
+          onSave={() => {
+            fetchUser();
+          }}
+        />
       </div>
-      <div className="account-card">
+      <div className='account-card'>
         <EditContactInfo userId={user.id} token={token} currentEmail={user.email} />
       </div>
-      <div className="account-card">
+      <div className='account-card'>
         <Elements stripe={stripePromise}>
-          <EditBillingInfo
-            billingName={user.name}
-            billingAddress={user.address}
-          />
+          <EditBillingInfo billingName={user.name} billingAddress={user.address} />
         </Elements>
       </div>
     </div>
