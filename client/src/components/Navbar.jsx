@@ -105,9 +105,7 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
                     {user?.user_role === "admin" && (
                       <Link to='/admin/dashboard' className='dropdown-link'>Admin Dashboard</Link>
                     )}
-                    <button onClick={toggleTheme} className='dropdown-link'>
-                      {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                    </button>
+            
                     <button onClick={handleLogout} className='dropdown-link logout-button'>Logout</button>
                   </div>
                 )}
@@ -121,16 +119,18 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
           </div>
         </div>
       </nav>
-
-{isSearchVisible && (
-  <div className='dropdown show'>
-    <SearchBar
-      onSearch={onSearch}
-      allItems={props.allItems || []}
-      onCloseSearch={closeSearchImmediately}
-    />
+      {isSearchVisible && (
+  <div className='nav-search-dropdown'>
+    <div className='search-inner'>
+      <SearchBar
+        onSearch={onSearch}
+        allItems={props.allItems || []}
+        onCloseSearch={closeSearchImmediately}
+      />
+    </div>
   </div>
 )}
+
 
 
 
