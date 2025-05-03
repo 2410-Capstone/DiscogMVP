@@ -24,7 +24,7 @@
 @use "./global_components/product_card";
 @use "./variables/other_theme_variables";
 @use "./payment_components/stripe_elements";
-@use "./admin_components/_admin_orders";
+@use "./admin_components/admin_orders";
 @use "./admin_components/admin_user_list";
 @use "./layout/admin_layout";
 @use "./global_components/nav_dropdown";
