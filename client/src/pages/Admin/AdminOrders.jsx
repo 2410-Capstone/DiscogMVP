@@ -3,9 +3,10 @@ import { toast } from 'react-toastify';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
-  const [expandedOrderId, setExpandedOrderId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -14,10 +15,10 @@ const AdminOrders = () => {
         const res = await fetch('/api/orders/admin/all', {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
-
         if (!res.ok) throw new Error('Failed to fetch orders');
         const data = await res.json();
         setOrders(data);
+        setFilteredItems(data);
       } catch (err) {
         toast.error(err.message || 'Could not fetch admin orders');
         setError(err.message || 'Failed to load orders');
@@ -27,6 +28,16 @@ const AdminOrders = () => {
     };
     fetchOrders();
   }, []);
+
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    const results = orders.filter(order =>
+      order.user_name?.toLowerCase().includes(term) ||
+      order.email?.toLowerCase().includes(term)
+    );
+    setFilteredItems(results);
+  };
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
@@ -47,24 +58,20 @@ const AdminOrders = () => {
           order.order_id === orderId ? { ...order, order_status: updated.order_status } : order
         )
       );
+      setFilteredItems(prev =>
+        prev.map(order =>
+          order.order_id === orderId ? { ...order, order_status: updated.order_status } : order
+        )
+      );
       toast.success("Order status updated!");
     } catch (err) {
       toast.error(err.message);
     }
   };
 
-  const filteredOrders = statusFilter === 'all'
-    ? orders
-    : orders.filter(order => order.order_status === statusFilter);
-
-  const toggleExpand = (orderId) => {
-    setExpandedOrderId(prev => (prev === orderId ? null : orderId));
-  };
-  
   const cancelOrder = async (orderId) => {
-    const confirmed = window.confirm("Are you sure you want to cancel this order?");
-    if (!confirmed) return;
-  
+    if (!window.confirm("Are you sure you want to cancel this order?")) return;
+
     try {
       const res = await fetch(`/api/orders/${orderId}/cancel`, {
         method: 'PATCH',
@@ -73,11 +80,16 @@ const AdminOrders = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-  
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to cancel order');
-  
+
       setOrders(prev =>
+        prev.map(order =>
+          order.order_id === orderId ? { ...order, order_status: 'cancelled' } : order
+        )
+      );
+      setFilteredItems(prev =>
         prev.map(order =>
           order.order_id === orderId ? { ...order, order_status: 'cancelled' } : order
         )
@@ -87,131 +99,112 @@ const AdminOrders = () => {
       toast.error(err.message);
     }
   };
-  
-  
+
+  const statusFilteredOrders =
+    statusFilter === 'all'
+      ? filteredItems
+      : filteredItems.filter(order => order.order_status === statusFilter);
 
   if (error) return <div className="error-message">Error: {error}</div>;
   if (loading) return <div>Loading orders...</div>;
 
-
   return (
-    <div className="admin-orders">
-      <div className="order-title">
-      <h2>Orders</h2>
-      </div>
+    <div className="admin-inventory">
+        <div className="table-wrapper">
+      <div className="table-header">
+        <h2>Orders</h2>
+        </div>
+        <div className="table-controls">
+        <input
+          type="text"
+          placeholder="Search by name or email..."
+          value={searchTerm}
+          onChange={handleSearch}
+          className="admin-search"
+          style={{ marginRight: '1rem' }}
+        />
+  </div>
 
-      <div className="order-filter">
-      <label>
-        Filter by status:{" "}
-        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-          <option value="all">All</option>
-          <option value="created">Created</option>
-          <option value="processing">Processing</option>
-          <option value="shipped">Shipped</option>
-          <option value="delivered">Delivered</option>
-        </select>
-      </label>
+    <div className= "admin-filter">
+        <label>
+          Filter by status:{" "}
+          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+            <option value="all">All</option>
+            <option value="created">Created</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </label>
       </div>
-
-      {loading ? (
-        <p>Loading orders...</p>
-      ) : (
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th>Order #</th>
-              <th>User</th>
-              <th>Email</th>
-              <th>Total</th>
-              <th>Date</th>
-              <th>Payment</th>
-              <th>Status</th>
-              <th>Tracking #</th>
-              <th>Shipping Address</th>
-              <th>Items</th>
+  
+      <table className="user-table">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>User</th>
+            <th>Email</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Shipping</th>
+            <th>Tracking #</th>
+            <th>Items</th>
+          </tr>
+        </thead>
+        <tbody>
+          {statusFilteredOrders.map(order => (
+            <tr key={order.order_id}>
+              <td>{order.order_id}</td>
+              <td>{order.user_name}</td>
+              <td>{order.email}</td>
+              <td>${Number(order.total || 0).toFixed(2)}</td>
+              <td>{new Date(order.created_at).toLocaleString()}</td>
+              <td>
+                <select
+                  value={order.order_status}
+                  onChange={(e) => handleStatusChange(order.order_id, e.target.value)}
+                >
+                  <option value="created">Created</option>
+                  <option value="processing">Processing</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                {(order.order_status === 'created' || order.order_status === 'processing') && (
+                  <button onClick={() => cancelOrder(order.order_id)} style={{ marginTop: "6px" }}>
+                    Cancel
+                  </button>
+                )}
+              </td>
+              <td>{order.payment_status || "N/A"}</td>
+              <td>
+                {(() => {
+                  try {
+                    const addr = JSON.parse(order.shipping_address);
+                    return `${addr.addressLine1}, ${addr.city}, ${addr.state} ${addr.zip}`;
+                  } catch {
+                    return order.shipping_address;
+                  }
+                })()}
+              </td>
+              <td>{order.tracking_number || "N/A"}</td>
+              <td>
+                <ul>
+                  {(order.items || []).map((item, i) => (
+                    <li key={i}>
+                      {item.artist} - {item.description} (${item.price} × {item.quantity})
+                    </li>
+                  ))}
+                </ul>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {filteredOrders.map(order => (
-              <tr key={order.order_id} onClick={() => toggleExpand(order.order_id)} className="order-row">
-                <td data-label="Order #">{order.order_id}</td>
-                <td data-label="User">{order.user_name}</td>
-                <td data-label="Email">{order.email}</td>
-                <td data-label="Total">${Number(order.total || 0).toFixed(2)}</td>
-                <td data-label="Date">{new Date(order.created_at).toLocaleString()}</td>
-                <td data-label="Payment">{order.payment_status || "N/A"}</td>
-                <td data-label="Status">
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <select
-                      value={order.order_status}
-                      onChange={e => handleStatusChange(order.order_id, e.target.value)}
-                      onClick={(e) => e.stopPropagation()} // Prevent row toggle on select
-                    >
-                      <option value="created">Created</option>
-                      <option value="processing">Processing</option>
-                      <option value="shipped">Shipped</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-
-                    {(order.order_status === 'created' || order.order_status === 'processing') && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          cancelOrder(order.order_id);
-                        }}
-                        className="cancel-btn"
-                        style={{
-                          marginTop: '2px',
-                          backgroundColor: '#555',
-                          color: '#fff',
-                          border: 'none',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </div>
-                </td>
-
-                <td data-label="Tracking #">{order.tracking_number || "N/A"}</td>
-                <td data-label="Shipping Address">
-                  {(() => {
-                    try {
-                      const addr = JSON.parse(order.shipping_address);
-                      if (addr && typeof addr === "object") {
-                        return (
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            <div>{addr.addressLine1}</div>
-                            {addr.addressLine2 && <div>{addr.addressLine2}</div>}
-                            <div>{addr.city}, {addr.state} {addr.zip}</div>
-                          </div>
-                        );
-                      } else {
-                        return <div>{order.shipping_address}</div>;
-                      }
-                    } catch {
-                      return <div>{order.shipping_address}</div>;
-                    }
-                  })()}
-                </td>
-                <td data-label="Items">
-                  <ul>
-                    {(order.items || []).map((item, i) => (
-                      <li key={i}>
-                        {item.artist} - {item.description} (${item.price} x {item.quantity})
-                      </li>
-                    ))}
-                  </ul>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
+      </div>
     </div>
   );
 };

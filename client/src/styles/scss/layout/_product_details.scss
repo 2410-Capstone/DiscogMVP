@@ -101,7 +101,6 @@
   margin: 2.5rem 0 2rem;
   flex-wrap: wrap;
   align-items: center;
-  @extend .fade-in;
 }
 
 .toggle-wishlists-btn,
@@ -273,6 +272,7 @@
   display: inline-flex;
   align-items: center;
   @extend .fade-in;
+  text-decoration: none;
 
   &:hover {
     opacity: 0.7;
