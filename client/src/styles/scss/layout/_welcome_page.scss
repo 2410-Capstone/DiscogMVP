@@ -64,3 +64,25 @@
         filter: brightness(90%);
     }
 }
+
+.welcome-page .continue-button-container {
+    opacity: 0;
+    font-size: 1rem;
+    animation: disney_fade_inner 1.2s ease forwards 0.4s; // Slight delay after <p>
+    transform: translateY(8px); // Match animation start
+    
+  }
+  @keyframes disney_fade_inner {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .welcome-page .continue-button {
+    color: var(--text-color)
+  }

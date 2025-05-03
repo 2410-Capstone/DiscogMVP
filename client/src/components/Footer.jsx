@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // <-- ADD this
+import { Link } from "react-router-dom"; 
 import { useTheme } from "../utils/useTheme";
 
 const Footer = () => {
@@ -49,7 +49,7 @@ const Footer = () => {
   
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} DiscogMVP. All rights reserved.</p>
-
+{/* 
         <div className="theme-toggle-links">
           <button
             className={theme === "light" ? "active" : ""}
@@ -64,7 +64,7 @@ const Footer = () => {
           >
             Dark
           </button>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
