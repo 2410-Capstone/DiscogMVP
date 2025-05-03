@@ -43,6 +43,7 @@ import WishlistsPage from "./components/WishlistsPage";
 import WishlistShare from "./components/wishlistShare";
 import CreateWishlist from "./components/CreateWishlist";
 import PublicWishlistPage from "./pages/user/PublicWishlistPage";
+import Contact from "./pages/Contact.jsx"
 
 function App() {
   const location = useLocation();
@@ -192,6 +193,7 @@ useEffect(() => {
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
+          <Route path='/contact' element={<Contact />} />
 
           
 
