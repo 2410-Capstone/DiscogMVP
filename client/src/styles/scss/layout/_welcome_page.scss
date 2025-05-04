@@ -1,88 +1,87 @@
 .welcome-page {
-    padding: 2rem;
-    min-height: 100vh;
-    background: var(--card-bg); // Full-page themed background
-    background-size: cover;
-    background-position: center;
-    color: var(--text-color);
-    transition:
-        background 0.3s ease,
-        color 0.3s ease;
+  padding: 2rem;
+  min-height: 100vh;
+  background: var(--card-bg);
+  background-size: cover;
+  background-position: center;
+  color: var(--text-color);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    animation: disney_fade_slide 0.8s ease-out forwards;
+  // animation: disney_fade_slide 0.8s ease-out forwards;
 }
 
 .welcome-page h1:not(.welcome-header) {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    position: relative;
-    background: linear-gradient(70deg, #a4fffc, #003b5c);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    transition: transform 0.3s ease;
-    animation: fadeIn 1.2s ease-out forwards;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  position: relative;
+  background: linear-gradient(70deg, #a4fffc, #003b5c);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: transform 0.3s ease;
+  animation: fadeIn 1.2s ease-out forwards;
 
-    &:hover::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -150%;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), transparent);
-        transform: skewX(-20deg);
-        animation: shiny-wipe 1s ease forwards;
-    }
+  &:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-20deg);
+    animation: shiny-wipe 1s ease forwards;
+  }
 }
 
 .welcome-page p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    text-align: center;
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: disney_fade_inner 1.2s ease forwards 0.5s;
+  font-size: 1.2rem;
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0;
+  // animation: disney_fade_inner 1.2s ease forwards 0.5s;
 }
 
 .welcome-page .cta-button {
-    font-size: 1rem;
-    padding: 0.8rem 1.6rem;
-    background-color: var(--primary-accent);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: filter 0.3s ease;
+  font-size: 1rem;
+  padding: 0.8rem 1.6rem;
+  background-color: var(--primary-accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 0.3s ease;
 
-    &:hover {
-        filter: brightness(90%);
-    }
+  &:hover {
+    filter: brightness(90%);
+  }
 }
 
-.welcome-page .continue-button-container {
-    opacity: 0;
-    font-size: 1rem;
-    animation: disney_fade_inner 1.2s ease forwards 0.4s; // Slight delay after <p>
-    transform: translateY(8px); // Match animation start
-    
-  }
-  @keyframes disney_fade_inner {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .welcome-page .continue-button {
-    color: var(--text-color)
-  }
+// .welcome-page .continue-button-container {
+//   opacity: 0;
+//   font-size: 1rem;
+//   animation: disney_fade_inner 1.2s ease forwards 0.4s;
+//   transform: translateY(8px);
+// }
+// @keyframes disney_fade_inner {
+//   from {
+//     opacity: 0;
+//     transform: translateY(8px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+.welcome-page .continue-button {
+  color: var(--text-color);
+}
