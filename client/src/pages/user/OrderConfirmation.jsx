@@ -10,7 +10,7 @@ const OrderConfirmation = () => {
   useEffect(() => {
     if (!location.state?.orderDetails) {
       navigate("/");
-    } else {
+    } else {http://localhost:5173/admin/dashboard
       setOrderDetails(location.state.orderDetails);
     }
   }, [location.state, navigate]);

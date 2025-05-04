@@ -39,12 +39,6 @@ const Dashboard = () => {
     {metrics ? (
         <div className="metrics-table-wrapper">
           <table className="metrics-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Value</th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
                 <td>Total Users</td>
