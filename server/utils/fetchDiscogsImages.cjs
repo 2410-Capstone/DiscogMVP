@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config();
+// require('dotenv').config({ path: '../../.env' });
 
 const { Pool } = require('pg');
 const fetch = require('node-fetch');
