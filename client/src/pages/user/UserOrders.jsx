@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-// import "../styles/scss/components/UserOrders.module.scss";
-
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const complete_statuses = ["shipped", "delivered", "cancelled"];
+  const incomplete_statuses = ["created", "processing"];
+  const order_statuses_map = {
+    created: "Created",
+    processing: "Processing",
+    shipped: "Shipped",
+    delivered: "Delivered",
+    cancelled: "Cancelled",
+  };
+
+  const formatDate = (dateStr) =>
+    new Date(dateStr).toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -30,35 +45,6 @@ const UserOrders = () => {
     fetchOrders();
   }, []);
 
-  if (loading) return <div>Loading your orders...</div>;
-  if (error) return <div>{error}</div>;
-  if (orders.length === 0) {
-    return (
-      <div className='user-orders-container'>
-        <h2>Order History</h2>
-        <p>You haven’t placed any orders yet.</p>
-      </div>
-    );
-  }
-
-  const complete_statuses = ["shipped", "delivered", "cancelled"];
-  const incomplete_statuses = ["created", "processing"];
-  const order_statuses_map = {
-    created: "Created",
-    processing: "Processing",
-    shipped: "Shipped",
-    delivered: "Delivered",
-    cancelled: "Cancelled",
-  };
-  const currentOrders = orders.filter((order) => incomplete_statuses.includes(order.order_status));
-  const completedOrders = orders.filter((order) => complete_statuses.includes(order.order_status));
-  const formatDate = (dateStr) =>
-    new Date(dateStr).toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
   const handleCancel = async (orderId) => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
     try {
@@ -73,10 +59,12 @@ const UserOrders = () => {
       });
 
       if (!res.ok) throw new Error("Failed to cancel order");
-      setOrders((prevOrders) =>
-        prevOrders.map((order) => (order.id === orderId ? { ...order, order_status: "cancelled" } : order))
-      );
 
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, order_status: "cancelled" } : order
+        )
+      );
       toast.success("Order cancelled successfully!");
     } catch (err) {
       setError(err.message || "Error cancelling order");
@@ -103,9 +91,7 @@ const UserOrders = () => {
           <div key={index} className='order-item'>
             <img src={item.image_url} alt={item.description} className='item-image' />
             <div className='item-details'>
-              <p>
-                {item.artist} — {item.description}
-              </p>
+              <p>{item.artist} — {item.description}</p>
               <p>Qty: {item.quantity}</p>
             </div>
           </div>
@@ -119,6 +105,24 @@ const UserOrders = () => {
         )}
       </div>
     </div>
+  );
+
+  if (loading) return <div>Loading your orders...</div>;
+  if (error) return <div>{error}</div>;
+  if (orders.length === 0) {
+    return (
+      <div className='user-orders-container'>
+        <h2>Order History</h2>
+        <p>You haven’t placed any orders yet.</p>
+      </div>
+    );
+  }
+
+  const currentOrders = orders.filter((order) =>
+    incomplete_statuses.includes(order.order_status)
+  );
+  const completedOrders = orders.filter((order) =>
+    complete_statuses.includes(order.order_status)
   );
 
   return (
