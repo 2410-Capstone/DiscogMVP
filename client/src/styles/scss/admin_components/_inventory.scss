@@ -1,6 +1,9 @@
 .admin-inventory {
   color: var(--text-color);
 
+  /* ===============================
+     HEADER
+  ================================ */
   .table-header {
     display: flex;
     justify-content: space-between;
@@ -27,6 +30,9 @@
     }
   }
 
+  /* ===============================
+     SEARCH & FILTER CONTROLS
+  ================================ */
   .table-controls,
   .admin-search {
     display: flex;
@@ -60,9 +66,12 @@
     }
   }
 
+  /* ===============================
+     TABLE WRAPPER
+  ================================ */
   .table-wrapper {
     width: 100%;
-    max-width: none; // removed the constraint
+    max-width: none;
     overflow-x: auto;
     background: var(--bg-color);
   }
@@ -121,8 +130,10 @@
     }
   }
 
+  /* ===============================
+     BUTTON STYLES
+  ================================ */
   .edit-btn,
-  // .delete-button,
   .cancel-btn,
   .sort {
     padding: 0.4rem 0.8rem;
@@ -139,8 +150,9 @@
     }
   }
 
-
-
+  /* ===============================
+     RESPONSIVE TABLE
+  ================================ */
   @media (max-width: 900px) {
     .admin-table {
       thead {
@@ -180,10 +192,11 @@
   }
 }
 
-
-.user-table td:nth-child(3), 
-.user-table td:nth-child(4)  
-{
+/* ===============================
+   ELLIPSIS IN USER TABLE
+=============================== */
+.user-table td:nth-child(3),
+.user-table td:nth-child(4) {
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
@@ -208,8 +221,9 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
-
+/* ===============================
+   ADD PRODUCT FORM
+=============================== */
 .add-product-container {
   max-width: 600px;
   margin: 0 auto;
@@ -217,7 +231,6 @@
   background: var(--bg-color);
   color: var(--text-color);
   border-radius: 4px;
-
 
   h2 {
     font-size: 1.6rem;
@@ -272,7 +285,6 @@
         &:focus {
           outline: none;
           border-color: var(--primary-accent);
-    
         }
       }
 
@@ -314,8 +326,9 @@
   }
 }
 
-
+/* ===============================
+   MISC
+=============================== */
 .sort-sort {
   padding-bottom: 10px;
-
 }

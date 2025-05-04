@@ -1,6 +1,7 @@
+// ========== Wrapper ==========
+
 .product-card {
   cursor: pointer;
-
   max-height: 520px;
   overflow: hidden;
 }
@@ -11,9 +12,10 @@
   justify-content: flex-start;
   padding: 0.75rem 0;
   background: transparent;
-  
   height: 100%; // fill the grid cell
   max-height: 520px;
+
+// ========== Image ==========
 
   .card-image {
     width: 100%;
@@ -21,7 +23,6 @@
     object-fit: contain;
     margin-bottom: 0.75rem;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-   
 
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
@@ -29,6 +30,7 @@
     }
   }
 
+// ========== Text Content ==========
 
   .card-title,
   .card-artist,
@@ -42,20 +44,17 @@
     line-height: 1.2;
     min-height: 1.2em; // ensures consistent vertical spacing
   }
-  
-
 
   .card-title {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-color);
     margin-bottom: 0.1rem;
-    
   }
 
   .card-artist {
     font-size: 0.85rem;
-    color:var(--text-color);
+    color: var(--text-color);
     font-weight: 400;
     margin-bottom: 0;
   }
@@ -67,13 +66,16 @@
     margin-bottom: 0.5rem;
   }
 
+// ========== Market Price (within product-card) ==========
+
   .market-price p {
     font-size: 1rem;
     font-weight: 400;
     color: var(--text-color);
-   
     text-align: left; 
   }
+
+// ========== Buttons (within product-card) ==========
 
   .card-buttons {
     display: flex;
@@ -95,10 +97,7 @@
   }
 }
 
-
-
-
-
+// ========== Legacy / Commented Code ==========
 
 //   .add-to-bag-button,
 //   .details-button {
@@ -123,6 +122,8 @@
 //   gap: rem;
 // }
 
+// ========== Global Card Button Styles ==========
+
 .card-buttons {
   display: flex;
   flex-direction: column;
@@ -144,6 +145,8 @@
   }
 }
 
+// ========== Global Market Price Styles ==========
+
 .market-price p {
   font-size: 1rem;
   font-weight: 600;
@@ -151,6 +154,3 @@
   margin: 0;
   text-align: right;
 }
-
-
-

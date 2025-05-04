@@ -1,3 +1,7 @@
+/* ===========================================
+   PROFILE PAGE STYLES
+=========================================== */
+
 .profile-page {
   position: relative;
   min-height: 100vh;
@@ -98,6 +102,7 @@
   color: var(--placeholder-color);
 }
 
+/* ===== Animations ===== */
 @keyframes fade_slide {
   from {
     opacity: 0;
@@ -109,6 +114,7 @@
   }
 }
 
+/* ===== Responsive Layout ===== */
 @media (max-width: 768px) {
   .profile-container-grid {
     grid-template-columns: 1fr;

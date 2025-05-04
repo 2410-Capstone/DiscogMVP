@@ -1,10 +1,11 @@
+/* =======================================
+   ACCOUNT PAGE WRAPPER
+======================================= */
 .account-page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: var(--bg-color);
-
-  
 
   .stripe {
     width: 100%;
@@ -25,11 +26,14 @@
   }
 }
 
+
+/* =======================================
+   ACCOUNT TITLE & SIGNOUT
+======================================= */
 .account-title {
   color: black;
   font-weight: normal;
   font-size: 1.2rem;
-  
 }
 
 .signout-button {
@@ -44,18 +48,20 @@
   text-decoration: underline;
   padding: 0;
 
-
   &:hover {
     opacity: 0.7;
   }
 }
 
+
+/* =======================================
+   ACCOUNT WRAPPER & GREETING
+======================================= */
 .account-wrapper {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 1.5rem; 
-
+  padding: 0 1.5rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -66,7 +72,6 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-
   }
 
   .greeting {
@@ -74,7 +79,6 @@
     font-weight: 400;
     margin: 0;
     color: black;
-    
   }
 
   .sub-greeting {
@@ -84,6 +88,10 @@
   }
 }
 
+
+/* =======================================
+   PURCHASES SECTION
+======================================= */
 .purchases-section {
   margin-bottom: 4rem;
   max-width: 1000px;
@@ -102,44 +110,46 @@
     gap: 1.5rem;
     padding: 0;
     box-sizing: border-box;
-  
+
     @media (max-width: 768px) {
-      padding: 0 1rem; 
+      padding: 0 1rem;
     }
   }
-  
-.album-card {
 
-  background: rgba(208, 208, 208, 0.916);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 1rem;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  .album-card {
+    background: rgba(208, 208, 208, 0.916);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
+    img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
 
-  .title {
-    font-weight: 500;
-    color: #111111;
-    font-size: 0.75rem;
-  }
+    .title {
+      font-weight: 500;
+      color: #111111;
+      font-size: 0.75rem;
+    }
 
-  &:hover {
-    transform: translateY(-2px);
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 }
 
-}
 
+/* =======================================
+   QUICK LINKS SECTION
+======================================= */
 .quick-links {
   display: flex;
   flex-wrap: wrap;
@@ -180,14 +190,10 @@
   }
 }
 
-.account-wrapper.greeting-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 1rem; 
-  box-sizing: border-box;
-}
 
+/* =======================================
+   ACCOUNT SETTINGS SECTION
+======================================= */
 .account-settings {
   margin-bottom: 4rem;
 
@@ -245,7 +251,9 @@
 }
 
 
-
+/* =======================================
+   RESPONSIVE STYLES
+======================================= */
 @media (max-width: 768px) {
   .account-wrapper,
   .account-wrapper.greeting-wrap,

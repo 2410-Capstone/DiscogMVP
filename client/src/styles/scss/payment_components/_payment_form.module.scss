@@ -1,13 +1,24 @@
+/* =======================================
+   IMPORTS
+======================================= */
 @use "sass:color";
 @use "sass:math";
 @use "../variables/_other_theme_variables" as vars;
 
+
+/* =======================================
+   CONTAINER
+======================================= */
 .container {
   max-width: 600px;
   margin: 0 auto;
   font-family: vars.$font-stack;
 }
 
+
+/* =======================================
+   FORM STRUCTURE
+======================================= */
 .form {
   padding: math.div(vars.$spacing-unit * 1.5, 1);
   border: 1px solid vars.$border-color;
@@ -17,6 +28,10 @@
   // gap: math.div(vars.$spacing-unit * 2, 1);
 }
 
+
+/* =======================================
+   FORM GROUP
+======================================= */
 .formGroup {
   display: flex;
   flex-direction: column;
@@ -58,6 +73,10 @@
   }
 }
 
+
+/* =======================================
+   CITY & ZIP ROW
+======================================= */
 .cityZipRow {
   display: flex;
   gap: math.div(vars.$spacing-unit, 1);
@@ -67,6 +86,10 @@
   }
 }
 
+
+/* =======================================
+   BUTTON (COMMENTED OUT)
+======================================= */
 // .button {
 //   width: 100%;
 //   padding: vars.$spacing-unit * 0.75;
@@ -89,12 +112,20 @@
 //   }
 // }
 
+
+/* =======================================
+   ERROR MESSAGES
+======================================= */
 .error {
   color: vars.$error-color;
   margin: math.div(vars.$spacing-unit, 2) 0;
   font-size: vars.$font-size-base * 0.875;
 }
 
+
+/* =======================================
+   LOADING MESSAGE
+======================================= */
 .loadingMessage {
   padding: vars.$spacing-unit;
   text-align: center;
