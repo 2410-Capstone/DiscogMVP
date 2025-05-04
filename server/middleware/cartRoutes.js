@@ -99,7 +99,6 @@ router.post("/sync", authenticateToken, async (req, res) => {
   }
 });
 
-
 // PUT /cart/items/:id
 router.put("/items/:id", authenticateToken, async (req, res) => {
   const cart_item_id = req.params.id;
@@ -113,29 +112,27 @@ router.put("/items/:id", authenticateToken, async (req, res) => {
   }
 });
 
- // DELETE /cart/items/:id
- router.delete('/items/:id', authenticateToken, async (req, res) => {
+// DELETE /cart/items/:id
+router.delete("/items/:id", authenticateToken, async (req, res) => {
   const cart_item_id = req.params.id;
   try {
     const deletedItem = await removeProductFromCart({ cart_item_id });
-    res.json({ message: 'Item removed', item: deletedItem });
+    res.json({ message: "Item removed", item: deletedItem });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to remove item from cart' });
+    res.status(500).json({ error: "Failed to remove item from cart" });
   }
 });
 
- // DELETE /cart/clear
- router.delete('/clear', authenticateToken, async (req, res) => {
+// DELETE /cart/clear
+router.delete("/clear", authenticateToken, async (req, res) => {
   try {
-    
     const clearedItems = await clearCart({ user_id: req.user.id });
-    res.json({ message: 'Cart cleared', clearedItems });
+    res.json({ message: "Cart cleared", clearedItems });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to clear cart' });
+    res.status(500).json({ error: "Failed to clear cart" });
   }
 });
-
 
 module.exports = router;
