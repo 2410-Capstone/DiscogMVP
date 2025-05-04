@@ -20,7 +20,7 @@ import FullSearchResults from "./components/FullSearchResults.jsx";
 
 import Welcome from "./pages/Welcome";
 import ItemList from "./pages/Home";
-import Account from "./pages/user/Account";
+import Account from "./pages/User/Account";
 import Profile from "./pages/User/Profile";
 import ManageAccount from "./pages/user/ManageAccount";
 

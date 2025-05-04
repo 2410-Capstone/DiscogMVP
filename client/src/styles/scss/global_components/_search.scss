@@ -1,14 +1,14 @@
-/* ====== SEARCH BAR CLEAN STYLES ====== */
+
 
 .search-bar {
   width: 100%;
-  padding: 10px;
   font-size: 1.4rem;
-  border: none;
   background: transparent;
+  border: none;
   color: var(--text-color);
   outline: none;
   text-align: left;
+  padding: 0.75rem 0; 
 }
 
 .search-bar::placeholder {
@@ -23,14 +23,13 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 0.5rem 1rem;
-
 }
 
 .search-section {
   width: 100%;
-  background: var(--nav);
+  background: var(--bg-color);
   border-radius: 4px;
-  padding: 1rem 0;
+  padding: 1rem;
   z-index: 1000;
 }
 
@@ -42,8 +41,6 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
-
 
 .search-thumb {
   width: 40px;
@@ -71,14 +68,16 @@
   color: var(--text-color, #999);
 }
 
-/* ====== NAVBAR INTEGRATION ====== */
+
 
 .nav-search-fullscreen {
   position: relative;
+  top: 100%;
+  left: 0;
   width: 100%;
-  background: var(--nav);
-  padding: 1rem 2rem 0;
+  background: var(--bg-color);
   z-index: 99;
+  padding: 1rem 2rem 0;
 }
 
 .nav-search-fullscreen .search-wrapper {
@@ -103,9 +102,6 @@
   opacity: 0.7;
 }
 
-/* Cleaned up and removed unused/redundant styles */
-
-
 .search-result-item {
   display: flex;
   align-items: center;
@@ -122,7 +118,7 @@
 .search-result-item.active,
 .search-result-item.active:hover {
   background-color: var(--search);
-  border-radius: 4px
+  border-radius: 4px;
 }
 
 .load-more-button {
@@ -145,4 +141,50 @@
 .load-more-button.active {
   background-color: var(--search);
   border-radius: 4px;
+}
+
+.nav-search-dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background: var(--bg-color);
+  z-index: 99;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+
+  .search-inner {
+    width: 100%;
+    max-width: 1000px;     
+    padding: 0 1rem;        
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.search-wrapper {
+  flex: 1;
+  padding: 0;             
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+
+.search-bar::placeholder {
+  color: rgba(255, 255, 255, 0.5); 
+  font-size: 1.5rem;
+}
+
+
+
+.search-bar::placeholder {
+  color: var(--placeholder-color); 
+  font-size: 1.5rem;
 }
