@@ -1,8 +1,9 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import { getGuestCart } from "../../utils/cart";
+
 
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
@@ -16,6 +17,13 @@ export default function Register() {
   const { login } = useContext(AuthContext);
   const location = useLocation();
   const fromCheckout = location.state?.fromCheckout;
+ 
+  const nameRef = useRef(null);
+
+useEffect(() => {
+  nameRef.current?.focus();
+}, []);
+
 
 
   const handleSubmit = async (event) => {
@@ -115,6 +123,7 @@ if (!res.ok || !data.token || !data.user) {
               <input
                 type="text"
                 value={name}
+                ref={nameRef}
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="Your name"

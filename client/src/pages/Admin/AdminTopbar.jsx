@@ -2,33 +2,19 @@ import { useTheme } from "../../utils/useTheme";
 import { useState, useRef, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { Settings, Search, User } from "lucide-react";
+import { Search } from "lucide-react";
 import defaultProfilePic from "../../assets/default-profile.png";
 
 const AdminTopbar = () => {
   const { theme, toggleTheme } = useTheme();
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
-  
   const navigate = useNavigate();
-
-
-  const settingsTimeout = useRef(null);
   const profileTimeout = useRef(null);
-
-  const toggleSettingsDropdown = () => {
-    clearTimeout(settingsTimeout.current);
-    setSettingsOpen(prev => !prev);
-  };
 
   const toggleProfileDropdown = () => {
     clearTimeout(profileTimeout.current);
     setProfileOpen(prev => !prev);
-  };
-
-  const delayedCloseSettings = () => {
-    settingsTimeout.current = setTimeout(() => setSettingsOpen(false), 300);
   };
 
   const delayedCloseProfile = () => {
@@ -38,8 +24,8 @@ const AdminTopbar = () => {
   const handleLogout = () => {
     logout();
     navigate("/login");
-  }
-  
+  };
+
   return (
     <header className="admin-topbar">
       <h1 className="admin-header-title">Dashboard</h1>
@@ -49,46 +35,18 @@ const AdminTopbar = () => {
           className="back-to-user-btn"
           onClick={() => navigate("/home")}
         >
-          ← Back to User View
+          ← Back
         </button>
 
-        <div className="admin-search-wrapper">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="admin-search"
-          />
-          <Search size={20} className="admin-search-icon" />
-        </div>
-
+        <button
+          className="theme-toggle-button"
+          onClick={toggleTheme}
+          aria-label="Toggle Theme"
+        >
+          {theme === "dark" ? "☀︎" : "☾"}
+        </button>
 
         <div 
-          className="settings-dropdown" 
-          onMouseLeave={delayedCloseSettings}
-          onMouseEnter={() => clearTimeout(settingsTimeout.current)}
-        >
-          <button
-            onClick={toggleSettingsDropdown}
-            className="settings-icon-link"
-            aria-label="Admin Settings"
-          >
-            <Settings size={20} strokeWidth={1.5} />
-          </button>
-
-          {settingsOpen && (
-            <div className="settings-dropdown-menu">
-              <button onClick={toggleTheme} className="dropdown-item">
-                {theme === "dark" ? "Light" : "Dark"}
-              </button>
-              <Link to="/admin/settings" className="dropdown-item">
-                Settings
-              </Link>
-            </div>
-          )}
-        </div>
-
-   
-     <div 
           className="profile-dropdown" 
           onMouseLeave={delayedCloseProfile}
           onMouseEnter={() => clearTimeout(profileTimeout.current)}
@@ -103,7 +61,7 @@ const AdminTopbar = () => {
           {profileOpen && (
             <div className="profile-dropdown-menu">
               <button className="dropdown-item" onClick={() => navigate("/home")}>
-                Home View
+                Home
               </button>
               <button onClick={handleLogout} className="dropdown-item"> 
                 Logout
@@ -117,5 +75,3 @@ const AdminTopbar = () => {
 };
 
 export default AdminTopbar;
-
-

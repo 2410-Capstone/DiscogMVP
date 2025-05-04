@@ -11,13 +11,15 @@ const AdminLayout = ({ user }) => {
   };
 
   return (
-    <div className="admin-console">
-      <AdminSidebar user={user} isOpen={sidebarOpen} />
-      <div className="admin-content">
-        <AdminTopbar toggleSidebar={toggleSidebar} />
-        <main className="admin-main">
-          <Outlet />
-        </main>
+    <div className="admin-layout-wrapper">
+      <div className="admin-console">
+        <AdminSidebar user={user} isOpen={sidebarOpen} />
+        <div className="admin-content">
+          <AdminTopbar toggleSidebar={toggleSidebar} />
+          <main className="admin-main">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );

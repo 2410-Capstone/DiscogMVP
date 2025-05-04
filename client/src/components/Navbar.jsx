@@ -16,6 +16,7 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
+  const profileTimeout = useRef(null);
   const profileRef = useRef(null);
   const { user, logout } = useContext(AuthContext);
   const { theme, toggleTheme } = useTheme();
@@ -91,46 +92,57 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
             </button>
 
             {isAuthenticated ? (
-              <div className='account-dropdown' ref={profileRef}>
-                <img
-                  src={user?.profilePic || defaultProfilePic}
-                  alt='Profile'
-                  className='account-avatar'
-                  onClick={toggleProfileDropdown}
-                />
-                {profileDropdownVisible && (
-                  <div className='account-dropdown-menu'>
-                    <Link to='/account' className='dropdown-link'>Account</Link>
-                    <Link to='/account/orders' className='dropdown-link'>Order History</Link>
-                    {user?.user_role === "admin" && (
-                      <Link to='/admin/dashboard' className='dropdown-link'>Admin Dashboard</Link>
-                    )}
-                    <button onClick={toggleTheme} className='dropdown-link'>
-                      {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                    </button>
-                    <button onClick={handleLogout} className='dropdown-link logout-button'>Logout</button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <Link to='/login' className='nav-button'>Login</Link>
-                <Link to='/register' className='nav-button'>Register</Link>
-              </>
-            )}
+  <div
+    className='account-dropdown'
+    onMouseEnter={() => {
+      clearTimeout(profileTimeout.current);
+      setProfileDropdownVisible(true);
+    }}
+    onMouseLeave={() => {
+      profileTimeout.current = setTimeout(() => {
+        setProfileDropdownVisible(false);
+      }, 200);
+    }}
+    ref={profileRef}
+  >
+    <img
+      src={user?.profilePic || defaultProfilePic}
+      alt='Profile'
+      className='account-avatar'
+    />
+    {profileDropdownVisible && (
+      <div className='account-dropdown-menu show'>
+        <Link to='/account' className='dropdown-link'>Account</Link>
+        <Link to='/account/orders' className='dropdown-link'>Order History</Link>
+        {user?.user_role === "admin" && (
+          <Link to='/admin/dashboard' className='dropdown-link'>Admin Dashboard</Link>
+        )}
+        <button onClick={handleLogout} className='dropdown-link logout-button'>Logout</button>
+      </div>
+    )}
+  </div>
+) : (
+  <>
+    <Link to='/login' className='nav-button'>Login</Link>
+    <Link to='/register' className='nav-button'>Register</Link>
+  </>
+)}
+
           </div>
         </div>
       </nav>
-
-{isSearchVisible && (
-  <div className='dropdown show'>
-    <SearchBar
-      onSearch={onSearch}
-      allItems={props.allItems || []}
-      onCloseSearch={closeSearchImmediately}
-    />
+      {isSearchVisible && (
+  <div className='nav-search-dropdown'>
+    <div className='search-inner'>
+      <SearchBar
+        onSearch={onSearch}
+        allItems={props.allItems || []}
+        onCloseSearch={closeSearchImmediately}
+      />
+    </div>
   </div>
 )}
+
 
 
 
