@@ -162,7 +162,7 @@ const Account = ({ user }) => {
                 <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
-                <h4>Billing</h4>
+                {/* <h4>Billing</h4>
                 <p>
                   {billingInfo === null ? (
                     "Loading billing information..."
@@ -176,7 +176,7 @@ const Account = ({ user }) => {
                     "No billing information available"
                   )}
                 </p>
-                <Link to='/account/manage-account'>Edit</Link>
+                <Link to='/account/manage-account'>Edit</Link> */}
               </div>
               <div className='settings-block'>
                 <h4>Settings</h4>
