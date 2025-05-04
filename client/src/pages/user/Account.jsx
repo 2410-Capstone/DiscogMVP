@@ -6,24 +6,38 @@ const Account = ({ user }) => {
   const [purchasedAlbums, setPurchasedAlbums] = useState([]);
   const [loadingAlbums, setLoadingAlbums] = useState(true);
   const [billingInfo, setBillingInfo] = useState(null);
-
+  const [localUser, setLocalUser] = useState(user);
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
       document.body.setAttribute("data-theme", storedTheme);
     }
   }, []);
-  
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const userData = await res.json();
+        setLocalUser(userData);
+      }
+    };
+    fetchUser();
+  }, []);
+
   useEffect(() => {
     const fetchBillingInfo = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("/api/payment/latest", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment/latest`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+        console.log(token);
         if (res.ok) {
           const data = await res.json();
           setBillingInfo(data);
@@ -32,10 +46,10 @@ const Account = ({ user }) => {
         console.error("Failed to fetch billing info", err);
       }
     };
-  
+
     fetchBillingInfo();
   }, []);
-  
+
   useEffect(() => {
     const fetchPurchasedAlbums = async () => {
       try {
@@ -46,11 +60,11 @@ const Account = ({ user }) => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (!res.ok) {
           throw new Error("Failed to fetch purchased albums");
         }
-  
+
         const data = await res.json();
         setPurchasedAlbums(data);
       } catch (err) {
@@ -59,10 +73,9 @@ const Account = ({ user }) => {
         setLoadingAlbums(false);
       }
     };
-  
+
     fetchPurchasedAlbums();
   }, []);
-  
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -70,9 +83,10 @@ const Account = ({ user }) => {
     navigate("/home");
   };
 
-  if (!user) {
+  if (!localUser) {
     return <div className='account-page'>Loading your account...</div>;
   }
+  console.log(localUser.address);
 
   return (
     <div className='account-page'>
@@ -83,8 +97,8 @@ const Account = ({ user }) => {
           <button className='signout-button' onClick={handleLogout}>
             Sign out
           </button>
-          <h2 className='greeting'>Hi, {user.name}.</h2>
-          <p className='sub-greeting'>You’re signed in with {user.email}</p>
+          <h2 className='greeting'>Hi, {localUser.name}.</h2>
+          <p className='sub-greeting'>You’re signed in with {localUser.email}</p>
         </div>
       </section>
 
@@ -136,29 +150,32 @@ const Account = ({ user }) => {
             <div className='settings-columns'>
               <div className='settings-block'>
                 <h4>Shipping Address</h4>
-                <p>{user.address}</p>
+                <p>{localUser.address}</p>
                 <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
                 <h4>Contact Info</h4>
                 <p>
-                  {user.email}
+                  {localUser.email}
                   <br />
-                  {user.phone}
+                  {localUser.phone}
                 </p>
                 <Link to='/account/manage-account'>Edit</Link>
               </div>
               <div className='settings-block'>
-                <h4>Billing</h4>
+                {/* <h4>Billing</h4>
                 <p>
-                {billingInfo?.billing_name && billingInfo?.billing_address ? (
-                  <>
-                    {billingInfo.billing_name}<br />
-                    {billingInfo.billing_address}
-                  </>
-                ) : (
-                  "No billing information available"
-                )}
+                  {billingInfo === null ? (
+                    "Loading billing information..."
+                  ) : billingInfo?.billing_name && billingInfo?.billing_address ? (
+                    <>
+                      {billingInfo.billing_name}
+                      <br />
+                      {billingInfo.billing_address}
+                    </>
+                  ) : (
+                    "No billing information available"
+                  )}
                 </p>
                 <Link to='/account/manage-account'>Edit</Link>
               {/* </div>

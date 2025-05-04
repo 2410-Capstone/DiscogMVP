@@ -1,9 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const { createStripePaymentIntent, createPayment } = require("../db/payments");
 const pool = require("../db/pool");
 const authenticateToken = require("../middleware/authMiddleware");
-
 
 router.post("/", async (req, res) => {
   const { userId, cartItems, shippingInfo } = req.body;
@@ -19,9 +19,7 @@ router.post("/", async (req, res) => {
   }
 
   if (!shippingInfo || missingField) {
-    return res
-      .status(400)
-      .json({ error: `Missing required field: ${missingField || "shippingInfo"}` });
+    return res.status(400).json({ error: `Missing required field: ${missingField || "shippingInfo"}` });
   }
 
   try {
@@ -69,8 +67,9 @@ router.post("/confirm", async (req, res) => {
 router.get("/latest", authenticateToken, async (req, res) => {
   try {
     const { userId } = req.user;
-
-    const result = await pool.query(/*sql*/
+    console.log("HIT /api/payment/latest"); // Debugging line
+    const result = await pool.query(
+      /*sql*/
       `SELECT billing_name, billing_address
        FROM payments
        WHERE order_id IN (
@@ -91,7 +90,5 @@ router.get("/latest", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
-
 
 module.exports = router;
