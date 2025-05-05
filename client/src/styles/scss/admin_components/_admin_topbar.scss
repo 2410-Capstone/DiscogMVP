@@ -113,7 +113,7 @@
   gap: 0.5rem;
 
   &:hover {
-    color: var(--hover)
+    color: var(--hover);
   }
 
   .back-text {
@@ -127,7 +127,7 @@
     background: none;
 
     &::before {
-      content: '←';
+      content: "←";
       font-size: 1.4rem;
     }
 
@@ -147,7 +147,7 @@
     background: white;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     min-width: 160px;
     z-index: 100;

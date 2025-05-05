@@ -1,3 +1,6 @@
+/* ===============================
+   PAGE WRAPPER
+=============================== */
 .welcome-page {
   padding: 2rem;
   min-height: 100vh;
@@ -17,6 +20,9 @@
   // animation: disney_fade_slide 0.8s ease-out forwards;
 }
 
+/* ===============================
+   HEADLINE
+=============================== */
 .welcome-page h1:not(.welcome-header) {
   font-size: 3rem;
   margin-bottom: 1rem;
@@ -41,6 +47,9 @@
   }
 }
 
+/* ===============================
+   PARAGRAPH TEXT
+=============================== */
 .welcome-page p {
   font-size: 1.2rem;
   max-width: 600px;
@@ -50,6 +59,9 @@
   // animation: disney_fade_inner 1.2s ease forwards 0.5s;
 }
 
+/* ===============================
+   CTA BUTTON
+=============================== */
 .welcome-page .cta-button {
   font-size: 1rem;
   padding: 0.8rem 1.6rem;
@@ -65,12 +77,16 @@
   }
 }
 
+/* ===============================
+   CONTINUE BUTTON
+=============================== */
 // .welcome-page .continue-button-container {
 //   opacity: 0;
 //   font-size: 1rem;
 //   animation: disney_fade_inner 1.2s ease forwards 0.4s;
 //   transform: translateY(8px);
 // }
+
 // @keyframes disney_fade_inner {
 //   from {
 //     opacity: 0;

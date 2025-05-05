@@ -1,36 +1,39 @@
+// Wrapper for the entire filter bar
 .filterBarWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 1.25rem auto;
-  border-radius: 6px;
-  background: transparent;
   padding: 0.5rem 0;
   max-width: 960px;
   width: 100%;
+  border-radius: 6px;
+  background: transparent;
 }
 
+// Horizontal scrollable filter list
 .filterBar {
   display: flex;
   align-items: center;
   overflow-x: auto;
   gap: 0.65rem;
+  padding: 0 0.25rem;
+  flex: 1;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  flex: 1;
-  padding: 0 0.25rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.filterBar::-webkit-scrollbar {
-  display: none;
-}
-
+// Individual filter buttons
 .filterButton {
   flex: 0 0 auto;
   padding: 0.4rem 1rem;
   border: none;
   border-radius: 4px;
-  background-color:var(--but);
+  background-color: var(--but);
   color: var(--text-color);
   cursor: pointer;
   font-weight: 400;
@@ -38,55 +41,56 @@
   transition:
     background 0.2s ease-in-out,
     color 0.2s ease-in-out;
+
+  &:hover {
+    background: var(--text-hover);
+    color: var(--bg-color);
+  }
+
+  &.active {
+    background: var(--text-color);
+    color: var(--bg-color);
+    font-weight: 600;
+  }
 }
 
-.filterButton:hover {
-  background: var(--text-hover);
-  color: var(--bg-color);
-}
-
-.filterButton.active {
-  background: var(--text-color);
-  color: var(--bg-color);
-  font-weight: 600;
-}
-
+// Scroll arrow buttons
 .scrollBtn {
   background: transparent;
   border: none;
+  padding: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.2rem;
   border-radius: 6px;
   cursor: pointer;
+  color: var(--text-color);
   transition:
     background 0.2s ease,
     transform 0.2s ease;
-  color: var(--text-color);
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05); 
+    background: rgba(0, 0, 0, 0.05);
     color: var(--primary-accent);
     transform: scale(1.1);
   }
 }
 
-
+// Sort dropdown container
 .sort-dropdown-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin: 0;
   padding-right: 0.5rem;
+  margin: 0;
 }
 
+// Sort dropdown styling
 .sort-dropdown {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   font-size: 0.9rem;
   color: var(--text-color);
-
 
   label {
     font-weight: 400;
@@ -102,7 +106,5 @@
     color: var(--text-color);
     border-radius: 6px;
     transition: border-color 0.2s ease;
-
   }
-  
 }

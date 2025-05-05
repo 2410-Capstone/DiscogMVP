@@ -1,3 +1,6 @@
+/* ===============================
+   ORDER TITLE + FILTER SECTION
+=============================== */
 .order-title,
 .order-filter {
   color: var(--text-color);
@@ -17,6 +20,9 @@
   }
 }
 
+/* ===============================
+   ORDERS TABLE STYLING
+=============================== */
 .orders-table {
   width: 100%;
   border-collapse: collapse;
@@ -27,6 +33,7 @@
   border-radius: 4px;
   overflow: hidden;
 
+  /* ---------- TABLE HEAD ---------- */
   thead {
     background-color: #333;
     color: white;
@@ -41,6 +48,7 @@
     }
   }
 
+  /* ---------- TABLE BODY ---------- */
   tbody {
     tr {
       border-bottom: 1px solid #eee;
@@ -67,6 +75,7 @@
     }
   }
 
+  /* ---------- SELECT DROPDOWNS ---------- */
   select {
     padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
@@ -92,22 +101,30 @@
     }
   }
 
+  /* ---------- PAYMENT STATUS STYLING ---------- */
   .payment-status {
     font-weight: 600;
+
     &.payment-failed {
       color: red;
     }
+
     &.payment-paid {
       color: green;
     }
   }
 
+  /* ===============================
+     MOBILE STYLES (Responsive)
+  ================================ */
   @media (max-width: 900px) {
     thead {
       display: none;
     }
 
-    tbody, tr, td {
+    tbody,
+    tr,
+    td {
       display: block;
       width: 100%;
     }

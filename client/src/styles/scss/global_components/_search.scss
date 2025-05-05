@@ -1,4 +1,4 @@
-
+// ========== Core Input Styles ==========
 
 .search-bar {
   width: 100%;
@@ -16,6 +16,13 @@
   font-size: 1.5rem;
 }
 
+.search-bar::placeholder {
+  color: var(--placeholder-color); 
+  font-size: 1.5rem;
+}
+
+// ========== Wrapper ==========
+
 .search-wrapper {
   position: relative;
   width: 100%;
@@ -24,6 +31,16 @@
   align-items: flex-start;
   padding: 0.5rem 1rem;
 }
+
+.search-wrapper {
+  flex: 1;
+  padding: 0;             
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+// ========== Section Layout ==========
 
 .search-section {
   width: 100%;
@@ -41,6 +58,29 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+// ========== Result Item ==========
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  padding: 10px 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.3s ease;
+  background-color: transparent;
+}
+
+.search-result-item:hover,
+.search-result-item.active,
+.search-result-item.active:hover {
+  background-color: var(--search);
+  border-radius: 4px;
+}
+
+// ========== Result Inner Text & Thumbnail ==========
 
 .search-thumb {
   width: 40px;
@@ -68,80 +108,7 @@
   color: var(--text-color, #999);
 }
 
-
-
-.nav-search-fullscreen {
-  position: relative;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: var(--bg-color);
-  z-index: 99;
-  padding: 1rem 2rem 0;
-}
-
-.nav-search-fullscreen .search-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.close-search {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-  background: none;
-  color: white;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.close-search:hover {
-  opacity: 0.7;
-}
-
-.search-result-item {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  color: var(--text-color);
-  padding: 10px 1rem;
-  cursor: pointer;
-  border-bottom: 1px solid var(--border-color);
-  transition: background 0.3s ease;
-  background-color: transparent;
-}
-
-.search-result-item:hover,
-.search-result-item.active,
-.search-result-item.active:hover {
-  background-color: var(--search);
-  border-radius: 4px;
-}
-
-.load-more-button {
-  display: flex;
-  align-items: center;
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: var(--text-color);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  transition: background 0.2s ease;
-}
-
-.load-more-button:hover,
-.load-more-button.active {
-  background-color: var(--search);
-  border-radius: 4px;
-}
+// ========== Dropdown Layout ==========
 
 .nav-search-dropdown {
   position: absolute;
@@ -164,27 +131,62 @@
   }
 }
 
+// ========== Fullscreen Layout ==========
 
-.search-wrapper {
-  flex: 1;
-  padding: 0;             
-  margin: 0;
+.nav-search-fullscreen {
+  position: relative;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: var(--bg-color);
+  z-index: 99;
+  padding: 1rem 2rem 0;
+}
+
+.nav-search-fullscreen .search-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// ========== Close Button ==========
+
+.close-search {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.close-search:hover {
+  opacity: 0.7;
+}
+
+// ========== Load More Button ==========
+
+.load-more-button {
   display: flex;
   align-items: center;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.2s ease;
 }
 
-
-
-
-
-.search-bar::placeholder {
-  color: rgba(255, 255, 255, 0.5); 
-  font-size: 1.5rem;
-}
-
-
-
-.search-bar::placeholder {
-  color: var(--placeholder-color); 
-  font-size: 1.5rem;
+.load-more-button:hover,
+.load-more-button.active {
+  background-color: var(--search);
+  border-radius: 4px;
 }
