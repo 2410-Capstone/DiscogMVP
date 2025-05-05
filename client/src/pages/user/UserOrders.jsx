@@ -23,27 +23,37 @@ const UserOrders = () => {
       day: "numeric",
     });
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/my`, {
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (!res.ok) throw new Error("Failed to fetch orders");
-        const data = await res.json();
-        setOrders(data);
-      } catch (err) {
-        setError(err.message || "Error fetching orders");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
-  }, []);
+    useEffect(() => {
+      const fetchOrders = async () => {
+        try {
+          const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/my`, {
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+    
+          if (!res.ok) {
+            if (res.status === 404) {
+              setOrders([]); // No orders found
+            } else {
+              throw new Error("Failed to fetch orders");
+            }
+          } else {
+            const data = await res.json();
+            setOrders(data);
+          }
+        } catch (err) {
+          console.error(err);
+          setError("There was a problem fetching your order history.");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchOrders();
+    }, []);
+    
 
   const handleCancel = async (orderId) => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
@@ -111,9 +121,12 @@ const UserOrders = () => {
   if (error) return <div>{error}</div>;
   if (orders.length === 0) {
     return (
-      <div className='user-orders-container'>
-        <h2>Order History</h2>
-        <p>You haven’t placed any orders yet.</p>
+      <div className="page user-orders-container">
+        <div className="empty-order-state">
+          <h2>Order History</h2>
+          <p className="empty-order-message">You haven’t placed any orders yet.</p>
+          <a href="/home" className="shop-link">Browse Products</a>
+        </div>
       </div>
     );
   }
@@ -126,22 +139,22 @@ const UserOrders = () => {
   );
 
   return (
-    <div className='user-orders-container'>
-      <h2>Current Orders</h2>
+    <div className="user-orders-container">
+      <h2 className="section-title">Current Orders</h2>
       {currentOrders.length > 0 ? (
-        <ul className='user-orders-list'>{currentOrders.map(renderOrder)}</ul>
+        <ul className="user-orders-list">{currentOrders.map(renderOrder)}</ul>
       ) : (
-        <p>No current orders found</p>
+        <p className="empty-order-message">No current orders found</p>
       )}
-
-      <h2>Order History</h2>
+  
+    <h2 className="section-title">Order History</h2>
       {completedOrders.length > 0 ? (
-        <ul className='user-orders-history'>{completedOrders.map(renderOrder)}</ul>
+        <ul className="user-orders-history">{completedOrders.map(renderOrder)}</ul>
       ) : (
-        <p>No completed orders found</p>
+        <p className="empty-order-message">No order history to show.</p>
       )}
     </div>
   );
-};
+}
 
 export default UserOrders;
