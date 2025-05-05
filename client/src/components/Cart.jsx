@@ -190,15 +190,19 @@ const Cart = () => {
           ) : (
             cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
-                <div className="item-image">
-                <img
-        src={`http://localhost:3000/public${item.image_url}`}
-        alt="Album Art"
-        className="card-image"
-      />
-                </div>
+  <Link to={`/home/${item.product_id}`} className="item-image" style={{ display: "block" }}>
+  <img
+    src={`http://localhost:3000/public${item.image_url}`}
+    alt="Album Art"
+    className="card-image"
+  />
+</Link>
+
                 <div className="item-details">
-                  <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
+                <Link to={`/home/${item.product_id}`} style={{ textDecoration: "none", color: "inherit" }}>
+  <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
+</Link>
+
                   <p>Format: Vinyl</p>
                   <div className="item-price">${Number(item.price).toFixed(2)}</div>
                   <p className="quantity-label">Quantity:</p>
@@ -275,17 +279,17 @@ const Cart = () => {
         const products = genreMap[genre];
         if (!products) return null;
         return (
-          <section className="related-products" key={genre}>
-            <div className="genre-header"><h2>{genre}</h2></div>
-            <div className="products-grid">
+          <section className="c-related-products" key={genre}>
+            <div className="c-genre-header"><h2>{genre}</h2></div>
+            <div className="c-products-grid">
               {products.slice(0, 10).map((item) => (
-                <Link key={item.id} to={`/home/${item.id}`} className="related-product-card" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-                  <img src={`http://localhost:3000/public${item.image_url}`} alt={item.title} className="related-card-image" />
-                  <div className="related-card-info">
-                    <p className="related-card-artist">{item.category || "Vinyl"}</p>
-                    <h3 className="related-card-title">{item.title}</h3>
-                    <p className="related-card-price">${item.price}</p>
-                    <div className="related-card-rating">★ 4.7 (128)</div>
+                <Link key={item.id} to={`/home/${item.id}`} className="c-related-product-card" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                  <img src={`http://localhost:3000/public${item.image_url}`} alt={item.title} className="c-related-card-image" />
+                  <div className="c-related-card-info">
+                    <p className="c-related-card-artist">{item.category || "Vinyl"}</p>
+                    <h3 className="c-related-card-title">{item.title}</h3>
+                    <p className="c-related-card-price">${item.price}</p>
+                    <div className="c-related-card-rating">★ 4.7 (128)</div>
                   </div>
                 </Link>
               ))}

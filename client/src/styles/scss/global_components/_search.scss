@@ -12,12 +12,7 @@
 }
 
 .search-bar::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 1.5rem;
-}
-
-.search-bar::placeholder {
-  color: var(--placeholder-color); 
+  color: var(--placeholder-color);
   font-size: 1.5rem;
 }
 
@@ -29,15 +24,9 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  padding: 0.5rem 1rem;
-}
-
-.search-wrapper {
+ 
   flex: 1;
-  padding: 0;             
   margin: 0;
-  display: flex;
-  align-items: center;
 }
 
 // ========== Section Layout ==========
@@ -46,38 +35,54 @@
   width: 100%;
   background: var(--bg-color);
   border-radius: 4px;
-  // padding: 1rem;
   z-index: 1000;
 }
 
 .search-header {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 400;
   padding-bottom: 20px;
   color: var(--text-muted, #aaa);
-  text-transform: uppercase;
+  // text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 // ========== Result Item ==========
 
 .search-result-item {
+  position: relative;
   display: flex;
-  align-items: left;
+  align-items: center;
   font-size: 0.95rem;
   color: var(--text-color);
-  padding-bottom: 10px;
+  padding: 0.6rem 0;
   cursor: pointer;
   border-bottom: 1px solid var(--border-color);
-  transition: background 0.3s ease;
   background-color: transparent;
+  z-index: 0;
 }
 
-.search-result-item:hover,
-.search-result-item.active,
-.search-result-item.active:hover {
-  background-color: var(--search);
+// ========== Hover Background Inset ==========
+
+.search-result-item::before,
+.loadmore::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -8px;
+  right: -8px;
+  background-color: transparent;
   border-radius: 4px;
+  z-index: -1;
+  transition: background 0.2s ease;
+}
+
+.search-result-item:hover::before,
+.search-result-item.active::before,
+.loadmore:hover::before,
+.loadmore.active::before {
+  background-color: var(--search);
 }
 
 // ========== Result Inner Text & Thumbnail ==========
@@ -169,24 +174,24 @@
 
 // ========== Load More Button ==========
 
-.load-more-button {
-  display: flex;
-  align-items: left;
-  font-size: 0.8rem;
+button.loadmore {
+  all: unset;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 1rem;
   font-weight: 400;
-  color: var(--text-color);
-  text-transform: uppercase;
+  color: var(--text-muted, #898989);
   letter-spacing: 0.05em;
-  background: none;
-  border: none;
   cursor: pointer;
   text-align: left;
-  width: 100%;
-  transition: background 0.2s ease;
-}
+  margin-top: 0.5rem;
+  z-index: 0;
 
-.load-more-button:hover,
-.load-more-button.active {
-  background-color: var(--search);
-  border-radius: 4px;
+  &:hover,
+  &.active,
+  &:focus-visible {
+    color: var(--text-color);
+  }
 }
