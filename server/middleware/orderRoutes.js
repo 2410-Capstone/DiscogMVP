@@ -183,11 +183,20 @@ router.get("/:id", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
-    // Check order ownership
-    const order = await getOrderById(orderId);
+    // Get order with user's email
+    const { rows } = await pool.query(/*sql*/`
+      SELECT o.*, u.email
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      WHERE o.id = $1
+    `, [orderId]);
+
+    const order = rows[0];
+
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
+
     if (order.user_id !== req.user.id && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden" });
     }
@@ -200,7 +209,7 @@ router.get("/:id", authenticateToken, async (req, res, next) => {
       FROM order_items oi
       JOIN products p ON oi.product_id = p.id
       WHERE oi.order_id = $1
-    `,
+      `,
       [orderId]
     );
 
@@ -217,13 +226,14 @@ router.get("/:id", authenticateToken, async (req, res, next) => {
         } catch {
           return { addressLine1: order.shipping_address };
         }
-      })(),      
+      })(),
       cartItems: items
     });
   } catch (error) {
     next(error);
   }
 });
+git 
 
 
 router.get("/:id/items", authenticateToken, async (req, res, next) => {
