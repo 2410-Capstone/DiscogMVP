@@ -233,7 +233,6 @@ router.get("/:id", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
-git 
 
 
 router.get("/:id/items", authenticateToken, async (req, res, next) => {
