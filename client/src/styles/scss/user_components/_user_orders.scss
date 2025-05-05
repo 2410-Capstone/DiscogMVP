@@ -7,6 +7,7 @@
   background-color: var(--bg-color);
 }
 
+
 .section-title {
   font-size: 2rem;
   margin: 2rem 0 1rem;
@@ -22,6 +23,21 @@
   color: var(--text-color);
 }
 
+
+/* ===============================
+   SECTION TITLES
+=============================== */
+.section-title {
+  color: var(--text-color);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+/* ===============================
+   EMPTY ORDER STATE
+=============================== */
 .empty-order-state {
   margin: 4rem auto;
   padding: 3rem 2rem;
@@ -52,7 +68,6 @@
   background-color: #e5e5e5;
 }
 
-
 /* ===============================
    ORDER CARD
 =============================== */
@@ -67,11 +82,9 @@
   box-shadow: 0 2px 5px var(--shadow-color);
 }
 
-
 /* ===============================
    ORDER STRUCTURE
 =============================== */
-
 .order-header,
 .order-summary,
 .order-actions {
@@ -81,7 +94,6 @@
   justify-content: space-between;
   margin-bottom: 1rem;
 }
-
 
 /* ===============================
    ORDER ITEMS
@@ -108,11 +120,9 @@
   border: 1px solid var(--border-color);
 }
 
-
 /* ===============================
    PAYMENT STATUS
 =============================== */
-
 .payment-status.paid {
   color: #4caf50;
   font-weight: bold;
@@ -127,12 +137,9 @@
   color: #ff9800;
   font-weight: bold;
 }
-
-
 /* ===============================
    ORDER ACTIONS
 =============================== */
-
 .order-actions button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -148,7 +155,6 @@
 .order-actions button:hover {
   background-color: #444;
 }
-
 
 /* ===============================
    RESPONSIVE
