@@ -8,12 +8,35 @@ const OrderConfirmation = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!location.state?.orderDetails) {
-      navigate("/");
-    } else {http://localhost:5173/admin/dashboard
-      setOrderDetails(location.state.orderDetails);
-    }
+    const fetchOrderDetails = async () => {
+      const orderId = location.state?.orderId;
+      if (!orderId) {
+        navigate("/");
+        return;
+      }
+  
+      try {
+        const res = await fetch(`/api/orders/${orderId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+  
+        if (!res.ok) {
+          throw new Error("Failed to fetch order");
+        }
+  
+        const data = await res.json();
+        setOrderDetails(data);
+      } catch (err) {
+        console.error(err);
+        navigate("/");
+      }
+    };
+  
+    fetchOrderDetails();
   }, [location.state, navigate]);
+  
 
   if (!orderDetails) return null;
 
@@ -23,14 +46,26 @@ const OrderConfirmation = () => {
       <p>Order Number: {orderDetails.orderNumber}</p>
       <p>Email: {orderDetails.email}</p>
       <p>Shipping To:</p>
-      <ul>
-        <li>{orderDetails.shippingAddress.name}</li>
-        <li>{orderDetails.shippingAddress.addressLine1}</li>
-        {orderDetails.shippingAddress.addressLine2 && <li>{orderDetails.shippingAddress.addressLine2}</li>}
-        <li>
-          {orderDetails.shippingAddress.city}, {orderDetails.shippingAddress.state} {orderDetails.shippingAddress.zip}
-        </li>
-      </ul>
+        <ul>
+          {orderDetails.shippingAddress?.name && (
+            <li>{orderDetails.shippingAddress.name}</li>
+          )}
+          {orderDetails.shippingAddress?.addressLine1 && (
+            <li>{orderDetails.shippingAddress.addressLine1}</li>
+          )}
+          {orderDetails.shippingAddress?.addressLine2 && (
+            <li>{orderDetails.shippingAddress.addressLine2}</li>
+          )}
+          {(orderDetails.shippingAddress?.city ||
+            orderDetails.shippingAddress?.state ||
+            orderDetails.shippingAddress?.zip) && (
+            <li>
+              {[orderDetails.shippingAddress.city, orderDetails.shippingAddress.state, orderDetails.shippingAddress.zip]
+                .filter(Boolean)
+                .join(", ")}
+            </li>
+          )}
+        </ul>
 
       <p>Total: ${orderDetails.total}</p>
       <h3>Items:</h3>

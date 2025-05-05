@@ -180,19 +180,60 @@ router.get("/my", authenticateToken, async (req, res, next) => {
 });
 
 router.get("/:id", authenticateToken, async (req, res, next) => {
+  const orderId = req.params.id;
+
   try {
-    const order = await getOrderById(req.params.id);
+    // Get order with user's email
+    const { rows } = await pool.query(/*sql*/`
+      SELECT o.*, u.email
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      WHERE o.id = $1
+    `, [orderId]);
+
+    const order = rows[0];
+
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
-    if (order.user_id !== req.user.id) {
+
+    if (order.user_id !== req.user.id && req.user.user_role !== "admin") {
       return res.status(403).json({ error: "Forbidden" });
     }
-    res.json(order);
+
+    // Fetch order items with product details
+    const { rows: items } = await pool.query(/*sql*/
+      `
+      SELECT oi.product_id, oi.quantity, oi.price,
+             p.description, p.image_url
+      FROM order_items oi
+      JOIN products p ON oi.product_id = p.id
+      WHERE oi.order_id = $1
+      `,
+      [orderId]
+    );
+
+    res.json({
+      orderNumber: order.id,
+      email: order.email,
+      total: order.total,
+      shippingAddress: (() => {
+        try {
+          const parsed = JSON.parse(order.shipping_address);
+          return typeof parsed === 'object' && parsed !== null
+            ? parsed
+            : { addressLine1: order.shipping_address };
+        } catch {
+          return { addressLine1: order.shipping_address };
+        }
+      })(),
+      cartItems: items
+    });
   } catch (error) {
     next(error);
   }
 });
+
 
 router.get("/:id/items", authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
