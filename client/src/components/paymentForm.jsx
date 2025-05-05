@@ -263,16 +263,8 @@ useEffect(() => {
           localStorage.removeItem("cart");
   
           navigate("/order-confirmation", {
-            state: {
-              orderDetails: {
-                cartItems: cartItems,
-                shippingAddress: shippingInfo,
-                orderNumber: confirmedOrderId,
-                total: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
-                email: emailInput,
-              },
-            },
-          });
+            state: { orderId: confirmedOrderId }
+          });          
         } catch (clearErr) {
           console.error("Cart clear failed:", clearErr);
         }
