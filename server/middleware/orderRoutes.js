@@ -14,19 +14,33 @@ const { calculateOrderTotal } = require("../db/orders");
 const isAdmin = require("../middleware/isAdminMiddleware");
 const router = express.Router();
 
-//guest user orders
-// GET /api/orders/guest.
+// GET /api/orders/guest
 router.get("/guest", async (req, res) => {
   const { orderId, email } = req.query;
-  if (!orderId || !email) {
-    return res.status(400).json({ error: "Order ID and email are required" });
+  try {
+    const order = await getOrderById(orderId);
+    if (
+      !order ||
+      typeof order.email !== "string" ||
+      order.email.toLowerCase() !== email.toLowerCase()
+    ) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    res.json({
+      ...order,
+      shippingAddress: order.shippingAddress,
+      items: order.items,
+    });
+    
+    
+    
+  } catch (err) {
+    console.error("Error fetching guest order:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
-  const order = await getOrderById(orderId);
-  if (!order || order.email !== email) {
-    return res.status(404).json({ error: "Order not found" });
-  }
-  res.json(order);
 });
+
+
 // POST /api/orders/guest
 router.post("/guest", async (req, res, next) => {
   const { email, name, address, items } = req.body;

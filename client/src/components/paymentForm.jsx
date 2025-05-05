@@ -123,7 +123,14 @@ useEffect(() => {
       setErrorMessage("Your cart is empty");
       return;
     }
-  
+
+    if (!userId) {
+      localStorage.setItem("guestEmail", emailInput.trim());
+      console.log("Saved guestEmail:", emailInput.trim());
+
+      clearGuestCart();
+    }
+    
     setStatus("processing");
 
     // let orderId = null;
@@ -194,7 +201,8 @@ useEffect(() => {
       });
   
       const { clientSecret, error: backendError, orderId: confirmedOrderId } = await res.json();
-  
+      console.log("confirmedOrderId from backend:", confirmedOrderId);
+
       if (backendError) {
         throw new Error(backendError);
       }

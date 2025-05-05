@@ -10,32 +10,43 @@ const OrderConfirmation = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       const orderId = location.state?.orderId;
+      const guestEmail = localStorage.getItem("guestEmail")?.trim().toLowerCase();
+      const token = localStorage.getItem("token");
+  
       if (!orderId) {
         navigate("/");
         return;
       }
   
       try {
-        const res = await fetch(`/api/orders/${orderId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        });
+        let res;
   
-        if (!res.ok) {
-          throw new Error("Failed to fetch order");
+        if (token) {
+          res = await fetch(`/api/orders/${orderId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } else if (guestEmail) {
+          res = await fetch(`/api/orders/guest?orderId=${orderId}&email=${encodeURIComponent(guestEmail)}`);
+        } else {
+          throw new Error("Missing credentials for order fetch");
         }
+  
+        if (!res.ok) throw new Error("Failed to fetch order");
   
         const data = await res.json();
         setOrderDetails(data);
       } catch (err) {
-        console.error(err);
+        console.error("Order confirmation fetch failed:", err);
         navigate("/");
       }
     };
   
     fetchOrderDetails();
   }, [location.state, navigate]);
+  
+  
   
 
   if (!orderDetails) return null;
@@ -73,10 +84,9 @@ const OrderConfirmation = () => {
               )}
             </div>
           </div>
-  
           <div className="order-items">
             <h3>Items:</h3>
-            {orderDetails.cartItems.map((item, idx) => {
+            {orderDetails.items.map((item, idx) => {
               const itemKey = item.product_id || item.id || `item-${idx}`;
               return (
                 <div key={itemKey} className="order-item">

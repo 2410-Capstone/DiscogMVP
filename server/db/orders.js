@@ -60,23 +60,43 @@ const getOrderByUserId = async (user_id) => {
 };
 
 
-const getOrderById = async (order_id) => {
+const getOrderById = async (orderId) => {
   try {
-    const {
-      rows: [order],
-    } = await pool.query(
-      /*sql*/ `
-      SELECT * FROM orders WHERE id = $1;
-    `,
-      [order_id]
-    );
-    return order;
-  } catch (error) {
-    console.error("Error getting order by ID:", error);
+    const { rows: [order] } = await pool.query(`
+      SELECT o.*, u.email
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      WHERE o.id = $1
+    `, [orderId]);
 
-    throw error;
+    if (order.shipping_address) {
+      try {
+        order.shippingAddress = JSON.parse(order.shipping_address);
+      } catch (err) {
+        console.warn("Failed to parse shipping_address JSON:", order.shipping_address);
+        order.shippingAddress = null;
+      }
+    }    
+    
+
+    if (!order) return null;
+
+    const { rows: items } = await pool.query(`
+      SELECT oi.*, p.artist, p.description, p.image_url
+      FROM order_items oi
+      JOIN products p ON oi.product_id = p.id
+      WHERE oi.order_id = $1
+    `, [orderId]);
+    
+
+    order.items = items;
+    return order;
+  } catch (err) {
+    console.error("Error in getOrderById:", err);
+    throw err;
   }
 };
+
 
 const updateOrder = async ({ order_id, updates }) => {
   try {
