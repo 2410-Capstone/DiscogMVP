@@ -84,7 +84,6 @@ const OrderConfirmation = () => {
               )}
             </div>
           </div>
-  
           <div className="order-items">
             <h3>Items:</h3>
             {orderDetails.items.map((item, idx) => {

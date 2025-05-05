@@ -69,6 +69,16 @@ const getOrderById = async (orderId) => {
       WHERE o.id = $1
     `, [orderId]);
 
+    if (order.shipping_address) {
+      try {
+        order.shippingAddress = JSON.parse(order.shipping_address);
+      } catch (err) {
+        console.warn("Failed to parse shipping_address JSON:", order.shipping_address);
+        order.shippingAddress = null;
+      }
+    }    
+    
+
     if (!order) return null;
 
     const { rows: items } = await pool.query(`
