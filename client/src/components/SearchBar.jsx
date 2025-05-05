@@ -113,7 +113,7 @@ function SearchBar({ allItems = [], onCloseSearch }) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Search albums..."
+        placeholder="Search..."
         autoFocus
       />
 

@@ -90,30 +90,11 @@
     }
   }
 
-  /* --- Button / Action Styling --- */
-  button,
-  .edit-btn,
-  .cancel-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--text-color);
-    font-size: 0.9rem;
-    cursor: pointer;
-    text-decoration: none;
-    display: block;
-    width: auto;
-    max-width: 150px;
-    margin: 0 auto;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
+  
 
   /* --- Inline Select + Button Cell --- */
   td:nth-child(6) {
-    padding: 1rem 1rem;
+    padding: 0.5rem 1rem;
     line-height: 1.2;
     vertical-align: middle;
 
@@ -190,18 +171,6 @@
 }
 
 /* ===============================
-   EDIT BUTTON STYLING
-=============================== */
-.edit-button {
-  text-decoration: none;
-  color: var(--primary-accent);
-
-  &:hover {
-    color: var(--hover);
-  }
-}
-
-/* ===============================
    FILTER DROPDOWN (Admin)
 =============================== */
 .admin-filter {
@@ -242,6 +211,26 @@
     }
   }
 }
+
+/* ===============================
+   ACTIONS CLEANUP
+=============================== */
+.user-edit-btn,
+.user-delete-btn {
+  padding: 0.1rem 0.4rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--primary-accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+   text-decoration: underline;
+   background-color: transparent;
+   color: var(--primary-accent)
+
+}}
+
 
 /* ===============================
    RESPONSIVE CLEANUP

@@ -69,25 +69,55 @@
 
 
 /* ===============================
-   ORDER ACTIONS
+   USER ACTIONS
 =============================== */
 
-.order-actions {
+
+
+.user-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
 
-  button {
-    background: #555;
-    border: 1px solid #ccc;
-    color: white;
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-    cursor: pointer;
-    border-radius: 4px;
+.user-edit-btn,
+.user-delete-btn {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  border: none;
+  white-space: nowrap;
+}
 
-    &:hover {
-      background: #444;
-    }
+.user-edit-btn {
+  background-color: #333;
+  color: #fff;
+
+  &:hover {
+    background-color: #444;
+  }
+}
+
+.user-delete-btn {
+  background-color: #c0392b;
+  color: #fff;
+
+  &:hover {
+    background-color: #a93226;
+  }
+
+  &:disabled {
+    background-color: #666;
+    color: #ddd;
+    cursor: not-allowed;
   }
 }
