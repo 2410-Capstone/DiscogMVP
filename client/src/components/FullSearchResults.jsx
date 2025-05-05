@@ -27,7 +27,9 @@ function FullSearchResults({ allItems = [] }) {
                 src={
                   item.image_url?.startsWith("http")
                     ? item.image_url
-                    : `${import.meta.env.VITE_BACKEND_URL}${item.image_url}`
+                    : item.image_url?.startsWith("/")
+                    ? item.image_url
+                    : `/images/${item.image_url}`
                 }
                 alt={item.title}
                 onError={(e) => (e.target.src = "/placeholder.png")}

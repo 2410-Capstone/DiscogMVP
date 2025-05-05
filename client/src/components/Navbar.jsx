@@ -7,7 +7,6 @@ import { useTheme } from "../utils/useTheme";
 import SearchBar from "./SearchBar";
 import defaultProfilePic from "../assets/default-profile.png";
 
-// ...imports remain unchanged
 
 function Navbar({ isAuthenticated, onSearch, ...props }) {
   const navigate = useNavigate();

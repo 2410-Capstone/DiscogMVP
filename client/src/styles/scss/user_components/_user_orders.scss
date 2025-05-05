@@ -7,12 +7,22 @@
   background-color: var(--bg-color);
 }
 
+
+.section-title {
+  font-size: 2rem;
+  margin: 2rem 0 1rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
 .user-orders-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 2rem;
   color: var(--text-color);
 }
+
 
 /* ===============================
    SECTION TITLES
@@ -61,6 +71,7 @@
 /* ===============================
    ORDER CARD
 =============================== */
+
 .order-card {
   background: var(--card-bg);
   color: var(--text-color);
@@ -87,6 +98,7 @@
 /* ===============================
    ORDER ITEMS
 =============================== */
+
 .order-items {
   display: flex;
   flex-direction: column;
@@ -125,7 +137,6 @@
   color: #ff9800;
   font-weight: bold;
 }
-
 /* ===============================
    ORDER ACTIONS
 =============================== */
@@ -148,6 +159,7 @@
 /* ===============================
    RESPONSIVE
 =============================== */
+
 @media (max-width: 600px) {
   .order-header,
   .order-summary,
