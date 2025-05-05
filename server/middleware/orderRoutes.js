@@ -22,9 +22,12 @@ router.get("/guest", async (req, res) => {
     return res.status(400).json({ error: "Order ID and email are required" });
   }
   const order = await getOrderById(orderId);
-  if (!order || order.email !== email) {
+
+  console.log("🔍 Guest order lookup:", { orderId, emailFromQuery: email, orderEmail: order?.email });
+  if (!order || typeof order.email !== "string" || order.email.toLowerCase() !== email.toLowerCase()) {
     return res.status(404).json({ error: "Order not found" });
-  }
+  }  
+  
   res.json(order);
 });
 // POST /api/orders/guest
