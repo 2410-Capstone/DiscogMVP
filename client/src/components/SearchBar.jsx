@@ -127,16 +127,19 @@ function SearchBar({ allItems = [], onCloseSearch }) {
               className={`search-result-item ${index === activeIndex ? "active" : ""}`}
               onClick={() => handleClick(item.id)}
             >
-              <img
-                src={
-                  item.image_url?.startsWith("http")
-                    ? item.image_url
-                    : `${import.meta.env.VITE_BACKEND_URL}${item.image_url}`
-                }
-                alt={item.title}
-                onError={(e) => (e.target.src = "/placeholder.png")}
-                className="search-thumb"
-              />
+         <img
+  src={
+    item.image_url?.startsWith("http")
+      ? item.image_url
+      : item.image_url?.startsWith("/")
+      ? item.image_url
+      : `/images/${item.image_url}`
+  }
+  alt={item.title}
+  onError={(e) => (e.target.src = "/placeholder.png")}
+  className="search-thumb"
+/>
+
               <div className="result-text">
                 <strong>{item.title}</strong>
                 <span>{item.artist}</span>
