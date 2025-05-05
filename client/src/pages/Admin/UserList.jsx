@@ -100,17 +100,22 @@ const AdminUserList = () => {
                 <td>{user.address}</td>
                 <td>{user.user_role}</td>
                 <td>
-                  <Link to={`/admin/users/${user.id}/edit`} className="edit-button">
-                    Edit
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(user.id)}
-                    disabled={deletedUserId === user.id}
-                    className="delete-button"
-                  >
-                    {deletedUserId === user.id ? 'Deleting...' : 'Delete'}
-                  </button>
-                </td>
+  <div className="user-actions">
+    <Link
+      to={`/admin/users/${user.id}/edit`}
+      className="user-edit-btn"
+    >
+      Edit
+    </Link>
+    <button
+      onClick={() => handleDelete(user.id)}
+      disabled={deletedUserId === user.id}
+      className="user-delete-btn"
+    >
+      {deletedUserId === user.id ? 'Deleting...' : 'Delete'}
+    </button>
+  </div>
+</td>
               </tr>
             ))}
           </tbody>
