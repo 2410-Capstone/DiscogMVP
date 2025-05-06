@@ -117,9 +117,6 @@
   }
 
   .album-card {
-    background: rgba(208, 208, 208, 0.916);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
     padding: 1rem;
     text-align: center;
     transition: all 0.2s ease-in-out;
@@ -130,7 +127,6 @@
 
     img {
       width: 100%;
-      border-radius: 8px;
       margin-bottom: 0.5rem;
     }
 

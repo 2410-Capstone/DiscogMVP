@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function SearchBar({ allItems = [], onCloseSearch }) {
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState([]);
@@ -12,16 +11,10 @@ function SearchBar({ allItems = [], onCloseSearch }) {
   const wrapperRef = useRef(null);
   const navigate = useNavigate();
   const mouseLeaveTimeout = useRef(null);
-  const handleFullSearchRedirect = () => {
-    navigate(`/search?q=${encodeURIComponent(query)}`);
-  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         onCloseSearch?.();
       }
     };
@@ -37,11 +30,15 @@ function SearchBar({ allItems = [], onCloseSearch }) {
     }
 
     const lower = query.toLowerCase();
-    const results = allItems.filter(
-      (item) =>
-        item.title?.toLowerCase().includes(lower) ||
-        item.artist?.toLowerCase().includes(lower)
-    );
+
+    const results = allItems.filter((item) => {
+      return (
+        item.description?.toLowerCase().includes(lower) ||
+        item.artist?.toLowerCase().includes(lower) ||
+        item.genre?.toLowerCase().includes(lower)
+      );
+    });
+    
 
     setFiltered(results);
     setVisibleCount(5);
@@ -59,13 +56,12 @@ function SearchBar({ allItems = [], onCloseSearch }) {
     navigate(`/search?q=${encodeURIComponent(query)}`);
     onCloseSearch?.();
   };
-  
 
   const handleKeyDown = (e) => {
     const maxIndex = Math.min(filtered.length, visibleCount);
     const hasLoadMore = filtered.length > visibleCount;
     const limit = hasLoadMore ? maxIndex : maxIndex - 1;
-  
+
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIndex((prev) => (prev < limit ? prev + 1 : 0));
@@ -73,13 +69,13 @@ function SearchBar({ allItems = [], onCloseSearch }) {
       e.preventDefault();
       setActiveIndex((prev) => (prev > 0 ? prev - 1 : limit));
     } else if (e.key === "Enter") {
-      if (activeIndex >= 0 && activeIndex < maxIndex) {
+      if (activeIndex >= 0 && activeIndex < visibleCount) {
         handleClick(filtered[activeIndex].id);
-      } else if (activeIndex === maxIndex && hasLoadMore) {
+      } else if (activeIndex === visibleCount && hasLoadMore) {
         handleLoadMore();
       } else if (query.trim()) {
-        onCloseSearch?.();
         navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+        onCloseSearch?.();
       }
     } else if (e.key === "Escape") {
       onCloseSearch?.();
@@ -87,12 +83,8 @@ function SearchBar({ allItems = [], onCloseSearch }) {
       setFiltered([]);
     }
   };
-  
 
-  const handleMouseEnter = () => {
-    clearTimeout(mouseLeaveTimeout.current);
-  };
-
+  const handleMouseEnter = () => clearTimeout(mouseLeaveTimeout.current);
   const handleMouseLeave = () => {
     mouseLeaveTimeout.current = setTimeout(() => {
       onCloseSearch?.();
@@ -119,44 +111,48 @@ function SearchBar({ allItems = [], onCloseSearch }) {
 
       {filtered.length > 0 && (
         <div className="search-section">
-          <p className="search-header">Suggested Works & Artists </p>
+          <p className="search-header">Suggested works & artists</p>
           {filtered.slice(0, visibleCount).map((item, index) => (
             <div
               key={item.id}
               tabIndex={0}
-              className={`search-result-item ${index === activeIndex ? "active" : ""}`}
+              className={`search-result-item ${
+                index === activeIndex ? "active" : ""
+              }`}
               onClick={() => handleClick(item.id)}
             >
-         <img
-  src={
-    item.image_url?.startsWith("http")
-      ? item.image_url
-      : item.image_url?.startsWith("/")
-      ? item.image_url
-      : `/images/${item.image_url}`
-  }
-  alt={item.title}
-  onError={(e) => (e.target.src = "/placeholder.png")}
-  className="search-thumb"
-/>
+              <img
+                src={
+                  item.image_url?.startsWith("http")
+                    ? item.image_url
+                    : item.image_url?.startsWith("/")
+                    ? item.image_url
+                    : `/images/${item.image_url}`
+                }
+                alt={item.title}
+                onError={(e) => (e.target.src = "/placeholder.png")}
+                className="search-thumb"
+              />
+    <div className="result-text">
+  <strong>{item.description}</strong>
+  <span>{item.artist ? `${item.artist}` : "Unknown artist"}</span>
+</div>
 
-              <div className="result-text">
-                <strong>{item.title}</strong>
-                <span>{item.artist}</span>
-              </div>
+
             </div>
           ))}
 
           {filtered.length > visibleCount && (
-   <button
-   className={`load-more-button ${activeIndex === visibleCount ? "active" : ""}`}
-   onClick={handleLoadMore}
-   tabIndex={0}
- >
-   LOAD MORE
- </button>
- 
-      
+            <button
+              className={`loadmore ${
+                activeIndex === visibleCount ? "active" : ""
+              }`}
+              onClick={handleLoadMore}
+              tabIndex={0}
+              onMouseEnter={() => setActiveIndex(visibleCount)}
+            >
+              Load more
+            </button>
           )}
         </div>
       )}

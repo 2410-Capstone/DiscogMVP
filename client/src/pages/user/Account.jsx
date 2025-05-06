@@ -7,6 +7,7 @@ const Account = ({ user }) => {
   const [loadingAlbums, setLoadingAlbums] = useState(true);
   const [billingInfo, setBillingInfo] = useState(null);
   const [localUser, setLocalUser] = useState(user);
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
@@ -37,7 +38,6 @@ const Account = ({ user }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(token);
         if (res.ok) {
           const data = await res.json();
           setBillingInfo(data);
@@ -86,7 +86,6 @@ const Account = ({ user }) => {
   if (!localUser) {
     return <div className='account-page'>Loading your account...</div>;
   }
-  console.log(localUser.address);
 
   return (
     <div className='account-page'>
@@ -113,13 +112,23 @@ const Account = ({ user }) => {
                 {purchasedAlbums.length === 0 ? (
                   <p>You haven’t purchased any albums yet.</p>
                 ) : (
-                  purchasedAlbums.map((album) => (
-                    <Link to={`/home/${album.id}`} key={album.id} className='album-card'>
-                    <img src={album.image_url || "/placeholder.png"} alt={album.title} />
-                    <p className='title'>{album.title}</p>
-                  </Link>
-                  
-                  ))
+                  purchasedAlbums.map((album) => {
+                    const productId = album.id || album.product_id;
+                    return (
+                      <Link
+                      key={productId}
+                      to={`/home/${productId}`}
+                      className='album-card'
+                    >
+                      <img
+                        src={album.image_url ? `http://localhost:3000/public${album.image_url}` : "/placeholder.png"}
+                        alt={album.title}
+                    />
+                      <p className='title'>{album.title}</p>
+                    </Link>
+                    
+                    );
+                  })
                 )}
               </div>
             )}
@@ -161,28 +170,6 @@ const Account = ({ user }) => {
                   {localUser.phone}
                 </p>
                 <Link to='/account/manage-account'>Edit</Link>
-              </div>
-              <div className='settings-block'>
-                {/* <h4>Billing</h4>
-                <p>
-                  {billingInfo === null ? (
-                    "Loading billing information..."
-                  ) : billingInfo?.billing_name && billingInfo?.billing_address ? (
-                    <>
-                      {billingInfo.billing_name}
-                      <br />
-                      {billingInfo.billing_address}
-                    </>
-                  ) : (
-                    "No billing information available"
-                  )}
-                </p>
-                <Link to='/account/manage-account'>Edit</Link>
-              {/* </div>
-              <div className='settings-block'>
-                <h4>Settings</h4>
-                <Link to='/account/manage-account'>Manage Account</Link>
-                <div className='settings-block'></div> */}
               </div>
             </div>
           </div>

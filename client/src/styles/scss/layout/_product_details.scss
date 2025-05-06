@@ -16,7 +16,7 @@
 .product-details-container {
   max-width: 1400px;
   width: 100%;
-  margin: 0 auto;
+  margin: auto;
   padding: 0 1rem;
   box-sizing: border-box;
   position: relative;
@@ -134,31 +134,116 @@
 }
 
 /* ========== ALSO LIKE ========== */
-.also-like,
+
+
 .d-also-like {
-  max-width: 1000px;
+  max-width: 1400px; // unified with product-details and cart
   margin: 0 auto;
-  padding: 0;
+  padding: 0 1rem;
 
   h2 {
     color: black !important;
     font-size: 1.6rem;
     font-weight: 400;
     margin: 0.5rem 0 1.5rem;
+    text-align: left;
   }
 }
 
 /* ========== RELATED PRODUCTS ========== */
-.related-products,
-.d-related-products {
-  max-width: 1400px;
+
+.c-related-products {
+  max-width: 1000px;
   width: 100%;
-  margin: 0 rem;
-  padding: 0;
+  margin: 0 auto;
+  padding: 0 1rem;
   box-sizing: border-box;
   @extend .fade-in-slide;
 
-  .genre-header,
+  .c-products-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .c-related-product-card {
+    flex: 0 0 auto;
+    width: 240px;
+    scroll-snap-align: start;
+    cursor: pointer;
+    background: transparent;
+    
+    
+
+    .c-related-card-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background-color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    
+    }
+
+
+    .c-related-card-info {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+
+      .c-related-card-title,
+      .c-related-card-artist,
+      .c-related-card-price,
+      .c-related-card-rating {
+        color: black;
+      }
+
+      .c-related-card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .c-related-card-artist {
+        font-size: 1rem;
+        font-weight: 400;
+        opacity: 0.7;
+      }
+
+      .c-related-card-price {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .c-related-card-rating {
+        font-size: 0.75rem;
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.d-related-products {
+  max-width: 1400px;
+}
+
+.d-related-products {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  @extend .fade-in-slide;
+
   .d-genre-header {
     display: flex;
     justify-content: space-between;
@@ -190,7 +275,6 @@
     scroll-snap-align: start;
     cursor: pointer;
     background: transparent;
-
 
     .related-card-image {
       width: 100%;
@@ -225,7 +309,6 @@
         font-size: 1rem;
         font-weight: 400;
         opacity: 0.7;
-        // color: rgb(146, 146, 146) !important;
       }
 
       .related-card-price {
