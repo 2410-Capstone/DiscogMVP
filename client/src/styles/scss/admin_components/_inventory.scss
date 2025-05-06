@@ -1,334 +1,44 @@
+@import './admin_tables';
+
 .admin-inventory {
-  color: var(--text-color);
-
-  /* ===============================
-     HEADER
-  ================================ */
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-
-    h2 {
-      font-size: 1.3rem;
-      font-weight: 600;
+  .user-table {
+    td img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
     }
 
-    .add-button {
-      background-color: var(--accent-color);
-      color: var(--text-color);
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: var(--accent-hover);
-      }
-    }
-  }
-
-  /* ===============================
-     SEARCH & FILTER CONTROLS
-  ================================ */
-  .table-controls,
-  .admin-search {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
-
-    input,
-    select {
-      flex: 1;
-      min-width: 200px;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background: var(--input-bg);
-      color: var(--text-color);
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      border: none;
-      background: var(--accent-color);
-      color: var(--text-color);
-      border-radius: 8px;
-      font-weight: 500;
+    td span {
       cursor: pointer;
-
-      &:hover {
-        background: var(--accent-hover);
-      }
-    }
-  }
-
-  /* ===============================
-     TABLE WRAPPER
-  ================================ */
-  .table-wrapper {
-    width: 100%;
-    max-width: none;
-    overflow-x: auto;
-    background: var(--bg-color);
-  }
-
-  .admin-table {
-    width: 100%;
-    min-width: 1000px;
-    table-layout: auto;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-
-    thead {
-      background: #f7f7f7;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      color: #333;
-
-      th {
-        padding: 0.85rem 1rem;
-        text-align: left;
-      }
     }
 
-    tbody {
-      tr {
-        border-bottom: 1px solid #eee;
-        transition: background 0.2s ease;
-
-        &:hover {
-          background: var(--admin-text-hover);
-        }
-      }
-
-      td {
-        padding: 0.85rem 1rem;
-        color: var(--text-color);
-        position: relative;
-        text-align: left;
-
-        img {
-          max-width: 75px;
-          max-height: 75px;
-          object-fit: cover;
-          border-radius: 6px;
-        }
-
-        ul {
-          padding-left: 1rem;
-          margin: 0;
-        }
-      }
-    }
-
-    select {
+    input[type="number"] {
+      width: 60px;
       padding: 0.25rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color, #555);
+      background-color: var(--input-bg, #2c2c2c);
+      color: inherit;
+    }
+
+    .edit-btn {
+      padding: 0.3rem 0.6rem;
     }
   }
 
-  /* ===============================
-     BUTTON STYLES
-  ================================ */
-  .edit-btn,
-  .cancel-btn,
-  .sort {
+  .add-button {
+    display: inline-block;
+    margin: 1rem 0;
     padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-    border: 1px solid var(--accent-color);
-    background: transparent;
-    color: var(--primary-accent);
+    background-color: var(--button-bg, #555);
+    color: var(--button-text, #fff);
     border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
 
     &:hover {
-      background: var(--accent-hover-light);
+      background-color: var(--button-hover, #777);
     }
   }
-
-  /* ===============================
-     RESPONSIVE TABLE
-  ================================ */
-  @media (max-width: 900px) {
-    .admin-table {
-      thead {
-        display: none;
-      }
-
-      tbody,
-      tr,
-      td {
-        display: block;
-        width: 100%;
-      }
-
-      tr {
-        background: #f9f9f9;
-        margin-bottom: 1.5rem;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      td {
-        padding: 0.5rem 0;
-        text-align: right;
-
-        &::before {
-          content: attr(data-label);
-          position: absolute;
-          left: 1rem;
-          top: 0;
-          font-weight: 600;
-          color: #888;
-          font-size: 0.8rem;
-        }
-      }
-    }
-  }
-}
-
-/* ===============================
-   ELLIPSIS IN USER TABLE
-=============================== */
-.user-table td:nth-child(3),
-.user-table td:nth-child(4) {
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  position: relative;
-}
-
-.user-table td:nth-child(3):hover::after,
-.user-table td:nth-child(4):hover::after {
-  content: attr(title);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 10;
-  background: #222;
-  color: #fff;
-  padding: 0.5rem;
-  font-size: 0.8rem;
-  border-radius: 6px;
-  white-space: normal;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* ===============================
-   ADD PRODUCT FORM
-=============================== */
-.add-product-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  background: var(--bg-color);
-  color: var(--text-color);
-  border-radius: 4px;
-
-  h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .error-message {
-    background: rgba(255, 0, 0, 0.1);
-    color: darkred;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    font-weight: 500;
-  }
-
-  .success-message {
-    background: rgba(0, 200, 100, 0.1);
-    color: seagreen;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    font-weight: 500;
-  }
-
-  .add-product-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-
-      label {
-        font-size: 0.9rem;
-        font-weight: 500;
-        margin-bottom: 0.4rem;
-        color: var(--text-color);
-      }
-
-      input,
-      textarea {
-        padding: 0.6rem 0.9rem;
-        font-size: 0.95rem;
-        border: 1px solid var(--border-color, #ccc);
-        border-radius: 6px;
-        background: var(--input-bg, #fff);
-        color: var(--text-color);
-
-        &:focus {
-          outline: none;
-          border-color: var(--primary-accent);
-        }
-      }
-
-      textarea {
-        resize: vertical;
-        min-height: 100px;
-      }
-    }
-
-    .submit-button {
-      background: var(--accent-color);
-      color: var(--text-color);
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem 1.25rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: var(--accent-hover);
-      }
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .add-product-container {
-    padding: 1.5rem 1rem;
-  }
-
-  .add-product-form {
-    gap: 1rem;
-  }
-
-  .submit-button {
-    width: 100%;
-  }
-}
-
-/* ===============================
-   MISC
-=============================== */
-.sort-sort {
-  padding-bottom: 10px;
 }
