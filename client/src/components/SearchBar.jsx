@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBar({ allItems = [], onCloseSearch }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [filtered, setFiltered] = useState([]);
   const [visibleCount, setVisibleCount] = useState(5);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -18,8 +18,8 @@ function SearchBar({ allItems = [], onCloseSearch }) {
         onCloseSearch?.();
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onCloseSearch]);
 
   useEffect(() => {
@@ -38,7 +38,6 @@ function SearchBar({ allItems = [], onCloseSearch }) {
         item.genre?.toLowerCase().includes(lower)
       );
     });
-    
 
     setFiltered(results);
     setVisibleCount(5);
@@ -47,7 +46,7 @@ function SearchBar({ allItems = [], onCloseSearch }) {
 
   const handleClick = (id) => {
     onCloseSearch?.();
-    setQuery("");
+    setQuery('');
     setFiltered([]);
     navigate(`/home/${id}`);
   };
@@ -62,13 +61,13 @@ function SearchBar({ allItems = [], onCloseSearch }) {
     const hasLoadMore = filtered.length > visibleCount;
     const limit = hasLoadMore ? maxIndex : maxIndex - 1;
 
-    if (e.key === "ArrowDown") {
+    if (e.key === 'ArrowDown') {
       e.preventDefault();
       setActiveIndex((prev) => (prev < limit ? prev + 1 : 0));
-    } else if (e.key === "ArrowUp") {
+    } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActiveIndex((prev) => (prev > 0 ? prev - 1 : limit));
-    } else if (e.key === "Enter") {
+    } else if (e.key === 'Enter') {
       if (activeIndex >= 0 && activeIndex < visibleCount) {
         handleClick(filtered[activeIndex].id);
       } else if (activeIndex === visibleCount && hasLoadMore) {
@@ -77,9 +76,9 @@ function SearchBar({ allItems = [], onCloseSearch }) {
         navigate(`/search?q=${encodeURIComponent(query.trim())}`);
         onCloseSearch?.();
       }
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       onCloseSearch?.();
-      setQuery("");
+      setQuery('');
       setFiltered([]);
     }
   };
@@ -92,61 +91,44 @@ function SearchBar({ allItems = [], onCloseSearch }) {
   };
 
   return (
-    <div
-      className="search-wrapper"
-      ref={wrapperRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className='search-wrapper' ref={wrapperRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <input
         ref={inputRef}
-        className="search-bar"
-        type="text"
+        className='search-bar'
+        type='text'
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Search..."
+        placeholder='Search...'
         autoFocus
       />
 
       {filtered.length > 0 && (
-        <div className="search-section">
-          <p className="search-header">Suggested works & artists</p>
+        <div className='search-section'>
+          <p className='search-header'>Suggested works & artists</p>
           {filtered.slice(0, visibleCount).map((item, index) => (
             <div
               key={item.id}
               tabIndex={0}
-              className={`search-result-item ${
-                index === activeIndex ? "active" : ""
-              }`}
+              className={`search-result-item ${index === activeIndex ? 'active' : ''}`}
               onClick={() => handleClick(item.id)}
             >
               <img
-                src={
-                  item.image_url?.startsWith("http")
-                    ? item.image_url
-                    : item.image_url?.startsWith("/")
-                    ? item.image_url
-                    : `/images/${item.image_url}`
-                }
+                src={`http://localhost:3000/public${item.image_url}`}
                 alt={item.title}
-                onError={(e) => (e.target.src = "/placeholder.png")}
-                className="search-thumb"
+                onError={(e) => (e.target.src = '/placeholder.png')}
+                className='search-thumb'
               />
-    <div className="result-text">
-  <strong>{item.description}</strong>
-  <span>{item.artist ? `${item.artist}` : "Unknown artist"}</span>
-</div>
-
-
+              <div className='result-text'>
+                <strong>{item.description}</strong>
+                <span>{item.artist ? `${item.artist}` : 'Unknown artist'}</span>
+              </div>
             </div>
           ))}
 
           {filtered.length > visibleCount && (
             <button
-              className={`loadmore ${
-                activeIndex === visibleCount ? "active" : ""
-              }`}
+              className={`loadmore ${activeIndex === visibleCount ? 'active' : ''}`}
               onClick={handleLoadMore}
               tabIndex={0}
               onMouseEnter={() => setActiveIndex(visibleCount)}
