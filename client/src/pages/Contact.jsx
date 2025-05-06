@@ -37,7 +37,7 @@ const Contact = () => {
             />
           </div>
           <div className="">
-            <label>Enter your message here.</label>
+            <label>Enter your message here. {message.length}/255</label>
             <textarea
               type="text"
               value={message}
