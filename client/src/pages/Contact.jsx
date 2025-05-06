@@ -39,14 +39,6 @@ const Contact = () => {
           <div className="">
             <input
               type="text"
-              placeholder="Password"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="">
-            <input
-              type="text"
               placeholder="Phone (optional)"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
