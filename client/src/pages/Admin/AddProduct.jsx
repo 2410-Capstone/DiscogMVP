@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const AddProduct = () => {
   const { token } = useAuth();
@@ -66,87 +66,96 @@ const AddProduct = () => {
   return (
     <div className="add-product-container">
       <h2>Add New Product</h2>
-
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">Product added successfully! Redirecting...</p>}
-
-      <form onSubmit={handleSubmit} className="add-product-form">
-        <div className="form-group">
-          <label>Artist</label>
-          <input
-            type="text"
-            value={artist}
-            onChange={(e) => setArtist(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Description</label>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Price</label>
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Genre</label>
-          <input
-            type="text"
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Stock</label>
-          <input
-            type="number"
-            value={stock}
-            onChange={(e) => setStock(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Artist Details</label>
-            <textarea
-              value={artistDetails}
-              onChange={(e) => setArtistDetails(e.target.value)}
-              rows={5}
-              placeholder="Enter artist biography, background, etc."
-            />
-        </div>
-
-
-        <div className="form-group">
-          <label>Album Art URL</label>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-          />
-        </div>
-
+      <Link to="/admin/inventory" className="back-link">← Back to Inventory</Link>
+      <div className="add-product-card">
         
-        <button type="submit" className="submit-button">
-          Add Product
-        </button>
-      </form>
+
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">Product added successfully! Redirecting...</p>}
+        <form onSubmit={handleSubmit} className="add-product-form">
+          <div className="form-group">
+            <label>Artist</label>
+            <input
+              type="text"
+              placeholder="Artist"
+              value={artist}
+              onChange={(e) => setArtist(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Description</label>
+            <input
+              type="text"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Price</label>
+            <input
+              type="number"
+              placeholder="Price"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Genre</label>
+            <input
+              type="text"
+              placeholder="Genre"
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Stock</label>
+            <input
+              type="number"
+              placeholder="Stock Quantity"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Artist Details</label>
+              <textarea
+                value={artistDetails}
+                onChange={(e) => setArtistDetails(e.target.value)}
+                rows={5}
+                placeholder="Enter artist biography, background, etc."
+              />
+          </div>
+
+
+          <div className="form-group">
+            <label>Image URL</label>
+            <input
+              type="text"
+              placeholder="Image URL"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+          </div>
+
+          
+          <button type="submit" className="submit-button">
+            Add Product
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,141 @@
+.edit-product-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color, #aaa);
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+  
+    &:hover {
+      text-decoration: underline;
+      color: var(--link-hover, #fff);
+    }
+  }
+  
+
+  .edit-product-card {
+    background: var(--card-bg, #1f1f1f);
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--text-color);
+  }
+
+  .edit-product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      input,
+      textarea {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid var(--border-color, #444);
+        border-radius: 6px;
+        background-color: var(--input-bg, #2a2a2a);
+        color: inherit;
+        font-size: 1rem;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+  }
+
+    .submit-button {
+      align-self: center;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: var(--button-bg, #444);
+      color: var(--button-text, #fff);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--button-hover, #666);
+      }
+    }
+
+  .delete-button {
+    align-self: center;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #a94442;
+    color: var(--button-text, #fff);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--button-hover, #666);
+    }
+  }
+  
+  .edit-product-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  
+    button {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+  
+    .submit-button {
+      background-color: var(--button-bg, #4caf58);
+      color: var(--button-text, #fff);
+  
+      &:hover {
+        background-color: var(--button-hover, #34d347);
+      }
+    }
+  
+    .delete-button {
+      background-color: #a94442;
+      color: white;
+  
+      &:hover {
+        background-color: #c9302c;
+      }
+    }
+  }
+  
+  
+}
+
