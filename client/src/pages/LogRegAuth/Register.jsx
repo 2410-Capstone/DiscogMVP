@@ -50,6 +50,7 @@ export default function Register() {
       }
 
       login(data.user, data.token);
+      localStorage.setItem("token", data.token);
       localStorage.setItem("userEmail", data.user.email);
 
       const guestCart = getGuestCart()
