@@ -59,12 +59,14 @@
    ADMIN COMPONENTS
 =============================== */
 @use "./admin_components/admin_dash";
-@use "./admin_components/admin_lists";
+@use "./admin_components/admin_tables";
 @use "./admin_components/_admin_orders";
 @use "./admin_components/inventory";
 @use "./admin_components/account_dropdown";
 @use "./admin_components/admin_sidebar";
 @use "./admin_components/admin_topbar";
+@use "./admin_components/add_product";
+@use "./admin_components/edit_product";
 
 /* ===============================
    PAYMENT
