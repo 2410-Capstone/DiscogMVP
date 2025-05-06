@@ -46,6 +46,61 @@
     }
     button {
       width: 100%;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 4px;
+      padding: 1rem 2rem;
+      background: #000000;
+      color: white;
+      font-weight: 400;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: background 1s ease;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 300%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent 30%,
+          #ff3cac 45%,
+          #784ba0 50%,
+          #2b86c5 55%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: none;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      &:hover::before {
+        animation: shiny-wipe 1.2s ease-out forwards;
+        opacity: 1;
+      }
+
+      &:hover {
+        background-color: #000000;
+      }
+
+      &:disabled {
+        background-color: #e0e0e0;
+        color: #aaa;
+        cursor: not-allowed;
+
+        &::before {
+          display: none;
+        }
+      }
     }
   }
 }
