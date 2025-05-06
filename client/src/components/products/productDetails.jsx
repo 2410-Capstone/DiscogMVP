@@ -159,20 +159,27 @@ export default function ProductDetails() {
         <div className="product-overlay-gradient" />
 
         <div className="product-overlay">
-          <h1 className="product-title">{product.title}</h1>
-          <p className="product-artist">{product.artist}</p>
-          <p className="product-description">{product.description}</p>
-          <div className="product-artist-details">
-            <p>{product.artist_details}</p>
-          </div>
+  <h1 className="product-title">{product.title}</h1>
+  <p className="product-artist">{product.artist}</p>
+  <p className="product-description">{product.description}</p>
+  
+  <div className="product-artist-details">
+    <p>{product.artist_details}</p>
+  </div>
 
-          <div className="cart-button-container">
-            <AddToWishlistButton productId={product.id} />
-            <button className="add-to-cart-button" onClick={() => handleAddToCart(product)}>
-              Add to Bag
-            </button>
-          </div>
-        </div>
+  <div className="product-price">
+    {product.price ? <p>${product.price}</p> : <p>Not available</p>}
+  </div>
+
+
+  <div className="cart-button-container">
+    <AddToWishlistButton productId={product.id} />
+    <button className="add-to-cart-button" onClick={() => handleAddToCart(product)}>
+      Add to Bag
+    </button>
+  </div>
+</div>
+
 
         <h2>More Music</h2>
         <div className="single-line" />
