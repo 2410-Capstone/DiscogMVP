@@ -36,20 +36,20 @@
   font-size: 1.2rem;
 }
 
-.signout-button {
+button.signout-button {
   align-self: flex-end;
   margin-bottom: 1.5rem;
   margin-right: 0;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--primary-accent);
   background: transparent;
   border: none;
   cursor: pointer;
-  text-decoration: underline;
+
   padding: 0;
 
   &:hover {
-    opacity: 0.7;
+    text-decoration: underline;
   }
 }
 
