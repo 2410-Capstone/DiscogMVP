@@ -4,9 +4,10 @@
 .table-wrapper {
   width: 100%;
   max-width: none;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
   overflow-x: auto;
+  background-color: var(--bg-color);
 }
 
 /* ===============================
@@ -19,7 +20,11 @@
   border-collapse: collapse;
   font-size: 0.95rem;
   color: var(--text-color);
-  background: transparent;
+  // background-color: #ffffff; 
+  border-radius: 4px;
+  border: 1px solid #d1d5db; // subtle gray border
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); // soft lift
 
   /* --- Base Cell Styling --- */
   th,
