@@ -7,12 +7,12 @@ const Contact = () => {
   const [message, setMessage] = useState("");
 
   return (
-    <div>
-      <div className="form-wrapper">
-        <section className="shipping-address">
+    <div className="contact-main">
+      <div className="contact">
+        <section className="">
           <h3>Contact us!</h3>
 
-          <div className="form-group">
+          <div className="">
             <label>Full Name</label>
             <input
               type="text"
@@ -20,7 +20,7 @@ const Contact = () => {
               onChange={(e) => setFullName(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          <div className="">
             <label>Your email</label>
             <input
               type="text"
@@ -28,7 +28,7 @@ const Contact = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          <div className="">
             <label>Phone (optional)</label>
             <input
               type="text"
@@ -36,19 +36,21 @@ const Contact = () => {
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
-          <div className="form-group">
-            <label>Enter your message here.</label>
+          <div className="">
+            <label>Enter your message here. {message.length}/255</label>
             <textarea
               type="text"
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 255) setMessage(e.target.value);
+              }}
             />
           </div>
         </section>
 
         <div className="full-width-divider-2" />
 
-        <button className="continue-btn" onClick={() => {}}>
+        <button className="" onClick={() => {}}>
           Submit
         </button>
       </div>
