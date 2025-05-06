@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react"; // 👈 import useRef and useEffect
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddProduct = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
+
+  const artistRef = useRef(null); // 👈 create ref
 
   const [artist, setArtist] = useState("");
   const [description, setDescription] = useState("");
@@ -16,6 +18,9 @@ const AddProduct = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [artistDetails, setArtistDetails] = useState("");
 
+  useEffect(() => {
+    artistRef.current?.focus(); // 👈 auto focus on mount
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +30,7 @@ const AddProduct = () => {
     if (parseFloat(price) <= 0 || parseInt(stock) < 0) {
       setError('Price must be greater than $0 and stock cannot be negative.');
       return;
-    }    
+    }
 
     try {
       const response = await fetch("/api/products", {
@@ -65,13 +70,12 @@ const AddProduct = () => {
 
   return (
     <div className="add-product-container">
-      <h2>Add New Product</h2>
       <Link to="/admin/inventory" className="back-link">← Back to Inventory</Link>
+      <h2>Add New Product</h2>
       <div className="add-product-card">
-        
-
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">Product added successfully! Redirecting...</p>}
+
         <form onSubmit={handleSubmit} className="add-product-form">
           <div className="form-group">
             <label>Artist</label>
@@ -80,15 +84,16 @@ const AddProduct = () => {
               placeholder="Artist"
               value={artist}
               onChange={(e) => setArtist(e.target.value)}
+              ref={artistRef} // 👈 attach ref
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Description</label>
+            <label>Title</label>
             <input
               type="text"
-              placeholder="Description"
+              placeholder="Title"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
@@ -130,27 +135,26 @@ const AddProduct = () => {
           </div>
 
           <div className="form-group">
-            <label>Artist Details</label>
-              <textarea
-                value={artistDetails}
-                onChange={(e) => setArtistDetails(e.target.value)}
-                rows={5}
-                placeholder="Enter artist biography, background, etc."
-              />
+            
+            <label>Details</label>
+            <textarea
+              value={artistDetails}
+              onChange={(e) => setArtistDetails(e.target.value)}
+              rows={5}
+              placeholder="Enter artist biography, background, etc."
+            />
           </div>
 
-
           <div className="form-group">
-            <label>Image URL</label>
+            <label>Image</label>
             <input
               type="text"
-              placeholder="Image URL"
+              placeholder="Enter URL"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
             />
           </div>
 
-          
           <button type="submit" className="submit-button">
             Add Product
           </button>
@@ -161,4 +165,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-

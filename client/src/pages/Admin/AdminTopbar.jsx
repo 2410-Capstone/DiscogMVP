@@ -40,7 +40,7 @@ const AdminTopbar = () => {
 
       <div className="admin-header-tools">
         <button className="back-to-user-btn" onClick={() => navigate("/home")}>
-          ← Back
+          ← Back to user view
         </button>
 
         <button

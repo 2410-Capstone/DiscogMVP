@@ -3858,15 +3858,6 @@ input {
     font-size: 1.25rem;
   }
 }
-.admin-inventory .user-table .user-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-.admin-inventory .user-table .user-edit-btn,
-.admin-inventory .user-table .user-delete-btn {
-  padding: 0.3rem 0.6rem;
-}
-
 .admin-inventory {
   padding: 2rem;
   background-color: var(--background);
@@ -4248,6 +4239,7 @@ input {
 .account-dropdown {
   position: relative;
   display: inline-block;
+  padding-top: 5.5px;
 }
 .account-dropdown .account-avatar {
   width: 30px;
@@ -4255,7 +4247,7 @@ input {
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
-  border: 2px solid white;
+  border: 0.5px solid white;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -4502,9 +4494,8 @@ input {
 
 .back-to-user-btn {
   background: transparent;
-  border: 0.5px solid #ccc;
   padding: 0.1em 0.5rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   border-radius: 4px;
   color: rgb(142, 142, 142);
   cursor: pointer;
@@ -4626,6 +4617,348 @@ input {
   .admin-mobile-nav .admin-link.active-link {
     color: white;
   }
+}
+
+.add-product-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.add-product-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+.add-product-container .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #aaa);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+.add-product-container .back-link:hover {
+  text-decoration: underline;
+  color: var(--text-hover);
+}
+
+.add-product-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+.add-product-card .error-message,
+.add-product-card .success-message {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+}
+.add-product-card .error-message {
+  background-color: #441111;
+  color: #ffb4b4;
+}
+.add-product-card .success-message {
+  background-color: #113311;
+  color: #b6fcb6;
+}
+.add-product-card .add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.add-product-card .add-product-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.add-product-card .add-product-form .form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.add-product-card .add-product-form .form-group input,
+.add-product-card .add-product-form .form-group textarea {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  background-color: var(--input-bg, #2a2a2a);
+  color: inherit;
+  font-size: 1rem;
+}
+.add-product-card .add-product-form .form-group textarea {
+  resize: vertical;
+}
+.add-product-card .add-product-form button {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.add-product-card .add-product-form .submit-button {
+  background-color: var(black);
+  color: var(--button-text, #fff);
+}
+.add-product-card .add-product-form .submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+.add-product-card .add-product-form .submit-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
+}
+
+.edit-product-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.edit-product-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+.edit-product-container .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #aaa);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+.edit-product-container .back-link:hover {
+  text-decoration: underline;
+  color: var(--text-hover, #fff);
+}
+.edit-product-container .edit-product-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+.edit-product-container .edit-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.edit-product-container .edit-product-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.edit-product-container .edit-product-form .form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.edit-product-container .edit-product-form .form-group input,
+.edit-product-container .edit-product-form .form-group textarea {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  background-color: var(--input-bg, #2a2a2a);
+  color: inherit;
+  font-size: 1rem;
+}
+.edit-product-container .edit-product-form .form-group textarea {
+  resize: vertical;
+}
+.edit-product-container .submit-button {
+  align-self: center;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--button-bg, #444);
+  color: var(--button-text, #fff);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.edit-product-container .submit-button:hover {
+  background-color: var(--button-hover, #666);
+}
+.edit-product-container .delete-button {
+  align-self: center;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #a94442;
+  color: var(--button-text, #fff);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.edit-product-container .delete-button:hover {
+  background-color: var(--button-hover, #666);
+}
+.edit-product-container .edit-product-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.edit-product-container .edit-product-actions button {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.edit-product-container .edit-product-actions .submit-button {
+  background-color: var(black);
+  color: var(--button-text, #fff);
+}
+.edit-product-container .edit-product-actions .submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+.edit-product-container .edit-product-actions .submit-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
+}
+.edit-product-container .edit-product-actions .delete-button {
+  background-color: #a94442;
+  color: white;
+}
+.edit-product-container .edit-product-actions .delete-button:hover {
+  background-color: #c9302c;
+}
+
+.edit-user-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.edit-user-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+.edit-user-container .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #aaa);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+.edit-user-container .back-link:hover {
+  text-decoration: underline;
+  color: var(--text-hover, #fff);
+}
+
+.edit-user-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+.edit-user-card .edit-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.edit-user-card .edit-user-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.edit-user-card .edit-user-form .form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.edit-user-card .edit-user-form .form-group input,
+.edit-user-card .edit-user-form .form-group select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  background-color: var(--input-bg, #2a2a2a);
+  color: inherit;
+  font-size: 1rem;
+}
+.edit-user-card .edit-user-form button {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.edit-user-card .edit-user-form .submit-button {
+  background-color: var(black);
+  color: var(--button-text, #fff);
+}
+.edit-user-card .edit-user-form .submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+.edit-user-card .edit-user-form .submit-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
 }
 
 /* ===============================
