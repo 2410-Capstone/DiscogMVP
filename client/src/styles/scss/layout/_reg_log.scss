@@ -48,14 +48,14 @@
   padding: 12px;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.092);
   background: rgba(255, 255, 255, 0.2);
   color: var(--text-color);
   margin-bottom: 16px;
   outline: none;
-  transition:
-    border 0.2s ease,
-    background 0.2s ease;
+  // transition:
+  //   border 0.2s ease,
+  //   background 0.2s ease;
 
   &::placeholder {
     color: var(--text-color);
@@ -100,4 +100,5 @@
   color: var(--text-color);
   font-weight: 300;
   padding-top: 4px;
+  transition: color 0.3s ease;
 }

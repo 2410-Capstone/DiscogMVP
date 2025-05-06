@@ -1381,12 +1381,11 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   padding: 12px;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.092);
   background: rgba(255, 255, 255, 0.2);
   color: var(--text-color);
   margin-bottom: 16px;
   outline: none;
-  transition: border 0.2s ease, background 0.2s ease;
 }
 .login-container input::-moz-placeholder, .register-container input::-moz-placeholder {
   color: var(--text-color);
@@ -1432,6 +1431,7 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   color: var(--text-color);
   font-weight: 300;
   padding-top: 4px;
+  transition: color 0.3s ease;
 }
 
 /* ===============================
@@ -2762,6 +2762,8 @@ button.back-floating:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--card-bg);
+  transition: background-color 0.3s ease;
 }
 .contact-main .contact {
   padding: 4rem 20px;
@@ -2770,7 +2772,6 @@ button.back-floating:hover {
   align-items: flex-start;
   transform: translateY(40px);
   animation: fade_slide 0.6s ease-out 0.2s forwards;
-  transition: all 0.3s ease-in-out;
   opacity: 0;
   background: var(--card-bg);
   border-radius: 8px;
@@ -2781,34 +2782,66 @@ button.back-floating:hover {
   padding: 40px 60px;
   width: 520px;
   max-width: 90%;
+  transition: all 0.3s ease-in-out, color 0.3s ease, background-color 0.3s ease;
 }
 .contact-main .contact textarea {
   height: 10rem;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  color: #eee;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.092);
+  color: var(--text-color);
   padding: 0.75rem;
   border-radius: 8px;
   width: 100%;
   margin-bottom: 1rem;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 .contact-main .contact section {
   width: 100%;
 }
 .contact-main .contact label {
   margin-bottom: 1rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 .contact-main .contact h3 {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 400;
   margin-bottom: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+.contact-main .contact input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.092);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-color);
+  margin-bottom: 16px;
+  outline: none;
+  transition: border 0.2s ease, background 0.2s ease, color 0.3s ease;
+}
+.contact-main .contact input::-moz-placeholder {
+  color: var(--text-color);
+  opacity: 0.6;
+  -moz-transition: color 0.3s ease;
+  transition: color 0.3s ease;
+}
+.contact-main .contact input::placeholder {
+  color: var(--text-color);
+  opacity: 0.6;
+  transition: color 0.3s ease;
+}
+.contact-main .contact input:focus {
+  border-color: var(--primary-accent);
+  background: rgba(255, 255, 255, 0.3);
 }
 .contact-main .contact button {
   width: 100%;
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: 100%;
   max-width: 520px;
   border-radius: 4px;
   padding: 1rem 2rem;
@@ -2819,7 +2852,7 @@ button.back-floating:hover {
   border: none;
   cursor: pointer;
   align-self: flex-start;
-  transition: background 1s ease;
+  transition: background 1s ease, color 0.3s ease;
 }
 .contact-main .contact button::before {
   content: "";
@@ -2848,6 +2881,15 @@ button.back-floating:hover {
 }
 .contact-main .contact button:disabled::before {
   display: none;
+}
+
+.contact-instr {
+  padding-bottom: 12px;
+}
+.contact-instr h4 {
+  font-weight: 400;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 /* ===============================
@@ -2884,6 +2926,12 @@ button.back-floating:hover {
   color: black;
   font-weight: normal;
   font-size: 1.2rem;
+}
+
+.account-subtitle {
+  color: black;
+  font-weight: normal;
+  font-size: 1rem;
 }
 
 button.signout-button {
