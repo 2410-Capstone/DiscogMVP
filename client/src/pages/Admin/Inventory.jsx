@@ -119,11 +119,6 @@ const Inventory = () => {
             onChange={handleSearch}
             className='admin-search'
           />
-          {/* <div className="sort-sort">
-  <button onClick={handleSort}>
-    Sort by Price {sortAsc ? '⬆' : '⬇'}
-  </button>
-  </div> */}
         </div>
 
         <Link to='/admin/products/new' className='add-button'>
@@ -184,9 +179,9 @@ const Inventory = () => {
                 </td>
                 <td>{getStockStatus(product.stock)}</td>
                 <td>
-                  <Link to={`/admin/edit-product/${product.id}`}>
-                    <button className='edit-btn'>Edit</button>
-                  </Link>
+                <Link to={`/admin/edit-product/${product.id}`} className="user-edit-btn">
+                  Edit
+                </Link>
                 </td>
               </tr>
             ))}

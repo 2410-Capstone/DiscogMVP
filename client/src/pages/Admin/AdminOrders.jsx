@@ -174,7 +174,7 @@ const AdminOrders = () => {
                   <option value="cancelled">Cancelled</option>
                 </select>
                 {(order.order_status === 'created' || order.order_status === 'processing') && (
-                  <button onClick={() => cancelOrder(order.order_id)} style={{ marginTop: "6px" }}>
+                  <button onClick={() => cancelOrder(order.order_id)} className="user-delete-btn" style={{ marginTop: "6px" }}>
                     Cancel
                   </button>
                 )}
