@@ -10,10 +10,10 @@ const Contact = () => {
 
 
   const navigate = useNavigate();
-    const emailRef = useRef(null);
+    const nameRef = useRef(null);
 
   useEffect(() => {
-    emailRef.current?.focus();
+    nameRef.current?.focus();
   }, []);
 
 
@@ -30,10 +30,18 @@ const Contact = () => {
           <div className="">
             <input
               type="text"
-               placeholder="Email"
-               ref={emailRef}
+               placeholder="Name"
+               ref={nameRef}
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+            />
+          </div>
+          <div className="">
+            <input
+              type="text"
+               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="">
