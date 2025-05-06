@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -8,6 +9,15 @@ const AdminOrders = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
+
+  const searchRef = useRef(null); // ✅ Ref for input
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      searchRef.current?.focus(); // ✅ Focus on mount
+    });
+  }, []);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -110,100 +120,106 @@ const AdminOrders = () => {
 
   return (
     <div className="admin-inventory">
-        <div className="table-wrapper">
-      <div className="table-header">
-        <h2>Orders</h2>
+      <div className="table-wrapper">
+        <div className="table-header">
+          <h2>Orders</h2>
         </div>
-        <div className="table-controls">
-        <input
-          type="text"
-          placeholder="Search by name or email..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="admin-search"
-          style={{ marginRight: '1rem' }}
-        />
-  </div>
 
-    <div className= "admin-filter">
-        <label>
-          Filter by status:{" "}
-          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-            <option value="all">All</option>
-            <option value="created">Created</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
-        </label>
-      </div>
-  
-      <table className="user-table">
-        <thead>
-          <tr>
-            <th>Order #</th>
-            <th>User</th>
-            <th>Email</th>
-            <th>Total</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Payment</th>
-            <th>Shipping</th>
-            <th>Tracking #</th>
-            <th>Items</th>
-          </tr>
-        </thead>
-        <tbody>
-          {statusFilteredOrders.map(order => (
-            <tr key={order.order_id}>
-              <td>{order.order_id}</td>
-              <td>{order.user_name}</td>
-              <td>{order.email}</td>
-              <td>${Number(order.total || 0).toFixed(2)}</td>
-              <td>{new Date(order.created_at).toLocaleString()}</td>
-              <td>
-                <select
-                  value={order.order_status}
-                  onChange={(e) => handleStatusChange(order.order_id, e.target.value)}
-                >
-                  <option value="created">Created</option>
-                  <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-                {(order.order_status === 'created' || order.order_status === 'processing') && (
-                  <button onClick={() => cancelOrder(order.order_id)} className="user-delete-btn" style={{ marginTop: "6px" }}>
-                    Cancel
-                  </button>
-                )}
-              </td>
-              <td>{order.payment_status || "N/A"}</td>
-              <td>
-                {(() => {
-                  try {
-                    const addr = JSON.parse(order.shipping_address);
-                    return `${addr.addressLine1}, ${addr.city}, ${addr.state} ${addr.zip}`;
-                  } catch {
-                    return order.shipping_address;
-                  }
-                })()}
-              </td>
-              <td>{order.tracking_number || "N/A"}</td>
-              <td>
-                <ul>
-                  {(order.items || []).map((item, i) => (
-                    <li key={i}>
-                      {item.artist} - {item.description} (${item.price} × {item.quantity})
-                    </li>
-                  ))}
-                </ul>
-              </td>
+        <div className="table-controls">
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={searchTerm}
+            onChange={handleSearch}
+            ref={searchRef} // ✅ Input now auto-focused
+            className="admin-search"
+            style={{ marginRight: '1rem' }}
+          />
+        </div>
+
+        <div className="admin-filter">
+          <label>
+            Filter by status:{' '}
+            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+              <option value="all">All</option>
+              <option value="created">Created</option>
+              <option value="processing">Processing</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </label>
+        </div>
+
+        <table className="user-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Payment</th>
+              <th>Shipping</th>
+              <th>Tracking #</th>
+              <th>Items</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {statusFilteredOrders.map(order => (
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td>{order.user_name}</td>
+                <td>{order.email}</td>
+                <td>${Number(order.total || 0).toFixed(2)}</td>
+                <td>{new Date(order.created_at).toLocaleString()}</td>
+                <td>
+                  <select
+                    value={order.order_status}
+                    onChange={(e) => handleStatusChange(order.order_id, e.target.value)}
+                  >
+                    <option value="created">Created</option>
+                    <option value="processing">Processing</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                  {(order.order_status === 'created' || order.order_status === 'processing') && (
+                    <button
+                      onClick={() => cancelOrder(order.order_id)}
+                      className="user-delete-btn"
+                      style={{ marginTop: '6px' }}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </td>
+                <td>{order.payment_status || 'N/A'}</td>
+                <td>
+                  {(() => {
+                    try {
+                      const addr = JSON.parse(order.shipping_address);
+                      return `${addr.addressLine1}, ${addr.city}, ${addr.state} ${addr.zip}`;
+                    } catch {
+                      return order.shipping_address;
+                    }
+                  })()}
+                </td>
+                <td>{order.tracking_number || 'N/A'}</td>
+                <td>
+                  <ul>
+                    {(order.items || []).map((item, i) => (
+                      <li key={i}>
+                        {item.artist} - {item.description} (${item.price} × {item.quantity})
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

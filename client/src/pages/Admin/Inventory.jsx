@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const Inventory = () => {
@@ -10,6 +10,14 @@ const Inventory = () => {
   const [error, setError] = useState(null);
   const [editingStockId, setEditingStockId] = useState(null);
   const [newStockValue, setNewStockValue] = useState('');
+
+  const searchRef = useRef(null); // ✅ Add ref for the input
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      searchRef.current?.focus(); // ✅ Focus on first render
+    });
+  }, []);
 
   const startEditingStock = (productId, currentStock) => {
     setEditingStockId(productId);
@@ -118,12 +126,14 @@ const Inventory = () => {
             value={searchTerm}
             onChange={handleSearch}
             className='admin-search'
+            ref={searchRef} // ✅ Input now auto-focused
           />
         </div>
 
         <Link to='/admin/products/new' className='add-button'>
           Add Product
         </Link>
+
         <table className='user-table'>
           <thead>
             <tr>
@@ -179,9 +189,9 @@ const Inventory = () => {
                 </td>
                 <td>{getStockStatus(product.stock)}</td>
                 <td>
-                <Link to={`/admin/edit-product/${product.id}`} className="user-edit-btn">
-                  Edit
-                </Link>
+                  <Link to={`/admin/edit-product/${product.id}`} className='user-edit-btn'>
+                    Edit
+                  </Link>
                 </td>
               </tr>
             ))}
