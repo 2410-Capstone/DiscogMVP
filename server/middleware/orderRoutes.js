@@ -28,6 +28,7 @@ router.get("/guest", async (req, res) => {
     }
     res.json({
       ...order,
+      orderNumber: order.id,
       shippingAddress: order.shippingAddress,
       cartItems: order.items,
     });
