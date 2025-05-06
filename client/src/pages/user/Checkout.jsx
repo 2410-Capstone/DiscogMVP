@@ -189,7 +189,7 @@ const Checkout = () => {
               <section className='shipping-address'>
                 <h3>Enter your name and address:</h3>
 
-                <div className='form-group'>
+                <div className='edit-user-form-group'>
                   <label>Full Name</label>
                   <input type='text' value={shippingName} onChange={(e) => setShippingName(e.target.value)} />
                 </div>

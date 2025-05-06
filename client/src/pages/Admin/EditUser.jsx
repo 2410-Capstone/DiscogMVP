@@ -80,6 +80,7 @@ const EditUser = () => {
   return (
     <div className="edit-user">
       <h2>Edit User</h2>
+      {/* <div className='form-wrapper'> */}
       <form onSubmit={handleSubmit} className="edit-user-form">
         <label>
           Name
@@ -115,7 +116,8 @@ const EditUser = () => {
 
         <button type="submit">Save Changes</button>
       </form>
-    </div>
+      </div>
+    // </div>
   );
 };
 

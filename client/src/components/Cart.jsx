@@ -14,6 +14,8 @@ const Cart = () => {
 
   const isGuest = !localStorage.getItem("token");
 
+
+
   const getAuthHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   });
