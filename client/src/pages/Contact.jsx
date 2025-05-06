@@ -41,7 +41,9 @@ const Contact = () => {
             <textarea
               type="text"
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 255) setMessage(e.target.value);
+              }}
             />
           </div>
         </section>
