@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -8,6 +8,14 @@ const AdminUserList = () => {
   const [deletedUserId, setDeletedUserId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      searchRef.current?.focus();
+    });
+  }, []);
 
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -77,6 +85,7 @@ const AdminUserList = () => {
             placeholder="Search by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            ref={searchRef} // ✅ Autofocus added
           />
         </div>
 
@@ -100,22 +109,19 @@ const AdminUserList = () => {
                 <td>{user.address}</td>
                 <td>{user.user_role}</td>
                 <td>
-  <div className="user-actions">
-    <Link
-      to={`/admin/users/${user.id}/edit`}
-      className="user-edit-btn"
-    >
-      Edit
-    </Link>
-    <button
-      onClick={() => handleDelete(user.id)}
-      disabled={deletedUserId === user.id}
-      className="user-delete-btn"
-    >
-      {deletedUserId === user.id ? 'Deleting...' : 'Delete'}
-    </button>
-  </div>
-</td>
+                  <div className="user-actions">
+                    <Link to={`/admin/users/${user.id}/edit`} className="user-edit-btn">
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(user.id)}
+                      disabled={deletedUserId === user.id}
+                      className="user-delete-btn"
+                    >
+                      {deletedUserId === user.id ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

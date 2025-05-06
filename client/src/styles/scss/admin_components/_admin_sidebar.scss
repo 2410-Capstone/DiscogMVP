@@ -46,12 +46,12 @@
     transition: background 0.2s ease;
   
     &.active {
-      background: #3a3a56;
+      background: #9e9e9ea0;
       color: white;
     }
   
     &:hover {
-      background: #2a2a44;
+      background:#9e9e9ea0;
     }
   }
   
@@ -83,4 +83,5 @@
       }
     }
   }
+  
   

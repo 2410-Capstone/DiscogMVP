@@ -3657,7 +3657,7 @@ input {
    METRICS TABLE WRAPPER
 =============================== */
 .metrics-table-wrapper {
-  max-width: 800px;
+  max-width: 400px;
   margin: 0 auto 2.5rem auto;
   background-color: var(--card-bg);
   border-radius: 12px;
@@ -4232,9 +4232,11 @@ input {
   padding: 0.4rem 0.8rem;
   background-color: var(--button-bg, #555);
   color: var(--button-text, #fff);
-  border-radius: 6px;
+  border-radius: 4px;
   text-decoration: none;
   transition: background-color 0.2s ease;
+  font-weight: 300;
+  font-size: 0.8rem;
 }
 .admin-inventory .add-button:hover {
   background-color: var(--button-hover, #777);
@@ -4361,11 +4363,11 @@ input {
   transition: background 0.2s ease;
 }
 .admin-link.active {
-  background: #3a3a56;
+  background: rgba(158, 158, 158, 0.6274509804);
   color: white;
 }
 .admin-link:hover {
-  background: #2a2a44;
+  background: rgba(158, 158, 158, 0.6274509804);
 }
 
 .admin-sidebar {
@@ -4409,6 +4411,7 @@ input {
   .admin-topbar {
     padding: 1rem;
     flex-wrap: wrap;
+    position: relative;
   }
 }
 
@@ -4563,6 +4566,66 @@ input {
 }
 .profile-dropdown .profile-dropdown-menu .dropdown-item:hover {
   background: #f7f7f7;
+}
+
+/* ===============================
+   MOBILE HAMBURGER + NAV DROPDOWN
+=============================== */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.hamburger:hover {
+  color: var(--hover);
+}
+
+.admin-mobile-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .admin-mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 998;
+  }
+  .admin-mobile-nav .admin-link {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 4px;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  .admin-mobile-nav .admin-link:hover {
+    background-color: var(--admin-text-hover);
+  }
+  .admin-mobile-nav .admin-link.active-link {
+    color: white;
+  }
 }
 
 /* ===============================
