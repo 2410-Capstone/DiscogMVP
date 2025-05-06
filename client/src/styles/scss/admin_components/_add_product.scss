@@ -3,6 +3,13 @@
   margin: 2rem auto;
   padding: 2rem;
 
+  h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
   .back-link {
     display: inline-block;
     margin-bottom: 1.5rem;
@@ -20,13 +27,6 @@
     }
   }
   
-}
-
-h2 {
-  text-align: center;
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
-  color: var(--text-color);
 }
 
 .add-product-card {
