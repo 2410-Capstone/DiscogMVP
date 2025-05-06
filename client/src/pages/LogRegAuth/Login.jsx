@@ -36,6 +36,7 @@ export default function Login() {
       if (!loginData.token || !loginData.user) throw new Error("Invalid login response");
   
       login(loginData.user, loginData.token);
+      localStorage.setItem("token", loginData.token);
       localStorage.setItem("userEmail", loginData.user.email);
   
       if (loginData.user.user_role === 'admin') {

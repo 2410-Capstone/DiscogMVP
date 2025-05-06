@@ -103,35 +103,40 @@ const getOrCreateCart = async (userId) => {
 const addProductToCart = async ({ cart_id, product_id, quantity }) => {
   const client = await pool.connect();
   try {
-    await client.query('BEGIN');
+    await client.query("BEGIN");
 
     // Validate product exists
     const productCheck = await client.query(
-      'SELECT id FROM products WHERE id = $1',
+      "SELECT id FROM products WHERE id = $1",
       [product_id]
     );
     if (productCheck.rows.length === 0) {
-      throw new Error('Product not found');
+      throw new Error("Product not found");
     }
 
-    // Add item to cart
+    // Add or update quantity if item already exists
     const { rows: [item] } = await client.query(
-      `INSERT INTO cart_items (cart_id, product_id, quantity)
-       VALUES ($1, $2, $3)
-       RETURNING *`,
+      `
+      INSERT INTO cart_items (cart_id, product_id, quantity)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (cart_id, product_id)
+      DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity
+      RETURNING *;
+      `,
       [cart_id, product_id, quantity]
     );
 
-    await client.query('COMMIT');
+    await client.query("COMMIT");
     return item;
   } catch (err) {
-    await client.query('ROLLBACK');
+    await client.query("ROLLBACK");
     console.error("Error adding to cart:", err);
     throw err;
   } finally {
     client.release();
   }
 };
+
 
 const updateCartItemQuantity = async ({ cart_item_id, quantity }) => {
   try {
