@@ -1,5 +1,6 @@
 import React from "react";
 import MarketPrice from "./MarketPrice";
+import AddToWishlistButton from "../AddToWishlistButton";
 
 const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
   const { id, description, artist, genre, price, image_url } = item;
@@ -21,16 +22,18 @@ const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
           <p>{price ? `$${price}` : "Not available"}</p>
         </div>
         <div className="card-buttons">
-          <button
-            className="add-to-bag-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToCart(item);
-            }}
-          >
-            Add to Bag
-          </button>
-        </div>
+  <AddToWishlistButton productId={id} />
+  <button
+    className="add-to-bag-button"
+    onClick={(e) => {
+      e.stopPropagation();
+      handleAddToCart(item);
+    }}
+  >
+    Add to Bag
+  </button>
+</div>
+
       </div>
     </div>
   );

@@ -97,7 +97,7 @@ body[data-theme=light] {
   --bg-color: #F3F3F6;
   --text-color: #111111;
   --card-bg: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
-  --primary-accent: #4fc3f7;
+  --primary-accent: #4baedcb1;
   --glass-button-text: #f5f5f5;
   --border-color: rgba(0, 0, 0, 0.05);
   --shadow-color: rgba(0, 0, 0, 0.1);
@@ -618,47 +618,54 @@ body {
 
 .card-buttons {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0rem;
+  margin-top: 0.5rem;
 }
 @media (max-width: 600px) {
   .card-buttons {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: stretch;
+  }
+  .card-buttons button,
+  .card-buttons .toggle-wishlists-btn {
+    width: 100%;
   }
 }
 
-button.add-to-bag-button {
+button.toggle-wishlists-btn, button.add-to-bag-button {
   all: unset;
   font-weight: 500;
   font-size: 0.9rem;
   color: var(--text-color);
+  padding-bottom: 10px;
   cursor: pointer;
   text-decoration: none;
   line-height: 1.2;
   margin: 0;
 }
-button.add-to-bag-button:hover {
+button.toggle-wishlists-btn:hover, button.add-to-bag-button:hover {
   text-decoration: underline;
   color: var(--primary-accent);
 }
 @media (max-width: 600px) {
-  button.add-to-bag-button {
+  button.toggle-wishlists-btn, button.add-to-bag-button {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    background-color: var(--hover);
+    background-color: var(--grid);
     color: #fff;
     padding: 0.6rem 1rem;
     border-radius: 4px;
     font-weight: 500;
     margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     text-align: center;
     text-decoration: none;
   }
-  button.add-to-bag-button:hover {
-    background-color: var(--primary-accent-hover, rgba(126, 126, 126, 0.5803921569));
+  button.toggle-wishlists-btn:hover, button.add-to-bag-button:hover {
+    background-color: var(--primary-accent, rgba(126, 126, 126, 0.5803921569));
     text-decoration: none;
     color: #fff;
     cursor: pointer;
@@ -1974,6 +1981,12 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   font-weight: 600;
   line-height: 1.4;
 }
+.c-related-products .c-related-product-card .c-related-card-info .c-card-genre {
+  color: black;
+  font-size: 0.8rem;
+  font-weight: 300;
+  font-style: italic;
+}
 .c-related-products .c-related-product-card .c-related-card-info .c-related-card-artist {
   font-size: 1rem;
   font-weight: 400;
@@ -1992,9 +2005,6 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
 
 .d-related-products {
   max-width: 1400px;
-}
-
-.d-related-products {
   width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
@@ -2128,6 +2138,37 @@ button.back-floating:hover {
   }
   .product-overlay .product-artist-details {
     font-size: 0.9rem;
+  }
+  .product-overlay .cart-button-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .product-overlay .cart-button-container .add-to-cart-button,
+  .product-overlay .cart-button-container .toggle-wishlists-btn {
+    all: unset;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--grid);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  .product-overlay .cart-button-container .add-to-cart-button:hover,
+  .product-overlay .cart-button-container .toggle-wishlists-btn:hover {
+    background-color: var(--primary-accent, rgba(126, 126, 126, 0.5803921569));
+    text-decoration: none;
+    color: #fff;
   }
   .featured-product-bg {
     height: 60vh;
@@ -2892,6 +2933,70 @@ button.back-floating:hover {
   transition: color 0.3s ease;
 }
 
+/* ===========================================
+   REFUND POLICY STYLES
+=========================================== */
+.refund-wrapper {
+  background: var(--bg-color);
+}
+
+.refund-policy-container {
+  padding-top: 6rem;
+  min-height: 100vh;
+  background: var(--bg-color);
+  background-size: cover;
+  background-position: center;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+  animation: disney_fade_slide 0.8s ease-out forwards;
+}
+.refund-policy-container .refund-policy-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 4px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  line-height: 1.6;
+  color: var(--text-color);
+}
+.refund-policy-container .refund-policy-card h3 {
+  margin-top: 1.5rem;
+  font-size: 1.3rem;
+  color: #2b86c5;
+}
+.refund-policy-container .refund-policy-card a {
+  color: var(--link-color, #00bcd4);
+  text-decoration: underline;
+}
+.refund-policy-container .refund-policy-card a:hover {
+  text-decoration: none;
+}
+.refund-policy-container .refund-divider {
+  border: none;
+  height: 1px;
+  background-color: #ff3cac;
+  margin: 1.5rem auto 2rem;
+  width: 80%;
+}
+
+@media (max-width: 1000px) {
+  .refund-policy-container {
+    padding-top: 4rem;
+  }
+  .refund-policy-container .refund-policy-card {
+    padding: 1.5rem;
+    border-radius: 4px;
+  }
+  .refund-policy-container .refund-policy-card h3 {
+    font-size: 1.1rem;
+  }
+  .refund-policy-container .refund-divider {
+    width: 90%;
+    margin: 1rem auto 1.5rem;
+  }
+}
 /* ===============================
    USER COMPONENTS
 =============================== */
@@ -3140,14 +3245,16 @@ button.signout-button:hover {
    USER ORDERS PAGE
 =============================== */
 .user-orders-page {
-  background-color: var(--bg-color);
+  background: var(--card-bg);
+  color: var(--text-color);
   min-height: 100vh;
   padding-top: 64px;
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 2rem 0 1rem;
+  font-weight: 400;
   border-bottom: 2px solid var(--border-color);
   padding-bottom: 0.5rem;
   color: var(--text-color);
@@ -3159,7 +3266,7 @@ button.signout-button:hover {
   padding: 2rem;
   color: var(--text-color);
   background-color: var(--card-bg);
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 /* ===============================
@@ -3172,7 +3279,7 @@ button.signout-button:hover {
   background: var(--card-bg);
   border-radius: 4px;
   max-width: 500px;
-  box-shadow: 0 0 20px var(--shadow-color);
+  box-shadow: 0 0 10px var(--shadow-color);
 }
 
 .empty-order-message {
@@ -3185,14 +3292,14 @@ button.signout-button:hover {
   padding: 0.75rem 1.5rem;
   background-color: var(--text-color);
   color: #000;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 4px;
   text-decoration: none;
   transition: background 0.2s ease;
 }
 
 .shop-link:hover {
-  background-color: #e5e5e5;
+  background-color: var(--text-hover);
 }
 
 /* ===============================
@@ -3201,11 +3308,11 @@ button.signout-button:hover {
 .order-card {
   background: var(--card-bg);
   color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 5px var(--shadow-color);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem; /* reduced from 1.5rem */
+  margin-bottom: 1.5rem; /* slightly reduced */
+  box-shadow: 0 1px 3px var(--shadow-color);
 }
 
 /* ===============================
@@ -3216,9 +3323,9 @@ button.signout-button:hover {
 .order-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.5rem; /* reduced from 1rem */
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem; /* reduced from 1rem */
 }
 
 /* ===============================
@@ -3227,8 +3334,8 @@ button.signout-button:hover {
 .order-items {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 0.75rem; /* reduced from 1rem */
+  margin-top: 0.5rem; /* reduced from 1rem */
 }
 
 .order-item {
@@ -3242,7 +3349,7 @@ button.signout-button:hover {
   height: 80px;
   -o-object-fit: cover;
      object-fit: cover;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
 }
 
@@ -3267,20 +3374,24 @@ button.signout-button:hover {
 /* ===============================
    ORDER ACTIONS BUTTONS
 =============================== */
-.order-actions button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: var(--border-color);
+button.cancel-button, .order-actions button {
+  margin-bottom: 0.5rem; /* reduced from 1rem */
+  padding: 0;
+  background-color: transparent;
   color: var(--text-color);
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.2s ease;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .order-actions button:hover {
-  background-color: #444;
+  background-color: transparent;
+  text-decoration: underline;
+  color: rgba(255, 0, 0, 0.575);
 }
 
 /* ===============================
