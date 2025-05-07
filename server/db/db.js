@@ -1,18 +1,14 @@
-const pool = require("./pool");
-require("dotenv").config();
-const client = require("./client");
-const uuid = require("uuid");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-// const JWT = process.env.JWT || "shhh";
-//will need this for authentication later ^
+const pool = require('./pool');
+require('dotenv').config();
+const client = require('./client');
+const uuid = require('uuid');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 //create the db tables
 const createTables = async () => {
   try {
-    // await pool.connect();
-    console.log("Connected to db");
+    console.log('Connected to db');
     await pool.query(/*sql*/ `
       DROP TABLE IF EXISTS payments CASCADE;
       DROP TABLE IF EXISTS order_items CASCADE;
@@ -22,15 +18,13 @@ const createTables = async () => {
       DROP TABLE IF EXISTS products CASCADE;
       DROP TABLE IF EXISTS users CASCADE;
      
-       /* add types Supposedly, it's best practice when these roles/statuses will have consistent values */
+      
       DROP TYPE IF EXISTS role CASCADE;
       DROP TYPE IF EXISTS c_status CASCADE;
       DROP TYPE IF EXISTS o_status CASCADE;
       DROP TYPE IF EXISTS p_status CASCADE;
       DROP TYPE IF EXISTS payment_method CASCADE;
       `);
-    //created Enum types for the tables enum = enumeration create our own data types to
-    // (prevent errors with naming types) was not aware of this previously. Also, my understanding is this is the information admin's can access
     await pool.query(/*sql*/ `
       CREATE TYPE role AS ENUM ('customer', 'admin', 'guest');
       CREATE TYPE c_status AS ENUM ('active', 'checked_out');
@@ -38,8 +32,7 @@ const createTables = async () => {
       CREATE TYPE p_status AS ENUM ('pending', 'paid', 'failed');
       CREATE TYPE payment_method AS ENUM ('credit_card', 'debit_card', 'paypal', 'bank_transfer');
       `);
-    //create users table
-    // I did an await on the pool.query to make debugging easier
+
     await pool.query(/*sql*/ `
     CREATE TABLE users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -165,10 +158,6 @@ const createTables = async () => {
       );
     `);
 
-    /* This was the first time I used indexes supposedly it helped with faster, searching for a large database It makes 
-     it to where our queries don't have to scan the whole table, but utilizes the indexes to find the products,items, orders ect.
-     I also learned that indexes are not automatically created for foreign keys so Basically it links the foreign keys to the tables they're associated with.
-     (idx_table_foreignKey)*/
     await pool.query(/*sql*/ `
       CREATE INDEX idx_cart_user ON carts(user_id);
       CREATE INDEX idx_cart_items_cart_id ON cart_items(cart_id);
@@ -178,17 +167,14 @@ const createTables = async () => {
       CREATE INDEX idx_order_items_product_id ON order_items(product_id);
       CREATE INDEX idx_payment_order_id ON payments(order_id);
     `);
-    console.log("Tables created successfully.");
+    console.log('Tables created successfully.');
   } catch (error) {
-    console.error("Error creating tables:", error);
+    console.error('Error creating tables:', error);
   } finally {
-    // await pool.end();
-    // Leave this empty or log something for clarity
-    console.log("Done running createTables.");
+    console.log('Done running createTables.');
   }
 };
 
 module.exports = {
-  // pool,
   createTables,
 };

@@ -1,7 +1,6 @@
 const pool = require('./pool');
 
 // Cart Functions
-// ---TO DO--- //
 const createCart = async ({ user_id, cart_status }) => {
   try {
     const SQL = /*sql*/ `
@@ -14,7 +13,7 @@ const createCart = async ({ user_id, cart_status }) => {
     } = await pool.query(SQL, [user_id, cart_status]);
     return cart;
   } catch (error) {
-    console.error("Error creating cart:", error);
+    console.error('Error creating cart:', error);
     throw error;
   }
 };
@@ -30,7 +29,7 @@ const getCartByUserId = async ({ user_Id }) => {
     } = await pool.query(SQL, [user_Id]);
     return cart;
   } catch (error) {
-    console.error("Error getting cart by user ID:", error);
+    console.error('Error getting cart by user ID:', error);
     throw error;
   }
 };
@@ -58,7 +57,7 @@ const createCartItem = async ({ cart_id, product_id, quantity }) => {
     } = await pool.query(SQL, [cart_id, product_id, quantity]);
     return cart_item;
   } catch (error) {
-    console.error("Error creating cart item:", error);
+    console.error('Error creating cart item:', error);
     throw error;
   }
 };
@@ -67,7 +66,7 @@ const getOrCreateCart = async (userId) => {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    
+
     // Check for existing active cart
     const { rows } = await client.query(
       `SELECT * FROM carts 
@@ -80,9 +79,9 @@ const getOrCreateCart = async (userId) => {
       await client.query('COMMIT');
       return rows[0];
     }
-
-    // Create new cart if none exists
-    const { rows: [newCart] } = await client.query(
+    const {
+      rows: [newCart],
+    } = await client.query(
       `INSERT INTO carts (user_id, cart_status)
        VALUES ($1, 'active')
        RETURNING *`,
@@ -93,7 +92,7 @@ const getOrCreateCart = async (userId) => {
     return newCart;
   } catch (err) {
     await client.query('ROLLBACK');
-    console.error("Error in getOrCreateCart:", err);
+    console.error('Error in getOrCreateCart:', err);
     throw err;
   } finally {
     client.release();
@@ -103,19 +102,18 @@ const getOrCreateCart = async (userId) => {
 const addProductToCart = async ({ cart_id, product_id, quantity }) => {
   const client = await pool.connect();
   try {
-    await client.query("BEGIN");
+    await client.query('BEGIN');
 
     // Validate product exists
-    const productCheck = await client.query(
-      "SELECT id FROM products WHERE id = $1",
-      [product_id]
-    );
+    const productCheck = await client.query('SELECT id FROM products WHERE id = $1', [product_id]);
     if (productCheck.rows.length === 0) {
-      throw new Error("Product not found");
+      throw new Error('Product not found');
     }
 
     // Add or update quantity if item already exists
-    const { rows: [item] } = await client.query(
+    const {
+      rows: [item],
+    } = await client.query(
       `
       INSERT INTO cart_items (cart_id, product_id, quantity)
       VALUES ($1, $2, $3)
@@ -126,17 +124,16 @@ const addProductToCart = async ({ cart_id, product_id, quantity }) => {
       [cart_id, product_id, quantity]
     );
 
-    await client.query("COMMIT");
+    await client.query('COMMIT');
     return item;
   } catch (err) {
-    await client.query("ROLLBACK");
-    console.error("Error adding to cart:", err);
+    await client.query('ROLLBACK');
+    console.error('Error adding to cart:', err);
     throw err;
   } finally {
     client.release();
   }
 };
-
 
 const updateCartItemQuantity = async ({ cart_item_id, quantity }) => {
   try {
@@ -151,7 +148,7 @@ const updateCartItemQuantity = async ({ cart_item_id, quantity }) => {
     } = await pool.query(SQL, [quantity, cart_item_id]);
     return cart_item;
   } catch (error) {
-    console.error("Error updating cart item quantity:", error);
+    console.error('Error updating cart item quantity:', error);
     throw error;
   }
 };
@@ -168,7 +165,7 @@ const removeProductFromCart = async ({ cart_item_id }) => {
     } = await pool.query(SQL, [cart_item_id]);
     return cart_item;
   } catch (error) {
-    console.error("Error removing product from cart:", error);
+    console.error('Error removing product from cart:', error);
     throw error;
   }
 };
@@ -187,7 +184,7 @@ const clearCart = async ({ user_id }) => {
     } = await pool.query(SQL, [user_id]);
     return cart_item;
   } catch (error) {
-    console.error("Error clearing cart:", error);
+    console.error('Error clearing cart:', error);
     throw error;
   }
 };

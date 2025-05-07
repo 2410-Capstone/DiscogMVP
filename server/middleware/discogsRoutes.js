@@ -4,12 +4,10 @@ const fetch = require('node-fetch');
 
 const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN;
 if (!DISCOGS_TOKEN) {
-  console.warn("No Discogs token found in environment variables.");
+  console.warn('No Discogs token found in environment variables.');
 }
 
-// In-memory cache to avoid duplicate requests
-const cache = {}; // { [releaseId]: responseData }
-
+const cache = {};
 router.get('/release/:id', async (req, res) => {
   const { id: releaseId } = req.params;
 
@@ -17,7 +15,7 @@ router.get('/release/:id', async (req, res) => {
   if (!releaseId || isNaN(releaseId)) {
     return res.status(400).json({ error: 'Invalid release ID' });
   }
-  
+
   // Serve from cache if available
   if (cache[releaseId]) {
     return res.json(cache[releaseId]);
@@ -36,7 +34,7 @@ router.get('/release/:id', async (req, res) => {
       console.warn(`Caching failed fetch for release ${releaseId}`);
       cache[releaseId] = { error: errorMsg };
       return res.status(response.status).json({ error: errorMsg });
-    }    
+    }
 
     const data = await response.json();
     res.json(data);
