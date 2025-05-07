@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-
 const EditUser = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -72,8 +71,6 @@ const EditUser = () => {
     }
   };
   
-  
-
   if (error) return <div>{error}</div>;
   if (!user) return <div>Loading user...</div>;
 

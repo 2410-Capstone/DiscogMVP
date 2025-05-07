@@ -213,9 +213,6 @@ export default function ProductDetails() {
   
   <div className="card-price">{item.price ? `$${item.price}` : "Not available"}</div>
 </div>
-
-
-                      {/* <div className="related-card-rating">★ 4.7 (128)</div> */}
                     </div>
             
                 ))}

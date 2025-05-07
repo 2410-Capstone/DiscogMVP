@@ -1,14 +1,9 @@
 import React, { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// import "../styles/App.css";
-
 const FilterBar = ({ genres, genreFilter, onFilterClick, onAllClick }) => {
   const filterBarRef = useRef(null);
 
-
-
-  
   const scrollGenres = (direction) => {
     if (filterBarRef.current) {
       filterBarRef.current.scrollBy({
@@ -19,9 +14,9 @@ const FilterBar = ({ genres, genreFilter, onFilterClick, onAllClick }) => {
   };
   return (
     <div className='filterBarWrapper'>
-<button className="scrollBtn" onClick={() => scrollGenres("left")} aria-label="Scroll left">
-  <ChevronLeft size={20} strokeWidth={2} />
-</button>
+      <button className="scrollBtn" onClick={() => scrollGenres("left")} aria-label="Scroll left">
+        <ChevronLeft size={20} strokeWidth={2} />
+      </button>
       <div className='filterBar' ref={filterBarRef}>
         <button className={`filterButton ${genreFilter.length === 0 ? "active" : ""}`} onClick={onAllClick}>
           All genres
@@ -37,9 +32,8 @@ const FilterBar = ({ genres, genreFilter, onFilterClick, onAllClick }) => {
         ))}
       </div>
       <button className="scrollBtn" onClick={() => scrollGenres("right")} aria-label="Scroll right">
-  <ChevronRight size={20} strokeWidth={2} />
-</button>
-
+        <ChevronRight size={20} strokeWidth={2} />
+      </button>
     </div>
   );
 };

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 const actions = [
   { title: 'Manage Users', path: '/admin/users', description: 'View and edit user accounts' },
-  // { title: 'Manage Products', path: '/admin/products', description: 'Create and update products' },
   { title: 'Manage Orders', path: '/admin/orders', description: 'Track and process orders' },
   { title: 'Inventory Management', path: '/admin/inventory', description: 'Monitor product stock levels, create and update products' },
 ];

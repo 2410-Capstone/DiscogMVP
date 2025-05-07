@@ -10,12 +10,12 @@ const AdminOrders = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
 
-  const searchRef = useRef(null); // ✅ Ref for input
+  const searchRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      searchRef.current?.focus(); // ✅ Focus on mount
+      searchRef.current?.focus();
     });
   }, []);
 
@@ -131,7 +131,7 @@ const AdminOrders = () => {
             placeholder="Search by name or email..."
             value={searchTerm}
             onChange={handleSearch}
-            ref={searchRef} // ✅ Input now auto-focused
+            ref={searchRef}
             className="admin-search"
             style={{ marginRight: '1rem' }}
           />

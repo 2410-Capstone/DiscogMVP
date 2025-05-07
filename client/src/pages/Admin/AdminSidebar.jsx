@@ -29,8 +29,6 @@ const AdminSidebar = ({user}) => {
           className={({ isActive }) => isActive ? "admin-link active-link" : "admin-link"}>
             Users
         </NavLink>
-        {/* <NavLink to="/admin/products" className="admin-link">Products</NavLink> */}
-
       </nav>
     </aside>
   );

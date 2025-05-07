@@ -71,25 +71,6 @@ useEffect(() => {
   fetchAllItems();
 }, []);
 
-
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem("token");
-  //   const storedUser = localStorage.getItem("user");
-
-  //   try {
-  //     const parsedUser = JSON.parse(storedUser);
-  //     console.log("User role on load:", parsedUser?.user_role);
-  //     if (storedToken && parsedUser) {
-  //       setToken(storedToken);
-  //       setUser(parsedUser);
-  //     }
-  //   } catch (err) {
-  //     console.error("Failed to parse stored user:", err);
-  //   }
-
-  //   setLoading(false);
-  // }, []);
-
   if (loading) return <div>Loading...</div>;
 
   const isAuthenticated = !!token;

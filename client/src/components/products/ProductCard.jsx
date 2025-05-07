@@ -1,5 +1,4 @@
-import React from "react";
-import MarketPrice from "./MarketPrice";
+import React from "react";;
 import AddToWishlistButton from "../AddToWishlistButton";
 
 const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {

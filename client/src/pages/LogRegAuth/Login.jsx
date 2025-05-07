@@ -31,7 +31,6 @@ export default function Login() {
       });
   
       const loginData = await loginRes.json();
-      console.log("Login Response:", loginData);
   
       if (!loginData.token || !loginData.user) throw new Error("Invalid login response");
   
