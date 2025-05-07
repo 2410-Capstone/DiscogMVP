@@ -47,7 +47,7 @@ const AddToWishlistButton = ({ productId }) => {
         onClick={fetchWishlists}
         className="toggle-wishlists-btn"
       >
-        ♡ Add to Wishlist
+        ♡ Save for later
       </button>
       
       {wishlists.length > 0 && (
