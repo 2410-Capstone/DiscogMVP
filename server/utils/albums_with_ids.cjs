@@ -11,7 +11,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/8385645',
     artist_details:
       'Thrash Metal (Heavy Metal) band from Los Angeles, California (USA).  Metallica formed in 1981 by vocalist/guitarist [a251874] and drummer [a251550].  The duo first met through an ad in a Los Angeles-based music newspaper.  At the time, Ulrich had little musical experience and no band but managed to secure a slot on an upcoming compilation record called “[m=63482]”.   Metallica’s contribution, “Hit The Lights”, featured Hetfield, Ulrich and lead guitarist [a648330].  Afterwards, [a509874] became the band\'s bassist and [a251808] joined the band as lead guitarist.  This line-up would re-record "Hit The Lights" for subsequent re-pressings of "Metal Massacre" and would also issue several demos.  In 1983, McGovney quit the group and was replaced by [a364982], which also saw the band relocate to San Francisco.  Metallica then traveled to New York after signing a deal with [l=Megaforce Records].  However, once in New York, the band fired Mustaine.  It would mark the beginning of a long feud between Mustaine and Metallica, mostly fueled by remarks Mustaine would make to the press.  Mustaine was replaced by Kirk Hammett of [a=Exodus (6)].  Metallica\'s debut LP, "Kill \'Em All", was released in 1983.  It was followed in 1984 by "Ride The Lightning".  This led to a major label deal with [l=Elektra].  In 1986, the band released "Master Of Puppets", which is considered by many to be one of the greatest heavy metal records of all time.  In September of that year, while on tour in Sweden, the band was involved in a bus accident which took the life of Cliff Burton.  Eventually, [a390503] (of [a=Flotsam And Jetsam]) was hired as the band\'s new bassist and he made his debut on 1987\'s "Garage Days Re-Revisited", an EP of cover tunes.  The full-length "...And Justice For All" followed in 1988, featuring the track "One" which was chosen as the subject for their first promotional music video.  In 1990, Metallica hooked up with producer [a=Bob Rock] for a self-titled release that would become better known as "The Black Album", due to its cover art. Released in 1991, the black album would become one of the best-selling rock albums of all time, selling over 16 million copies in the US alone.  In 1996, the band experimented with Rock music style Alternative Rock, this could be heard on the album "Load".  The following year, "Reload" appeared which had the similiar formula as \'\'Load\'\'. The albums continued the band’s trend of more accessible music.  In 1999, the group released an album and accompanying film called "S&M", which featured Metallica performing their songs with the San Francisco Symphony Orchestra.  In 2001, as the band was preparing to begin work on a new album, Newsted quit the group, citing personal and musical reasons.  Work on the new album was further complicated when Hetfield entered rehab for alcohol abuse.  The album, called "St. Anger", was eventually completed in 2003 with producer Bob Rock handling the bass.  Upon its release, "St. Anger" drew mostly negative reviews.  Following the recording, Robert Trujillo, formerly of [a=Suicidal Tendencies], was hired as bassist.  The making of the album was captured in the documentary “Some Kind Of Monster”.  In 2008, "Death Magnetic", produced by [a=Rick Rubin], would surface and was hailed by many as Metallica\'s return to thrash metal.  The following year, Metallica was inducted into Rock And Roll Hall of Fame.  Former bassist Jason Newsted was present and Cliff Burton\'s father appeared on Cliff\'s behalf.  Dave Mustaine, who was not inducted, was invited to the ceremony by the band but declined to attend.  In 2011, Metallica collaborated with [a=Lou Reed] on the album, “Lulu”, which was largely panned by critics and ignored by consumers.  Winner of 9 Grammy Awards: - Best Metal Performance for One on [m=6571] - Best Metal Performance for Stone Cold Crazy on [m=63484] - Best Metal Performance for [m=6651] - Best Metal Performance for Better Than You on [m=8879] - Best Hard Rock Performance for Whiskey In The Jar on [m=26984] - Best Rock Instrumental Performance for The Call Of Ktulu on [m=8928] - Best Metal Performance for St. Anger on [m=6607] - Best Metal Performance for My Apocalypse on [m=8956] - Best Metal Performance for 72 Seasons on [m=3054827]',
-    genre: 'Thrash',
+    genre: 'Metal',
   },
   {
     original_artist: 'Fleetwood Mac',
@@ -154,7 +154,7 @@ const albums = [
     type: 'master',
     url: 'https://api.discogs.com/releases/11065',
     artist_details: '',
-    genre: 'Abstract',
+    genre: 'EDM',
   },
   {
     original_artist: 'Noise Unit',
@@ -269,7 +269,7 @@ const albums = [
     type: 'master',
     url: 'https://api.discogs.com/releases/27552465',
     artist_details: 'Dark Electro-Industrial duo from San Francisco, CA. Formed in 2020.',
-    genre: 'Industrial',
+    genre: 'Hard Rock',
   },
   {
     original_artist: 'Interpol',
@@ -305,7 +305,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/774868',
     artist_details:
       'French band formed in 2003 by [a31258] and [a218095], specialising in jazzy Bossa nova cover versions of new wave songs sung by a female guest vocalist. The band decided to continue after the death of Libaux in 2021.',
-    genre: 'Bossa Nova',
+    genre: 'Classic',
   },
   {
     original_artist: 'Tom Waits',
@@ -341,7 +341,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/3000728',
     artist_details:
       'American funk group, led by [a=George Clinton]. Founded in 1955 as The Parliaments, renamed Parliament in 1969. Sister act of [a29923]. Inducted into Rock And Roll Hall of Fame in 1997 (Performer).',
-    genre: 'P.Funk',
+    genre: 'Funk',
   },
   {
     original_artist: 'Ohio Players',
@@ -376,7 +376,7 @@ const albums = [
     type: 'master',
     url: 'https://api.discogs.com/releases/11895336',
     artist_details: 'If his last name is credited please use the [a=Miguel Jontel Pimentel] profile.',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Mac Miller',
@@ -400,7 +400,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/773587',
     artist_details:
       'Funkadelic is an American band most prominent during the 1970s. The band and its sister act [a8887], both led by [a=George Clinton], began the funk music culture of that decade. Inducted into Rock And Roll Hall of Fame in 1997 (Performer).',
-    genre: 'P.Funk',
+    genre: 'Funk',
   },
   {
     original_artist: 'Wild Cherry',
@@ -447,7 +447,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/13835553',
     artist_details:
       'Brandon Paak Anderson (born February 8, 1986), better known by his stage name Anderson Paak (stylized as Anderson .Paak), is an American musician and record producer from Oxnard, California. He released his debut album, O.B.E. Vol. 1 in 2012, under the pseudonym Breezy Lovejoy. He went on to release Venice in 2014, under his current moniker. Paak followed with Malibu, in 2016, which received a nomination for Best Urban Contemporary Album at the Grammy Awards. Apart from his solo career, Paak is also one-half of [a=NxWorries], alongside record producer [a=Knxwledge]. He is accompanied by the band [a=The Free Nationals], who play a variety of instruments such as electric guitar, bass, piano, keyboards and drums and also serve as backing vocalists. in 2021, he collaborates with [a1357693] and forms the superduo [a8897713]',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Beck',
@@ -459,7 +459,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/128270',
     artist_details:
       'American musician, singer-songwriter and multi-instrumentalist. born July 8, 1970, in Los Angeles, California, USA. Son of [a=David Campbell] and [a=Bibbe Hansen], grandson of [a=Al Hansen]. He was married to [a=Marissa Ribisi] from 2004–2019.  When his parents split, he and his younger brother stayed with their mother. Beck dropped out of school at the age of 14 and drifted around for about a decade, ending up back in Los Angeles. While playing some open-mike events, he got noticed by the little local label Bong Load Custom Records. In 1993, "Loser" was released to the world in a limited pressing of 500 copies and sent out to radio DJs across the U.S. The song became quite popular, and subsequently DGC/Geffen/MCA signed Beck in November of 1993, while giving him the freedom to work with independent labels and to make uncommercial music. The DGC release of Loser in January 1994 became an international hit.',
-    genre: 'Synth-pop',
+    genre: 'Pop',
   },
   {
     original_artist: 'Childish Gambino',
@@ -471,7 +471,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/11116099',
     artist_details:
       'American actor, writer, comedian, and musician, born 25 September 1983 at Edwards Air Force Base, California, and raised in Stone Mountain, Georgia, USA.  The name Childish Gambino was created using the Wu-Tang Name Generator',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Slothrust',
@@ -591,7 +591,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/26654555',
     artist_details:
       'American alternative rock / nu-metal band from Agoura Hills, California, United States. Formed in 1996 as Xero by Mike Shinoda and Mark Wakefield, with guitarist Brad Delson, bassist Phoenix, drummer Rob Bourdon and DJ Joe Hahn joining shortly after. After Wakefield left in 1998, lead singer Chester Bennington replaced him in 1999, and the band changed name to Hybrid Theory. In 2000 name was changed to Linkin Park. The band released seven studio albums from 2000 to 2017 with this lineup and went on hiatus in 2017 after Bennington death, releasing anniversary editions of Hybrid Theory and Meteora between 2020 and 2023 and greatest hits\' Papercuts in 2024. On September 2024 the band announced their comeback with new singer Emily Armstrong and new drummer Colin Brittain.  [b]Current members:[/b] Mike Shinoda –  Vocals / rhythm guitar / keys (1996-present) Brad Delson – Lead guitar / backing vocals (1997-present) Joe Hahn – Turntables / synthesizers / samples / backing vocals (1997-present) Dave "Phoenix" Farrell – Bass / backing vocals / occasional synths (1997-1999, 2000-present) Emily Armstrong – Vocals / occasional guitar (2024-present) Colin Brittain – Drums / guitar / backing vocals (2024-present)  [b]Former members:[/b] Chester Bennington – Vocals / occasional guitar and percussion (1999-2017; died 2017) Rob Bourdon – Drums / percussion / backing vocals (1997-2024)',
-    genre: 'Nu Metal',
+    genre: 'Metal',
   },
   {
     original_artist: 'Metallica',
@@ -626,7 +626,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/1131632',
     artist_details:
       "Alternative rock band from Hanna, Alberta (Canada).  The band was formed in 1995. The band having sold almost 50 million albums worldwide, ranking as the 11th best selling music act of the 2000s, and is the 2nd best selling foreign act in the U.S. behind The Beatles for the 2000's.",
-    genre: 'Post-Grunge',
+    genre: 'Pop Rock',
   },
   {
     original_artist: "Guns N' Roses",
@@ -782,7 +782,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/2772432',
     artist_details:
       'Trumpeter, bandleader, composer, and one of the most important figures in jazz music history, and music history in general. Davis adopted a variety of musical directions in a five-decade career that kept him at the forefront of many major stylistic developments in jazz.  Born: 26 May 1926 in Alton, Illinois, USA. Died: 28 September 1991 in Santa Monica, California, USA (aged 65).  Best known for his seminal modern jazz album "[m=5460]" (1959), the highest selling jazz album of all time with six million copies sold.  Miles went to New York City to study at Juilliard School. He made his professional debut as a member of [a272028] from 1944 to 1948. In 1948 Miles Davis started his own ensembles. At that time he met [a=Gil Evans], who contributed to [a497768]\'s scores and arrangements. From the few recordings they made in 1949 and 1950 came the album "[m=62308]" (1957), with Davis and Evans going on to work more together in the future.  Miles Davis was a prominent musician in the creation of \'Hard Bop\' style in the mid-1950s. In the late 1960s he introduced electronic instruments and rock and funk rhythms in his music. In the mid-1970s he went on a hiatus because of various health and personal problems, though he made a comeback in 1980.  Inducted into Rock And Roll Hall of Fame in 2006 (Performer).  Winner of eight Grammy Awards: - Best Jazz Composition Of More Than Five Minutes Duration for Sketches Of Spain on [m=48172] - Best Jazz Performance - Large Group Or Soloist With Large Group for [m=8260] - Best Jazz Instrumental Performance, Soloist for [m=65130] - Best Jazz Instrumental Performance, Soloist for [m=63355] - Best Jazz Instrumental Performance, Big Band for [m=62288] - Best Jazz Instrumental Performance, Soloist (On A Jazz Recording) for [m=62288] - Best R&B Instrumental Performance for [m=62359] - Best Large Jazz Ensemble Performance for [m=188032]  He married dancer/actress [a=Frances Taylor Davis] on December 12, 1959; they divorced in 1968. He then married singer [a=Betty Mabry] in September 1968; they divorced in 1970. He then married actress [a=Cicely Tyson] on November 26, 1981; they divorced in 1989. Father of [a=Cheryl Davis] & [a=Erin Davis]. Uncle of [a=Vince Wilburn, Jr.]',
-    genre: 'Modal',
+    genre: 'Blues',
   },
   {
     original_artist: 'JOHN COLTRANE',
@@ -806,7 +806,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/6536984',
     artist_details:
       "American saxophonist and jazz composer.  Born: 23 September 1926 in Hamlet, North Carolina, USA. Died: 17 July 1967 in Huntington, Long Island, New York, USA (aged 40) from liver cancer.  Coltrane's early recordings capture a musician in the relatively conventional confines of bebop and hardbop, but his enduring legacy primarily rests on the modal jazz pioneered by his classic quartet (1961-65) and by free jazz explorations late in his career. Extensively recorded as a leader, he appeared as a sideman on many other albums, performing with other major figures in jazz like [a=Miles Davis] and [a=Thelonious Monk]. Coltrane received numerous awards including a posthumous \"Special Citation\" from the Pulitzer Prize Board in 2007 for his 'masterful improvisation, supreme musicianship and iconic centrality to the history of jazz'.  As his life progressed, his music and outlook became increasingly spiritual. After his death he was proclaimed as a saint by the African Orthodox church that took his name.  Coltrane's second wife was pianist [a=Alice Coltrane]; their son [a=Ravi Coltrane] is also a saxophonist.",
-    genre: 'Hard Bop',
+    genre: 'Jazz',
   },
   {
     original_artist: 'JOHN COLTRANE',
@@ -818,7 +818,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/4709678',
     artist_details:
       "American saxophonist and jazz composer.  Born: 23 September 1926 in Hamlet, North Carolina, USA. Died: 17 July 1967 in Huntington, Long Island, New York, USA (aged 40) from liver cancer.  Coltrane's early recordings capture a musician in the relatively conventional confines of bebop and hardbop, but his enduring legacy primarily rests on the modal jazz pioneered by his classic quartet (1961-65) and by free jazz explorations late in his career. Extensively recorded as a leader, he appeared as a sideman on many other albums, performing with other major figures in jazz like [a=Miles Davis] and [a=Thelonious Monk]. Coltrane received numerous awards including a posthumous \"Special Citation\" from the Pulitzer Prize Board in 2007 for his 'masterful improvisation, supreme musicianship and iconic centrality to the history of jazz'.  As his life progressed, his music and outlook became increasingly spiritual. After his death he was proclaimed as a saint by the African Orthodox church that took his name.  Coltrane's second wife was pianist [a=Alice Coltrane]; their son [a=Ravi Coltrane] is also a saxophonist.",
-    genre: 'Hard Bop',
+    genre: 'Jazz',
   },
   {
     original_artist: 'BOSTON',
@@ -867,19 +867,19 @@ const albums = [
     url: 'https://api.discogs.com/releases/6767529',
     artist_details:
       "Austrian composer and conductor. Born 7 July 1860 in Kalischt, Bohemia (today Kaliště, Czech Republic) and died 18 May 1911 in Vienna, Austria.  Gustav Mahler (German pronunciation: [ˈɡʊstaf ˈmaːlɐ]; was a late-Romantic Austrian-Bohemian composer and one of the leading conductors of his generation. As a composer, he acted as a bridge between the 19th century Austro-German tradition and the modernism of the early 20th century. While in his lifetime his status as a conductor was established beyond question, his own music gained wide popularity only after periods of relative neglect which included a ban on its performance in much of Europe during the Nazi era. After 1945 the music was discovered and championed by a new generation of listeners; Mahler then became one of the most frequently performed and recorded of all composers, a position he has sustained into the 21st century.  Born in humble circumstances, Mahler showed his musical gifts at an early age. After graduating from the Vienna Conservatory in 1878, he held a succession of conducting posts of rising importance in the opera houses of Europe, culminating in his appointment in 1897 as director of the Vienna Court Opera (Hofoper). During his ten years in Vienna, Mahler—who had converted to Catholicism from Judaism to secure the post—experienced regular opposition and hostility from the anti-Semitic press. Nevertheless, his innovative productions and insistence on the highest performance standards ensured his reputation as one of the greatest of opera conductors, particularly as an interpreter of the stage works of [a=Richard Wagner] and [a=Wolfgang Amadeus Mozart]. Late in his life he was briefly director of New York's [a=The Metropolitan Opera] and [a=The New York Philharmonic Orchestra]. He wed fellow composer and musician [a=Alma Mahler-Werfel] on 9 March 1902. They had two daughters, Maria Anna Mahler (03.11.1902-05.07.1907) & [a=Anna Mahler].  Mahler's œuvre is relatively small—for much of his life composing was a part-time activity, secondary to conducting—and is confined to the genres of symphony and song, except for one piano quartet. Most of his ten symphonies are very large-scale works, several of which employ soloists and choirs in addition to augmented orchestral forces. These works were often controversial when first performed, and were slow to receive critical and popular approval; an exception was the triumphant premiere of his Eighth Symphony in 1910. Mahler's immediate musical successors were the composers of the Second Viennese School, notably [a=Arnold Schoenberg], [a=Alban Berg] and [a=Anton Webern]. [a=Dmitri Shostakovich] and [a=Benjamin Britten] are among later 20th-century composers who admired and were influenced by Mahler. The International Gustav Mahler Institute was established in 1955, to honour the composer's life and work.",
-    genre: 'Romantic',
+    genre: 'Classical',
   },
   {
     original_artist: 'Claudio Abbado: Chicago Symphony Orchestra',
     original_title: 'MAHLER SYM. NO.2',
     id: 10302788,
     artist: 'Claudio Abbado: Chicago Symphony Orchestra',
-    title: 'Abbado*, Chicago Symphony Orchestra - Abbado, Chicago Symphony Orchestra',
+    title: 'Abbado* Symphony No. 2 In C Minor "Resurrection',
     type: 'release',
     url: 'https://api.discogs.com/releases/10302788',
     artist_details:
       "Claudio Abbado, OMRI was an Italian conductor. He was the son of violinist, conductor, and teacher [a=Michelangelo Abbado], and brother of pianist [a=Marcello Abbado].  Born June 26, 1933 in Milan, Italy Died January 20, 2014 in Bologna, Italy (aged 80)  He was the music director of La Scala from 1968 to May 1986. He founded the Orchestra della Scala for the performance of orchestral repertoire in concert. From 1986 to 1991 he was music director of [l613318]. He was principal conductor of [url=https://www.discogs.com/artist/212726-London-Symphony-Orchestra]the London Symphony Orchestra[/url] from 1979 to 1987. In the US, he was principal guest conductor of [url=https://www.discogs.com/artist/837562-Chicago-Symphony-Orchestra]the Chicago Symphony Orchestra[/url] from 1982 to 1986. In October 1989, [url=https://www.discogs.com/artist/260744-Berliner-Philharmoniker]the Berlin Philharmonic Orchestra[/url] elected Abbado as their chief conductor, to succeed [a=Herbert Von Karajan]. Abbado held this post until 2002. In 2003, he formed the [a=Lucerne Festival Orchestra]. He is also founder and music director of the European Union Youth Orchestra (1978) and the Gustav Mahler Jugendorchester (1986). In 1988, Abbado founded the music festival [i]Wien Modern[/i], which has since expanded to include all aspects of contemporary art. He has recorded a wide range of Romantic works, in particular Gustav Mahler, as well as modern works such as Arnold Schoenberg, Karlheinz Stockhausen and Luigi Nono.  From his first marriage in 1956 to singer Giovanna Cavazzoni, Abbado had two children: [a=Daniele Abbado] (born 1958), who became an opera director, and Alessandra (born 1959). His first marriage was dissolved. From his second marriage, to Gabriella Cantalupi, Abbado had a son, Sebastiano. His four-year relationship with Viktoria Mullova resulted in Mullova's first child, a son, the jazz bassist, [a=Misha Mullov-Abbado]. Abbado's nephew, the son of his brother, Marcello, is the conductor [a=Roberto Abbado].",
-    genre: 'Romantic',
+    genre: 'Classical',
   },
   {
     original_artist: 'TOWER OF POWER',
@@ -951,7 +951,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/12642678',
     artist_details:
       'System of a Down, sometimes shortened to System and abbreviated as SOAD, is an Armenian-American heavy metal band from Glendale, California, formed in 1994. The band currently consists of Serj Tankian (lead vocals, keyboards), Daron Malakian (vocals, guitar), Shavo Odadjian (bass, backing vocals) and John Dolmayan (drums).  The band achieved commercial success with the release of five studio albums, three of which debuted at number one on the Billboard 200. System of a Down has been nominated for four Grammy Awards, and their song "B.Y.O.B." won the Best Hard Rock Performance of 2006. The group went on hiatus in August 2006 and came together again in November 2010, embarking on a tour for the following three years. System of a Down has sold over 40 million records worldwide, and two of their singles, "Aerials" and "Hypnotize", reached number one on Billboard\'s Alternative Songs chart.',
-    genre: 'Nu Metal',
+    genre: 'Metal',
   },
   {
     original_artist: 'The Beatles',
@@ -1058,7 +1058,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/1580639',
     artist_details:
       "American singer, songwriter and actress born September 4, 1981 in Houston, Texas. She rose to fame in the late 1990s as lead singer of R&B girl group [a=Destiny's Child]. The release of Beyoncé's debut album, [i]Dangerously In Love[/i] (2003), established her as a solo artist, selling over 11 million copies and earning her five Grammy Awards.  In 2013, she released the self-titled album [i]Beyoncé[/i], which was critically acclaimed for its experimental production and departure from her previous work. In 2014, she ranked atop of Forbes'​ Celebrity 100 was listed among the 100 most influential people in the world by Time.  [b]Use this entry only if she is credited as Beyoncé (or a variation of her first name).[/b]",
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Lil Nas X',
@@ -1069,7 +1069,7 @@ const albums = [
     type: 'master',
     url: 'https://api.discogs.com/releases/20261488',
     artist_details: 'American rap artist from Atlanta, Georgia. Born April 9th, 1999. ',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Mariah Carey',
@@ -1081,7 +1081,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/439415',
     artist_details:
       'American Grammy Award-winning Singer-songwriter.  Born 27 March, 1969 in Huntington, NYC, USA.  Noted for her remarkable vocal range.  According to Billboard magazine, she was the most successful artist of the 90s in the United States.  Married to [a1012741] from 1993 until their divorce in 1998.  Married to [a210793] from 2008 until their divorce in 2016.  Music critic Jim Farber of Daily News said that Carey has "a range wide enough to cover all the octaves between an alto and a soprano and the agility to move between those roles with swiftness and aplomb", and her vocal trademark is her ability to sing in the whistle register.  Carey has cited [a=Minnie Riperton] as the greatest influence on her singing technique and from a very early age, she attempted to emulate Riperton\'s high notes, to increasing degrees of success as her vocal range expanded.   In 2003, her voice was ranked first in MTV and Blender magazine\'s countdown of the 22 Greatest Voices in Music, as voted by fans and readers in an online poll.  Carey said of the poll, "What it really means is voice of the MTV generation.  Of course, it\'s an enormous compliment, but I don\'t feel that way about myself".  Carey has a Lyric Soprano vocal type.  But considers herself an alto Vocal range: 5 octaves 2 notes and a semi-tone E2-G#7.  Inducted into Songwriters Hall of Fame in 2007.  Mariah Carey Fan Club: P.O. Box 679 Branford CT 06405 USA.',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Adele',
@@ -1117,7 +1117,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/1376540',
     artist_details:
       "Robyn Rihanna Fenty (born February 20, 1988), known by her stage name Rihanna, is a Barbadian recording artist, actress and fashion designer. Born in Saint Michael, Barbados, she began her career as a result of meeting record producer Evan Rogers in late 2003. At age 16, she moved to the United States to pursue a recording career and began recording demo tapes under Rogers' guidance, subsequently signing a contract with Def Jam Recordings after auditioning for Jay-Z.  Rihanna has a Lyric contralto vocal type. Vocal Range: 3 octaves 2 notes (B2-D6)'.",
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'The Charlie Daniels Band',
@@ -1141,7 +1141,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/2911293',
     artist_details:
       "American singer, dancer, philanthropist, entertainer, songwriter, producer and recording artist.  Born: 29 August 1958 in Gary, Indiana, USA. Died: 25 June 2009 in Los Angeles, California, USA (aged 50).  Regarded as the 'King of Pop,' Michael Jackson was not only a legendary entertainer but also a global icon whose cultural impact reshaped music, dance, and the very fabric of modern society. A visionary singer, songwriter, producer, and performer, his revolutionary work in music videos and sound set new standards for artistic expression, while his groundbreaking choreography continues to inspire artists and performers worldwide. Beyond entertainment, Jackson’s influence spans over 60 academic fields, including economics, sociology, anthropology, psychology, cultural studies, medicine, law, and even zoology. His contributions have been the subject of extensive academic research, with studies on topics ranging from the psychology of stardom and human-computer interaction to post-colonialism, biomechanics, and vitiligo awareness. Universities and scholars worldwide explore his work as a transformative force in both popular culture and social change. His ability to unite diverse audiences across continents, with messages of unity, love, and equality, solidified his status as the greatest entertainer of all time. Jackson’s legacy transcends borders, making him one of the most studied and celebrated figures in modern history, whose unprecedented academic influence and far-reaching global impact continue to resonate across generations.  Jackson began his career as the youngest member of [a=The Jackson 5] and started his solo recording career in 1971. Brother of recording artists [a=Jackie Jackson], [a=Janet Jackson], [a=Jermaine Jackson], [a=La Toya Jackson], [a=Marlon Jackson], [a=Randy Jackson], [a=Rebbie Jackson] & [a=Tito Jackson], as well as uncle of [a=3T]. Michael Jackson’s musical achievements are unparalleled, with over 500 million records sold worldwide as a solo artist and 150 million sold as a member of the Jackson 5, solidifying his place as the best-selling solo artist of all time. His groundbreaking albums, including Thriller, Bad, Dangerous, and HIStory, cemented his status as one of the most influential and successful musicians in history. Jackson's innovative approach to music videos, live performances, and genre-blending tracks revolutionized the entertainment industry and left a lasting imprint on global pop culture. His ability to fuse rock, pop, R&B, and soul into chart-topping hits set new standards for creativity and performance. Throughout his career, he became a pioneering force in music, influencing countless artists across various genres. His music continues to resonate with a global fandom spanning nearly 200 countries, and his impact on the evolution of pop music and entertainment as a whole remains immeasurable. Today, it is commonplace for artists to be compared to Michael Jackson, a testament to his enduring legacy  Inducted into Rock And Roll Hall of Fame in 2001 (as performer).  On June 25, 2009, Michael Jackson died of acute propofol and benzodiazepine intoxication at his home on North Carolwood Drive in the Holmby Hills neighborhood of Los Angeles, CA. His personal physician, Conrad Murray, said he had found Jackson in his room, not breathing and with a barely detectable pulse, and that he administered CPR on Jackson to no avail. After a call was placed to 9-1-1 at 12:21 p.m., Jackson was treated by paramedics at the scene and was later pronounced dead at the Ronald Reagan UCLA Medical Center.",
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Fall Out Boy',
@@ -1273,7 +1273,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/19192057',
     artist_details:
       'American singer, songwriter, and multi-instrumentalist.   Born: 27 June 1997 in Vallejo, California, USA.   Gabriella "Gabi" Wilson is better known by her stage name H.E.R. (pronounced "her", acronym for Having Everything Revealed), and is a Grammy Award winning American singer and songwriter. Before being known as H.E.R., Wilson rose to fame by participating in Radio Disney’s Next Big Thing in 2009. She later signed to RCA Records at the age of 14 and released a single, "Something To Prove" (2014), under her real name.   Wilson re-emerged a couple of years later under the H.E.R. persona, releasing her debut EP "H.E.R. Volume 1" (2016), then released subsequent EPs "H.E.R. Volume 2" (2017), "The B Sides" (2017), "I Used To Know Her: The Prelude" (2018), and "I Used To Know Her: Part 2" (2018) – the latter two leading up to her upcoming debut album.   Her compilation album, "[m=1497218]" (2017), consisting of tracks from the singer\'s first two EPs plus six additional songs. She was nominated for five Grammy Awards at the 61st Annual Grammy Awards in 2019, winning for Best R&B Performance and for Best R&B Album.  ',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Alicia Keys',
@@ -1285,7 +1285,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/4107234',
     artist_details:
       'American Singer-songwriter, Pianist, Author, Record producer and Actress. Born January 25, 1981 in New York City, USA. Married to [a=Swizz Beatz] since 2010.',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'Christina Aguilera',
@@ -1297,7 +1297,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/11782468',
     artist_details:
       'Born December 18, 1980 (in Staten Island, New York and raised in Rochester and Wexford, Pennsylvania), she\'s an American singer, songwriter, actress and television personality.   She appeared on the television series Star Search and The Mickey Mouse Club in her early years. After recording "Reflection", the theme for Disney\'s 1998 film Mulan, she signed with RCA Records.  Aguilera has been recognized as a pop icon and earned the title "The voice of a generation" in her early years. Her work has earned her 5 Grammy Awards, 2 Latin Grammy Awards, and a star on the Hollywood Walk of Fame. She has sold over 17.9 million albums in the United States as of 2014 and 50 million albums worldwide as of 2015. In 2009, she ranked at number 58 on Rolling Stone\'s list of 100 Greatest Singers of All Time, thereby becoming the youngest and the only artist under 30 to be named.',
-    genre: 'Contemporary R&B',
+    genre: 'R&B',
   },
   {
     original_artist: 'My Chemical Romance',
@@ -1333,7 +1333,7 @@ const albums = [
     url: 'https://api.discogs.com/releases/14401235',
     artist_details:
       "American singer-songwriter, born December 13, 1989 in Reading, Pennsylvania, USA. Swift signed her record deal with Big Machine Records at the age of 15 and released her debut album in October of 2006.  Swift has written or co-written every song on her albums. She has also released several of her songs with pop remixes and released them to pop radio, much like country-pop artist Shania Twain with whom Swift has often been compared in music, style and fashion. Swift has collaborated with artists like The Civil Wars, B.o.B., Ed Sheeran, Gary Lightbody from Snow Patrol, Tim McGraw, The National, Bon Iver, HAIM, and Phoebe Bridgers.  In 2022, Swift became the first ever artist to occupy all top 10 spots of the Billboard Hot 100 with songs from her album 'Midnights'. To date, she has released eleven studio albums but is in the process of re-recording her first six after leaving recording label [l118707]. Currently, she has re-released 'Fearless', 'Red', 'Speak Now', and '1989'. These albums are labeled '(Taylor's Version)' to indicate her ownership of the masters.",
-    genre: 'Synth-pop',
+    genre: 'Pop',
   },
   {
     original_artist: 'Ariana Grande',
