@@ -116,7 +116,7 @@ const UserOrders = () => {
       <div className='order-actions'>
         {order.order_status === 'delivered' && <button>Return Item</button>}
         {(order.order_status === 'created' || order.order_status === 'processing') && (
-          <button onClick={() => handleCancel(order.id)}>Cancel Order</button>
+          <button className="cancel-button"onClick={() => handleCancel(order.id)}>Cancel Order</button>
         )}
       </div>
     </div>

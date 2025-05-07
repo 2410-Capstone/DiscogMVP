@@ -291,7 +291,7 @@ const Cart = () => {
                     <p className="c-related-card-artist">{item.category || "Vinyl"}</p>
                     <h3 className="c-related-card-title">{item.title}</h3>
                     <p className="c-related-card-price">${item.price}</p>
-                    <div className="c-related-card-rating">★ 4.7 (128)</div>
+                    {/* <div className="c-related-card-rating">★ 4.7 (128)</div> */}
                   </div>
                 </Link>
               ))}
