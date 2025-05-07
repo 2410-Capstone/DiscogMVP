@@ -148,3 +148,44 @@ button.toggle-wishlists-btn,button.add-to-bag-button {
     }
   }
 }
+
+
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .wishlist-status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .wishlist-icon-button {
+      padding: 0.2rem 0.6rem;
+    }
+
+    .my-list-link {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 600px) {
+  display: none
+  
+      }
+    }
+  }
+}

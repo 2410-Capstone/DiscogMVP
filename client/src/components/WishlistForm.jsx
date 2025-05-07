@@ -11,7 +11,7 @@ const WishlistForm = ({ initialData, onSubmit, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div> 
         <label>Name:</label>
         <input 
           type="text" 

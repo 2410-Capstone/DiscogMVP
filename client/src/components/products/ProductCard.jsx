@@ -6,11 +6,13 @@ const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
   const { id, description, artist, genre, price, image_url } = item;
 
   return (
-    <div className="product-card" onClick={() => handleDetailsClick(id)}>
+    <div className="product-card">
       <img
         src={`http://localhost:3000/public${item.image_url}`}
         alt="Album Art"
         className="card-image"
+        onClick={() => handleDetailsClick(id)}
+        style={{ cursor: 'pointer' }}
       />
 
       <div className="card-title">{description || "Untitled"}</div>
@@ -22,18 +24,17 @@ const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
           <p>{price ? `$${price}` : "Not available"}</p>
         </div>
         <div className="card-buttons">
-  <AddToWishlistButton productId={id} />
-  <button
-    className="add-to-bag-button"
-    onClick={(e) => {
-      e.stopPropagation();
-      handleAddToCart(item);
-    }}
-  >
-    Add to Bag
-  </button>
-</div>
-
+          <AddToWishlistButton productId={id} />
+          <button
+            className="add-to-bag-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart(item);
+            }}
+          >
+            Add to Bag
+          </button>
+        </div>
       </div>
     </div>
   );
