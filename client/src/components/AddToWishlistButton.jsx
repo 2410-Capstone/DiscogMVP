@@ -25,7 +25,14 @@ const AddToWishlistButton = ({ productId }) => {
   };
 
   useEffect(() => {
-    if (!user || !user.id) return; 
+    // Reset state on productId change
+    setIsAdded(false);
+    setSelectedWishlist(null);
+    setWishlists([]);
+    setError(null);
+    setSuccess(false);
+  
+    if (!user || !user.id) return;
   
     const checkIfAlreadyAdded = async () => {
       try {
@@ -36,20 +43,16 @@ const AddToWishlistButton = ({ productId }) => {
         const allWishlists = res.data;
   
         for (let wishlist of allWishlists) {
-          try {
-            const itemsRes = await axios.get(`/api/wishlists/${wishlist.id}/items`, {
-              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            });
+          const itemsRes = await axios.get(`/api/wishlists/${wishlist.id}/items`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          });
   
-            const items = itemsRes.data;
+          const items = itemsRes.data;
   
-            if (items.some(item => item.id === productId)) {
-              setIsAdded(true);
-              setSelectedWishlist(wishlist);
-              break;
-            }
-          } catch (innerErr) {
-            console.error(`Error fetching items for wishlist ${wishlist.id}:`, innerErr);
+          if (items.some(item => item.id === productId)) {
+            setIsAdded(true);
+            setSelectedWishlist(wishlist);
+            break;
           }
         }
       } catch (err) {
@@ -59,6 +62,7 @@ const AddToWishlistButton = ({ productId }) => {
   
     checkIfAlreadyAdded();
   }, [productId, user]);
+  
   
   
 
@@ -77,7 +81,7 @@ const AddToWishlistButton = ({ productId }) => {
       
       setSuccess(true);
       setIsAdded(true);
-      setWishlists([]); // Hide dropdown after add
+      setWishlists([]); 
 
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
@@ -126,7 +130,7 @@ const handleRemoveFromWishlist = async () => {
       <button className="wishlist-icon-button disabled" disabled>
         <span className="music-note-icon">♫</span>
       </button>
-      <div className="wishlist-tooltip">Log in to create lists & save for later</div>
+
     </div>
   ) : (
     <button

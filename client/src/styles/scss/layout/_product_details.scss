@@ -97,11 +97,12 @@
 
 .cart-button-container {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column; 
+  gap: 1rem;
   margin: 1.5rem 0 2rem;
-  flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
 }
+
 
 .toggle-wishlists-btn,
 .add-to-cart-button {
@@ -113,6 +114,7 @@
   cursor: pointer;
   padding: 0.25rem 0;
   transition: color 0.2s ease;
+  align-items: left;
 
   &:hover {
     color: var(--hover);

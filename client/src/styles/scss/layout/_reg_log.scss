@@ -7,7 +7,6 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding-top: 40px;
   background-color: var(--bg-color);
   background: var(--card-bg);
   background-size: cover;
@@ -86,14 +85,17 @@
 .login-instr {
   padding-bottom: 12px;
   padding-top: 14px;
+  
 }
 
 .login-instr h4 {
   font-weight: 400;
+
 }
 
 .inner-content h2 {
   font-weight: 400;
+  
 }
 
 .sign-up-link h4 {
@@ -101,4 +103,20 @@
   font-weight: 300;
   padding-top: 4px;
   transition: color 0.3s ease;
+
+  &hover {
+    text-decoration: underline;
+  }
+}
+
+.sign-up-link h4 {
+  color: var(--text-color);
+  font-weight: 300;
+  padding-top: 4px;
+  transition: text-decoration 0.2s ease;
+}
+
+.sign-up-link h4:hover {
+  text-decoration: underline;
+  color: var(--primary-accent)
 }

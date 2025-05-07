@@ -24,7 +24,9 @@
         text-align: center;
         border-radius: 4px;
         position: absolute;
-        z-index: 10;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        z-index: 9999;
         bottom: 100%;
         left: 50%;
         transform: translateX(-50%);
@@ -53,7 +55,7 @@
   
     .music-note-icon {
       color: transparent;
-      font-size: 1.8rem;
+      font-size: 2rem;
       -webkit-text-stroke: 0.6px var(--text-color);
       transition: all 0.2s ease;
     }
@@ -90,13 +92,15 @@
       border: none;
       border-radius: 6px;
       padding: 0.4rem 1rem;
-      color: white;
+      color: var(--text-color);
       font-size: 0.9rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      opacity: 0.8;
   
       &:hover {
         background-color: var(--accent-color-hover);
+        text-decoration: underline;
       }
   
       &:disabled {
@@ -189,5 +193,37 @@
   }}
 
 
+
+  
+
+
+  .title-wishlist-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  
+    .product-title {
+      margin-bottom: 0.25rem;
+    }
+  
+    .toggle-wishlists-btn {
+      all: unset;
+      cursor: pointer;
+      font-size: 1.4rem;
+      padding-left: 0.5rem;
+      padding-right: rem;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      color: var(--text-color);
+      transition: color 0.2s ease;
+  
+      &:hover {
+        color: var(--hover);
+      }
+    }
+  }
+  
 
   
