@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getGuestCart, setGuestCart, clearGuestCart } from "../utils/cart";
 import { Link } from "react-router-dom"; 
+import AddToWishlistButton from "./AddToWishlistButton";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -284,20 +285,26 @@ const Cart = () => {
           <section className="c-related-products" key={genre}>
             <div className="c-genre-header"><h2>{genre}</h2></div>
             <div className="c-products-grid">
-              {products.slice(0, 10).map((item) => (
-                <Link key={item.id} to={`/home/${item.id}`} className="c-related-product-card" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-                  <img src={`http://localhost:3000/public${item.image_url}`} alt={item.title} className="c-related-card-image" />
-             <div className="c-related-card-info">
-  <div className="c-related-card-title">{item.description || "Untitled"}</div>
-  <div className="c-related-card-artist">{item.artist || "Unknown Artist"}</div>
-  <div className="c-card-genre">{genre || "Unknown Genre"}</div>
-  
-  <div className="c-related-card-price">{item.price ? `$${item.price}` : "Not available"}</div>
+            {products.slice(0, 10).map((item) => (
+  <div key={item.id} className="c-related-product-card">
+    <Link to={`/home/${item.id}`}>
+      <img
+        src={`http://localhost:3000/public${item.image_url}`}
+        alt={item.title}
+        className="c-related-card-image"
+      />
+    </Link>
 
-                    {/* <div className="c-related-card-rating">★ 4.7 (128)</div> */}
-                  </div>
-                </Link>
-              ))}
+    <div className="c-related-card-info">
+      <div className="c-related-card-title">{item.description || "Untitled"}</div>
+      <div className="c-related-card-artist">{item.artist || "Unknown Artist"}</div>
+      <div className="c-card-genre">{genre || "Unknown Genre"}</div>
+      <div className="c-related-card-price">{item.price ? `$${item.price}` : "Not available"}</div>
+      <AddToWishlistButton productId={item.id} />
+    </div>
+  </div>
+))}
+
             </div>
           </section>
         );

@@ -24,7 +24,7 @@ import ProductDetails from "./components/products/productDetails";
 import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";
-import Checkout from "./pages/user/Checkout";
+import Checkout from "./pages/User/Checkout";
 
 import GuestOrderLookup from "./pages/user/GuestOrderLookup";
 import UserOrders from "./pages/User/UserOrders";
