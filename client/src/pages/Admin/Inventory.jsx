@@ -11,11 +11,11 @@ const Inventory = () => {
   const [editingStockId, setEditingStockId] = useState(null);
   const [newStockValue, setNewStockValue] = useState('');
 
-  const searchRef = useRef(null); // ✅ Add ref for the input
+  const searchRef = useRef(null);
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      searchRef.current?.focus(); // ✅ Focus on first render
+      searchRef.current?.focus();
     });
   }, []);
 
@@ -126,7 +126,7 @@ const Inventory = () => {
             value={searchTerm}
             onChange={handleSearch}
             className='admin-search'
-            ref={searchRef} // ✅ Input now auto-focused
+            ref={searchRef}
           />
         </div>
 

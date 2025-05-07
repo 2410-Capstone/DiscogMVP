@@ -194,17 +194,17 @@ const Cart = () => {
             cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
   <Link to={`/home/${item.product_id}`} className="item-image" style={{ display: "block" }}>
-  <img
-    src={`http://localhost:3000/public${item.image_url}`}
-    alt="Album Art"
-    className="card-image"
-  />
-</Link>
+    <img
+      src={`http://localhost:3000/public${item.image_url}`}
+      alt="Album Art"
+      className="card-image"
+    />
+  </Link>
 
                 <div className="item-details">
                 <Link to={`/home/${item.product_id}`} style={{ textDecoration: "none", color: "inherit" }}>
-  <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
-</Link>
+                  <h3 className="item-title">{item.artist || `Album #${item.product_id}`}</h3>
+                </Link>
 
                   <p>Format: Vinyl</p>
                   <div className="item-price">${Number(item.price).toFixed(2)}</div>

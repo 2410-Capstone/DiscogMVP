@@ -16,7 +16,6 @@ const Contact = () => {
     nameRef.current?.focus();
   }, []);
 
-
   return (
     <div className="contact-main">
       <div className="contact">

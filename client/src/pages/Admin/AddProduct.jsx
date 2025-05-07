@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from "react"; // 👈 import useRef and useEffect
-import { useAuth } from "../../context/AuthContext";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddProduct = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
 
-  const artistRef = useRef(null); // 👈 create ref
+  const artistRef = useRef(null);
 
   const [artist, setArtist] = useState("");
   const [description, setDescription] = useState("");
@@ -19,7 +18,7 @@ const AddProduct = () => {
   const [artistDetails, setArtistDetails] = useState("");
 
   useEffect(() => {
-    artistRef.current?.focus(); // 👈 auto focus on mount
+    artistRef.current?.focus();t
   }, []);
 
   const handleSubmit = async (e) => {
@@ -84,7 +83,7 @@ const AddProduct = () => {
               placeholder="Artist"
               value={artist}
               onChange={(e) => setArtist(e.target.value)}
-              ref={artistRef} // 👈 attach ref
+              ref={artistRef}
               required
             />
           </div>
