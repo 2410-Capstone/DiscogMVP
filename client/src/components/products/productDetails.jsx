@@ -211,7 +211,7 @@ export default function ProductDetails() {
                       <p className="related-card-artist">{item.category || "Vinyl"}</p>
                       <h3 className="related-card-title">{item.title}</h3>
                       <p className="related-card-price">${item.price}</p>
-                      <div className="related-card-rating">★ 4.7 (128)</div>
+                      {/* <div className="related-card-rating">★ 4.7 (128)</div> */}
                     </div>
                   </div>
                 ))}
