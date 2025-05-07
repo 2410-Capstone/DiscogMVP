@@ -246,12 +246,13 @@ const Checkout = () => {
                     </div>
 
                     <div className='form-group'>
-                      <label>Phone Number (optional)</label>
+                      <label>Phone Number </label>
                       <input
+                       
                         type='tel'
                         value={phone}
-                        maxLength={15}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
                       />
                     </div>
                   </>

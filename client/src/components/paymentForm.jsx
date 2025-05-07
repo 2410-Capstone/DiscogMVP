@@ -14,6 +14,7 @@ function StripeForm({ cartItems, shippingInfo }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState('default');
   const [emailInput, setEmailInput] = useState(() => shippingInfo?.email || '');
+  const [phone, setPhone] = useState(shippingInfo?.phone || '');
   const [errorMessage, setErrorMessage] = useState('');
   const [cardComplete, setCardComplete] = useState(false);
   const [token, setToken] = useState(null);
@@ -21,34 +22,26 @@ function StripeForm({ cartItems, shippingInfo }) {
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const isGuest = !localStorage.getItem('token');
 
-  // Sync email if it was passed from shippingInfo
   useEffect(() => {
     if (!emailInput && shippingInfo?.email) {
       setEmailInput(shippingInfo.email);
     }
-  }, [shippingInfo?.email, emailInput]);
+  }, [shippingInfo?.email]);
 
-  // Decode token and extract userId if logged in
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-
     if (!storedToken) {
       setIsLoadingUser(false);
       return;
     }
-
     const payload = parseJwt(storedToken);
-    console.log('Decoded JWT payload:', payload);
-
     const extractedId = payload?.id || payload?.userId;
-
     if (!extractedId) {
       setErrorMessage('User ID missing in token');
     } else {
       setUserId(extractedId);
       setToken(storedToken);
     }
-
     setIsLoadingUser(false);
   }, []);
 
@@ -61,7 +54,6 @@ function StripeForm({ cartItems, shippingInfo }) {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           });
-
           if (res.ok) {
             const user = await res.json();
             if (!shippingInfo.name) shippingInfo.name = user.name;
@@ -72,13 +64,11 @@ function StripeForm({ cartItems, shippingInfo }) {
         }
       }
     };
-
     if (userId) {
       maybeFillMissingBillingInfo();
     }
   }, [userId]);
 
-  //had trouble reading the cookie so we are splitting it up and reading it
   function parseJwt(token) {
     try {
       const base64Url = token.split('.')[1];
@@ -92,14 +82,12 @@ function StripeForm({ cartItems, shippingInfo }) {
       return JSON.parse(jsonPayload);
     } catch (err) {
       console.error('Failed to parse JWT:', err);
-
       return null;
     }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('User ID state:', userId);
 
     if (!stripe || !elements) {
       setErrorMessage('Stripe not initialized');
@@ -116,7 +104,7 @@ function StripeForm({ cartItems, shippingInfo }) {
       return;
     }
 
-    if (!/^\d{10,15}$/.test(shippingInfo.phone)) {
+    if (phone && !/^[0-9]{10,15}$/.test(phone.trim())) {
       setErrorMessage('Please enter a valid phone number (numbers only).');
       return;
     }
@@ -128,12 +116,11 @@ function StripeForm({ cartItems, shippingInfo }) {
 
     if (!userId) {
       localStorage.setItem('guestEmail', emailInput.trim());
-      console.log('Saved guestEmail:', emailInput.trim());
-
       clearGuestCart();
     }
 
     setStatus('processing');
+    shippingInfo.phone = phone;
 
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment`, {
@@ -142,24 +129,20 @@ function StripeForm({ cartItems, shippingInfo }) {
           'Content-Type': 'application/json',
           Authorization: token ? `Bearer ${token}` : '',
         },
-
         body: JSON.stringify({
-          userId: userId,
+          userId,
           cartItems,
-          // orderId,
           shippingInfo: {
             ...shippingInfo,
             email: emailInput.trim(),
+            phone: phone.trim() || undefined,
           },
         }),
       });
 
       const { clientSecret, error: backendError, orderId: confirmedOrderId } = await res.json();
-      console.log('confirmedOrderId from backend:', confirmedOrderId);
 
-      if (backendError) {
-        throw new Error(backendError);
-      }
+      if (backendError) throw new Error(backendError);
 
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -174,25 +157,17 @@ function StripeForm({ cartItems, shippingInfo }) {
               postal_code: shippingInfo.zip,
             },
             name: shippingInfo.name,
-            phone: shippingInfo.phone || undefined,
+            phone: phone.trim() || undefined,
           },
         },
         receipt_email: emailInput,
       });
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       if (paymentIntent.status === 'succeeded') {
         setStatus('succeeded');
-
-        // Log the payment in your DB
         try {
-          console.log('Sending to backend:', {
-            name: shippingInfo.name,
-            addressLine1: shippingInfo.addressLine1,
-          });
           await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment/confirm`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -200,9 +175,7 @@ function StripeForm({ cartItems, shippingInfo }) {
               order_id: confirmedOrderId,
               amount: cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
               billing_name: shippingInfo.name,
-              billing_address: `${shippingInfo.addressLine1}${
-                shippingInfo.addressLine2 ? ', ' + shippingInfo.addressLine2 : ''
-              }, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}`,
+              billing_address: `${shippingInfo.addressLine1}${shippingInfo.addressLine2 ? ', ' + shippingInfo.addressLine2 : ''}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zip}`,
             }),
           });
         } catch (err) {
@@ -211,7 +184,6 @@ function StripeForm({ cartItems, shippingInfo }) {
 
         try {
           if (!userId) {
-            // Guest: clear guest cart
             clearGuestCart();
           } else {
             await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/clear`, {
@@ -224,7 +196,6 @@ function StripeForm({ cartItems, shippingInfo }) {
             });
           }
           localStorage.removeItem('cart');
-
           navigate('/order-confirmation', {
             state: { orderId: confirmedOrderId },
           });
@@ -252,16 +223,14 @@ function StripeForm({ cartItems, shippingInfo }) {
     <div className={styles.container}>
       {status === 'succeeded' ? (
         <div className={styles.successMessage}>
-          Payment successful! 🎉
-          <p>redirect to the order confirmation page here</p>
+          Payment successful!
+          <p>Redirecting to confirmation page...</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className={styles.form}>
-          {isGuest ? (
-            <div className={styles.formGroup}>
-              <label htmlFor='email' className={styles.label}>
-                Email
-              </label>
+          <div className={styles.formGroup}>
+            <label htmlFor='email' className={styles.label}>Email</label>
+            {isGuest ? (
               <input
                 id='email'
                 type='email'
@@ -270,15 +239,24 @@ function StripeForm({ cartItems, shippingInfo }) {
                 required
                 className={styles.input}
               />
-            </div>
-          ) : (
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Email</label>
+            ) : (
               <div className={styles.disabledField}>
                 {emailInput?.trim() || shippingInfo?.email?.trim() || 'Loading...'}
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor='phone' className={styles.label}>Phone Number</label>
+            <input
+              id='phone'
+              type='tel'
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className={styles.input}
+              placeholder='e.g. 1234567890'
+            />
+          </div>
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Card Details</label>
