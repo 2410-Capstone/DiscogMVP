@@ -11,10 +11,10 @@
   overflow: visible;
   min-width: 200px;
   max-width: 90vw;
-  gap:0;
+  gap: 0;
 
   @media (min-width: 768px) {
-    max-height: 520px; 
+    max-height: 520px;
   }
 
   .card-footer {
@@ -26,155 +26,96 @@
   }
 }
 
-
-  
-
 // ========== Image ==========
 
-  .card-image {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: contain;
-    margin-bottom: 0.75rem;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+.card-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 
-    &:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
-      transform: translateY(-2px);
-      cursor: pointer;
-    }
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+    cursor: pointer;
   }
+}
 
 // ========== Text Content ==========
 
-  .card-title,
-  .card-artist,
-  .card-genre {
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    box-sizing: border-box;
-    line-height: 1.2;
-    min-height: 1.2em; 
-  }
+.card-title,
+.card-artist,
+.card-genre {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+  line-height: 1.2;
+  min-height: 1.2em;
+}
 
-  .card-title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-color);
-    margin-bottom: 0.4rem;
-  }
+.card-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
 
-  .card-artist {
-    font-size: 0.85rem;
-    color: var(--text-color);
-    font-weight: 400;
-    margin-bottom: 4px;
-  }
+.card-artist {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  font-weight: 400;
+  margin-bottom: 4px;
+}
 
-  .card-genre {
-    font-size: 0.8rem;
-    color: var(--text-color);
-    font-style: italic;
-    margin-bottom: 0.4rem;
-  }
+.card-genre {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  font-style: italic;
+  margin-bottom: 0.4rem;
+}
 
-// ========== Market Price (within product-card) ==========
+// ========== Market Price ==========
 
 .market-price p {
   font-size: 1rem;
   font-weight: 400;
   color: var(--text-color);
   text-align: left;
-  margin: 0 !important; 
+  margin: 0 !important;
 }
 
-
-// ========== Buttons (within product-card) ==========
-
-//   .card-buttons {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: flex-start;
-//     gap: 0.15rem;
-//   }
-
-//   .add-to-bag-button {
-//     all: unset;
-//     font-size: 0.9em;
-//     font-weight: 500;
-//     color: var(--text-color);
-//     cursor: pointer;
-
-//     &:hover {
-//       text-decoration: underline;
-//     }
-//   }
-// }
-
-// ========== Legacy / Commented Code ==========
-
-//   .add-to-bag-button,
-//   .details-button {
-//     all: unset;
-//     font-weight: 300;
-//     color: var(--text-color);
-//     cursor: pointer;
-//     text-decoration: none;
-//     line-height: 1.3;
-
-//     &:hover {
-//       text-decoration: underline;
-//     }
-//   }
-// }
-
-// .card-footer {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: flex-start;
-//   margin-top: 0;
-//   gap: rem;
-// }
-
-// ========== Global Card Button Styles ==========
+// ========== Card Buttons ==========
 
 .card-buttons {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0rem;
+  margin-top: 0.5rem;
 
   @media (max-width: 600px) {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: stretch;
+
+    button,
+    .toggle-wishlists-btn {
+      width: 100%;
+    }
   }
 }
 
-
-
-// .add-to-bag-button,
-// .details-button {
-//   all: unset;
-//   font-weight: 500;
-//   font-size: 0.95rem;
-//   color: var(--text-color);
-//   cursor: pointer;
-//   text-decoration: none;
-// // 
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// }
-
-
-button.add-to-bag-button {
+button.toggle-wishlists-btn,button.add-to-bag-button {
   all: unset;
   font-weight: 500;
   font-size: 0.9rem;
   color: var(--text-color);
+  padding-bottom: 10px;
   cursor: pointer;
   text-decoration: none;
   line-height: 1.2;
@@ -187,45 +128,23 @@ button.add-to-bag-button {
 
   @media (max-width: 600px) {
     display: block;
-    width:100%;
-    box-sizing: border-box;;
-  
-    background-color: var(--hover);
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--grid);
     color: #fff;
     padding: 0.6rem 1rem;
     border-radius: 4px;
     font-weight: 500;
     margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     text-align: center;
     text-decoration: none;
-  
 
     &:hover {
-      background-color: var(--primary-accent-hover, #7e7e7e94); // optional fallback
+      background-color: var(--primary-accent, #7e7e7e94);
       text-decoration: none;
       color: #fff;
       cursor: pointer;
     }
   }
 }
-
-
-// ========== Global Market Price Styles ==========
-
-// .market-price p {
-//   font-size: 1rem;
-//   font-weight: 600;
-//   color: var(--text-color);
-//   margin: 0;
-//   text-align: right;
-// }
-
-// .product-card {
-//   max-height: 520px;
-//   overflow: hidden;
-
-//   @media (max-width: 600px) {
-//     max-height: none;
-//     overflow: visible;
-//   }
-// }

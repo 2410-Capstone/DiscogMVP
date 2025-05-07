@@ -136,7 +136,7 @@
 /* ========== ALSO LIKE ========== */
 
 .d-also-like {
-  max-width: 1400px; // unified with product-details and cart
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
 
@@ -207,6 +207,13 @@
         line-height: 1.4;
       }
 
+      .c-card-genre {
+        color: black;
+        font-size: 0.8rem;
+        font-weight: 300;
+        font-style: italic;
+      }
+
       .c-related-card-artist {
         font-size: 1rem;
         font-weight: 400;
@@ -230,9 +237,6 @@
 
 .d-related-products {
   max-width: 1400px;
-}
-
-.d-related-products {
   width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
@@ -385,9 +389,43 @@ button.back-floating {
     .product-artist-details {
       font-size: 0.9rem;
     }
+
+    .cart-button-container {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      .add-to-cart-button,
+      .toggle-wishlists-btn {
+        all: unset;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: var(--grid);
+        color: #fff;
+        padding: 0.6rem 1rem;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        text-decoration: none;
+        line-height: 1.2;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--primary-accent, #7e7e7e94);
+          text-decoration: none;
+          color: #fff;
+        }
+      }
+    }
   }
 
   .featured-product-bg {
     height: 60vh;
   }
 }
+

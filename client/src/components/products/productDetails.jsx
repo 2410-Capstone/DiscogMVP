@@ -207,13 +207,17 @@ export default function ProductDetails() {
                       alt={item.title}
                       className="related-card-image"
                     />
-                    <div className="related-card-info">
-                      <p className="related-card-artist">{item.category || "Vinyl"}</p>
-                      <h3 className="related-card-title">{item.title}</h3>
-                      <p className="related-card-price">${item.price}</p>
+<div className="related-card-info">
+  <div className="card-title">{item.description || "Untitled"}</div>
+  <div className="card-artist">{item.artist || "Unknown Artist"}</div>
+  
+  <div className="card-price">{item.price ? `$${item.price}` : "Not available"}</div>
+</div>
+
+
                       {/* <div className="related-card-rating">★ 4.7 (128)</div> */}
                     </div>
-                  </div>
+            
                 ))}
               </div>
             </section>
