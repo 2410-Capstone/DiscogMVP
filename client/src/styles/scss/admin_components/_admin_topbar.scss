@@ -1,17 +1,16 @@
 .admin-topbar {
   display: flex;
   justify-content: space-between;
-
   align-items: center;
   background-color: var(--bg-color);
   padding: 1rem 2rem;
   border-bottom: 1px solid #e3e6f0;
-
   gap: 1rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
     flex-wrap: wrap;
+    position: relative;
   }
 }
 
@@ -100,9 +99,9 @@
 
 .back-to-user-btn {
   background: transparent;
-  border: 0.5px solid #ccc;
+  // border: 0.5px solid #ccc;
   padding: 0.1em 0.5rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   border-radius: 4px;
   color: rgb(142, 142, 142);
   cursor: pointer;
@@ -167,6 +166,70 @@
 
       &:hover {
         background: #f7f7f7;
+      }
+    }
+  }
+}
+
+/* ===============================
+   MOBILE HAMBURGER + NAV DROPDOWN
+=============================== */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.25rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    color: var(--hover)
+  }
+}
+
+.admin-mobile-nav {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+
+    padding: 1rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 998;
+
+    .admin-link {
+      font-size: 0.95rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 4px;
+      color: var(--text-color);
+      text-decoration: none;
+
+      &:hover {
+        background-color: var(--admin-text-hover)
+      }
+
+      &.active-link {
+        // background-color: #3a3a56;
+        color: white;
       }
     }
   }

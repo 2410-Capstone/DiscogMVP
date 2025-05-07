@@ -1,8 +1,7 @@
-.edit-user-container {
+.add-product-container {
   max-width: 700px;
   margin: 2rem auto;
   padding: 2rem;
-
 
   h2 {
     text-align: left;
@@ -25,12 +24,13 @@
   
     &:hover {
       text-decoration: underline;
-      color: var(--text-hover, #fff);
+      color: var(--text-hover);
     }
   }
+  
 }
 
-.edit-user-card {
+.add-product-card {
   background: var(--bg-color, #1f1f1f);
   padding: 2rem;
   border: 2px solid var(--border-color, #343434);
@@ -38,7 +38,25 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   color: var(--text-color);
 
-  .edit-user-form {
+  .error-message,
+  .success-message {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .error-message {
+    background-color: #441111;
+    color: #ffb4b4;
+  }
+
+  .success-message {
+    background-color: #113311;
+    color: #b6fcb6;
+  }
+
+  .add-product-form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -54,13 +72,17 @@
       }
 
       input,
-      select {
+      textarea {
         padding: 0.6rem 0.8rem;
         border: 1px solid var(--border-color, #444);
         border-radius: 6px;
         background-color: var(--input-bg, #2a2a2a);
         color: inherit;
         font-size: 1rem;
+      }
+
+      textarea {
+        resize: vertical;
       }
     }
 
@@ -109,3 +131,4 @@
     }
   }
 }
+

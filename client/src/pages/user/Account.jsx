@@ -91,7 +91,8 @@ const Account = ({ user }) => {
     <div className='account-page'>
       <section className='stripe default greeting-stripe'>
         <div className='account-wrapper greeting-wrap'>
-          <h2 className='account-title'>Account</h2>
+          {/* <h2 className='account-title'>Account</h2> */}
+          <h2 className='account-title'>myDiscog</h2>
           <hr style={{ border: "none", height: "1px", backgroundColor: "#ccc", margin: "0.5rem 0", width: "100%" }} />
           <button className='signout-button' onClick={handleLogout}>
             Sign out

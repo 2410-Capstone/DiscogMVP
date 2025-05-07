@@ -52,25 +52,28 @@ const ManageAccount = () => {
   if (!user) return <p>Loading your account...</p>;
 
   return (
-    <div className='manage-account-container'>
-      <h2>Manage Account</h2>
-      <div className='account-card'>
-        <EditAddress
-          userId={user.id}
-          token={token}
-          currentAddress={user.address}
-          onSave={() => {
-            fetchUser();
-          }}
-        />
-      </div>
-      <div className='account-card'>
-        <EditContactInfo userId={user.id} token={token} currentEmail={user.email} />
-      </div>
-      <div className='account-card'>
-        <Elements stripe={stripePromise}>
-          <EditBillingInfo billingName={user.name} billingAddress={user.address} />
-        </Elements>
+    <div className="manage-page">
+      <div className='manage-account-container'>
+        <h2>Manage Account</h2>
+        <div className='section-divider'></div>
+        <div className='account-card'>
+          <EditAddress
+            userId={user.id}
+            token={token}
+            currentAddress={user.address}
+            onSave={() => {
+              fetchUser();
+            }}
+          />
+        </div>
+        <div className='account-card'>
+          <EditContactInfo userId={user.id} token={token} currentEmail={user.email} />
+        </div>
+        <div className='account-card'>
+          <Elements stripe={stripePromise}>
+            <EditBillingInfo billingName={user.name} billingAddress={user.address} />
+          </Elements>
+        </div>
       </div>
     </div>
   );

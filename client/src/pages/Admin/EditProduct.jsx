@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from 'react-toastify';
 
@@ -98,79 +98,66 @@ const EditProduct = () => {
   if (!form) return <div>Loading...</div>;
 
   return (
-    <div className="edit-product-container">
-      <h1>Edit Product</h1>
-      <form onSubmit={handleSubmit} className="edit-product-form">
-        <label>
-          Artist:
-          <input
-            type="text"
-            name="artist"
-            value={form.artist || ''}
-            disabled
-          />
-        </label>
+<div className="edit-product-container">
 
-        <label>
-          Title:
-          <input
-            type="text"
-            name="description"
-            value={form.description || ''}
-            disabled
-          />
-        </label>
+  <Link to="/admin/inventory" className="back-link">← Back to Inventory</Link>
+  <h2>Edit Product</h2>
+  <div className="edit-product-card">
+    <form onSubmit={handleSubmit} className="edit-product-form">
+      <div className="form-group">
+        <label>Artist</label>
+        <input type="text" name="artist" value={form.artist || ''} disabled />
+      </div>
 
-        <label>
-          Genre:
-          <input
-            type="text"
-            name="genre"
-            value={form.genre || ''}
-            disabled
-          />
-        </label>
+      <div className="form-group">
+        <label>Title</label>
+        <input type="text" name="description" value={form.description || ''} disabled />
+      </div>
 
-        <label>
-          Artist Details:
-          <textarea
-            name="artist_details"
-            value={form.artist_details || ''}
-            onChange={handleChange}
-            rows={5}
-            placeholder="Enter artist biography or details"
-          />
-        </label>
+      <div className="form-group">
+        <label>Genre</label>
+        <input type="text" name="genre" value={form.genre || ''} disabled />
+      </div>
 
-        <label>
-          Price:
-          <input
-            type="number"
-            step="0.01"
-            name="price"
-            value={form.price || ''}
-            onChange={handleChange}
-          />
-        </label>
+      <div className="form-group">
+        <label>Artist Details</label>
+        <textarea
+          name="artist_details"
+          value={form.artist_details || ''}
+          onChange={handleChange}
+          rows={5}
+          placeholder="Enter artist biography or details"
+        />
+      </div>
 
-        <label>
-          Stock:
-          <input
-            type="number"
-            name="stock"
-            value={form.stock || ''}
-            onChange={handleChange}
-          />
-        </label>
+      <div className="form-group">
+        <label>Price</label>
+        <input
+          type="number"
+          step="0.01"
+          name="price"
+          value={form.price || ''}
+          onChange={handleChange}
+        />
+      </div>
 
-        <button type="submit">Save Changes</button>
-      </form>
+      <div className="form-group">
+        <label>Stock</label>
+        <input
+          type="number"
+          name="stock"
+          value={form.stock || ''}
+          onChange={handleChange}
+        />
+      </div>
 
-      <button onClick={handleDelete} className="delete-button">
-        Delete Product
-      </button>
-
-    </div>
+      <div className="edit-product-actions">
+        <button onClick={handleDelete} className="delete-button">Delete Product</button>
+        <button type="submit" className="submit-button">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
   );
 };
 

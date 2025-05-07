@@ -535,21 +535,32 @@ body {
 }
 
 .product-card {
-  cursor: pointer;
-  max-height: 520px;
-  overflow: hidden;
-}
-
-.product-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 0.75rem 0;
+  padding: 0;
   background: transparent;
-  height: 100%;
-  max-height: 520px;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  min-width: 200px;
+  max-width: 90vw;
+  gap: 0;
 }
-.product-card .card-image {
+@media (min-width: 768px) {
+  .product-card {
+    max-height: 520px;
+  }
+}
+.product-card .card-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0;
+  gap: 0.25rem;
+}
+
+.card-image {
   width: 100%;
   aspect-ratio: 1/1;
   -o-object-fit: contain;
@@ -557,13 +568,15 @@ body {
   margin-bottom: 0.75rem;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
-.product-card .card-image:hover {
+.card-image:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transform: translateY(-2px);
+  cursor: pointer;
 }
-.product-card .card-title,
-.product-card .card-artist,
-.product-card .card-genre {
+
+.card-title,
+.card-artist,
+.card-genre {
   display: block;
   width: 100%;
   overflow: hidden;
@@ -573,74 +586,83 @@ body {
   line-height: 1.2;
   min-height: 1.2em;
 }
-.product-card .card-title {
+
+.card-title {
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-color);
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.4rem;
 }
-.product-card .card-artist {
+
+.card-artist {
   font-size: 0.85rem;
   color: var(--text-color);
   font-weight: 400;
-  margin-bottom: 0;
+  margin-bottom: 4px;
 }
-.product-card .card-genre {
+
+.card-genre {
   font-size: 0.8rem;
   color: var(--text-color);
   font-style: italic;
-  margin-bottom: 0.5rem;
-}
-.product-card .market-price p {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text-color);
-  text-align: left;
-}
-.product-card .card-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-}
-.product-card .add-to-bag-button {
-  all: unset;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-color);
-  cursor: pointer;
-}
-.product-card .add-to-bag-button:hover {
-  text-decoration: underline;
-}
-
-.card-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-}
-
-.add-to-bag-button,
-.details-button {
-  all: unset;
-  font-weight: 500;
-  font-size: 0.95rem;
-  color: var(--text-color);
-  cursor: pointer;
-  text-decoration: none;
-}
-.add-to-bag-button:hover,
-.details-button:hover {
-  text-decoration: underline;
+  margin-bottom: 0.4rem;
 }
 
 .market-price p {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-color);
+  text-align: left;
+  margin: 0 !important;
+}
+
+.card-buttons {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .card-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+button.add-to-bag-button {
+  all: unset;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
   margin: 0;
-  text-align: right;
+}
+button.add-to-bag-button:hover {
+  text-decoration: underline;
+  color: var(--primary-accent);
+}
+@media (max-width: 600px) {
+  button.add-to-bag-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--hover);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+  }
+  button.add-to-bag-button:hover {
+    background-color: var(--primary-accent-hover, rgba(126, 126, 126, 0.5803921569));
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+  }
 }
 
 .popup-overlay {
@@ -1359,12 +1381,11 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   padding: 12px;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.092);
   background: rgba(255, 255, 255, 0.2);
   color: var(--text-color);
   margin-bottom: 16px;
   outline: none;
-  transition: border 0.2s ease, background 0.2s ease;
 }
 .login-container input::-moz-placeholder, .register-container input::-moz-placeholder {
   color: var(--text-color);
@@ -1410,6 +1431,7 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   color: var(--text-color);
   font-weight: 300;
   padding-top: 4px;
+  transition: color 0.3s ease;
 }
 
 /* ===============================
@@ -1851,7 +1873,7 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
 .cart-button-container {
   display: flex;
   gap: 1.5rem;
-  margin: 2.5rem 0 2rem;
+  margin: 1.5rem 0 2rem;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -2050,7 +2072,7 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
 }
 
 /* ========== FLOATING BACK BUTTON ========== */
-.back-floating {
+button.back-floating {
   position: static;
   top: 20px;
   left: 20px;
@@ -2058,7 +2080,7 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   background: none;
   border: none;
   color: var(--text-color);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -2067,12 +2089,12 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   display: inline-flex;
   align-items: center;
 }
-.back-floating:hover {
-  opacity: 0.7;
+button.back-floating:hover {
+  text-decoration: underline;
 }
 
 /* ========== ANIMATIONS ========== */
-.fade-in-slide, .product-details-container, .featured-product-bg, .product-overlay, .c-related-products, .d-related-products, .back-floating {
+.fade-in-slide, .product-details-container, .featured-product-bg, .product-overlay, .c-related-products, .d-related-products, button.back-floating {
   opacity: 0;
   transform: translateY(50px);
   animation: fade_slide 0.7s ease-out forwards;
@@ -2740,6 +2762,8 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--card-bg);
+  transition: background-color 0.3s ease;
 }
 .contact-main .contact {
   padding: 4rem 20px;
@@ -2748,7 +2772,6 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   align-items: flex-start;
   transform: translateY(40px);
   animation: fade_slide 0.6s ease-out 0.2s forwards;
-  transition: all 0.3s ease-in-out;
   opacity: 0;
   background: var(--card-bg);
   border-radius: 8px;
@@ -2759,34 +2782,66 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   padding: 40px 60px;
   width: 520px;
   max-width: 90%;
+  transition: all 0.3s ease-in-out, color 0.3s ease, background-color 0.3s ease;
 }
 .contact-main .contact textarea {
   height: 10rem;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  color: #eee;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.092);
+  color: var(--text-color);
   padding: 0.75rem;
   border-radius: 8px;
   width: 100%;
   margin-bottom: 1rem;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 .contact-main .contact section {
   width: 100%;
 }
 .contact-main .contact label {
   margin-bottom: 1rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 .contact-main .contact h3 {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 400;
   margin-bottom: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+.contact-main .contact input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.092);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-color);
+  margin-bottom: 16px;
+  outline: none;
+  transition: border 0.2s ease, background 0.2s ease, color 0.3s ease;
+}
+.contact-main .contact input::-moz-placeholder {
+  color: var(--text-color);
+  opacity: 0.6;
+  -moz-transition: color 0.3s ease;
+  transition: color 0.3s ease;
+}
+.contact-main .contact input::placeholder {
+  color: var(--text-color);
+  opacity: 0.6;
+  transition: color 0.3s ease;
+}
+.contact-main .contact input:focus {
+  border-color: var(--primary-accent);
+  background: rgba(255, 255, 255, 0.3);
 }
 .contact-main .contact button {
   width: 100%;
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: 100%;
   max-width: 520px;
   border-radius: 4px;
   padding: 1rem 2rem;
@@ -2797,7 +2852,7 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   border: none;
   cursor: pointer;
   align-self: flex-start;
-  transition: background 1s ease;
+  transition: background 1s ease, color 0.3s ease;
 }
 .contact-main .contact button::before {
   content: "";
@@ -2826,6 +2881,15 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
 }
 .contact-main .contact button:disabled::before {
   display: none;
+}
+
+.contact-instr {
+  padding-bottom: 12px;
+}
+.contact-instr h4 {
+  font-weight: 400;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 /* ===============================
@@ -2864,20 +2928,25 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   font-size: 1.2rem;
 }
 
-.signout-button {
+.account-subtitle {
+  color: black;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+button.signout-button {
   align-self: flex-end;
   margin-bottom: 1.5rem;
   margin-right: 0;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--primary-accent);
   background: transparent;
   border: none;
   cursor: pointer;
-  text-decoration: underline;
   padding: 0;
 }
-.signout-button:hover {
-  opacity: 0.7;
+button.signout-button:hover {
+  text-decoration: underline;
 }
 
 /* =======================================
@@ -3457,24 +3526,41 @@ input {
 /* ===========================================
    MANAGE ACCOUNT STYLES
 =========================================== */
+.manage-page {
+  background-color: var(--bg-color);
+}
+
 .manage-account-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 3rem 1.5rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  background-color: var(--card-bg);
 }
 .manage-account-container h2 {
   font-size: 1.8rem;
   margin-bottom: 2rem;
   text-align: center;
+  color: var(--text-color);
+}
+.manage-account-container .section-divider {
+  height: 2px;
+  width: 100%;
+  background-color: var(--border-color);
+  margin-bottom: 2rem;
+}
+.manage-account-container .edit-address-form, .manage-account-container .edit-billing-info-form, .manage-account-container .edit-contact-info-form {
+  border-radius: 4px;
 }
 .manage-account-container .account-card {
   width: 100%;
   max-width: 600px;
   margin: 0 auto 2rem;
-  background-color: var(--card-bg, #1f1f1f);
+  background-color: var(--card-background);
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
+  color: var(--text-color);
 }
 .manage-account-container .account-card form {
   display: flex;
@@ -3483,7 +3569,25 @@ input {
   max-width: 600px;
   margin: 0 auto;
 }
+.manage-account-container .account-card input,
+.manage-account-container .account-card select,
+.manage-account-container .account-card textarea {
+  background-color: var(--input-background);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+}
 .manage-account-container .account-card button {
+  background-color: #555;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+.manage-account-container .account-card button:hover {
   background-color: #555;
 }
 
@@ -3553,7 +3657,7 @@ input {
    METRICS TABLE WRAPPER
 =============================== */
 .metrics-table-wrapper {
-  max-width: 800px;
+  max-width: 400px;
   margin: 0 auto 2.5rem auto;
   background-color: var(--card-bg);
   border-radius: 12px;
@@ -3592,431 +3696,16 @@ input {
   color: #4caf50;
 }
 
-/* ===============================
-   TABLE WRAPPER
-=============================== */
-.table-wrapper {
-  width: 100%;
-  max-width: none;
-  margin: 2rem 0;
-  padding: 1.5rem;
+.admin-inventory {
+  padding: 2rem;
+  background-color: var(--background);
+  color: var(--text-color);
+}
+.admin-inventory .table-wrapper {
+  background-color: var(--card-bg, #1f1f1f);
+  border-radius: 4px;
+  padding: 2rem;
   overflow-x: auto;
-  background-color: var(--bg-color);
-}
-
-/* ===============================
-   USER TABLE STYLES
-=============================== */
-.user-table {
-  width: -moz-max-content;
-  width: max-content;
-  min-width: 900px;
-  table-layout: fixed;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-  color: var(--text-color);
-  border-radius: 4px;
-  border: 1px solid #d1d5db;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  /* --- Base Cell Styling --- */
-  /* --- Header Styling --- */
-  /* --- Column Width Tweaks --- */
-  /* --- Nested Lists --- */
-  /* --- Inline Select + Button Cell --- */
-}
-.user-table th,
-.user-table td {
-  padding: 0.6rem 1rem;
-  border: 1px solid rgba(218, 213, 213, 0.51);
-  text-align: left;
-  vertical-align: middle;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.user-table thead {
-  color: var(--text-color);
-}
-.user-table thead th {
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.user-table th:last-child,
-.user-table td:last-child {
-  width: 260px;
-}
-.user-table td:last-child {
-  max-width: 320px;
-}
-.user-table td:last-child ul li {
-  position: relative;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 300px;
-}
-.user-table td:last-child ul li:hover::after {
-  content: attr(title);
-  position: absolute;
-  left: 0;
-  top: 100%;
-  background: #222;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  max-width: 500px;
-  z-index: 10;
-  white-space: normal;
-}
-.user-table ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.user-table ul li {
-  margin-bottom: 0.3rem;
-  line-height: 1.3;
-}
-.user-table td:nth-child(6) {
-  padding: 0.5rem 1rem;
-  line-height: 1.2;
-  vertical-align: middle;
-}
-.user-table td:nth-child(6) select {
-  font-size: 0.7rem;
-  border: 1px solid #ccc;
-  background: transparent;
-  color: var(--text-color);
-  border-radius: 4px;
-  padding: 0.4rem 0.8rem;
-  padding-right: 1.5rem;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  cursor: pointer;
-  display: block;
-  width: auto;
-  max-width: 150px;
-  margin-bottom: 0.5rem;
-}
-.user-table td:nth-child(6) select:hover {
-  border-color: #aaa;
-}
-.user-table td:nth-child(6) select:focus {
-  border-color: #666;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(100, 100, 255, 0.2);
-}
-.user-table td:nth-child(6) button {
-  font-size: 0.8rem;
-  color: var(--text-color);
-  text-align: center;
-}
-.user-table td:nth-child(6) button:hover {
-  opacity: 0.75;
-}
-
-/* ===============================
-   ADMIN INVENTORY CONTROLS
-=============================== */
-.admin-inventory {
-  padding-bottom: 2rem;
-}
-
-.admin-search {
-  flex: 1;
-  min-width: 220px;
-  max-width: 400px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f1f1f1;
-  color: var(--text-color);
-}
-.admin-search::-moz-placeholder {
-  color: #aaa;
-}
-.admin-search::placeholder {
-  color: #aaa;
-}
-
-.table-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-/* ===============================
-   FILTER DROPDOWN (Admin)
-=============================== */
-.admin-filter {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-.admin-filter label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-color);
-}
-.admin-filter select {
-  font-size: 0.85rem;
-  border: 1px solid #ccc;
-  background: transparent;
-  color: var(--text-color);
-  border-radius: 4px;
-  padding: 0.3rem 0.6rem;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  cursor: pointer;
-}
-.admin-filter select:hover {
-  border-color: #aaa;
-}
-.admin-filter select:focus {
-  border-color: #666;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(100, 100, 255, 0.2);
-}
-
-/* ===============================
-   ACTIONS CLEANUP
-=============================== */
-.user-edit-btn,
-.user-delete-btn {
-  padding: 0.1rem 0.4rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: var(--primary-accent);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.user-edit-btn:hover,
-.user-delete-btn:hover {
-  text-decoration: underline;
-  background-color: transparent;
-  color: var(--primary-accent);
-}
-
-/* ===============================
-   RESPONSIVE CLEANUP
-=============================== */
-@media (max-width: 768px) {
-  .table-wrapper {
-    padding: 0 1rem;
-  }
-  .user-table {
-    font-size: 0.85rem;
-    min-width: unset;
-    width: 100%;
-    table-layout: auto;
-  }
-  .user-table th,
-  .user-table td {
-    padding: 0.5rem 0.75rem;
-    white-space: normal;
-    text-overflow: initial;
-  }
-  .user-table th {
-    font-size: 0.75rem;
-  }
-  .user-table td:last-child,
-  .user-table th:last-child {
-    width: auto;
-  }
-  .user-table select {
-    width: 100%;
-  }
-  .user-table ul li {
-    word-break: break-word;
-  }
-  .admin-search {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-  }
-  .table-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-/* ===============================
-   ORDER TITLE + FILTER SECTION
-=============================== */
-.order-title,
-.order-filter {
-  color: var(--text-color);
-  margin-bottom: 1rem;
-}
-.order-title h2,
-.order-filter h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-.order-title label,
-.order-filter label {
-  font-size: 0.95rem;
-}
-.order-title select,
-.order-filter select {
-  margin-left: 0.5rem;
-}
-
-/* ===============================
-   ORDERS TABLE STYLING
-=============================== */
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1.5rem;
-  font-size: 0.95rem;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  overflow: hidden;
-  /* ---------- TABLE HEAD ---------- */
-  /* ---------- TABLE BODY ---------- */
-  /* ---------- SELECT DROPDOWNS ---------- */
-  /* ---------- PAYMENT STATUS STYLING ---------- */
-  /* ===============================
-     MOBILE STYLES (Responsive)
-  ================================ */
-}
-.orders-table thead {
-  background-color: #333;
-  color: white;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-}
-.orders-table thead th {
-  padding: 0.85rem 1rem;
-  font-weight: 600;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-.orders-table tbody tr {
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s ease;
-}
-.orders-table tbody tr:hover {
-  background-color: #f9f9f9;
-}
-.orders-table tbody td {
-  padding: 0.85rem 1rem;
-  font-size: 0.9rem;
-  color: #333;
-  vertical-align: middle;
-  position: relative;
-}
-.orders-table tbody ul {
-  padding-left: 1.25rem;
-  margin: 0;
-  color: #444;
-  font-size: 0.9rem;
-}
-.orders-table select {
-  padding: 0.4rem 0.75rem;
-  font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: white;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 0.7rem center;
-  background-size: 1rem;
-  color: #333;
-  cursor: pointer;
-}
-.orders-table select:hover {
-  border-color: #aaa;
-}
-.orders-table select:focus {
-  border-color: #666;
-  box-shadow: 0 0 0 2px rgba(100, 100, 255, 0.2);
-  outline: none;
-}
-.orders-table .payment-status {
-  font-weight: 600;
-}
-.orders-table .payment-status.payment-failed {
-  color: red;
-}
-.orders-table .payment-status.payment-paid {
-  color: green;
-}
-@media (max-width: 900px) {
-  .orders-table thead {
-    display: none;
-  }
-  .orders-table tbody,
-  .orders-table tr,
-  .orders-table td {
-    display: block;
-    width: 100%;
-  }
-  .orders-table tr {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  }
-  .orders-table td {
-    text-align: right;
-    padding: 0.5rem 0;
-    border: none;
-    font-size: 0.9rem;
-    position: relative;
-  }
-  .orders-table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding-left: 1rem;
-    font-weight: bold;
-    color: #888;
-    text-align: left;
-  }
-}
-
-.admin-inventory {
-  color: var(--text-color);
-  /* ===============================
-     HEADER
-  ================================ */
-  /* ===============================
-     SEARCH & FILTER CONTROLS
-  ================================ */
-  /* ===============================
-     TABLE WRAPPER
-  ================================ */
-  /* ===============================
-     BUTTON STYLES
-  ================================ */
-  /* ===============================
-     RESPONSIVE TABLE
-  ================================ */
 }
 .admin-inventory .table-header {
   display: flex;
@@ -4025,279 +3714,523 @@ input {
   margin-bottom: 1.5rem;
 }
 .admin-inventory .table-header h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.6rem;
 }
-.admin-inventory .table-header .add-button {
-  background-color: var(--accent-color);
-  color: var(--text-color);
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.2s ease;
-}
-.admin-inventory .table-header .add-button:hover {
-  background: var(--accent-hover);
-}
-.admin-inventory .table-controls,
-.admin-inventory .admin-search {
+.admin-inventory .table-controls {
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
   margin-bottom: 1rem;
 }
-.admin-inventory .table-controls input,
-.admin-inventory .table-controls select,
-.admin-inventory .admin-search input,
-.admin-inventory .admin-search select {
-  flex: 1;
-  min-width: 200px;
+.admin-inventory .table-controls .admin-search {
   padding: 0.5rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--input-bg);
-  color: var(--text-color);
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #ccc);
+  background-color: var(--input-bg, #2c2c2c);
+  color: inherit;
 }
-.admin-inventory .table-controls button,
-.admin-inventory .admin-search button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: var(--accent-color);
-  color: var(--text-color);
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-}
-.admin-inventory .table-controls button:hover,
-.admin-inventory .admin-search button:hover {
-  background: var(--accent-hover);
-}
-.admin-inventory .table-wrapper {
+.admin-inventory .user-table {
   width: 100%;
-  max-width: none;
-  overflow-x: auto;
-  background: var(--bg-color);
-}
-.admin-inventory .admin-table {
-  width: 100%;
-  min-width: 1000px;
-  table-layout: auto;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
-.admin-inventory .admin-table thead {
-  background: #f7f7f7;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  color: #333;
-}
-.admin-inventory .admin-table thead th {
-  padding: 0.85rem 1rem;
+.admin-inventory .user-table th, .admin-inventory .user-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #444);
   text-align: left;
 }
-.admin-inventory .admin-table tbody tr {
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s ease;
+.admin-inventory .user-table th {
+  background-color: var(--header-bg, #333);
+  font-weight: 600;
+  color: var(--text-light, #eee);
 }
-.admin-inventory .admin-table tbody tr:hover {
-  background: var(--admin-text-hover);
+.admin-inventory .user-table tr:hover {
+  background-color: var(--hover-bg, #bcbcbc);
 }
-.admin-inventory .admin-table tbody td {
-  padding: 0.85rem 1rem;
-  color: var(--text-color);
-  position: relative;
-  text-align: left;
-}
-.admin-inventory .admin-table tbody td img {
-  max-width: 75px;
-  max-height: 75px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 6px;
-}
-.admin-inventory .admin-table tbody td ul {
-  padding-left: 1rem;
-  margin: 0;
-}
-.admin-inventory .admin-table select {
-  padding: 0.25rem;
-}
-.admin-inventory .edit-btn,
-.admin-inventory .cancel-btn,
-.admin-inventory .sort {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  border: 1px solid var(--accent-color);
-  background: transparent;
-  color: var(--primary-accent);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.admin-inventory .edit-btn:hover,
-.admin-inventory .cancel-btn:hover,
-.admin-inventory .sort:hover {
-  background: var(--accent-hover-light);
-}
-@media (max-width: 900px) {
-  .admin-inventory .admin-table thead {
-    display: none;
-  }
-  .admin-inventory .admin-table tbody,
-  .admin-inventory .admin-table tr,
-  .admin-inventory .admin-table td {
-    display: block;
-    width: 100%;
-  }
-  .admin-inventory .admin-table tr {
-    background: #f9f9f9;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  }
-  .admin-inventory .admin-table td {
-    padding: 0.5rem 0;
-    text-align: right;
-  }
-  .admin-inventory .admin-table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 1rem;
-    top: 0;
-    font-weight: 600;
-    color: #888;
-    font-size: 0.8rem;
-  }
-}
-
-/* ===============================
-   ELLIPSIS IN USER TABLE
-=============================== */
-.user-table td:nth-child(3),
-.user-table td:nth-child(4) {
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  position: relative;
-}
-
-.user-table td:nth-child(3):hover::after,
-.user-table td:nth-child(4):hover::after {
-  content: attr(title);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 10;
-  background: #222;
-  color: #fff;
-  padding: 0.5rem;
-  font-size: 0.8rem;
-  border-radius: 6px;
-  white-space: normal;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* ===============================
-   ADD PRODUCT FORM
-=============================== */
-.add-product-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  background: var(--bg-color);
-  color: var(--text-color);
+.admin-inventory .user-table img {
   border-radius: 4px;
 }
-.add-product-container h2 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.add-product-container .error-message {
-  background: rgba(255, 0, 0, 0.1);
-  color: darkred;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
+.admin-inventory .user-table .edit-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
   font-weight: 500;
-}
-.add-product-container .success-message {
-  background: rgba(0, 200, 100, 0.1);
-  color: seagreen;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-.add-product-container .add-product-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.add-product-container .add-product-form .form-group {
-  display: flex;
-  flex-direction: column;
-}
-.add-product-container .add-product-form .form-group label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: var(--text-color);
-}
-.add-product-container .add-product-form .form-group input,
-.add-product-container .add-product-form .form-group textarea {
-  padding: 0.6rem 0.9rem;
-  font-size: 0.95rem;
-  border: 1px solid var(--border-color, #ccc);
-  border-radius: 6px;
-  background: var(--input-bg, #fff);
-  color: var(--text-color);
-}
-.add-product-container .add-product-form .form-group input:focus,
-.add-product-container .add-product-form .form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary-accent);
-}
-.add-product-container .add-product-form .form-group textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-.add-product-container .add-product-form .submit-button {
-  background: var(--accent-color);
-  color: var(--text-color);
   border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: var(--button-bg, #3c3c3c);
+  color: var(--button-text, #fff);
   cursor: pointer;
-  transition: background 0.2s ease;
 }
-.add-product-container .add-product-form .submit-button:hover {
-  background: var(--accent-hover);
+.admin-inventory .user-table .edit-btn:hover {
+  background-color: var(--button-hover, #5a5a5a);
+  transform: translateY(-1px);
+}
+.admin-inventory .user-table button:hover {
+  background-color: var(--button-hover, #777);
+}
+.admin-inventory .user-table .user-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.admin-inventory select {
+  padding: 0.3rem 0.5rem;
+  background-color: var(--input-bg, #2c2c2c);
+  border: 1px solid var(--border-color, #444);
+  color: inherit;
+  border-radius: 4px;
 }
 
-@media (max-width: 600px) {
-  .add-product-container {
-    padding: 1.5rem 1rem;
+.user-table .user-edit-btn,
+.user-table .user-delete-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: var(--button-bg, #3c3c3c);
+  color: var(--button-text, #fff);
+  cursor: pointer;
+}
+.user-table .user-edit-btn {
+  line-height: normal;
+  vertical-align: middle;
+}
+.user-table .user-edit-btn:hover,
+.user-table .user-delete-btn:hover {
+  background-color: var(--button-hover, #5a5a5a);
+  transform: translateY(-1px);
+}
+.user-table .user-delete-btn {
+  background-color: #555;
+}
+.user-table .user-delete-btn:disabled {
+  background-color: #888;
+  color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 1024px) {
+  .admin-inventory .table-wrapper {
+    padding: 1rem;
   }
-  .add-product-form {
-    gap: 1rem;
+  .admin-inventory .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
   }
-  .submit-button {
+  .admin-inventory .table-controls .admin-search {
     width: 100%;
   }
+  .admin-inventory .user-table {
+    font-size: 0.8rem;
+  }
+  .admin-inventory .user-table th, .admin-inventory .user-table td {
+    padding: 0.5rem 0.75rem;
+  }
+  .admin-inventory .user-table .user-edit-btn,
+  .admin-inventory .user-table .user-delete-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .admin-inventory .user-table .user-actions {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
 }
-/* ===============================
-   MISC
-=============================== */
-.sort-sort {
-  padding-bottom: 10px;
+@media (max-width: 640px) {
+  .user-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .user-table th, .user-table td {
+    white-space: nowrap;
+  }
+  .table-header h2 {
+    font-size: 1.25rem;
+  }
+}
+.admin-inventory {
+  padding: 2rem;
+  background-color: var(--background);
+  color: var(--text-color);
+}
+.admin-inventory .table-wrapper {
+  background-color: var(--card-bg, #1f1f1f);
+  border-radius: 4px;
+  padding: 2rem;
+  overflow-x: auto;
+}
+.admin-inventory .table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.admin-inventory .table-header h2 {
+  font-size: 1.6rem;
+}
+.admin-inventory .table-controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.admin-inventory .table-controls .admin-search {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #ccc);
+  background-color: var(--input-bg, #2c2c2c);
+  color: inherit;
+}
+.admin-inventory .user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.admin-inventory .user-table th, .admin-inventory .user-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #444);
+  text-align: left;
+}
+.admin-inventory .user-table th {
+  background-color: var(--header-bg, #333);
+  font-weight: 600;
+  color: var(--text-light, #eee);
+}
+.admin-inventory .user-table tr:hover {
+  background-color: var(--hover-bg, #bcbcbc);
+}
+.admin-inventory .user-table img {
+  border-radius: 4px;
+}
+.admin-inventory .user-table .edit-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: var(--button-bg, #3c3c3c);
+  color: var(--button-text, #fff);
+  cursor: pointer;
+}
+.admin-inventory .user-table .edit-btn:hover {
+  background-color: var(--button-hover, #5a5a5a);
+  transform: translateY(-1px);
+}
+.admin-inventory .user-table button:hover {
+  background-color: var(--button-hover, #777);
+}
+.admin-inventory .user-table .user-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.admin-inventory select {
+  padding: 0.3rem 0.5rem;
+  background-color: var(--input-bg, #2c2c2c);
+  border: 1px solid var(--border-color, #444);
+  color: inherit;
+  border-radius: 4px;
+}
+
+.user-table .user-edit-btn,
+.user-table .user-delete-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: var(--button-bg, #3c3c3c);
+  color: var(--button-text, #fff);
+  cursor: pointer;
+}
+.user-table .user-edit-btn {
+  line-height: normal;
+  vertical-align: middle;
+}
+.user-table .user-edit-btn:hover,
+.user-table .user-delete-btn:hover {
+  background-color: var(--button-hover, #5a5a5a);
+  transform: translateY(-1px);
+}
+.user-table .user-delete-btn {
+  background-color: #555;
+}
+.user-table .user-delete-btn:disabled {
+  background-color: #888;
+  color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 1024px) {
+  .admin-inventory .table-wrapper {
+    padding: 1rem;
+  }
+  .admin-inventory .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .admin-inventory .table-controls .admin-search {
+    width: 100%;
+  }
+  .admin-inventory .user-table {
+    font-size: 0.8rem;
+  }
+  .admin-inventory .user-table th, .admin-inventory .user-table td {
+    padding: 0.5rem 0.75rem;
+  }
+  .admin-inventory .user-table .user-edit-btn,
+  .admin-inventory .user-table .user-delete-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .admin-inventory .user-table .user-actions {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+}
+@media (max-width: 640px) {
+  .user-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .user-table th, .user-table td {
+    white-space: nowrap;
+  }
+  .table-header h2 {
+    font-size: 1.25rem;
+  }
+}
+.admin-inventory .user-table td ul {
+  padding-left: 1rem;
+  list-style-type: disc;
+}
+.admin-inventory .user-table td ul li {
+  margin-bottom: 0.25rem;
+}
+.admin-inventory .user-table select {
+  min-width: 120px;
+}
+.admin-inventory .user-table button {
+  margin-top: 0.25rem;
+}
+
+.admin-inventory {
+  padding: 2rem;
+  background-color: var(--background);
+  color: var(--text-color);
+}
+.admin-inventory .table-wrapper {
+  background-color: var(--card-bg, #1f1f1f);
+  border-radius: 4px;
+  padding: 2rem;
+  overflow-x: auto;
+}
+.admin-inventory .table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.admin-inventory .table-header h2 {
+  font-size: 1.6rem;
+}
+.admin-inventory .table-controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.admin-inventory .table-controls .admin-search {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #ccc);
+  background-color: var(--input-bg, #2c2c2c);
+  color: inherit;
+}
+.admin-inventory .user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.admin-inventory .user-table th, .admin-inventory .user-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #444);
+  text-align: left;
+}
+.admin-inventory .user-table th {
+  background-color: var(--header-bg, #333);
+  font-weight: 600;
+  color: var(--text-light, #eee);
+}
+.admin-inventory .user-table tr:hover {
+  background-color: var(--hover-bg, #bcbcbc);
+}
+.admin-inventory .user-table img {
+  border-radius: 4px;
+}
+.admin-inventory .user-table .edit-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: var(--button-bg, #3c3c3c);
+  color: var(--button-text, #fff);
+  cursor: pointer;
+}
+.admin-inventory .user-table .edit-btn:hover {
+  background-color: var(--button-hover, #5a5a5a);
+  transform: translateY(-1px);
+}
+.admin-inventory .user-table button:hover {
+  background-color: var(--button-hover, #777);
+}
+.admin-inventory .user-table .user-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.admin-inventory select {
+  padding: 0.3rem 0.5rem;
+  background-color: var(--input-bg, #2c2c2c);
+  border: 1px solid var(--border-color, #444);
+  color: inherit;
+  border-radius: 4px;
+}
+
+.user-table .user-edit-btn,
+.user-table .user-delete-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: var(--button-bg, #3c3c3c);
+  color: var(--button-text, #fff);
+  cursor: pointer;
+}
+.user-table .user-edit-btn {
+  line-height: normal;
+  vertical-align: middle;
+}
+.user-table .user-edit-btn:hover,
+.user-table .user-delete-btn:hover {
+  background-color: var(--button-hover, #5a5a5a);
+  transform: translateY(-1px);
+}
+.user-table .user-delete-btn {
+  background-color: #555;
+}
+.user-table .user-delete-btn:disabled {
+  background-color: #888;
+  color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 1024px) {
+  .admin-inventory .table-wrapper {
+    padding: 1rem;
+  }
+  .admin-inventory .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .admin-inventory .table-controls .admin-search {
+    width: 100%;
+  }
+  .admin-inventory .user-table {
+    font-size: 0.8rem;
+  }
+  .admin-inventory .user-table th, .admin-inventory .user-table td {
+    padding: 0.5rem 0.75rem;
+  }
+  .admin-inventory .user-table .user-edit-btn,
+  .admin-inventory .user-table .user-delete-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .admin-inventory .user-table .user-actions {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+}
+@media (max-width: 640px) {
+  .user-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .user-table th, .user-table td {
+    white-space: nowrap;
+  }
+  .table-header h2 {
+    font-size: 1.25rem;
+  }
+}
+.admin-inventory .user-table td img {
+  width: 50px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+}
+.admin-inventory .user-table td span {
+  cursor: pointer;
+}
+.admin-inventory .user-table input[type=number] {
+  width: 60px;
+  padding: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #555);
+  background-color: var(--input-bg, #2c2c2c);
+  color: inherit;
+}
+.admin-inventory .user-table .edit-btn {
+  padding: 0.3rem 0.6rem;
+}
+.admin-inventory .add-button {
+  display: inline-block;
+  margin: 1rem 0;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--button-bg, #555);
+  color: var(--button-text, #fff);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+.admin-inventory .add-button:hover {
+  background-color: var(--button-hover, #777);
 }
 
 /* ===============================
@@ -4306,6 +4239,7 @@ input {
 .account-dropdown {
   position: relative;
   display: inline-block;
+  padding-top: 5.5px;
 }
 .account-dropdown .account-avatar {
   width: 30px;
@@ -4313,7 +4247,7 @@ input {
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
-  border: 2px solid white;
+  border: 0.5px solid white;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -4421,11 +4355,39 @@ input {
   transition: background 0.2s ease;
 }
 .admin-link.active {
-  background: #3a3a56;
+  background: rgba(158, 158, 158, 0.6274509804);
   color: white;
 }
 .admin-link:hover {
-  background: #2a2a44;
+  background: rgba(158, 158, 158, 0.6274509804);
+}
+
+.admin-sidebar {
+  width: 220px;
+  background-color: var(--card-bg);
+  color: black;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+  transform: translateX(0);
+}
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    background-color: var(--card-bg);
+  }
+}
+@media (max-width: 768px) {
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
 }
 
 .admin-topbar {
@@ -4441,6 +4403,7 @@ input {
   .admin-topbar {
     padding: 1rem;
     flex-wrap: wrap;
+    position: relative;
   }
 }
 
@@ -4531,9 +4494,8 @@ input {
 
 .back-to-user-btn {
   background: transparent;
-  border: 0.5px solid #ccc;
   padding: 0.1em 0.5rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   border-radius: 4px;
   color: rgb(142, 142, 142);
   cursor: pointer;
@@ -4595,6 +4557,408 @@ input {
 }
 .profile-dropdown .profile-dropdown-menu .dropdown-item:hover {
   background: #f7f7f7;
+}
+
+/* ===============================
+   MOBILE HAMBURGER + NAV DROPDOWN
+=============================== */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.hamburger:hover {
+  color: var(--hover);
+}
+
+.admin-mobile-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .admin-mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 998;
+  }
+  .admin-mobile-nav .admin-link {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 4px;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  .admin-mobile-nav .admin-link:hover {
+    background-color: var(--admin-text-hover);
+  }
+  .admin-mobile-nav .admin-link.active-link {
+    color: white;
+  }
+}
+
+.add-product-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.add-product-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+.add-product-container .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #aaa);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+.add-product-container .back-link:hover {
+  text-decoration: underline;
+  color: var(--text-hover);
+}
+
+.add-product-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+.add-product-card .error-message,
+.add-product-card .success-message {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+}
+.add-product-card .error-message {
+  background-color: #441111;
+  color: #ffb4b4;
+}
+.add-product-card .success-message {
+  background-color: #113311;
+  color: #b6fcb6;
+}
+.add-product-card .add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.add-product-card .add-product-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.add-product-card .add-product-form .form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.add-product-card .add-product-form .form-group input,
+.add-product-card .add-product-form .form-group textarea {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  background-color: var(--input-bg, #2a2a2a);
+  color: inherit;
+  font-size: 1rem;
+}
+.add-product-card .add-product-form .form-group textarea {
+  resize: vertical;
+}
+.add-product-card .add-product-form button {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.add-product-card .add-product-form .submit-button {
+  background-color: var(black);
+  color: var(--button-text, #fff);
+}
+.add-product-card .add-product-form .submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+.add-product-card .add-product-form .submit-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
+}
+
+.edit-product-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.edit-product-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+.edit-product-container .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #aaa);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+.edit-product-container .back-link:hover {
+  text-decoration: underline;
+  color: var(--text-hover, #fff);
+}
+.edit-product-container .edit-product-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+.edit-product-container .edit-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.edit-product-container .edit-product-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.edit-product-container .edit-product-form .form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.edit-product-container .edit-product-form .form-group input,
+.edit-product-container .edit-product-form .form-group textarea {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  background-color: var(--input-bg, #2a2a2a);
+  color: inherit;
+  font-size: 1rem;
+}
+.edit-product-container .edit-product-form .form-group textarea {
+  resize: vertical;
+}
+.edit-product-container .submit-button {
+  align-self: center;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--button-bg, #444);
+  color: var(--button-text, #fff);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.edit-product-container .submit-button:hover {
+  background-color: var(--button-hover, #666);
+}
+.edit-product-container .delete-button {
+  align-self: center;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #a94442;
+  color: var(--button-text, #fff);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.edit-product-container .delete-button:hover {
+  background-color: var(--button-hover, #666);
+}
+.edit-product-container .edit-product-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.edit-product-container .edit-product-actions button {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.edit-product-container .edit-product-actions .submit-button {
+  background-color: var(black);
+  color: var(--button-text, #fff);
+}
+.edit-product-container .edit-product-actions .submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+.edit-product-container .edit-product-actions .submit-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
+}
+.edit-product-container .edit-product-actions .delete-button {
+  background-color: #a94442;
+  color: white;
+}
+.edit-product-container .edit-product-actions .delete-button:hover {
+  background-color: #c9302c;
+}
+
+.edit-user-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+.edit-user-container h2 {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+.edit-user-container .back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #aaa);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+.edit-user-container .back-link:hover {
+  text-decoration: underline;
+  color: var(--text-hover, #fff);
+}
+
+.edit-user-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+.edit-user-card .edit-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.edit-user-card .edit-user-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+.edit-user-card .edit-user-form .form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.edit-user-card .edit-user-form .form-group input,
+.edit-user-card .edit-user-form .form-group select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  background-color: var(--input-bg, #2a2a2a);
+  color: inherit;
+  font-size: 1rem;
+}
+.edit-user-card .edit-user-form button {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.edit-user-card .edit-user-form .submit-button {
+  background-color: var(black);
+  color: var(--button-text, #fff);
+}
+.edit-user-card .edit-user-form .submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, #ff3cac 45%, #784ba0 50%, #2b86c5 55%, transparent 70%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+.edit-user-card .edit-user-form .submit-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
 }
 
 /* ===============================

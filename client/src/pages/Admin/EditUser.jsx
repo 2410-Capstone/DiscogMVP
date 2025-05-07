@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
@@ -78,46 +78,48 @@ const EditUser = () => {
   if (!user) return <div>Loading user...</div>;
 
   return (
-    <div className="edit-user">
-      <h2>Edit User</h2>
-      {/* <div className='form-wrapper'> */}
-      <form onSubmit={handleSubmit} className="edit-user-form">
-        <label>
-          Name
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          Address
-          <input
-            type="text"
-            name="address"
-            value={form.address}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          Role
-          <select
-            name="user_role"
-            value={form.user_role}
-            onChange={handleChange}
-          >
-            <option value="customer">Customer</option>
-            <option value="admin">Admin</option>
-          </select>
-        </label>
-
-        <button type="submit">Save Changes</button>
-      </form>
+<div className="edit-user-container">
+  <Link to="/admin/users" className="back-link">← Back to User List</Link>
+  <h2>Edit User</h2>
+  <div className="edit-user-card">
+    <form onSubmit={handleSubmit} className="edit-user-form">
+      <div className="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+        />
       </div>
-    // </div>
+
+      <div className="form-group">
+        <label>Address</label>
+        <input
+          type="text"
+          name="address"
+          value={form.address}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Role</label>
+        <select
+          name="user_role"
+          value={form.user_role}
+          onChange={handleChange}
+        >
+          <option value="customer">Customer</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+
+      <button type="submit" className="submit-button">Save Changes</button>
+    </form>
+  </div>
+</div>
+
   );
 };
 

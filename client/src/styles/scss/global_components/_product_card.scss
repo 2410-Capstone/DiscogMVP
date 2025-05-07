@@ -1,19 +1,33 @@
 // ========== Wrapper ==========
 
 .product-card {
-  cursor: pointer;
-  max-height: 520px;
-  overflow: hidden;
-}
-
-.product-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 0.75rem 0;
+  padding: 0;
   background: transparent;
-  height: 100%; // fill the grid cell
-  max-height: 520px;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  min-width: 200px;
+  max-width: 90vw;
+  gap:0;
+
+  @media (min-width: 768px) {
+    max-height: 520px; 
+  }
+
+  .card-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0;
+    gap: 0.25rem;
+  }
+}
+
+
+  
 
 // ========== Image ==========
 
@@ -27,6 +41,7 @@
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
       transform: translateY(-2px);
+      cursor: pointer;
     }
   }
 
@@ -42,60 +57,62 @@
     white-space: nowrap;
     box-sizing: border-box;
     line-height: 1.2;
-    min-height: 1.2em; // ensures consistent vertical spacing
+    min-height: 1.2em; 
   }
 
   .card-title {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-color);
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.4rem;
   }
 
   .card-artist {
     font-size: 0.85rem;
     color: var(--text-color);
     font-weight: 400;
-    margin-bottom: 0;
+    margin-bottom: 4px;
   }
 
   .card-genre {
     font-size: 0.8rem;
     color: var(--text-color);
     font-style: italic;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
 // ========== Market Price (within product-card) ==========
 
-  .market-price p {
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--text-color);
-    text-align: left; 
-  }
+.market-price p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-color);
+  text-align: left;
+  margin: 0 !important; 
+}
+
 
 // ========== Buttons (within product-card) ==========
 
-  .card-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.15rem;
-  }
+//   .card-buttons {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     gap: 0.15rem;
+//   }
 
-  .add-to-bag-button {
-    all: unset;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-color);
-    cursor: pointer;
+//   .add-to-bag-button {
+//     all: unset;
+//     font-size: 0.9em;
+//     font-weight: 500;
+//     color: var(--text-color);
+//     cursor: pointer;
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
+//     &:hover {
+//       text-decoration: underline;
+//     }
+//   }
+// }
 
 // ========== Legacy / Commented Code ==========
 
@@ -126,31 +143,89 @@
 
 .card-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-}
+  align-items: center;
 
-.add-to-bag-button,
-.details-button {
-  all: unset;
-  font-weight: 500;
-  font-size: 0.95rem;
-  color: var(--text-color);
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
+  @media (max-width: 600px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
+
+
+// .add-to-bag-button,
+// .details-button {
+//   all: unset;
+//   font-weight: 500;
+//   font-size: 0.95rem;
+//   color: var(--text-color);
+//   cursor: pointer;
+//   text-decoration: none;
+// // 
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// }
+
+
+button.add-to-bag-button {
+  all: unset;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
+  margin: 0;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--primary-accent);
+  }
+
+  @media (max-width: 600px) {
+    display: block;
+    width:100%;
+    box-sizing: border-box;;
+  
+    background-color: var(--hover);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+  
+
+    &:hover {
+      background-color: var(--primary-accent-hover, #7e7e7e94); // optional fallback
+      text-decoration: none;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+}
+
+
 // ========== Global Market Price Styles ==========
 
-.market-price p {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin: 0;
-  text-align: right;
-}
+// .market-price p {
+//   font-size: 1rem;
+//   font-weight: 600;
+//   color: var(--text-color);
+//   margin: 0;
+//   text-align: right;
+// }
+
+// .product-card {
+//   max-height: 520px;
+//   overflow: hidden;
+
+//   @media (max-width: 600px) {
+//     max-height: none;
+//     overflow: visible;
+//   }
+// }
