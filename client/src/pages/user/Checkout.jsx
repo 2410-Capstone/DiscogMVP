@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import PaymentForm from "../../components/paymentForm";
-import { getGuestCart, getCartFromCookies } from "../../utils/cart";
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import PaymentForm from '../../components/paymentForm';
+import { getGuestCart, getCartFromCookies } from '../../utils/cart';
 
 const Checkout = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const [shippingAddress, setShippingAddress] = useState("");
+  const [shippingAddress, setShippingAddress] = useState('');
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentStep, setCurrentStep] = useState("shipping");
-  const [guestEmail, setGuestEmail] = useState("");
-  const [shippingName, setShippingName] = useState("");
-  const [addressLine1, setAddressLine1] = useState("");
-  const [addressLine2, setAddressLine2] = useState("");
-  const [city, setCity] = useState("");
-  const [shippingState, setShippingState] = useState("");
-  const [zip, setZip] = useState("");
-  const [phone, setPhone] = useState("");
+  const [currentStep, setCurrentStep] = useState('shipping');
+  const [guestEmail, setGuestEmail] = useState('');
+  const [shippingName, setShippingName] = useState('');
+  const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [city, setCity] = useState('');
+  const [shippingState, setShippingState] = useState('');
+  const [zip, setZip] = useState('');
+  const [phone, setPhone] = useState('');
   const [showSummary, setShowSummary] = useState(false);
 
-  const isGuest = !localStorage.getItem("token");
+  const isGuest = !localStorage.getItem('token');
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -30,17 +30,17 @@ const Checkout = () => {
         if (!isGuest) {
           try {
             const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts`, {
-              method: "GET",
+              method: 'GET',
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
               },
             });
             const data = await res.json();
             setCartItems(Array.isArray(data) ? data : []);
             setIsLoading(false);
           } catch (err) {
-            setError("Could not load cart from server.");
+            setError('Could not load cart from server.');
             setIsLoading(false);
           }
         }
@@ -49,8 +49,8 @@ const Checkout = () => {
           items = getGuestCart ? getGuestCart() : [];
         }
         if (!items || items.length === 0) {
-          setError("No cart items found - redirecting to cart");
-          navigate("/cart");
+          setError('No cart items found - redirecting to cart');
+          navigate('/cart');
           return;
         }
       }
@@ -60,7 +60,7 @@ const Checkout = () => {
         setIsLoading(false);
       } catch (err) {
         setError(err.message);
-        console.error("Checkout error:", err);
+        console.error('Checkout error:', err);
       }
     };
 
@@ -79,14 +79,22 @@ const Checkout = () => {
 
   const handleShippingContinue = () => {
     if (isGuest && !guestEmail.trim()) {
-      alert("Please enter your email address.");
+      alert('Please enter your email address.');
       return;
     }
     if (!shippingName.trim() || !addressLine1.trim() || !city.trim() || !shippingState.trim() || !zip.trim()) {
-      alert("Please complete all required shipping fields.");
+      alert('Please complete all required shipping fields.');
       return;
     }
-    setCurrentStep("payment");
+    if (!/^\d{5}$/.test(zip)) {
+      setError('Zip Code must be a 5-digit number.');
+      return;
+    }
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+      setError('Phone number must be 10-15 digits (numbers only).');
+      return;
+    }
+    setCurrentStep('payment');
   };
 
   const shippingInfo = {
@@ -97,7 +105,7 @@ const Checkout = () => {
     state: shippingState,
     zip,
     phone,
-    email: isGuest ? guestEmail : localStorage.getItem("userEmail") || "",
+    email: isGuest ? guestEmail : localStorage.getItem('userEmail') || '',
   };
 
   const isShippingComplete =
@@ -113,7 +121,7 @@ const Checkout = () => {
       <div className='error-message'>
         <h2>Error</h2>
         <p>{error}</p>
-        <button onClick={() => navigate("/cart")}>Back to Cart</button>
+        <button onClick={() => navigate('/cart')}>Back to Cart</button>
       </div>
     );
   }
@@ -126,7 +134,7 @@ const Checkout = () => {
     return (
       <div className='error-message'>
         <h2>No items in cart</h2>
-        <button onClick={() => navigate("/cart")}>Back to Cart</button>
+        <button onClick={() => navigate('/cart')}>Back to Cart</button>
       </div>
     );
   }
@@ -184,7 +192,7 @@ const Checkout = () => {
         )}
 
         <div className='checkout-content'>
-          {currentStep === "shipping" && (
+          {currentStep === 'shipping' && (
             <div className='form-wrapper'>
               <section className='shipping-address'>
                 <h3>Enter your name and address:</h3>
@@ -207,7 +215,12 @@ const Checkout = () => {
                 <div className='form-inline'>
                   <div className='form-group'>
                     <label>Zip Code</label>
-                    <input type='text' value={zip} onChange={(e) => setZip(e.target.value)} />
+                    <input
+                      type='text'
+                      value={zip}
+                      maxLength={5}
+                      onChange={(e) => setZip(e.target.value.replace(/\D/g, ''))}
+                    />
                   </div>
                   <div className='form-group'>
                     <label>City</label>
@@ -234,7 +247,12 @@ const Checkout = () => {
 
                     <div className='form-group'>
                       <label>Phone Number (optional)</label>
-                      <input type='tel' value={phone} onChange={(e) => setPhone(e.target.value)} />
+                      <input
+                        type='tel'
+                        value={phone}
+                        maxLength={15}
+                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                      />
                     </div>
                   </>
                 )}
@@ -247,7 +265,7 @@ const Checkout = () => {
               </button>
             </div>
           )}
-          {currentStep === "payment" && (
+          {currentStep === 'payment' && (
             <section className='payment-info'>
               <h3>How do you want to pay?</h3>
               <div className='payment-options'>
