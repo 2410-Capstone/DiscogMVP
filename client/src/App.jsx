@@ -44,6 +44,7 @@ import WishlistShare from "./components/wishlistShare";
 import CreateWishlist from "./components/CreateWishlist";
 import PublicWishlistPage from "./pages/user/PublicWishlistPage";
 import Contact from "./pages/Contact.jsx"
+import RefundPolicy from "./components/RefundPolicy.jsx";
 
 function App() {
   const location = useLocation();
@@ -155,6 +156,7 @@ useEffect(() => {
           <Route path='/home/:productId' element={<ProductDetails />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/refund-policy' element={<RefundPolicy />} />
 
           {/* User routes */}
           <Route path='/account' element={isAuthenticated ? <Account user={user} /> : <Navigate to='/login' />} />
