@@ -43,6 +43,7 @@
 @use "./layout/not_found";
 @use "./layout/admin_layout";
 @use "./layout/contact";
+@use "./layout/refund_policy";
 
 /* ===============================
    USER COMPONENTS
@@ -68,6 +69,7 @@
 @use "./admin_components/add_product";
 @use "./admin_components/edit_product";
 @use "./admin_components/admin_edit_user";
+
 
 /* ===============================
    PAYMENT

@@ -1,0 +1,76 @@
+/* ===========================================
+   REFUND POLICY STYLES
+=========================================== */
+
+.refund-wrapper {
+  background: var(--bg-color);
+}
+
+.refund-policy-container {
+  padding-top: 6rem;
+  min-height: 100vh;
+  background: var(--bg-color);
+  background-size: cover;
+  background-position: center;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+  animation: disney_fade_slide 0.8s ease-out forwards;
+
+
+  .refund-policy-card {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    line-height: 1.6;
+    color: var(--text-color);
+
+    h3 {
+      margin-top: 1.5rem;
+      font-size: 1.3rem;
+      color: #2b86c5;
+    }
+
+    a {
+      color: var(--link-color, #00bcd4);
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .refund-divider {
+    border: none;
+    height: 1px;
+    background-color: #ff3cac;
+    margin: 1.5rem auto 2rem;
+    width: 80%;
+  }
+  
+}
+
+@media (max-width: 1000px) {
+  .refund-policy-container {
+    padding-top: 4rem;
+
+    .refund-policy-card {
+      padding: 1.5rem;
+      border-radius: 4px;
+
+      h3 {
+        font-size: 1.1rem;
+      }
+    }
+
+    .refund-divider {
+      width: 90%;
+      margin: 1rem auto 1.5rem;
+    }
+  }
+}
+
