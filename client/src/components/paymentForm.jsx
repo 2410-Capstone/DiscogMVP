@@ -91,7 +91,8 @@ function StripeForm({ cartItems, shippingInfo }) {
       );
       return JSON.parse(jsonPayload);
     } catch (err) {
-      console.error(' Failed to parse JWT:', err);
+      console.error('Failed to parse JWT:', err);
+
       return null;
     }
   }
@@ -115,6 +116,11 @@ function StripeForm({ cartItems, shippingInfo }) {
       return;
     }
 
+    if (!/^\d{10,15}$/.test(shippingInfo.phone)) {
+      setErrorMessage('Please enter a valid phone number (numbers only).');
+      return;
+    }
+
     if (cartItems.length === 0) {
       setErrorMessage('Your cart is empty');
       return;
@@ -129,54 +135,7 @@ function StripeForm({ cartItems, shippingInfo }) {
 
     setStatus('processing');
 
-    // let orderId = null;
-    // let guestUserId = null;
-
-    // if (isGuest) {
-    //   console.log("Guest cartItems being sent:", cartItems);
-
-    //   const guestOrderResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/guest`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       email: emailInput.trim(),
-    //       name: shippingInfo.name,
-    //       address: `${shippingInfo.addressLine1}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.zip}`,
-    //       items: cartItems
-    //         .filter(item => item.id && item.quantity)
-    //         .map(item => ({
-    //           product_id: item.id,
-    //           quantity: item.quantity
-    //         })),
-    //     }),
-    //   });
-
-    //   const text = await guestOrderResponse.text();
-
-    //   let guestOrderData;
-    //   try {
-    //     guestOrderData = JSON.parse(text);
-    //   } catch (err) {
-    //     console.error("Backend did not return valid JSON:", text);
-    //     throw new Error("Guest order failed: server error");
-    //   }
-
-    //   if (!guestOrderResponse.ok) {
-    //     throw new Error(guestOrderData.error || "Failed to create guest order");
-    //   }
-
-    //   orderId = guestOrderData.orderId;
-    //   guestUserId = guestOrderData.user?.id;
-    //   console.log("Guest orderId:", orderId, "Guest userId:", guestUserId);
-
-    // }
-
     try {
-      console.log('Final Payload:', {
-        userId,
-        cartItems,
-        shippingInfo,
-      });
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment`, {
         method: 'POST',
         headers: {
