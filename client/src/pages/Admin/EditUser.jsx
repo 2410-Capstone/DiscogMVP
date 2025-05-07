@@ -79,9 +79,8 @@ const EditUser = () => {
 
   return (
 <div className="edit-user-container">
-<h2>Edit User</h2>
   <Link to="/admin/users" className="back-link">← Back to User List</Link>
-
+  <h2>Edit User</h2>
   <div className="edit-user-card">
     <form onSubmit={handleSubmit} className="edit-user-form">
       <div className="form-group">

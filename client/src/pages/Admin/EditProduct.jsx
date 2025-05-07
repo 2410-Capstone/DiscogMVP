@@ -99,9 +99,9 @@ const EditProduct = () => {
 
   return (
 <div className="edit-product-container">
-  <h2>Edit Product</h2>
 
   <Link to="/admin/inventory" className="back-link">← Back to Inventory</Link>
+  <h2>Edit Product</h2>
   <div className="edit-product-card">
     <form onSubmit={handleSubmit} className="edit-product-form">
       <div className="form-group">

@@ -4,13 +4,15 @@
 .account-dropdown {
   position: relative;
   display: inline-block;
+  padding-top: 5.5px;
 
   .account-avatar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid white;
+    border: 0.5px solid white;
+
     cursor: pointer;
     transition: transform 0.3s ease;
 
