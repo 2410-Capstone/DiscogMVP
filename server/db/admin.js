@@ -1,9 +1,5 @@
 const pool = require('./pool');
 
-// Admin Functions
-
-// User Management
-
 const getAllUsers = async () => {
   try {
     const { rows } = await pool.query(/*sql*/ `
@@ -14,26 +10,29 @@ const getAllUsers = async () => {
     `);
     return rows;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error('Error fetching users:', error);
     throw error;
   }
-}
+};
 
 const deleteUser = async ({ userId }) => {
   try {
-    const { rows: [user] } = await pool.query(/*sql*/ `
+    const {
+      rows: [user],
+    } = await pool.query(
+      /*sql*/ `
       DELETE FROM users
       WHERE id = $1
       RETURNING *;
-    `, [userId]);
+    `,
+      [userId]
+    );
     return user;
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error('Error deleting user:', error);
     throw error;
   }
-}
-
-// Order Management
+};
 
 const getAllOrders = async () => {
   try {
@@ -77,75 +76,85 @@ const getAllOrders = async () => {
 
     return rows;
   } catch (error) {
-    console.log("Error fetching orders:", error);
+    console.log('Error fetching orders:', error);
     throw error;
   }
 };
 
-
 const updateOrderStatus = async ({ orderId, status }) => {
   try {
-    const { rows: [order] } = await pool.query(/*sql*/ `
+    const {
+      rows: [order],
+    } = await pool.query(
+      /*sql*/ `
       UPDATE orders
       SET order_status = $1,
           updated_at = NOW()
       WHERE id = $2
       RETURNING *;
-    `, [status, orderId]);
+    `,
+      [status, orderId]
+    );
     return order;
   } catch (error) {
-    console.error("Error updating order status:", error);
+    console.error('Error updating order status:', error);
     throw error;
   }
 };
 
-
-// Product Management
 const getAllProducts = async () => {
   try {
-    const { rows } = await pool.query( /*sql*/`
+    const { rows } = await pool.query(/*sql*/ `
       SELECT * FROM products;
     `);
     return rows;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error('Error fetching products:', error);
     throw error;
   }
-}
+};
 
 const updateProduct = async ({ id, fields }) => {
   const keys = Object.keys(fields);
   if (!keys.length) return;
   const setString = keys.map((key, index) => `"${key}" = $${index + 1}`).join(', ');
   try {
-    const { rows: [product] } = await pool.query(/*sql*/ `
+    const {
+      rows: [product],
+    } = await pool.query(
+      /*sql*/ `
       UPDATE products
       SET ${setString}, updated_at = NOW()
       WHERE id = $${keys.length + 1}
       RETURNING *;
-    `, [...Object.values(fields), id]);
+    `,
+      [...Object.values(fields), id]
+    );
     return product;
   } catch (error) {
-    console.error("Error updating product:", error);
+    console.error('Error updating product:', error);
     throw error;
   }
 };
 
-
-const deleteProduct = async ({ id} ) => {
+const deleteProduct = async ({ id }) => {
   try {
-    const { rows: [product] } = await pool.query(/*sql*/ `
+    const {
+      rows: [product],
+    } = await pool.query(
+      /*sql*/ `
       DELETE FROM products
       WHERE id = $1
       RETURNING *;
-    `, [id]);
+    `,
+      [id]
+    );
     return product;
   } catch (error) {
-    console.error("Error deleting product:", error);
+    console.error('Error deleting product:', error);
     throw error;
   }
-}
-
+};
 
 module.exports = {
   getAllUsers,
