@@ -1,8 +1,7 @@
-const pool = require("./pool");
+const pool = require('./pool');
 
 // Order Functions
 
-// ---TO DO--- //
 const createOrder = async ({ user_id, shipping_address, order_status, tracking_number, total }) => {
   try {
     const SQL = /*sql*/ `
@@ -15,20 +14,22 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
     } = await pool.query(SQL, [user_id, shipping_address, order_status, tracking_number, total]);
     return order;
   } catch (error) {
-    console.error("Error creating order:", error);
+    console.error('Error creating order:', error);
     throw error;
   }
 };
 
 const getOrderByUserId = async (user_id) => {
   try {
-    const { rows: orders } = await pool.query(/*sql*/
+    const { rows: orders } = await pool.query(
+      /*sql*/
       `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
       [user_id]
     );
 
     for (const order of orders) {
-      const { rows: items } = await pool.query(/*sql*/
+      const { rows: items } = await pool.query(
+        /*sql*/
         `SELECT 
           oi.product_id,
           oi.quantity,
@@ -44,59 +45,67 @@ const getOrderByUserId = async (user_id) => {
 
       order.items = items;
 
-      const { rows: [payment] } = await pool.query(/*sql*/`
+      const {
+        rows: [payment],
+      } = await pool.query(
+        /*sql*/ `
         SELECT payment_status FROM payments WHERE order_id = $1
-      `, [order.id]);
-    
-      order.payment_status = payment ? payment.payment_status : "unpaid";
+      `,
+        [order.id]
+      );
 
+      order.payment_status = payment ? payment.payment_status : 'unpaid';
     }
 
     return orders;
   } catch (error) {
-    console.error("Error fetching orders with items by user ID:", error);
+    console.error('Error fetching orders with items by user ID:', error);
     throw error;
   }
 };
 
-
 const getOrderById = async (orderId) => {
   try {
-    const { rows: [order] } = await pool.query(`
+    const {
+      rows: [order],
+    } = await pool.query(
+      `
       SELECT o.*, u.email
       FROM orders o
       JOIN users u ON o.user_id = u.id
       WHERE o.id = $1
-    `, [orderId]);
+    `,
+      [orderId]
+    );
 
     if (order.shipping_address) {
       try {
         order.shippingAddress = JSON.parse(order.shipping_address);
       } catch (err) {
-        console.warn("Failed to parse shipping_address JSON:", order.shipping_address);
+        console.warn('Failed to parse shipping_address JSON:', order.shipping_address);
         order.shippingAddress = null;
       }
-    }    
-    
+    }
 
     if (!order) return null;
 
-    const { rows: items } = await pool.query(`
+    const { rows: items } = await pool.query(
+      `
       SELECT oi.*, p.artist, p.description, p.image_url
       FROM order_items oi
       JOIN products p ON oi.product_id = p.id
       WHERE oi.order_id = $1
-    `, [orderId]);
-    
+    `,
+      [orderId]
+    );
 
     order.items = items;
     return order;
   } catch (err) {
-    console.error("Error in getOrderById:", err);
+    console.error('Error in getOrderById:', err);
     throw err;
   }
 };
-
 
 const updateOrder = async ({ order_id, updates }) => {
   try {
@@ -113,14 +122,14 @@ const updateOrder = async ({ order_id, updates }) => {
     }
 
     if (setClauses.length === 0) {
-      throw new Error("No valid fields to update");
+      throw new Error('No valid fields to update');
     }
 
     values.push(order_id);
 
     const SQL = `
       UPDATE orders
-      SET ${setClauses.join(", ")}
+      SET ${setClauses.join(', ')}
       WHERE id = $${idx}
       RETURNING *;
     `;
@@ -128,7 +137,7 @@ const updateOrder = async ({ order_id, updates }) => {
     const { rows } = await pool.query(SQL, values);
     return rows[0];
   } catch (error) {
-    console.error("Error updating order:", error);
+    console.error('Error updating order:', error);
     throw error;
   }
 };
@@ -147,7 +156,7 @@ const updateOrderItem = async ({ order_item_id, updates }) => {
     );
     return rows[0];
   } catch (error) {
-    console.error("Error updating order item:", error);
+    console.error('Error updating order item:', error);
     throw error;
   }
 };
@@ -180,7 +189,7 @@ const createOrderItem = async ({ order_id, product_id, quantity }) => {
     );
     return orderItem;
   } catch (error) {
-    console.error("Error creating order item:", error);
+    console.error('Error creating order item:', error);
     throw error;
   }
 };
@@ -206,7 +215,7 @@ const getOrderItems = async (order_id) => {
 
     return rows;
   } catch (error) {
-    console.error("Error fetching order items:", error);
+    console.error('Error fetching order items:', error);
     throw error;
   }
 };
@@ -225,7 +234,7 @@ const calculateOrderTotal = async (order_id) => {
     );
     return Number(result.total) || 0;
   } catch (error) {
-    console.error("Error calculating order total:", error);
+    console.error('Error calculating order total:', error);
     throw error;
   }
 };
@@ -240,7 +249,7 @@ const deleteOrder = async (order_id) => {
     );
     return rows[0];
   } catch (error) {
-    console.error("Error deleting order:", error);
+    console.error('Error deleting order:', error);
     throw error;
   }
 };
@@ -255,7 +264,7 @@ const deleteOrderItem = async (order_item_id) => {
     );
     return rows[0];
   } catch (error) {
-    console.error("Error deleting order item:", error);
+    console.error('Error deleting order item:', error);
     throw error;
   }
 };

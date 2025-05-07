@@ -1,23 +1,10 @@
-// This file contains all reusable DB functions
-// Moved from index.js to avoid confusion with server/db/index.js (Josh's file)
 const client = require('./client');
 
 // Products
-const {
-  getProductById,
-  createProduct,
-  getProductsByGenre,
-  searchProducts
-} = require('./products');
+const { getProductById, createProduct, getProductsByGenre, searchProducts } = require('./products');
 
 // Users
-const {
-  createUser,
-  getUserByEmail,
-  getUserById,
-  updateUser,
-  authenticateUser
-} = require('./users');
+const { createUser, getUserByEmail, getUserById, updateUser, authenticateUser } = require('./users');
 
 // Carts
 const {
@@ -39,25 +26,14 @@ const {
   getOrderById,
   createOrderItem,
   getOrderItems,
-  calculateOrderTotal
+  calculateOrderTotal,
 } = require('./orders');
 
 // Admin
-const {
-  getAllUsers,
-  deleteUser,
-  getAllOrders,
-  updateOrderStatus,
-  getAllProducts,
-  deleteProduct
-} = require('./admin');
+const { getAllUsers, deleteUser, getAllOrders, updateOrderStatus, getAllProducts, deleteProduct } = require('./admin');
 
 // Payments
-const {
-  createPayment,
-  updatePaymentStatus
-} = require("./payments");
-
+const { createPayment, updatePaymentStatus } = require('./payments');
 
 module.exports = {
   client,

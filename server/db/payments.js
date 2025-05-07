@@ -1,7 +1,7 @@
-require('dotenv').config({path:'../.env'});
+require('dotenv').config({ path: '../.env' });
 const Stripe = require('stripe');
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const pool = require("./pool");
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const pool = require('./pool');
 const { v4: uuidv4 } = require('uuid');
 
 function generateTrackingNumber() {
@@ -11,7 +11,7 @@ function generateTrackingNumber() {
 const createPayment = async ({
   order_id,
   payment_method,
-  payment_status = "pending",
+  payment_status = 'pending',
   billing_name,
   billing_address,
   payment_date = null,
@@ -30,7 +30,7 @@ const createPayment = async ({
     );
     return payment;
   } catch (error) {
-    console.error("Error creating payment:", error);
+    console.error('Error creating payment:', error);
     throw error;
   }
 };
@@ -50,11 +50,10 @@ const updatePaymentStatus = async ({ paymentId, status }) => {
     );
     return payment;
   } catch (error) {
-    console.error("Error updating payment status:", error);
+    console.error('Error updating payment status:', error);
     throw error;
   }
 };
-
 
 /**
  * Creates a Stripe Payment Intent for test payments
@@ -73,10 +72,9 @@ async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
     // Auto-create or reuse guest user if no token
     if (!resolvedUserId) {
       // Check if guest already exists
-      const { rows } = await client.query(
-        `SELECT id FROM users WHERE email = $1 AND user_role = 'guest'`,
-        [shippingInfo.email]
-      );
+      const { rows } = await client.query(`SELECT id FROM users WHERE email = $1 AND user_role = 'guest'`, [
+        shippingInfo.email,
+      ]);
 
       if (rows.length > 0) {
         resolvedUserId = rows[0].id;
@@ -98,56 +96,52 @@ async function createStripePaymentIntent(userId, cartItems, shippingInfo) {
     // Create order
     const orderId = uuidv4();
     const trackingNumber = generateTrackingNumber();
-    await client.query(/*sql*/
+    await client.query(
+      /*sql*/
       `INSERT INTO orders (id, user_id, total, shipping_address, tracking_number) 
        VALUES ($1, $2, $3, $4, $5)`,
       [orderId, resolvedUserId, amount, JSON.stringify(shippingInfo), trackingNumber]
     );
-    
-    
 
     // Create order_items
     for (let item of cartItems) {
-      const productId = item.product_id || item.id; // fallback if item.product_id is undefined
-    
+      const productId = item.product_id || item.id;
+
       if (!productId) {
         throw new Error(`Missing product ID for item: ${JSON.stringify(item)}`);
       }
-    
+
       await client.query(
         `INSERT INTO order_items (order_id, product_id, quantity, price)
          VALUES ($1, $2, $3, $4)`,
         [orderId, productId, item.quantity, item.price]
       );
     }
-    
 
     // Create PaymentIntent on Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Stripe wants amounts in cents
+      amount: Math.round(amount * 100),
       currency: 'usd',
       metadata: {
         orderId,
         ...(userId ? { userId } : { guestEmail: shippingInfo.email }),
-      }      
+      },
     });
 
     await client.query('COMMIT');
 
     return {
       clientSecret: paymentIntent.client_secret,
-      orderId: orderId
+      orderId: orderId,
     };
-
   } catch (err) {
     await client.query('ROLLBACK');
-    console.error("Error creating payment intent + order:", err);
+    console.error('Error creating payment intent + order:', err);
     throw err;
   } finally {
     client.release();
   }
 }
-
 
 module.exports = {
   createPayment,

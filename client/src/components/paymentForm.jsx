@@ -91,7 +91,8 @@ function StripeForm({ cartItems, shippingInfo }) {
       );
       return JSON.parse(jsonPayload);
     } catch (err) {
-      console.error('❌ Failed to parse JWT:', err);
+      console.error('Failed to parse JWT:', err);
+
       return null;
     }
   }
@@ -135,11 +136,6 @@ function StripeForm({ cartItems, shippingInfo }) {
     setStatus('processing');
 
     try {
-      console.log('Final Payload:', {
-        userId,
-        cartItems,
-        shippingInfo,
-      });
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment`, {
         method: 'POST',
         headers: {
