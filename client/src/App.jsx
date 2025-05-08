@@ -22,7 +22,7 @@ import ProductDetails from "./components/products/productDetails";
 import Login from "./pages/LogRegAuth/Login";
 import Register from "./pages/LogRegAuth/Register";
 import Cart from "./components/Cart";
-import Checkout from "./pages/user/Checkout";
+import Checkout from "./pages/user/Checkout.jsx";
 
 import GuestOrderLookup from "./pages/user/GuestOrderLookup";
 import UserOrders from "./pages/User/UserOrders";
@@ -141,20 +141,20 @@ function App() {
 
 
           <Route 
-            path="/wishlists" 
+            path="/account/saved" 
             element={isAuthenticated ? <WishlistsPage /> : <Navigate to="/login" />} 
           />
           <Route 
-            path="/wishlists/new" 
+            path="/account/saved/new" 
             element={isAuthenticated ? <CreateWishlist /> : <Navigate to="/login" />} 
           />
           <Route 
-            path="/wishlists/:id" 
+            path="/account/saved/:id" 
             element={isAuthenticated ? <Wishlist /> : <Navigate to="/login" />} 
           />
           <Route 
             path="/wishlists/share/:shareId" 
-            element={<PublicWishlistPage />}  // Public view doesn't require auth
+            element={<PublicWishlistPage />}  
           />
 
           <Route path='/guest-order-lookup' element={<GuestOrderLookup />} />

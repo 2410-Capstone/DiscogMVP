@@ -32,7 +32,8 @@ const Account = ({ user }) => {
         console.error("Failed to fetch billing info", err);
       }
     };
-  
+
+
     fetchBillingInfo();
   }, []);
   
@@ -122,7 +123,8 @@ const Account = ({ user }) => {
             </div>
             <div className='quick-card'>
               <h4>Saved Albums</h4>
-              <Link to='#'>View Saved</Link>
+              <Link to='/account/saved'>View Saved</Link>
+
             </div>
           </div>
         </div>
