@@ -18,7 +18,7 @@ const WishlistsPage = () => {
         setLoading(true);
         setError(null);
 
-        // 1. Verify user and token
+        
         const token = localStorage.getItem('token');
         console.log("[Debug] Token from localStorage:", token);
         
@@ -30,7 +30,7 @@ const WishlistsPage = () => {
 
         console.log(`[Debug] Fetching wishlists for user ID: ${user.id}`);
         
-        // 2. Make API request with detailed logging
+        
         const apiUrl = `/api/wishlists/user/${user.id}`;
         console.log("[Debug] API Endpoint:", apiUrl);
         
@@ -46,7 +46,7 @@ const WishlistsPage = () => {
           data: response.data
         });
 
-        // 3. Validate response
+        
         if (response.data && Array.isArray(response.data)) {
           setWishlists(response.data);
         } else {
@@ -88,7 +88,7 @@ const WishlistsPage = () => {
       <div className="hero-title">
       <h1>My Wishlists</h1>
       </div>
-      <Link to="/wishlists/new" className="btn">Create New Wishlist</Link>
+      <Link to="/account/saved/new" className="btn">Create New Wishlist</Link>
       
       {wishlists.length === 0 ? (
         <p className="empty-message">You don't have any wishlists yet.</p>
@@ -96,7 +96,7 @@ const WishlistsPage = () => {
         <div className="wishlist-grid">
           {wishlists.map(wishlist => (
             <div key={wishlist.id} className="wishlist-card">
-              <Link to={`/wishlists/${wishlist.id}`}>
+              <Link to={`/account/saved/${wishlist.id}`}>
                 <h3>{wishlist.name}</h3>
                 <div className="wishlist-meta">
                   <span className={`visibility ${wishlist.is_public ? 'public' : 'private'}`}>

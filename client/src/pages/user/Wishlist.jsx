@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Wishlist = () => {
   const { id } = useParams();
@@ -25,13 +27,13 @@ const Wishlist = () => {
         }
 
         const [wishlistRes, itemsRes] = await Promise.all([
-          axios.get(`http://localhost:3000/api/wishlists/${id}`, {
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}`, {
             headers: { 
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
             }
           }),
-          axios.get(`http://localhost:3000/api/wishlists/${id}/items`, {
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`, {
             headers: { 
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
@@ -89,11 +91,11 @@ const Wishlist = () => {
 
   const handleAddItem = async (productId) => {
     try {
-      await axios.post(`http://localhost:3000/api/wishlists/${id}/items`, 
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`, 
         { productId },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}
       );
-      const res = await axios.get(`http://localhost:3000/api/wishlists/${id}/items`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setItems(res.data);
@@ -104,7 +106,7 @@ const Wishlist = () => {
 
   const handleRemoveItem = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/wishlists/${id}/items/${productId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items/${productId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setItems(items.filter(item => item.id !== productId));
@@ -142,7 +144,7 @@ const Wishlist = () => {
                   navigator.clipboard.writeText(
                     `${window.location.origin}/wishlists/share/${wishlist.share_id}`
                   );
-                  alert('Link copied to clipboard!');
+                  toast.success("Link Copied to clipboard!");
                 }}
                 className="btn-copy"
               >

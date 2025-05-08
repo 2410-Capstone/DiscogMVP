@@ -7,7 +7,7 @@ const ProductCard = ({ item, handleDetailsClick, handleAddToCart }) => {
   return (
     <div className="product-card">
       <img
-        src={`http://localhost:3000/public${item.image_url}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
         alt="Album Art"
         className="card-image"
         onClick={() => handleDetailsClick(id)}

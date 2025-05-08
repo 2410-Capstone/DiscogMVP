@@ -19,15 +19,15 @@ const PublicWishlistPage = () => {
         setLoading(true);
         setError(null);
         
-        const res = await axios.get(`http://localhost:3000/api/wishlists/share/${shareId}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/share/${shareId}`);
         
-        // Check if current user is owner
+        
         if (user && user.id === res.data.user_id) {
           setIsOwner(true);
         }
         
         setWishlist(res.data);
-        const itemsRes = await axios.get(`http://localhost:3000/api/wishlists/${res.data.id}/items`);
+        const itemsRes = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${res.data.id}/items`);
         setItems(itemsRes.data);
       } catch (err) {
         console.error("Failed to load public wishlist:", err);
@@ -43,7 +43,7 @@ const PublicWishlistPage = () => {
 
   const handleUnshare = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/wishlists/${wishlist.id}/unshare`, {}, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${wishlist.id}/unshare`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       navigate(`/wishlists/${wishlist.id}`); 
@@ -75,7 +75,7 @@ const PublicWishlistPage = () => {
             <div key={item.id} className="item-card">
               <div className="item-info">
                 <h3>{item.name}</h3>
-                <p className="price">${item.price.toFixed(2)}</p>
+                <p className="price">${Number(item.price || 0).toFixed(2)}</p>
                 <p className="description">{item.description}</p>
               </div>
               {!isOwner && (

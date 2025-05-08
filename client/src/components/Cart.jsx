@@ -195,7 +195,7 @@ const Cart = () => {
               <div className="cart-item" key={item.id}>
   <Link to={`/home/${item.product_id}`} className="item-image" style={{ display: "block" }}>
     <img
-      src={`http://localhost:3000/public${item.image_url}`}
+      src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
       alt="Album Art"
       className="card-image"
     />
@@ -289,7 +289,7 @@ const Cart = () => {
   <div key={item.id} className="c-related-product-card">
     <Link to={`/home/${item.id}`}>
       <img
-        src={`http://localhost:3000/public${item.image_url}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
         alt={item.title}
         className="c-related-card-image"
       />
