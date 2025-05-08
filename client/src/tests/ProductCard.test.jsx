@@ -1,15 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+
+// This mocks the actual ProductCard.jsx to avoid import.meta.env usage
+jest.mock('../components/products/ProductCard', () =>
+  require('./__mocks__/ProductCard')
+);
+
 import ProductCard from '../components/products/ProductCard';
-
-jest.mock('../components/products/MarketPrice', () => () => (
-  <div data-testid="mock-market-price" />
-));
-
-jest.mock('../components/AddToWishlistButton', () => () => (
-  <button>Add to Wishlist</button>
-));
-
 
 describe('ProductCard component', () => {
   const mockItem = {
