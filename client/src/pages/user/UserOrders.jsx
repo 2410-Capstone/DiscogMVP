@@ -98,7 +98,7 @@ const UserOrders = () => {
           <div key={index} className='order-item'>
             <img
               src={
-                item.image_url?.startsWith('http') ? item.image_url : `http://localhost:3000/public${item.image_url}`
+                item.image_url?.startsWith('http') ? item.image_url : `${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`
               }
               alt={item.description}
               className='item-image'

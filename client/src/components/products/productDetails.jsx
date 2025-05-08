@@ -148,7 +148,7 @@ export default function ProductDetails() {
             </button>
             <div className="featured-product-bg">
               <img
-                src={`http://localhost:3000/public${product.image_url}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}/public${product.image_url}`}
                 alt="Album Art"
                 className="card-image"
               />
@@ -208,7 +208,7 @@ export default function ProductDetails() {
                     style={{ cursor: "pointer" }}
                   >
                     <img
-                      src={`http://localhost:3000/public${item.image_url}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
                       alt={item.title}
                       className="related-card-image"
                     />

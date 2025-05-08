@@ -24,7 +24,7 @@ export default function ProductDetails() {
   return (
     <div className="product-details-page">
             <img
-        src={`http://localhost:3000/public${item.id}`}
+        src={`${import.meta.env.VITE_BACKEND_URL}/public${item.id}`}
         alt="Album Art"
         className="card-image"
       />

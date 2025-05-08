@@ -121,7 +121,7 @@ const Account = ({ user }) => {
                       className='album-card'
                     >
                       <img
-                        src={album.image_url ? `http://localhost:3000/public${album.image_url}` : "/placeholder.png"}
+                        src={album.image_url ? `${import.meta.env.VITE_BACKEND_URL}/public${album.image_url}` : "/placeholder.png"}
                         alt={album.title}
                     />
                       <p className='title'>{album.title}</p>
@@ -148,6 +148,9 @@ const Account = ({ user }) => {
               <h4>Saved Albums</h4>
 
               <Link to='/account/saved'>View Saved</Link>
+
+
+           
 
 
             </div>

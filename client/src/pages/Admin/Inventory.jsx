@@ -157,7 +157,7 @@ const Inventory = () => {
                     src={
                       product.image_url?.startsWith('http')
                         ? product.image_url
-                        : `http://localhost:3000/public${product.image_url}`
+                        : `${import.meta.env.VITE_BACKEND_URL}/public${product.image_url}`
                     }
                     alt={product.description}
                     style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}

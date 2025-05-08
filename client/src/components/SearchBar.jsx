@@ -114,7 +114,7 @@ function SearchBar({ allItems = [], onCloseSearch }) {
               onClick={() => handleClick(item.id)}
             >
               <img
-                src={`http://localhost:3000/public${item.image_url}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
                 alt={item.title}
                 onError={(e) => (e.target.src = '/placeholder.png')}
                 className='search-thumb'
