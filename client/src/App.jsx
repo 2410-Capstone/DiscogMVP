@@ -154,8 +154,7 @@ useEffect(() => {
             element={isAuthenticated ? <ManageAccount user={user} /> : <Navigate to='/login' />}
           />
 
-
-          <Route 
+          <Route
             path="/account/saved" 
             element={isAuthenticated ? <WishlistsPage /> : <Navigate to="/login" />} 
           />
