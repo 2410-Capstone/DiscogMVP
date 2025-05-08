@@ -41,7 +41,7 @@ export default function Register() {
       const data = await res.json();
 
       if (!res.ok || !data.token || !data.user) {
-        if (res.status === 409 || data.error === "Email already exists") {
+        if (res.status === 409 || data.error === "An account with this email already exists") {
           toast.error("An account with this email already exists.");
         } else {
           toast.error(data.error || "Registration failed.");
@@ -105,7 +105,7 @@ export default function Register() {
         <div className='inner-content'>
           <div className='logreg-title'>
             <h2>Register</h2>
-            {error && <p className='error-message'>{error}</p>}
+            {error && <p className='error-message'>This email is already associated with another account</p>}
           </div>
 
           <div className='login-instr'>
