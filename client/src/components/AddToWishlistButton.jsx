@@ -150,7 +150,6 @@ const handleRemoveFromWishlist = async () => {
 
   {isAdded && selectedWishlist && (
     <Link to="/wishlists" className="my-list-link">
-      Added to {selectedWishlist.name} →
     </Link>
   )}
 </div>

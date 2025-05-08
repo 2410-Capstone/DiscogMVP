@@ -112,11 +112,13 @@
   
 
   .my-list-link {
-    color: var(--text-color);
+    color: var(--text-color)!important; 
     font-size: 0.8rem;
+    
 
     &hover {
       text-decoration: underline;
+      color: var(--text-color) !important
     }
   }
   
