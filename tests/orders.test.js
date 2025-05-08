@@ -17,6 +17,12 @@ beforeAll(async () => {
   const { rows: userRows } = await pool.query("SELECT id FROM users WHERE user_role = 'customer' LIMIT 1");
   const userId = userRows[0].id;
   userToken = jwt.sign({ id: userId, user_role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const { rows: otherUserRows } = await pool.query(
+    "SELECT id FROM users WHERE user_role = 'customer' AND id != $1 LIMIT 1",
+    [userId]
+  );
+  const otherUserId = otherUserRows[0].id;
+  otherUserToken = jwt.sign({ id: otherUserId, user_role: 'customer' }, process.env.JWT_SECRET, { expiresIn: '1h' });
 });
 
 afterAll(async () => {
