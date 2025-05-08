@@ -12,12 +12,12 @@ A full-stack e-commerce platform for vinyl and music lovers — featuring artist
 
 ## Tech Stack
 
-- **Frontend:** React, React Router, Context API  
+- **Frontend:** React, React Router, Context API, Vite, SCSS Modules
 - **Backend:** Node.js, Express  
 - **Database:** PostgreSQL  
 - **Authentication:** JWT, Google OAuth  
 - **Payments:** Stripe (Elements + Server SDK)
-
+- **Testing:** Jest, React Testing Library, Supertest
 ---
 
 ## Prerequisites
@@ -26,11 +26,21 @@ Before running the project locally, make sure you have:
 
 - Node.js v18+
 - PostgreSQL v14+
-- A `.env` file in the `server/` directory with:
-
-      DATABASE_URL=your_database_url
-      JWT_SECRET=your_jwt_secret
-      STRIPE_SECRET_KEY=your_stripe_secret_key
+- A `.env` file in the project root with:
+```bash
+        DATABASE_URL=your_database_url
+        JWT_SECRET=your_jwt_secret
+        STRIPE_SECRET_KEY=your_stripe_secret_key
+        STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+        PORT=3000
+        DISCOGS_TOKEN=your_discogs_token
+```
+- A `.env` file in the client/ directory with:
+```bash
+        VITE_BACKEND_URL=http://localhost:3000
+        VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+        VITE_GOOGLE_CLIENT_ID=your_google_client_id
+```
 
 ---
 
@@ -55,7 +65,12 @@ Before running the project locally, make sure you have:
     npm install
     ```
 
-3. **Start both servers:**
+3. **Seed the database (optional):**
+
+    cd server
+    npm run seed
+
+4. **Start development servers:**
 
     ```bash
     # In one terminal (backend)
@@ -69,10 +84,11 @@ Before running the project locally, make sure you have:
 
 ---
 
-## Backend Setup Notes
+## Backend Script Setup
 
-Install additional backend dev dependencies:
+Install additional dev dependencies:
 
+Server:
 ```bash
 cd server
 npm install --save-dev nodemon jest supertest
@@ -81,16 +97,31 @@ npm install --save-dev nodemon jest supertest
 
 #### Update your package.json scripts in /server:
 ```js
- "scripts": {
-   "start": "node index.js",
-   "dev": "nodemon index.js",
-   "test": "jest"
- }
+"scripts": {
+  "dev": "nodemon server/startServer.js",
+  "start": "node server/startServer.js",
+  "test": "jest",
+  "seed": "node server/db/seed.js && npm run backfill:images",
+  "backfill:images": "node server/utils/fetchDiscogsImages.cjs",
+  "backfill:genres": "node server/utils/backfillGenres.cjs",
+  "backfill:bio": "node server/utils/backfillBio.cjs"
+}
 ```
+
+#### Update your package.json scripts in /client:
+```js
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "lint": "eslint .",
+  "test": "jest"
+}
+```
+
 #### Stripe integration uses the official Stripe Node SDK, and follows the Custom Checkout strategy.*
 
 ---
-
 
 ##  Component Overview
 
@@ -141,26 +172,28 @@ npm install --save-dev nodemon jest supertest
 ### MVP (Minimum Viable Product)
 
 **Guest & Logged Users**
-- View all products (`AllReleases.jsx`)
+- Browse all products (`AllReleases.jsx`)
 - View detailed product info (`ProductDetails.jsx`)
 - Register and log in (`Register.jsx`, `Login.jsx`)
 - View order confirmation (`OrderConfirmation.jsx`)
 - Checkout with Stripe (`Checkout.jsx`, `PaymentForm.jsx`)
 - Add, edit, and remove items from cart
-- Persistent cart
+- Persistent cart (via `localStorage`)
 
 **Logged-In User Specific**
 - Persistent cart tied to user accounts (`Cart.jsx`)
 - Access order history (`UserOrders.jsx`)
+- Edit profile and billing information (`ManageAccount.jsx`)
 
 **Admin Tools**
-- Add, edit, and delete products (`AddProduct.jsx`, `EditProduct.jsx`, `Inventory.jsx`)
-- View all users (`UserList.jsx`)
+- View, add, edit, and delete products (`AddProduct.jsx`, `EditProduct.jsx`, `Inventory.jsx`)
+- View, update, and delete users (`UserList.jsx`, `EditUser.jsx`)
 - View and manage all orders (`AdminOrders.jsx`)
 
 **Infrastructure**
 - Secure authentication using JWT
 - Seeded data: products, users, and orders for testing
+- Rate limiting and Helmet security headers
 
 ---
 
@@ -170,11 +203,13 @@ npm install --save-dev nodemon jest supertest
 - Sort and filter products (`FilterBar.jsx`)
 - Responsive design across devices (SCSS modules)
 - Accessibility: color contrast, alt text, keyboard navigation
+- Mobile-responsive UI
 
 **Functionality Enhancements**
 - Error handling and fallback pages (`NotFound.jsx`)
 - Guest cart stored in localStorage (`cart.js`)
 - Profile editing (`ManageAccount.jsx`, `EditContactInfo.jsx`, etc.)
+- Wishlist creation and sharing (`Wishlist.jsx`, `WishlistForm.jsx`, `WishlistShare.jsx`, `WishlistsPage.jsx`)
 
 **Admin Enhancements**
 - Manage stock levels (`Inventory.jsx`)
@@ -185,6 +220,12 @@ npm install --save-dev nodemon jest supertest
 
 ### Extra Features
 
+**Payments**
+- Stripe Elements integration on frontend
+- Backend `payments.js` module for secure transaction storage
+- Payment records include billing address, method, and timestamp
+- Statuses: pending, completed, failed
+
 **Wishlists**
 - Create and manage wishlists (`Wishlist.jsx`, `CreateWishlist.jsx`)
 - Share public wishlist links (`WishlistShare.jsx`, `PublicWishlistPage.jsx`)
@@ -194,6 +235,32 @@ npm install --save-dev nodemon jest supertest
 - Album bios and artwork from Discogs API
 - Market price display (`MarketPrice.jsx`)
 - Basic pagination & infinite scroll 
+
+---
+## Database Schema
+[View interactive schema on dbdiagram.io](https://dbdiagram.io/d/Goofy-Capstone-67f675134f7afba184f3fd8a)
+![Database Schema](./client/public/db-schema.png)
+
+> ERD outlining users, products, carts, orders, and payment
+
+---
+### Testing
+
+**Backend**
+- Jest + Supertest
+- Run with:
+```bash
+    cd server
+    npm test
+```
+
+**Frontend**
+- Jest + React Testing Library
+- Run with:
+```bash
+    cd client
+    npm test
+```
 
 ## Contributors
 

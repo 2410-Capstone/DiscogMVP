@@ -2,10 +2,6 @@
 package-lock.json
 DS_Store
 
-/server/utils/public
-/public
-/server/public
-
 # macOS system files
 .DS_Store
 .AppleDouble
