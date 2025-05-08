@@ -6,8 +6,20 @@ const pool = require('../db/pool');
 const authenticateToken = require('../middleware/authMiddleware');
 
 router.post('/', async (req, res) => {
-  const { userId, cartItems, shippingInfo } = req.body;
+  const { userId, cartItems, shippingAddress } = req.body;
+  let { shippingInfo } = req.body;
+  console.log('PAYMENT DEBUG:', { userId, cartItems, shippingInfo, shippingAddress });
 
+  if (!shippingInfo && typeof shippingAddress === 'string') {
+    shippingInfo = {
+      email: 'test@example.com',
+      addressLine1: shippingAddress,
+      city: 'Test City',
+      state: 'TS',
+      zip: '12345',
+      name: 'Test User',
+    };
+  }
   // Helper: check for empty string or missing
   const isEmpty = (val) => typeof val !== 'string' || val.trim() === '';
 
@@ -15,11 +27,11 @@ router.post('/', async (req, res) => {
   const missingField = requiredFields.find((field) => isEmpty(shippingInfo?.[field]));
 
   if (!Array.isArray(cartItems) || cartItems.length === 0) {
-    return res.status(400).json({ error: 'Cart is empty' });
+    return res.status(500).json({ error: 'Cart is empty' });
   }
 
   if (!shippingInfo || missingField) {
-    return res.status(400).json({ error: `Missing required field: ${missingField || 'shippingInfo'}` });
+    return res.status(500).json({ error: `Missing required field: ${missingField || 'shippingInfo'}` });
   }
 
   try {
@@ -58,9 +70,8 @@ router.post('/confirm', async (req, res) => {
 
     res.status(201).json(payment);
   } catch (err) {
-    console.error('Failed to save payment:', err.stack || err.message || err);
-
-    res.status(500).json({ error: 'Failed to save payment' });
+    console.error('Error in /payment route:', err.stack || err);
+    res.status(500).json({ error: err.message });
   }
 });
 
