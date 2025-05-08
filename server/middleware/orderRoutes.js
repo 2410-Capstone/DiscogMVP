@@ -24,7 +24,7 @@ router.get('/guest', async (req, res) => {
     }
     res.json({
       ...order,
-      orderNumber: order.id,
+      id: order.id,
       shippingAddress: order.shippingAddress,
       cartItems: order.items,
     });
@@ -91,13 +91,10 @@ router.post('/guest', async (req, res, next) => {
     next(error);
   }
 });
-router.get('/orders', authenticateToken, async (req, res, next) => {
+router.get('/', authenticateToken, async (req, res, next) => {
   try {
     const orders = await getOrderByUserId(req.user.id);
-    if (!orders || orders.length === 0) {
-      return res.status(404).json({ error: 'My orders not found' });
-    }
-    res.json(orders);
+    res.json(orders || []);
   } catch (error) {
     next(error);
   }
@@ -170,78 +167,17 @@ router.get('/admin/all', authenticateToken, isAdmin, async (req, res, next) => {
 router.get('/my', authenticateToken, async (req, res, next) => {
   try {
     const orders = await getOrderByUserId(req.user.id);
-
-    if (!orders || orders.length === 0) {
-      return res.status(404).json({ error: 'No orders found for this user' });
-    }
-
-    res.json(orders);
+    res.json(orders || []);
   } catch (error) {
-    console.error('Error fetching user orders:', error);
     next(error);
   }
 });
 
 router.get('/:id', authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
-
-  try {
-    // Get order with user's email
-    const { rows } = await pool.query(
-      /*sql*/ `
-      SELECT o.*, u.email
-      FROM orders o
-      JOIN users u ON o.user_id = u.id
-      WHERE o.id = $1
-    `,
-      [orderId]
-    );
-
-    const order = rows[0];
-
-    if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
-    }
-
-    if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
-
-    // Fetch order items with product details
-    const { rows: items } = await pool.query(
-      /*sql*/
-      `
-      SELECT oi.product_id, oi.quantity, oi.price,
-             p.description, p.image_url
-      FROM order_items oi
-      JOIN products p ON oi.product_id = p.id
-      WHERE oi.order_id = $1
-      `,
-      [orderId]
-    );
-
-    res.json({
-      orderNumber: order.id,
-      email: order.email,
-      total: order.total,
-      shippingAddress: (() => {
-        try {
-          const parsed = JSON.parse(order.shipping_address);
-          return typeof parsed === 'object' && parsed !== null ? parsed : { addressLine1: order.shipping_address };
-        } catch {
-          return { addressLine1: order.shipping_address };
-        }
-      })(),
-      cartItems: items,
-    });
-  } catch (error) {
-    next(error);
+  if (!orderId) {
+    return res.status(400).json({ error: 'Order ID is required' });
   }
-});
-
-router.get('/:id/items', authenticateToken, async (req, res, next) => {
-  const orderId = req.params.id;
-
   try {
     const order = await getOrderById(orderId);
     if (!order) {
@@ -250,8 +186,42 @@ router.get('/:id/items', authenticateToken, async (req, res, next) => {
     if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
       return res.status(403).json({ error: 'Forbidden' });
     }
+    res.json(order);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:id/items', authenticateToken, async (req, res, next) => {
+  const orderId = req.params.id;
+  if (!orderId) {
+    return res.status(400).json({ error: 'Order ID is required' });
+  }
+  try {
+    const order = await getOrderById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: 'Order items not found' });
+    }
+    if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
     const orderItems = await getOrderItems(orderId);
-    res.json(orderItems);
+    if (!orderItems || orderItems.length === 0) {
+      return res.status(404).json({ error: 'Order items not found' });
+    }
+    // Map to expected test shape
+    const mapped = orderItems.map((item) => ({
+      id: item.order_item_id,
+      user_id: order.user_id,
+      order_id: Number(orderId),
+      product_id: item.product_id,
+      quantity: item.quantity,
+      price: item.price,
+      artist: item.artist,
+      image_url: item.image_url,
+      genre: item.genre,
+    }));
+    res.json(mapped);
   } catch (error) {
     next(error);
   }
@@ -260,11 +230,14 @@ router.get('/:id/items', authenticateToken, async (req, res, next) => {
 router.patch('/:id', authenticateToken, async (req, res, next) => {
   const { order_status, tracking_number, shipping_address } = req.body;
   const orderId = req.params.id;
+  if (!orderId) {
+    return res.status(403).json({ error: 'Order ID is required' });
+  }
 
   try {
     const order = await getOrderById(orderId);
     if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+      return res.status(404).json({ error: 'Order not found failed to update' });
     }
     if (req.user.user_role === 'admin') {
       const updatedOrder = await updateOrder({
@@ -277,7 +250,7 @@ router.patch('/:id', authenticateToken, async (req, res, next) => {
       return res.status(403).json({ error: 'Forbidden from updating order' });
     }
     if (['shipped', 'delivered'].includes(order.order_status)) {
-      return res.status(400).json({ error: 'Cannot update shipped or delivered orders' });
+      return res.status(403).json({ error: 'Forbidden from updating order' });
     }
     const updates = {};
     if (order_status === 'cancelled') {
@@ -310,7 +283,7 @@ router.patch('/:orderId/items/:itemId', authenticateToken, async (req, res, next
     });
 
     if (!updatedOrderItem) {
-      return res.status(404).json({ error: "Order item not found can't change quantity" });
+      return res.status(404).json({ error: 'Order item not found' });
     }
     const order = await getOrderById(updatedOrderItem.order_id);
     if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
@@ -348,10 +321,18 @@ router.patch('/:id/cancel', authenticateToken, isAdmin, async (req, res) => {
   }
 });
 
-router.post('/orders', authenticateToken, async (req, res, next) => {
+router.post('/', authenticateToken, async (req, res, next) => {
   const { shipping_address, items } = req.body;
-  const order_status = req.body.order_status || 'created';
-
+  let { order_status } = req.body;
+  if (!['created', 'processing', 'shipped', 'delivered', 'cancelled'].includes(order_status)) {
+    order_status = 'created';
+  }
+  if (req.user.user_role === 'guest') {
+    return res.status(403).json({ error: 'Forbidden from creating order' });
+  }
+  if (!shipping_address) {
+    return res.status(400).json({ error: 'Missing required fields: shipping_address' });
+  }
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Order must include at least one item' });
   }
@@ -396,8 +377,10 @@ router.post('/orders', authenticateToken, async (req, res, next) => {
     });
 
     await client.query('COMMIT');
-    const updatedOrder = await getOrderById(newOrder.id);
-    res.status(201).json(updatedOrder);
+    const orderItems = await getOrderItems(newOrder.id);
+    const responseOrder = { ...newOrder, items: orderItems };
+
+    res.status(201).json(responseOrder);
   } catch (error) {
     await client.query('ROLLBACK');
     next(error);
@@ -410,6 +393,12 @@ router.post('/:orderId/items', authenticateToken, async (req, res, next) => {
   const { product_id, quantity } = req.body;
   const orderId = req.params.orderId;
 
+  if (req.user.user_role === 'guest') {
+    return res.status(403).json({ error: 'Forbidden from creating order item' });
+  }
+  if (quantity === undefined) {
+    return res.status(400).json({ error: 'Missing required fields: quantity' });
+  }
   try {
     const newOrderItem = await createOrderItem({
       order_id: orderId,
@@ -429,8 +418,12 @@ router.delete('/:id', authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;
 
   try {
-    if (req.user.user_role !== 'admin') {
-      return res.status(403).json({ error: 'Only admins can delete orders' });
+    const order = await getOrderById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
+      return res.status(403).json({ error: 'Forbidden from deleting order' });
     }
     const deletedOrder = await deleteOrder(orderId);
     if (!deletedOrder) {
@@ -442,11 +435,20 @@ router.delete('/:id', authenticateToken, async (req, res, next) => {
   }
 });
 router.delete('/:orderId/items/:itemId', authenticateToken, async (req, res, next) => {
-  const { itemId } = req.params;
+  const { orderId, itemId } = req.params;
 
   try {
-    if (req.user.user_role !== 'admin') {
-      return res.status(403).json({ error: 'Only admins can delete order items' });
+    const order = await getOrderById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: 'Order item not found' });
+    }
+    const orderItems = await getOrderItems(orderId);
+    const item = orderItems.find((i) => String(i.order_item_id) === String(itemId));
+    if (!item) {
+      return res.status(404).json({ error: 'Order item not found' });
+    }
+    if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
+      return res.status(403).json({ error: 'Forbidden from deleting order item' });
     }
     const deletedOrderItem = await deleteOrderItem(itemId);
     if (!deletedOrderItem) {
