@@ -1,19 +1,30 @@
-
-//I have to go through this for conflicts with other component-specific styling
-
-
-
-.page-content { // the content area above the footer
+// ===== GLOBAL PAGE WRAPPERS =====
+.page-content {
   flex: 1;
 }
 
+// ===== ROOT + BODY BASE =====
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: var(--body-font-size, 14px);
+  line-height: 1.5;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
 
 body {
   font-family: "Inter", "Helvetica", "Arial", sans-serif;
-  font-size: var(--body-font-size, 14px);
-  background: radial-gradient(circle at top, #192133 10%, #0c111b 80%);
+  // background: radial-gradient(circle at top, #192133 10%, #0c111b 80%);
   background-attachment: fixed;
   background-color: #242424;
+
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
@@ -26,19 +37,7 @@ body {
     color 0.5s;
 }
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+// ===== GLOBAL TYPOGRAPHY =====
 a {
   font-weight: 500;
   color: lightgray;
@@ -54,6 +53,7 @@ h1 {
   line-height: 1.1;
 }
 
+// ===== BUTTON BASE =====
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -75,11 +75,13 @@ button {
   }
 }
 
+// ===== LAYOUT SPACING UTILITY (used in pages) =====
 .main-content {
   padding-top: 96px;
   padding-left: 32px;
 }
 
+// ===== LIGHT MODE OVERRIDES =====
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

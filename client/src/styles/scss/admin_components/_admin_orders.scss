@@ -1,133 +1,23 @@
 
-.order-title, .order-filter {
-  color: var(--text-color)
-}
+@import './admin_tables';
 
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1.5rem;
-  font-size: 0.92rem;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
+.admin-inventory {
+  .user-table {
+    td ul {
+      padding-left: 1rem;
+      list-style-type: disc;
 
-  thead {
-    background-color: #f7f7f7;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-
-    th {
-      padding: 0.85rem 1rem;
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: #333;
-      border-bottom: 1px solid #e0e0e0;
-      text-align: left;
-    }
-  }
-
-  tbody {
-    tr {
-      border-bottom: 1px solid #eee;
-
-      &:hover {
-        background-color: #fafafa;
+      li {
+        margin-bottom: 0.25rem;
       }
     }
 
-    td {
-      padding: 0.85rem 1rem;
-      font-size: 0.9rem;
-      color: #555;
-      vertical-align: middle;
-      position: relative;
-    }
-  }
-
-  select {
-    padding: 0.4rem 0.75rem;
-    font-size: 0.9rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: linear-gradient(white, #f9f9f9);
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 1rem;
-    color: #333;
-    cursor: pointer;
-
-    &:hover {
-      border-color: #aaa;
+    select {
+      min-width: 120px;
     }
 
-    &:focus {
-      border-color: #666;
-      box-shadow: 0 0 0 2px rgba(100, 100, 255, 0.2);
-      outline: none;
-    }
-  }
-
-  ul {
-    padding-left: 1.25rem;
-    margin: 0;
-    color: #555;
-    font-size: 0.9rem;
-  }
-
-
-  .payment-status {
-    font-weight: 600;
-  }
-  
-  .payment-failed {
-    color: red;
-  }
-  
-  .payment-paid {
-    color: green;
-  }
-  
-
-
-  @media (max-width: 900px) {
-    thead {
-      display: none;
-    }
-
-    tbody, tr, td {
-      display: block;
-      width: 100%;
-    }
-
-    tr {
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    td {
-      text-align: right;
-      padding: 0.5rem 0;
-      border: none;
-      font-size: 0.9rem;
-      position: relative;
-
-      &::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        top: 0;
-        padding-left: 1rem;
-        font-weight: bold;
-        color: #888;
-        text-align: left;
-      }
+    button {
+      margin-top: 0.25rem;
     }
   }
 }

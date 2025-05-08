@@ -1,9 +1,7 @@
-// src/utils/cart.js
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
-const CART_KEY = "cart_items";
-const GUEST_CART_KEY = "guest_cart";
-// Named exports
+const CART_KEY = 'cart_items';
+const GUEST_CART_KEY = 'guest_cart';
 export const getCartFromCookies = () => {
   const cart = Cookies.get(CART_KEY);
   return cart ? JSON.parse(cart) : [];
@@ -12,8 +10,8 @@ export const getCartFromCookies = () => {
 export const saveCartToCookies = (cartItems) => {
   Cookies.set(CART_KEY, JSON.stringify(cartItems), {
     expires: 7,
-    sameSite: "Lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: 'Lax',
+    secure: process.env.NODE_ENV === 'production',
   });
 };
 

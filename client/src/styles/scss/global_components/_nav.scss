@@ -3,9 +3,10 @@
   transition: filter 0.3s ease;
 }
 
+/* ───── NAVBAR STRUCTURE ───── */
 .navbar {
-  background: var(--nav);
-  height: 50px;
+  background: var(--bg-color);
+  height: 40px;
   position: sticky;
   top: 0;
   width: 100%;
@@ -15,16 +16,20 @@
   justify-content: center;
   align-items: center;
   text-decoration: none;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 
 .nav-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
+  padding: 0 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
 }
 
 .nav-left,
@@ -38,37 +43,39 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  flex-grow: 1;
 }
 
+/* ───── LOGO + TITLE ───── */
 .nav-logo,
 .lognav-logo,
 .product-nav-button,
 .account-title h2 {
   font-size: 18px;
   font-weight: normal;
-  background-clip: text;
-  -webkit-background-clip: text;
   color: var(--text-color);
   display: inline-block;
   padding: 5px;
-  transition: transform 0.3s ease-in-out;
+  background-clip: text;
+  -webkit-background-clip: text;
   background-size: 200% 200%;
   text-decoration: none;
-}
-
-.nav-logo:hover {
-  color: var(--hover);
+  transition: transform 0.3s ease-in-out;
 }
 
 .nav-logo {
   padding: 0;
 }
 
+.nav-logo:hover {
+  color: var(--hover);
+}
+
+/* ───── RIGHT NAV LINKS ───── */
 .nav-right .nav-item:hover,
 .nav-right .nav-button:hover,
 .nav-right .nav-button-search-icon:hover,
@@ -77,7 +84,10 @@
   color: var(--text-hover);
 }
 
+/* ───── TOGGLE BUTTON ───── */
 .theme-toggle-button {
+  height: 100%;
+  margin-top: 1px;
   font-size: 18px;
   line-height: 1;
   padding: 8px;
@@ -93,11 +103,9 @@
   &:hover {
     color: var(--text-hover);
   }
-
-  height: 100%;
-  margin-top: 1px;
 }
 
+/* ───── PROFILE PICTURE ───── */
 .profile-pic {
   width: 40px;
   height: 40px;
@@ -112,6 +120,7 @@
   }
 }
 
+/* ───── NAV TEXT ITEMS ───── */
 .nav-item {
   font-size: 16px;
   font-weight: normal;
@@ -122,34 +131,20 @@
   }
 }
 
-.nav-button {
-  font-size: 14px;
-  font-weight: normal;
-  padding: 8px;
-  background: none;
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    transform 0.3s,
-    box-shadow 0.3s ease;
-  color: var(--text-color);
-  border: 1px solid transparent;
-}
-
+/* ───── BUTTON STYLES ───── */
+.nav-button,
 .nav-button-search-icon {
   font-size: 14px;
   font-weight: normal;
   padding: 8px;
   background: none;
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    transform 0.3s,
-    box-shadow 0.3s ease;
   color: var(--text-color);
   border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s ease;
 }
 
+/* ───── PRODUCT NAV BUTTONS ───── */
 .product-nav-button,
 .back-to-products-button,
 .product-nav-button:hover,

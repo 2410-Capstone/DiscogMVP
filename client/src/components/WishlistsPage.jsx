@@ -85,7 +85,9 @@ const WishlistsPage = () => {
 
   return (
     <div className="wishlists-page">
+      <div className="hero-title">
       <h1>My Wishlists</h1>
+      </div>
       <Link to="/wishlists/new" className="btn">Create New Wishlist</Link>
       
       {wishlists.length === 0 ? (

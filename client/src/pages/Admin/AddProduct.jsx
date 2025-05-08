@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const AddProduct = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
+
+  const artistRef = useRef(null);
 
   const [artist, setArtist] = useState("");
   const [description, setDescription] = useState("");
@@ -16,6 +17,9 @@ const AddProduct = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [artistDetails, setArtistDetails] = useState("");
 
+  useEffect(() => {
+    artistRef.current?.focus();t
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +29,7 @@ const AddProduct = () => {
     if (parseFloat(price) <= 0 || parseInt(stock) < 0) {
       setError('Price must be greater than $0 and stock cannot be negative.');
       return;
-    }    
+    }
 
     try {
       const response = await fetch("/api/products", {
@@ -65,91 +69,98 @@ const AddProduct = () => {
 
   return (
     <div className="add-product-container">
+      <Link to="/admin/inventory" className="back-link">← Back to Inventory</Link>
       <h2>Add New Product</h2>
+      <div className="add-product-card">
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">Product added successfully! Redirecting...</p>}
 
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">Product added successfully! Redirecting...</p>}
+        <form onSubmit={handleSubmit} className="add-product-form">
+          <div className="form-group">
+            <label>Artist</label>
+            <input
+              type="text"
+              placeholder="Artist"
+              value={artist}
+              onChange={(e) => setArtist(e.target.value)}
+              ref={artistRef}
+              required
+            />
+          </div>
 
-      <form onSubmit={handleSubmit} className="add-product-form">
-        <div className="form-group">
-          <label>Artist</label>
-          <input
-            type="text"
-            value={artist}
-            onChange={(e) => setArtist(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Title</label>
+            <input
+              type="text"
+              placeholder="Title"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Description</label>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Price</label>
+            <input
+              type="number"
+              placeholder="Price"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Price</label>
-          <input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Genre</label>
+            <input
+              type="text"
+              placeholder="Genre"
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Genre</label>
-          <input
-            type="text"
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Stock</label>
+            <input
+              type="number"
+              placeholder="Stock Quantity"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Stock</label>
-          <input
-            type="number"
-            value={stock}
-            onChange={(e) => setStock(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Artist Details</label>
+          <div className="form-group">
+            
+            <label>Details</label>
             <textarea
               value={artistDetails}
               onChange={(e) => setArtistDetails(e.target.value)}
               rows={5}
               placeholder="Enter artist biography, background, etc."
             />
-        </div>
+          </div>
 
+          <div className="form-group">
+            <label>Image</label>
+            <input
+              type="text"
+              placeholder="Enter URL"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Album Art URL</label>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-          />
-        </div>
-
-        
-        <button type="submit" className="submit-button">
-          Add Product
-        </button>
-      </form>
+          <button type="submit" className="submit-button">
+            Add Product
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
 export default AddProduct;
-

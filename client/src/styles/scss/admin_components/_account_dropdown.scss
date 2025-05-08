@@ -1,68 +1,79 @@
+/* ===============================
+   ACCOUNT DROPDOWN CONTAINER
+=============================== */
 .account-dropdown {
-    position: relative;
-    display: inline-block;
-  
-    .account-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid white;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-  
-      &:hover {
-        transform: scale(1.05);
-      }
+  position: relative;
+  display: inline-block;
+  padding-top: 5.5px;
+
+  .account-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 0.5px solid white;
+
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
     }
   }
-  
-  .account-dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 10px);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 4px;
-    min-width: 180px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-  
+}
+
+/* ===============================
+   DROPDOWN MENU STYLES
+=============================== */
+.account-dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: dropdownFadeIn 0.3s ease forwards;
+
+  .dropdown-link {
+    display: block;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    &.logout-button {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+  }
+}
+
+/* ===============================
+   ANIMATION KEYFRAME
+=============================== */
+@keyframes dropdownFadeIn {
+  from {
     opacity: 0;
     transform: translateY(-10px);
-    animation: dropdownFadeIn 0.3s ease forwards;
-  
-    .dropdown-link {
-      display: block;
-      padding: 10px 20px;
-      color: #333;
-      text-decoration: none;
-      transition: background 0.2s ease;
-      font-size: 0.8rem;
-  
-      &:hover {
-        background-color: #f1f1f1;
-      }
-  
-      &.logout-button {
-        width: 100%;
-        text-align: left;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-family: inherit;
-      }
-    }
   }
-  
-  @keyframes dropdownFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}

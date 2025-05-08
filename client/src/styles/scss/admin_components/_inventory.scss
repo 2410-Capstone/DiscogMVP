@@ -1,208 +1,46 @@
+@import './admin_tables';
+
 .admin-inventory {
-  color: var(--text-color);
-
-  .inventory-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-
-    h2 {
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-
-    .add-button {
-      background-color: var(--accent-color);
-      color: var(--text-color);
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: var(--accent-hover);
-      }
-    }
-  }
-
-  .inventory-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
-
-    input {
-      flex: 1;
-      min-width: 200px;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background: var(--input-bg);
-      color: var(--text-color);
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      border: none;
-      background: var(--accent-color);
-      color: var(--text-color);
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-
-      &:hover {
-        background: var(--accent-hover);
-      }
-    }
-  }
-
-  .inventory-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    border: 1px solid var(--border-color);
-    background: var(--bg-color);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  .admin-table {
-    width: 100%;
-    border-collapse: collapse;
-
-    thead {
-      background: #f7f7f7;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      color: #333;
-
-      th {
-        padding: 0.85rem 1rem;
-        text-align: left;
-      }
-    }
-
-    tbody {
-      tr {
-        border-bottom: 1px solid #eee;
-        transition: background 0.2s ease;
-
-        &:hover {
-          background-color: #fafafa;
-          background: var(--admin-text-hover);
-        }
-      }
-
-      td {
-        padding: 0.85rem 1rem;
-        color: var(--text-color);
-        position: relative;
-        text-align: left;
-
-        img.thumbnail {
-          width: 50px;
-          height: 50px;
-          object-fit: cover;
-          border-radius: 6px;
-        }
-      }
-    }
-  }
-
-  .inventory-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    font-size: 0.95rem;
-
-    th,
-    td {
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      vertical-align: top;
-      text-align: left;
-    }
-
-    th {
-      color: white;
-    }
-
-    td {
-      color: black;
-    }
-
-    thead {
-      background-color: #333;
-      color: #fff;
-    }
-
-    select {
-      padding: 0.25rem;
-    }
-
-    ul {
-      padding-left: 1rem;
-      margin: 0;
-    }
-
-    img {
-      width: 75px;
-      height: 75px;
+  .user-table {
+    td img {
+      width: 50px;
+      height: 50px;
       object-fit: cover;
+      border-radius: 4px;
+    }
+
+    td span {
+      cursor: pointer;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 0.25rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color, #555);
+      background-color: var(--input-bg, #2c2c2c);
+      color: inherit;
+    }
+
+    .edit-btn {
+      padding: 0.3rem 0.6rem;
     }
   }
 
-  .edit-btn {
+  .add-button {
+    display: inline-block;
+    margin: 1rem 0;
     padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-    border: 1px solid var(--accent-color);
-    background: transparent;
-    color: var(--primary-accent);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    background-color: var(--button-bg, #555);
+    color: var(--button-text, #fff);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    font-weight: 300;
+    font-size: 0.8rem;
 
     &:hover {
-      background: var(--accent-hover-light);
-    }
-  }
-
-  @media (max-width: 900px) {
-    .admin-table {
-      thead {
-        display: none;
-      }
-
-      tbody,
-      tr,
-      td {
-        display: block;
-        width: 100%;
-      }
-
-      tr {
-        background: #f9f9f9;
-        margin-bottom: 1.5rem;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      td {
-        padding: 0.5rem 0;
-        text-align: right;
-
-        &::before {
-          content: attr(data-label);
-          position: absolute;
-          left: 1rem;
-          top: 0;
-          font-weight: 600;
-          color: #888;
-          font-size: 0.8rem;
-        }
-      }
+      background-color: var(--button-hover, #777);
     }
   }
 }

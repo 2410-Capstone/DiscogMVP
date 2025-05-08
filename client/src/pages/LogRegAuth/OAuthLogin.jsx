@@ -16,7 +16,6 @@ const OAuthLogin = ({ setUser, setToken }) => {
       });
 
       const data = await res.json();
-      console.log("Google login backend response:", data);
 
       if (!data.token) throw new Error("Login failed");
 

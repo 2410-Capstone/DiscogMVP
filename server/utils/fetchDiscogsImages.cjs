@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config();
 
 const { Pool } = require('pg');
 const fetch = require('node-fetch');
@@ -10,7 +10,7 @@ if (!fs.existsSync(imagesDir)) {
   fs.mkdirSync(imagesDir, { recursive: true });
 }
 
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const DATABASE_URL = process.env.DATABASE_URL || 'postgres://postgres:admin@localhost:5432/music_capstone_db';
 const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN || 'DISCOGS_KEY';
@@ -29,8 +29,7 @@ const pool = new Pool({ connectionString: DATABASE_URL });
       WHERE table_name = 'products' AND table_schema = 'public';
     `);
 
-    const productColumns = schemaRes.rows.map(row => row.column_name);
-    console.log('Columns in products table:', productColumns);
+    const productColumns = schemaRes.rows.map((row) => row.column_name);
 
     if (!productColumns.includes('release_id')) {
       throw new Error("'release_id' column is missing from 'products' table");
@@ -63,11 +62,10 @@ const pool = new Pool({ connectionString: DATABASE_URL });
         const imageUrl = data.images?.[0]?.uri;
 
         if (imageUrl) {
-          
           const imageRes = await fetch(imageUrl, {
             headers: {
               'User-Agent': 'DiscogMVP',
-            }
+            },
           });
           if (!imageRes.ok) {
             console.warn(`Failed to download image for product ${id}`);
@@ -76,37 +74,30 @@ const pool = new Pool({ connectionString: DATABASE_URL });
 
           const buffer = await imageRes.buffer();
 
-          
           const contentType = imageRes.headers.get('content-type');
           let extension = '.jpg';
           if (contentType === 'image/png') {
             extension = '.png';
           }
 
-          
           const savePath = path.join(imagesDir, `product-${id}${extension}`);
           fs.writeFileSync(savePath, buffer);
-          console.log(`✅ Saved image for product ${id} to ${savePath}`);
+          console.log(` Saved image for product ${id} to ${savePath}`);
 
-          
           const localPath = `/images/product-${id}${extension}`;
-          await pool.query(
-            'UPDATE products SET image_url = $1 WHERE id = $2',
-            [localPath, id]
-          );
+          await pool.query('UPDATE products SET image_url = $1 WHERE id = $2', [localPath, id]);
 
-          console.log(`🔄 Updated DB for product ${id}`);
+          console.log(`Updated DB for product ${id}`);
         } else {
           console.log(`No image found for product ${id} (release ${release_id})`);
         }
       } catch (err) {
-        console.error(`❌ Error processing release_id ${release_id}:`, err.message);
+        console.error(` Error processing release_id ${release_id}:`, err.message);
       }
 
-      await sleep(1000); 
+      await sleep(1000);
     }
-
-    console.log('🎉 Finished updating product images.');
+    console.log('Finished updating product images.');
     process.exit();
   } catch (err) {
     console.error('Unexpected error:', err.message);

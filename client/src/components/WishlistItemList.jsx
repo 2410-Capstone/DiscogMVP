@@ -5,6 +5,8 @@ const WishlistItemList = ({ items, onAddItem, onRemoveItem, wishlistId }) => {
   const [productId, setProductId] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [addedIds, setAddedIds] = useState([]);
+
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -18,10 +20,12 @@ const WishlistItemList = ({ items, onAddItem, onRemoveItem, wishlistId }) => {
 
   const handleAddToWishlist = (id) => {
     onAddItem(id);
+    setAddedIds(prev => [...prev, id]);
     setProductId('');
     setSearchResults([]);
     setSearchQuery('');
   };
+  
 
   return (
     <div className="wishlist-items">
@@ -45,11 +49,14 @@ const WishlistItemList = ({ items, onAddItem, onRemoveItem, wishlistId }) => {
               <div key={product.id} className="search-result-item">
                 <span>{product.name}</span>
                 <button 
-                  onClick={() => handleAddToWishlist(product.id)}
-                  disabled={items.some(item => item.id === product.id)}
-                >
-                  {items.some(item => item.id === product.id) ? 'Added' : 'Add'}
-                </button>
+  onClick={() => handleAddToWishlist(product.id)}
+  disabled={items.some(item => item.id === product.id) || addedIds.includes(product.id)}
+>
+  {items.some(item => item.id === product.id) || addedIds.includes(product.id)
+    ? 'Added'
+    : 'Add'}
+</button>
+
               </div>
             ))}
           </div>

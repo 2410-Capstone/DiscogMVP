@@ -1,3 +1,4 @@
+/* ========== PAGE WRAPPER ========== */
 .home-page {
   padding-top: 6rem;
   min-height: 100vh;
@@ -5,18 +6,18 @@
   background-size: cover;
   background-position: center;
   color: var(--text-color);
-  transition:
-    background 0.3s ease,
-    color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
   animation: disney_fade_slide 0.8s ease-out forwards;
 }
 
+/* ========== PAGE CONTENT WRAPPER ========== */
 .home-content {
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
+/* ========== TITLES & TEXT ========== */
 .home-page h1:not(.home-header) {
   font-size: 3rem;
   margin-bottom: 1rem;
@@ -71,6 +72,7 @@
   animation: disney_fade_inner 1.2s ease forwards 0.5s;
 }
 
+/* ========== CTA BUTTON ========== */
 .home-page .cta-button {
   font-size: 1rem;
   padding: 0.8rem 1.6rem;
@@ -86,6 +88,7 @@
   }
 }
 
+/* ========== HEADER WITH FILTERS ========== */
 .home-header {
   text-align: center;
   padding: 2rem 1rem;
@@ -121,6 +124,7 @@
   }
 }
 
+/* ========== PRODUCT GRID ========== */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -141,6 +145,7 @@
   }
 }
 
+/* ========== PAGINATION ========== */
 .pagination {
   display: flex;
   justify-content: center;
@@ -148,9 +153,7 @@
   gap: 1rem;
   font-size: 0.95rem;
   color: var(--text-color);
-  transition:
-    background 0.2s ease-in-out,
-    color 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .pagination button {
@@ -163,23 +166,21 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 0.95rem;
-  transition:
-    background 0.2s ease-in-out,
-    color 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover:not(:disabled) {
+    color: var(--text-hover);
+    border-color: transparent;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: var(--placeholder-color);
+  }
 }
 
-.pagination button:hover:not(:disabled) {
-  color: var(--text-hover);
-  border-color: transparent;
-}
-
-.pagination button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-
-  color: var(--placeholder-color);
-}
-
+/* ========== FEATURED SCROLLING SECTION ========== */
 .featured-scroll-section {
   margin: 2rem 0;
   overflow-x: hidden;
@@ -215,6 +216,7 @@
   }
 }
 
+/* ========== FOCUS AND FEATURED SECTION ========== */
 .focus-and-featured-section {
   display: flex;
   flex-direction: column;
@@ -233,77 +235,22 @@
   }
 }
 
-.featured-scroll-wrapper {
-  flex: 1;
-
-  .section-heading {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    padding-left: 0.25rem;
-  }
-
-  .featured-scroll-grid {
-    display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    scroll-snap-type: x mandatory;
-
-    &::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: rgba(100, 100, 100, 0.2);
-      border-radius: 3px;
-    }
-
-    .product-card {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      width: 240px;
-    }
-  }
-}
-
-.latest-scroll-wrapper {
-  .section-heading {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    padding-left: 0.25rem;
-  }
-
-  .featured-scroll-grid {
-    display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    scroll-snap-type: x mandatory;
-
-    .product-card {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      width: 240px;
-    }
-  }
-}
-
+.featured-scroll-wrapper,
+.latest-scroll-wrapper,
 .scroll-grid-section {
-  margin-bottom: 1rem;
-
   .section-heading {
     font-size: 1.5rem;
     font-weight: 600;
-    margin: 0 0 1rem 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
   }
 
+  .featured-scroll-grid,
   .scroll-grid {
     display: flex;
     overflow-x: auto;
     gap: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 

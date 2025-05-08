@@ -1,0 +1,134 @@
+.add-product-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+
+  h2 {
+    text-align: left;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-weight: 400;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color, #aaa);
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+  
+    &:hover {
+      text-decoration: underline;
+      color: var(--text-hover);
+    }
+  }
+  
+}
+
+.add-product-card {
+  background: var(--bg-color, #1f1f1f);
+  padding: 2rem;
+  border: 2px solid var(--border-color, #343434);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+
+  .error-message,
+  .success-message {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .error-message {
+    background-color: #441111;
+    color: #ffb4b4;
+  }
+
+  .success-message {
+    background-color: #113311;
+    color: #b6fcb6;
+  }
+
+  .add-product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+
+      input,
+      textarea {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid var(--border-color, #444);
+        border-radius: 6px;
+        background-color: var(--input-bg, #2a2a2a);
+        color: inherit;
+        font-size: 1rem;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    button {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+  
+    .submit-button {
+      background-color: var(black);
+      color: var(--button-text, #fff);
+  
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 300%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent 30%,
+          #ff3cac 45%,
+          #784ba0 50%,
+          #2b86c5 55%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: none;
+        pointer-events: none;
+        z-index: 2;
+      }
+  
+      &:hover::before {
+        animation: shiny-wipe 1.2s ease-out forwards;
+        opacity: 1;
+      }
+    }
+  }
+}
+

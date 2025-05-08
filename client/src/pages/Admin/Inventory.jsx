@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const Inventory = () => {
@@ -9,75 +9,71 @@ const Inventory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingStockId, setEditingStockId] = useState(null);
-  const [newStockValue, setNewStockValue] = useState(""); 
+  const [newStockValue, setNewStockValue] = useState('');
 
+  const searchRef = useRef(null);
 
-  // When stock number is clicked from inventory table, this function allows the admin to edit stock number
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      searchRef.current?.focus();
+    });
+  }, []);
+
   const startEditingStock = (productId, currentStock) => {
     setEditingStockId(productId);
     setNewStockValue(currentStock);
   };
-  
+
   const handleStockSave = async (productId) => {
-    if (newStockValue === "") {
+    if (newStockValue === '') {
       setEditingStockId(null);
       return;
     }
-  
+
     const parsedStock = parseInt(newStockValue, 10);
-  
     if (isNaN(parsedStock) || parsedStock < 0) {
-      alert("Invalid stock quantity. Must be a non-negative number.");
+      alert('Invalid stock quantity. Must be a non-negative number.');
       setEditingStockId(null);
       return;
     }
-  
+
     try {
       const res = await fetch(`/api/products/${productId}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
-          ...products.find(p => p.id === productId),
+          ...products.find((p) => p.id === productId),
           stock: parsedStock,
         }),
       });
-  
-      if (!res.ok) {
-        throw new Error('Failed to update stock');
-      }
-  
+
+      if (!res.ok) throw new Error('Failed to update stock');
       const updatedProduct = await res.json();
-  
-      setProducts(prev =>
-        prev.map(product =>
-          product.id === productId ? { ...product, stock: updatedProduct.stock } : product
-        )
+
+      setProducts((prev) =>
+        prev.map((product) => (product.id === productId ? { ...product, stock: updatedProduct.stock } : product))
       );
-  
-      setFiltered(prev =>
-        prev.map(product =>
-          product.id === productId ? { ...product, stock: updatedProduct.stock } : product
-        )
+
+      setFiltered((prev) =>
+        prev.map((product) => (product.id === productId ? { ...product, stock: updatedProduct.stock } : product))
       );
-  
+
       setEditingStockId(null);
-      setNewStockValue("");
+      setNewStockValue('');
     } catch (err) {
       console.error(err);
-      alert("Failed to update stock.");
+      alert('Failed to update stock.');
       setEditingStockId(null);
     }
   };
-  
-  
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('/api/products/all'); 
+        const res = await fetch('/api/products/all');
         if (!res.ok) throw new Error('Failed to fetch products');
         const data = await res.json();
         setProducts(data);
@@ -96,17 +92,13 @@ const Inventory = () => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     const results = products.filter(
-      (product) =>
-        product.artist.toLowerCase().includes(term) ||
-        product.description.toLowerCase().includes(term)
+      (product) => product.artist.toLowerCase().includes(term) || product.description.toLowerCase().includes(term)
     );
     setFiltered(results);
   };
 
   const handleSort = () => {
-    const sorted = [...filtered].sort((a, b) => 
-      sortAsc ? a.price - b.price : b.price - a.price
-    );
+    const sorted = [...filtered].sort((a, b) => (sortAsc ? a.price - b.price : b.price - a.price));
     setFiltered(sorted);
     setSortAsc(!sortAsc);
   };
@@ -117,33 +109,35 @@ const Inventory = () => {
     return 'In stock';
   };
 
-  if (error) return <div className="error-message">Error: {error}</div>;
-  if (loading) return <div>Loading inventory...</div>;  
+  if (error) return <div className='error-message'>Error: {error}</div>;
+  if (loading) return <div>Loading inventory...</div>;
 
   return (
-    <div className="admin-inventory">
-      <div className="inventory-header">
-        <h2>Inventory</h2>
-        <Link to="/admin/products/new" className="add-button">Add Product</Link>
-      </div>
+    <div className='admin-inventory'>
+      <div className='table-wrapper'>
+        <div className='table-header'>
+          <h2>Inventory</h2>
+        </div>
 
-      <div className="inventory-controls">
-        <input
-          type="text"
-          placeholder="Search by artist or description..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <button className="sort" onClick={handleSort}>
-          Sort by Price {sortAsc ? '⬆' : '⬇'}
-        </button>
-      </div>
+        <div className='table-controls'>
+          <input
+            type='text'
+            placeholder='Search by artist or description...'
+            value={searchTerm}
+            onChange={handleSearch}
+            className='admin-search'
+            ref={searchRef}
+          />
+        </div>
 
-      <div className="inventory-table-wrapper">
-        <table className="admin-table">
+        <Link to='/admin/products/new' className='add-button'>
+          Add Product
+        </Link>
+
+        <table className='user-table'>
           <thead>
             <tr>
-              <th>Date Added</th>
+              <th>Date</th>
               <th>Image</th>
               <th>Artist</th>
               <th>Description</th>
@@ -158,44 +152,45 @@ const Inventory = () => {
             {filtered.map((product) => (
               <tr key={product.id}>
                 <td>{new Date(product.created_at).toLocaleDateString()}</td>
-              <td data-label="Image">
-                {product.image_url ? (
-                  <img src={product.image_url} alt="Album Art" className="thumbnail" />
-                ) : (
-                  <img src="/placeholder.png" alt="Placeholder" className="thumbnail" />
-                )}
-              </td>
-                <td data-label="Artist">{product.artist}</td>
-                <td data-label="Description">{product.description}</td>
-                <td data-label="Genre">{product.genre}</td>
-                <td data-label="Price">${product.price}</td>
-                <td data-label="Stock" style={{ color: product.stock === 0 ? 'red' : 'green' }}>
+                <td>
+                  <img
+                    src={
+                      product.image_url?.startsWith('http')
+                        ? product.image_url
+                        : `http://localhost:3000/public${product.image_url}`
+                    }
+                    alt={product.description}
+                    style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
+                  />
+                </td>
+                <td>{product.artist}</td>
+                <td>{product.description}</td>
+                <td>{product.genre}</td>
+                <td>${product.price}</td>
+                <td style={{ color: product.stock === 0 ? 'red' : 'green' }}>
                   {editingStockId === product.id ? (
                     <input
-                      type="number"
-                      min="0"
+                      type='number'
+                      min='0'
                       value={newStockValue}
                       onChange={(e) => setNewStockValue(e.target.value)}
                       onBlur={() => handleStockSave(product.id)}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") handleStockSave(product.id);
+                        if (e.key === 'Enter') handleStockSave(product.id);
                       }}
                       autoFocus
-                      style={{ width: "60px" }}
+                      style={{ width: '60px' }}
                     />
                   ) : (
-                    <span
-                      onClick={() => startEditingStock(product.id, product.stock)}
-                      style={{ cursor: "pointer" }}
-                    >
+                    <span onClick={() => startEditingStock(product.id, product.stock)} style={{ cursor: 'pointer' }}>
                       {product.stock}
                     </span>
                   )}
                 </td>
-                <td data-label="Status">{getStockStatus(product.stock)}</td>
-                <td data-label="Edit">
-                  <Link to={`/admin/edit-product/${product.id}`}>
-                    <button className="edit-btn">Edit</button>
+                <td>{getStockStatus(product.stock)}</td>
+                <td>
+                  <Link to={`/admin/edit-product/${product.id}`} className='user-edit-btn'>
+                    Edit
                   </Link>
                 </td>
               </tr>

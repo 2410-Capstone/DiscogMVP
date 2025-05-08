@@ -1,0 +1,15 @@
+@import './admin_tables';
+
+.admin-inventory {
+  .user-table {
+    .user-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .user-edit-btn,
+    .user-delete-btn {
+      padding: 0.3rem 0.6rem;
+    }
+  }
+}

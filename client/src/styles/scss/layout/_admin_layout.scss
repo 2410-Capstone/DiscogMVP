@@ -1,10 +1,20 @@
-.admin-console {
+.admin-layout-wrapper {
   display: flex;
-  height: 100vh;
-  font-family: "Inter", sans-serif;
-  background-color: var(--bg-color)
+  justify-content: center;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  width: 100%;
 }
 
+.admin-console {
+  display: flex;
+  width: 100%;
+  max-width: 1600px; // You can increase this as needed
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-color);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02); // optional border for clarity
+}
 .admin-content {
   flex: 1;
   display: flex;
@@ -12,9 +22,16 @@
   overflow: hidden;
 }
 
+.admin-inner-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .admin-main {
-  padding: 2rem;
+  padding: 2rem 2rem;
   overflow-y: auto;
   height: 100%;
-  
 }

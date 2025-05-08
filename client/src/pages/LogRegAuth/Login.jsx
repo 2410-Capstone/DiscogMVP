@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { useContext } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 // import OAuthLogin from "../LogRegAuth/OAuthLogin"
 
@@ -10,8 +10,14 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
+  
 
   const navigate = useNavigate();
+    const emailRef = useRef(null);
+  
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,11 +31,11 @@ export default function Login() {
       });
   
       const loginData = await loginRes.json();
-      console.log("Login Response:", loginData);
   
       if (!loginData.token || !loginData.user) throw new Error("Invalid login response");
   
       login(loginData.user, loginData.token);
+      localStorage.setItem("token", loginData.token);
       localStorage.setItem("userEmail", loginData.user.email);
   
       if (loginData.user.user_role === 'admin') {
@@ -77,6 +83,7 @@ export default function Login() {
                 type="email"
                 placeholder="Email"
                 value={email}
+                ref={emailRef}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />

@@ -1,5 +1,4 @@
-
-
+// Subtle fade/slide entrance animations
 @keyframes soft-fade-slide {
   from {
     opacity: 0;
@@ -22,29 +21,29 @@
   }
 }
 
-
-
-
-
-
-
-@keyframes shiny-wipe {
-  0% {
-    left: -150%;
-    opacity: 1;
-  }
-  50% {
-    left: 100%;
-    opacity: 1;
-  }
-  100% {
-    left: 100%;
+@keyframes fade-in-up {
+  from {
     opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+@keyframes disney-fade-slide {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-
+// Slide up/down
 @keyframes slideDown {
   from {
     transform: translateY(-20px);
@@ -63,30 +62,31 @@
   }
 }
 
-
-
-@keyframes disney-fade-slide {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
+// Button shimmer / wipe effects
+@keyframes shiny-wipe {
+  0% {
+    left: -150%;
     opacity: 1;
-    transform: translateY(0);
+  }
+  50% {
+    left: 100%;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
   }
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.sign-button:hover::before,
+.reg-button:hover::before,
+.checkout-button:hover::before,
+.return-button:hover::before {
+  animation: shiny-wipe 1.2s ease-out forwards;
+  opacity: 1;
 }
 
+// Breathing / pulse effect
 @keyframes breathe {
   0% {
     transform: scale(0.97);
@@ -102,6 +102,7 @@
   }
 }
 
+// Loading shimmer effect
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -110,14 +111,3 @@
     background-position: 200% 0;
   }
 }
-
-.sign-button:hover::before,
-.reg-button:hover::before,
-.checkout-button:hover::before,
-.return-button:hover::before {
-  animation: shiny-wipe 1.2s ease-out forwards;
-  opacity: 1;
-}
-
-
-

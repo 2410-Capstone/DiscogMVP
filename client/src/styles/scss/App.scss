@@ -1,45 +1,79 @@
-@use "./animations/animations";
-@use "./base/global" as *;
+/* ===============================
+   BASE & RESET
+=============================== */
 @use "./base/reset";
-@use "./global_components/welcome_header";
-@use "./user_components/account_dash";
-@use "./admin_components/admin_dash";
-@use "./global_components/nav" as *;
-@use "./user_components/profile";
-@use "./layout/reg_log";
-@use "./layout/home";
+@use "./base/global" as *;
+
+/* ===============================
+   VARIABLES
+=============================== */
 @use "./variables/themes";
-@use "./global_components/popup";
-@use "./global_components/search";
-@use "./query/media_mobile";
 @use "./variables/buttons";
 @use "./variables/loading_spinner";
-@use "./variables/notifications";
+@use "./variables/other_theme_variables";
+
+/* ===============================
+   ANIMATIONS
+=============================== */
+@use "./animations/animations";
+
+/* ===============================
+   GLOBAL COMPONENTS
+=============================== */
+@use "./global_components/nav" as *;
+@use "./global_components/nav_dropdown";
+@use "./global_components/product_card";
+@use "./global_components/popup";
+@use "./global_components/search";
+@use "./global_components/filterBar";
+@use "./global_components/welcome_header";
+
+/* ===============================
+   LAYOUT
+=============================== */
+@use "./layout/home";
 @use "./layout/footer";
+@use "./layout/reg_log";
 @use "./layout/welcome_page";
 @use "./layout/cart";
 @use "./layout/product_details";
-@use "./layout/not_found";
-@use "./payment_components/payment_form.module";
-@use "./global_components/product_card";
-@use "./variables/other_theme_variables";
-@use "./payment_components/stripe_elements";
-@use "./admin_components/_admin_orders";
-@use "./admin_components/admin_user_list";
-@use "./layout/admin_layout";
-@use "./global_components/nav_dropdown";
-@use "./admin_components/account_dropdown";
-@use "./admin_components/admin_sidebar";
-@use "./admin_components/admin_topbar";
+@use "./layout/full_search";
+@use "./layout/order_confirmation";
 @use "./layout/checkout";
-@use "./admin_components/inventory";
-@use "./user_components/user_orders";
-@use "./global_components/filterBar";
+@use "./layout/not_found";
+@use "./layout/admin_layout";
+@use "./layout/contact";
+@use "./layout/refund_policy";
 
+/* ===============================
+   USER COMPONENTS
+=============================== */
+@use "./user_components/account_dash";
+@use "./user_components/profile";
+@use "./user_components/user_orders";
 @use "./user_components/edit_contact_info";
 @use "./user_components/edit_address";
 @use "./user_components/edit_billing_info";
 @use "./user_components/manage_account";
 
-@use "./layout/order_confirmation";
+/* ===============================
+   ADMIN COMPONENTS
+=============================== */
+@use "./admin_components/admin_dash";
+@use "./admin_components/admin_tables";
+@use "./admin_components/_admin_orders";
+@use "./admin_components/inventory";
+@use "./admin_components/account_dropdown";
+@use "./admin_components/admin_sidebar";
+@use "./admin_components/admin_topbar";
+@use "./admin_components/add_product";
+@use "./admin_components/edit_product";
+@use "./admin_components/admin_edit_user";
 
+
+/* ===============================
+   PAYMENT
+=============================== */
+@use "./payment_components/payment_form.module";
+@use "./payment_components/stripe_elements";
+@use "./global_components/wishlists"
