@@ -592,7 +592,7 @@ body {
   transition: background 0.2s ease;
 }
 .card-header-row .wishlist-icon-button:hover {
-  background: var(--card-bg);
+  background: var(--text-hover);
 }
 
 .card-title,
@@ -1621,6 +1621,24 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
   background: #ddd;
   margin: 0;
 }
+.cart-page .add-to-cart-button {
+  display: block;
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.cart-page .add-to-cart-button:hover {
+  background-color: var(--primary-accent, rgba(126, 126, 126, 0.5803921569));
+  color: #fff;
+}
 .cart-page .cart-items {
   padding-top: 0;
 }
@@ -1846,6 +1864,88 @@ button.loadmore:hover, button.loadmore.active, button.loadmore:focus-visible {
 .summary-side .checkout-btn:hover::before {
   animation: shiny-wipe 1.2s ease-out forwards;
   opacity: 1;
+}
+
+.c-related-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.c-related-card-info .card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.c-related-card-info .card-title-row .c-related-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-color);
+}
+.c-related-card-info .card-title-row .wishlist-icon-button {
+  transform: scale(1.2);
+  margin: 0;
+  align-self: flex-start;
+}
+.c-related-card-info .c-related-card-artist {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.7;
+  color: var(--text-color);
+}
+.c-related-card-info .c-card-genre {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #777;
+}
+.c-related-card-info .c-related-card-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.c-related-card-info .add-to-cart-button {
+  all: unset;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: black;
+  padding-bottom: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
+  margin: 0;
+}
+.c-related-card-info .add-to-cart-button:hover {
+  text-decoration: underline;
+  color: var(--primary-accent);
+  background-color: transparent;
+}
+@media (max-width: 600px) {
+  .c-related-card-info .add-to-cart-button {
+    all: unset;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .c-related-card-info .add-to-cart-button:hover {
+    background-color: var(--primary-accent, #7e7e7e);
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
 
 /* ========== PRODUCT DETAILS MAIN WRAPPER ========== */
@@ -5070,12 +5170,11 @@ input {
   gap: 0.5rem;
 }
 .wishlist-dropdown select {
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
+  padding: 0.4rem;
+  border-radius: 4px;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -5091,7 +5190,7 @@ input {
   border-radius: 6px;
   padding: 0.4rem 1rem;
   color: var(--text-color);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   opacity: 0.8;
@@ -5129,7 +5228,7 @@ input {
 }
 .cart-page .wishlist-icon-button .music-note-icon {
   color: transparent;
-  font-size: 1.6rem;
+  font-size: 2rem;
   -webkit-text-stroke: 1px black;
   transition: all 0.2s ease;
 }
@@ -5137,43 +5236,55 @@ input {
   color: var(--primary-accent);
   -webkit-text-stroke: 0;
 }
-.cart-page .wishlist-dropdown {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.cart-page .wishlist-dropdown select {
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  border: 1px solid black;
-  background-color: transparent;
-  color: black;
-  font-size: 0.9rem;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  transition: border 0.2s ease;
-}
-.cart-page .wishlist-dropdown select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-}
-.cart-page .wishlist-dropdown button {
-  background-color: var(--accent-color);
-  border: none;
-  border-radius: 6px;
-  padding: 0.4rem 1rem;
-  color: black;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.cart-page .wishlist-dropdown button:hover {
-  background-color: var(--accent-color-hover);
-}
-.cart-page .wishlist-dropdown button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+@media (max-width: 600px) {
+  .cart-page .title-wishlist-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .cart-page .wishlist-icon-button {
+    align-self: flex-end;
+    padding: 0.1rem 0.6rem;
+    transform: scale(1.3);
+  }
+  .cart-page .wishlist-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.5rem;
+  }
+  .cart-page .wishlist-dropdown select,
+  .cart-page .wishlist-dropdown button {
+    width: 100%;
+    background-color: transparent !important;
+    color: white;
+    padding: 0.6rem 1rem;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .cart-page .wishlist-dropdown select {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+  }
+  .cart-page .wishlist-dropdown select:focus {
+    outline: none;
+    background-color: var(--primary-accent, #7e7e7e);
+  }
+  .cart-page .wishlist-dropdown button {
+    font-weight: 500;
+  }
+  .cart-page .wishlist-dropdown button:hover {
+    background-color: var(--primary-accent, #7e7e7e);
+  }
+  .cart-page .wishlist-dropdown button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .title-wishlist-row {
