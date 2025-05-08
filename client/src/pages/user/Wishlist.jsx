@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,26 +19,29 @@ const Wishlist = () => {
       try {
         setLoading(true);
         setError(null);
-        
-        const token = localStorage.getItem('token');
+
+        const token = localStorage.getItem("token");
         if (!user?.id || !token) {
-          navigate('/login');
+          navigate("/login");
           return;
         }
 
         const [wishlistRes, itemsRes] = await Promise.all([
           axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}`, {
-            headers: { 
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }),
-          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`, {
-            headers: { 
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
             }
-          })
+          ),
         ]);
 
         if (wishlistRes.data.user_id !== user.id) {
@@ -47,17 +50,18 @@ const Wishlist = () => {
 
         setWishlist(wishlistRes.data);
         setItems(itemsRes.data);
-
       } catch (err) {
-        console.error('Error:', {
+        console.error("Error:", {
           message: err.message,
           response: err.response?.data,
-          config: err.config
+          config: err.config,
         });
-        setError(err.response?.data?.error || err.message || 'Failed to load wishlist');
-        
+        setError(
+          err.response?.data?.error || err.message || "Failed to load wishlist"
+        );
+
         if (err.response?.status === 401) {
-          navigate('/login');
+          navigate("/login");
         }
       } finally {
         setLoading(false);
@@ -67,51 +71,63 @@ const Wishlist = () => {
     fetchWishlistData();
   }, [id, user?.id, navigate]);
 
-  const handleShare = async () => {
-    try {
-      const res = await axios.put(`/api/wishlists/${id}/share`, {}, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      setWishlist(res.data);
-    } catch (err) {
-      setError("Failed to share wishlist");
-    }
-  };
-  
-  const handleUnshare = async () => {
-    try {
-      const res = await axios.put(`/api/wishlists/${id}/unshare`, {}, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      setWishlist(res.data);
-    } catch (err) {
-      setError("Failed to make private");
-    }
-  };
 
   const handleAddItem = async (productId) => {
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`, 
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`,
         { productId },
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
       );
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setItems(res.data);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to add item');
+      setError(err.response?.data?.error || "Failed to add item");
     }
   };
 
   const handleRemoveItem = async (productId) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items/${productId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      setItems(items.filter(item => item.id !== productId));
+      await axios.delete(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/wishlists/${id}/items/${productId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      setItems(items.filter((item) => item.id !== productId));
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to remove item');
+      setError(err.response?.data?.error || "Failed to remove item");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this wishlist?"
+      );
+      if (!confirmed) return;
+
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      toast.success("Wishlist deleted");
+      navigate("/account/saved");
+    } catch (err) {
+      console.error("Failed to delete wishlist:", err);
+      setError(err.response?.data?.error || "Failed to delete wishlist");
     }
   };
 
@@ -124,7 +140,7 @@ const Wishlist = () => {
       <div className="wishlist-header">
         <h2>{wishlist.name}</h2>
         <p className="wishlist-visibility">
-          {wishlist.is_public ? 'Public' : 'Private'} Wishlist
+          {wishlist.is_public ? "Public" : "Private"} Wishlist
         </p>
       </div>
 
@@ -134,12 +150,12 @@ const Wishlist = () => {
           <>
             <div className="share-link">
               <p>Shareable link:</p>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={`${window.location.origin}/wishlists/share/${wishlist.share_id}`}
                 readOnly
               />
-              <button 
+              <button
                 onClick={() => {
                   navigator.clipboard.writeText(
                     `${window.location.origin}/wishlists/share/${wishlist.share_id}`
@@ -151,30 +167,27 @@ const Wishlist = () => {
                 Copy Link
               </button>
             </div>
-            <button 
-              onClick={handleUnshare}
-              className="btn-unshare"
-            >
-              Stop Sharing
-            </button>
+
           </>
         ) : (
-          <button 
-            onClick={handleShare}
-            className="btn-share"
-          >
-            Share This Wishlist
-          </button>
+          <div> </div> //This space intentionally left blank
         )}
       </div>
 
       {/* Wishlist Items */}
       <div className="wishlist-items">
+      <button 
+  onClick={() => navigate('/account/saved')} 
+  className="btn-back"
+>
+  ← Back to Wishlists
+</button>
+
         {items.length === 0 ? (
           <p className="empty-message">No items in this wishlist yet.</p>
         ) : (
           <ul className="items-list">
-            {items.map(item => (
+            {items.map((item) => (
               <li key={item.id} className="item-card">
                 <div className="item-info">
                   <h3>{item.name}</h3>
@@ -183,7 +196,7 @@ const Wishlist = () => {
                     <p className="description">{item.description}</p>
                   )}
                 </div>
-                <button 
+                <button
                   onClick={() => handleRemoveItem(item.id)}
                   className="btn-remove"
                 >
@@ -193,6 +206,13 @@ const Wishlist = () => {
             ))}
           </ul>
         )}
+        <button
+          onClick={handleDelete}
+          className="btn-delete"
+          
+        >
+          Delete Wishlist
+        </button>
       </div>
     </div>
   );

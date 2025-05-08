@@ -17,7 +17,7 @@ const CreateWishlist = () => {
         { userId: user.id, name, isPublic },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
-      navigate(`/wishlists/${res.data.id}`);
+      navigate(`/account/saved/${res.data.id}`);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to create wishlist');
     }
