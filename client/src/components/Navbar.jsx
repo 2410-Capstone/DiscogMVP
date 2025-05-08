@@ -114,6 +114,7 @@ function Navbar({ isAuthenticated, onSearch, ...props }) {
         <Link to='/account' className='dropdown-link'>Account</Link>
         <Link to='/account/orders' className='dropdown-link'>Order History</Link>
         <Link to='/account/saved' className='dropdown-link'>Saved</Link>
+        
         {user?.user_role === "admin" && (
           <Link to='/admin/dashboard' className='dropdown-link'>Admin Dashboard</Link>
         )}
