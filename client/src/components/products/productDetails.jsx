@@ -132,9 +132,14 @@ export default function ProductDetails() {
     if (clickedProduct) {
       setProduct(clickedProduct);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  
+    
+    window.scrollTo({ top: 150, behavior: "smooth" });
+  
     navigate(`/home/${id}`, { replace: true });
   };
+  
+
 
   if (!product) return <p>Loading...</p>;
 
@@ -200,27 +205,26 @@ export default function ProductDetails() {
                 <h2>{genre}</h2>
               </div>
               <div className="products-grid">
-                {genreProducts.slice(0, 10).map((item) => (
-                  <div
-                    key={item.id}
-                    className="related-product-card"
-                    onClick={() => handleDetailsClick(item.id)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
-                      alt={item.title}
-                      className="related-card-image"
-                    />
-<div className="related-card-info">
-  <div className="card-title">{item.description || "Untitled"}</div>
-  <div className="card-artist">{item.artist || "Unknown Artist"}</div>
-  
-  <div className="card-price">{item.price ? `$${item.price}` : "Not available"}</div>
-</div>
-                    </div>
-            
-                ))}
+              {genreProducts.slice(0, 10).map((item) => (
+  <div key={item.id} className="related-product-card">
+    <img
+      src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
+      alt={item.title}
+      className="related-card-image"
+      onClick={() => handleDetailsClick(item.id)} // ✅ Moved here
+      style={{ cursor: "pointer" }}
+    />
+    <div className="related-card-info">
+      <div className="card-title-row">
+        <div className="card-title">{item.description || "Untitled"}</div>
+        <AddToWishlistButton productId={item.id} />
+      </div>
+      <div className="card-artist">{item.artist || "Unknown Artist"}</div>
+      <div className="card-price">{item.price ? `$${item.price}` : "Not available"}</div>
+    </div>
+  </div>
+))}
+
               </div>
             </section>
           );
