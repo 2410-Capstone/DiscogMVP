@@ -146,7 +146,12 @@ const Account = ({ user }) => {
             </div>
             <div className='quick-card'>
               <h4>Saved Albums</h4>
+
               <Link to='/account/saved'>View Saved</Link>
+
+
+           
+
 
             </div>
           </div>
