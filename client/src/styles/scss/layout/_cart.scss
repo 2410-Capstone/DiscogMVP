@@ -44,6 +44,26 @@
     margin: 0;
   }
 
+  .add-to-cart-button {
+    display: block;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--primary-accent, #7e7e7e94);
+      color: #fff;
+    }
+  }
+
   // ========== Cart Items ==========
 
   .cart-items {
@@ -308,3 +328,103 @@
     }
   }
 }
+
+// ========== Related Product Cards in Cart Page ==========
+
+.c-related-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+
+  
+
+  .card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+
+    .c-related-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-color);
+    }
+
+    .wishlist-icon-button {
+      transform: scale(1.2);
+      margin: 0;
+      align-self: flex-start;
+    }
+  }
+
+  .c-related-card-artist {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.7;
+    color: var(--text-color);
+  }
+
+  .c-card-genre {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #777;
+  }
+
+  .c-related-card-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .add-to-cart-button {
+    all: unset;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: black;
+    padding-bottom: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+    margin: 0;
+  
+    &:hover {
+      text-decoration: underline;
+      color: var(--primary-accent);
+      background-color: transparent;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .add-to-cart-button {
+      all: unset;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: black;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 0.75rem;
+      margin-bottom: 0.5rem;
+  
+      &:hover {
+        background-color: var(--primary-accent, #7e7e7e);
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+  }
+  
+}
+
+

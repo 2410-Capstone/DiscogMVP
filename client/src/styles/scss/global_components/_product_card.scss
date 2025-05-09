@@ -65,7 +65,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-      background: var(--card-bg);
+      background: var(--text-hover);
     }
   }
 }
@@ -156,6 +156,9 @@
     }
   }
 }
+
+
+
 
 button.toggle-wishlists-btn,
 button.add-to-bag-button {

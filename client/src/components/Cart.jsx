@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { getGuestCart, setGuestCart, clearGuestCart } from "../utils/cart";
 import { Link } from "react-router-dom"; 
 import AddToWishlistButton from "./AddToWishlistButton";
+import { toast } from "react-toastify";
+
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -20,6 +22,59 @@ const Cart = () => {
   const getAuthHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   });
+
+
+  const handleAddToCart = async (product) => {
+    if (!product?.id) {
+      console.error("Invalid product ID");
+      return;
+    }
+  
+    if (isGuest) {
+      const current = getGuestCart();
+      const exists = current.find((i) => i.id === product.id);
+  
+      if (exists) {
+        const updated = current.map((i) =>
+          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
+        setGuestCart(updated);
+        setCartItems(updated);
+        toast.success("Added to bag!");
+      } else {
+        const updated = [...current, { ...product, quantity: 1 }];
+        setGuestCart(updated);
+        setCartItems(updated);
+        toast.success("Added to bag!");
+      }
+      return;
+    }
+  
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/items`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify({ productId: product.id, quantity: 1 }),
+      });
+  
+      if (!res.ok) {
+        toast.error("Failed to add to bag.");
+        throw new Error("Failed to add to cart");
+      }
+  
+      await fetchCart();
+      toast.success("Added to bag!");
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+    }
+  };
+  
+  
+
+  
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -272,43 +327,63 @@ const Cart = () => {
           )}
 
           </div>
-        </aside>
+          </aside>
 
-        <div className="also-like"><h2>You may also like</h2></div>
-        <div className="full-width-divider" />
-      </div>
+<div className="also-like"><h2>You may also like</h2></div>
+<div className="full-width-divider" />
+</div>
 
-      {genresToShow.map((genre) => {
-        const products = genreMap[genre];
-        if (!products) return null;
-        return (
-          <section className="c-related-products" key={genre}>
-            <div className="c-genre-header"><h2>{genre}</h2></div>
-            <div className="c-products-grid">
-            {products.slice(0, 10).map((item) => (
-  <div key={item.id} className="c-related-product-card">
-    <Link to={`/home/${item.id}`}>
-      <img
-        src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
-        alt={item.title}
-        className="c-related-card-image"
-      />
-    </Link>
+{genresToShow.map((genre) => {
+  const products = genreMap[genre];
+  if (!products) return null;
+  return (
+    <section className="c-related-products" key={genre}>
+      <div className="c-genre-header"><h2>{genre}</h2></div>
+      <div className="c-products-grid">
+        {products.slice(0, 10).map((item) => {
+          if (!item.id) {
+            console.warn("Missing product ID in item:", item);
+            return null;
+          }
 
-    <div className="c-related-card-info">
-      <div className="c-related-card-title">{item.description || "Untitled"}</div>
-      <div className="c-related-card-artist">{item.artist || "Unknown Artist"}</div>
-      <div className="c-card-genre">{genre || "Unknown Genre"}</div>
-      <div className="c-related-card-price">{item.price ? `$${item.price}` : "Not available"}</div>
-      <AddToWishlistButton productId={item.id} />
-    </div>
-  </div>
-))}
+          return (
+            <div key={item.id} className="c-related-product-card">
+              <Link to={`/home/${item.id}`}>
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
+                  alt={item.title}
+                  className="c-related-card-image"
+                />
+              </Link>
+              <div className="c-related-card-info">
+                <div className="card-title-row">
+                  <div className="c-related-card-title">{item.description || "Untitled"}</div>
+                  <AddToWishlistButton productId={item.id} />
+                </div>
+                <div className="c-related-card-artist">{item.artist || "Unknown Artist"}</div>
+                <div className="c-card-genre">{genre || "Unknown Genre"}</div>
+                <div className="c-related-card-price">
+                  {item.price ? `$${item.price}` : "Not available"}
+                </div>
+                <button
+            className="add-to-cart-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart(item);
+            }}
+          >
+            Add to Bag
+          </button>
 
+              </div>
             </div>
-          </section>
-        );
-      })}
+          );
+        })}
+      </div>
+    </section>
+  );
+})}
+
 
       {visibleGenreCount < shuffledGenres.length && (
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
