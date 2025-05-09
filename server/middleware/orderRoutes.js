@@ -18,15 +18,36 @@ const router = express.Router();
 router.get('/guest', async (req, res) => {
   const { orderId, email } = req.query;
   try {
-    const order = await getOrderById(orderId);
+    // Get the order and join the user to get the email
+    const orderResult = await pool.query(
+      `SELECT o.*, u.email, u.name
+       FROM orders o
+       JOIN users u ON o.user_id = u.id
+       WHERE o.id = $1 AND u.user_role = 'guest'`,
+      [orderId]
+    );
+    const order = orderResult.rows[0];
     if (!order || typeof order.email !== 'string' || order.email.toLowerCase() !== email.toLowerCase()) {
       return res.status(404).json({ error: 'Order not found' });
     }
+
+    const items = await getOrderItems(orderId);
+
+    let shippingAddress = order.shipping_address;
+    try {
+      if (typeof shippingAddress === 'string') {
+        shippingAddress = JSON.parse(shippingAddress);
+      }
+    } catch {
+      // fallback: leave as string
+    }
+
     res.json({
-      ...order,
-      id: order.id,
-      shippingAddress: order.shippingAddress,
-      cartItems: order.items,
+      orderNumber: order.id,
+      email: order.email,
+      total: order.total,
+      shippingAddress,
+      cartItems: items,
     });
   } catch (err) {
     console.error('Error fetching guest order:', err);
