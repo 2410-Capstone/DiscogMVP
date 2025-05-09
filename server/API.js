@@ -63,5 +63,9 @@ app.use('/public/images', express.static(path.join(__dirname, '..', 'public/imag
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend is working!' });
 });
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: err.message || 'Internal server error' });
+});
 
 module.exports = app;

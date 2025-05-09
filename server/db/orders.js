@@ -21,89 +21,24 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
 
 const getOrderByUserId = async (user_id) => {
   try {
-    const { rows: orders } = await pool.query(
-      /*sql*/
-      `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
-      [user_id]
-    );
-
-    for (const order of orders) {
-      const { rows: items } = await pool.query(
-        /*sql*/
-        `SELECT 
-          oi.product_id,
-          oi.quantity,
-          pr.artist,
-          pr.description,
-          pr.image_url,
-          pr.genre
-        FROM order_items oi
-        JOIN products pr ON oi.product_id = pr.id
-        WHERE oi.order_id = $1`,
-        [order.id]
-      );
-
-      order.items = items;
-
-      const {
-        rows: [payment],
-      } = await pool.query(
-        /*sql*/ `
-        SELECT payment_status FROM payments WHERE order_id = $1
-      `,
-        [order.id]
-      );
-
-      order.payment_status = payment ? payment.payment_status : 'unpaid';
-    }
-
+    const { rows: orders } = await pool.query(`SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`, [
+      user_id,
+    ]);
     return orders;
   } catch (error) {
-    console.error('Error fetching orders with items by user ID:', error);
+    console.error('Error fetching orders by user ID:', error);
     throw error;
   }
 };
 
 const getOrderById = async (orderId) => {
   try {
-    const {
-      rows: [order],
-    } = await pool.query(
-      `
-      SELECT o.*, u.email
-      FROM orders o
-      JOIN users u ON o.user_id = u.id
-      WHERE o.id = $1
-    `,
-      [orderId]
-    );
-
-    if (order.shipping_address) {
-      try {
-        order.shippingAddress = JSON.parse(order.shipping_address);
-      } catch (err) {
-        console.warn('Failed to parse shipping_address JSON:', order.shipping_address);
-        order.shippingAddress = null;
-      }
-    }
-
-    if (!order) return null;
-
-    const { rows: items } = await pool.query(
-      `
-      SELECT oi.*, p.artist, p.description, p.image_url
-      FROM order_items oi
-      JOIN products p ON oi.product_id = p.id
-      WHERE oi.order_id = $1
-    `,
-      [orderId]
-    );
-
-    order.items = items;
-    return order;
-  } catch (err) {
-    console.error('Error in getOrderById:', err);
-    throw err;
+    const { rows } = await pool.query(`SELECT * FROM orders WHERE id = $1`, [orderId]);
+    if (rows.length === 0) return null;
+    return rows[0];
+  } catch (error) {
+    console.error('Error in getOrderById:', error.message);
+    throw error;
   }
 };
 
