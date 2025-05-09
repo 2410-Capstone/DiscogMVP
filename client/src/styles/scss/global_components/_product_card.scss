@@ -24,6 +24,9 @@
     margin-top: 0;
     gap: 0.25rem;
   }
+
+
+  
 }
 
 // ========== Image ==========
@@ -47,28 +50,48 @@
 // ========== Card Header Row (Title + Wishlist) ==========
 
 .card-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.75rem;
+  position: relative;
+  width: 100%;
   margin-bottom: 0.5rem;
 
-  .card-text-info {
-    flex: 1;
+  .card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin: 0;
+    padding-right: 2rem; // creates space for icon
   }
 
   .wishlist-icon-button {
-    padding: 0.25rem 0.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
     font-size: 1.2rem;
     background: none;
-    border-radius: 50%;
-    transition: background 0.2s ease;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.25rem;
 
     &:hover {
-      background: var(--text-hover);
+      color: var(--primary-accent);
     }
   }
-}
+  // @media (max-width: 800px) {
+  //   .card-header-row {
+  //     flex-direction: column;
+  //     align-items: center;
+  //     text-align: center;
+  
+  //     .wishlist-icon-button {
+  //       margin-top: 0.4rem;
+  //     }
+    // }
+  }
+  
+  
+// }
+
 
 // ========== Text Content ==========
 
@@ -112,7 +135,7 @@
   font-size: 1rem;
   font-weight: 400;
   color: var(--text-color);
-  text-align: left;
+  text-align: left !important;
   margin: 0 !important;
 }
 
@@ -125,7 +148,7 @@
   gap: 0.5rem;
   margin-top: 0.5rem;
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     width: 100%;
     align-items: stretch;
   }
@@ -138,6 +161,7 @@
     .wishlist-icon-button {
       padding: 0.2rem 0.6rem;
     }
+    
 
     .my-list-link {
       font-size: 0.9rem;
@@ -160,7 +184,7 @@
 
 
 
-button.toggle-wishlists-btn,
+// button.toggle-wishlists-btn,
 button.add-to-bag-button {
   all: unset;
   font-weight: 500;
@@ -177,7 +201,7 @@ button.add-to-bag-button {
     color: var(--primary-accent);
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1024px) {
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -196,6 +220,45 @@ button.add-to-bag-button {
       text-decoration: none;
       color: #fff;
       cursor: pointer;
+    }
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .wishlist-center-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0.75rem;
+  }
+
+  .wishlist-center-wrapper .wishlist-dropdown {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .wishlist-center-wrapper .wishlist-dropdown select,
+  .wishlist-center-wrapper .wishlist-dropdown button {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .wishlist-center-wrapper .wishlist-dropdown button {
+    background-color: black;
+    color: white;
+    font-weight: 500;
+
+    &:hover {
+      background-color: var(--primary-accent, #7e7e7e);
     }
   }
 }

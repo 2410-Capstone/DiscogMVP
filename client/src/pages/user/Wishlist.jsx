@@ -71,7 +71,6 @@ const Wishlist = () => {
     fetchWishlistData();
   }, [id, user?.id, navigate]);
 
-
   const handleAddItem = async (productId) => {
     try {
       await axios.post(
@@ -96,9 +95,7 @@ const Wishlist = () => {
   const handleRemoveItem = async (productId) => {
     try {
       await axios.delete(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/wishlists/${id}/items/${productId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${id}/items/${productId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -136,52 +133,41 @@ const Wishlist = () => {
   if (!wishlist) return <div>Wishlist not found</div>;
 
   return (
-    <div className="wishlist">
-      <div className="wishlist-header">
-        <h2>{wishlist.name}</h2>
-        <p className="wishlist-visibility">
-          {wishlist.is_public ? "Public" : "Private"} Wishlist
-        </p>
-      </div>
+    <div className="wishlist-page">
+      <div className="wishlist-container">
+        <div className="wishlist-header">
+          <h2>{wishlist.name}</h2>
+          <p className="wishlist-visibility">
+            {wishlist.is_public ? "Public" : "Private"} Wishlist
+          </p>
+        </div>
 
-      {/* Sharing Controls */}
-      <div className="sharing-controls">
-        {wishlist.is_public ? (
-          <>
-            <div className="share-link">
-              <p>Shareable link:</p>
-              <input
-                type="text"
-                value={`${window.location.origin}/wishlists/share/${wishlist.share_id}`}
-                readOnly
-              />
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `${window.location.origin}/wishlists/share/${wishlist.share_id}`
-                  );
-                  toast.success("Link Copied to clipboard!");
-                }}
-                className="btn-copy"
-              >
-                Copy Link
-              </button>
-            </div>
-
-          </>
-        ) : (
-          <div> </div> //This space intentionally left blank
+        {/* Sharing Controls */}
+        {wishlist.is_public && (
+          <div className="share-link">
+            <p>Shareable link:</p>
+            <input
+              type="text"
+              value={`${window.location.origin}/wishlists/share/${wishlist.share_id}`}
+              readOnly
+            />
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/wishlists/share/${wishlist.share_id}`
+                );
+                toast.success("Link Copied to clipboard!");
+              }}
+              className="btn-copy"
+            >
+              Copy Link
+            </button>
+          </div>
         )}
-      </div>
 
-      {/* Wishlist Items */}
-      <div className="wishlist-items">
-      <button 
-  onClick={() => navigate('/account/saved')} 
-  className="btn-back"
->
-  ← Back to Wishlists
-</button>
+        <button onClick={() => navigate("/account/saved")} className="btn-back">
+          ← Back
+        </button>
 
         {items.length === 0 ? (
           <p className="empty-message">No items in this wishlist yet.</p>
@@ -189,6 +175,12 @@ const Wishlist = () => {
           <ul className="items-list">
             {items.map((item) => (
               <li key={item.id} className="item-card">
+                <div className="item-image">
+                  <img
+                    src={`${import.meta.env.VITE_BACKEND_URL}/public${item.image_url}`}
+                    alt={item.name}
+                  />
+                </div>
                 <div className="item-info">
                   <h3>{item.name}</h3>
                   <p className="price">${item.price}</p>
@@ -206,12 +198,9 @@ const Wishlist = () => {
             ))}
           </ul>
         )}
-        <button
-          onClick={handleDelete}
-          className="btn-delete"
-          
-        >
-          Delete Wishlist
+
+        <button onClick={handleDelete} className="btn-delete">
+          Delete full list
         </button>
       </div>
     </div>
