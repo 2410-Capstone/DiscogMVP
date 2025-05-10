@@ -214,14 +214,26 @@ export default function ProductDetails() {
       onClick={() => handleDetailsClick(item.id)} // ✅ Moved here
       style={{ cursor: "pointer" }}
     />
-    <div className="related-card-info">
-      <div className="card-title-row">
-        <div className="card-title">{item.description || "Untitled"}</div>
-        <AddToWishlistButton productId={item.id} />
-      </div>
-      <div className="card-artist">{item.artist || "Unknown Artist"}</div>
-      <div className="card-price">{item.price ? `$${item.price}` : "Not available"}</div>
-    </div>
+<div className="related-card-info">
+  <div className="card-title-row">
+    <div className="card-title">{item.description || "Untitled"}</div>
+    <AddToWishlistButton productId={item.id} />
+  </div>
+  <div className="card-artist">{item.artist || "Unknown Artist"}</div>
+  <div className="card-price">{item.price ? `$${item.price}` : "Not available"}</div>
+  
+ 
+  <button
+    className="add-to-cart-button"
+    onClick={(e) => {
+      e.stopPropagation();
+      handleAddToCart(item);
+    }}
+  >
+    Add to Bag
+  </button>
+</div>
+
   </div>
 ))}
 

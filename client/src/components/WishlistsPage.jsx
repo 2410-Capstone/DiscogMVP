@@ -83,36 +83,41 @@ const WishlistsPage = () => {
   if (loading) return <div className="loading">Loading wishlists...</div>;
   if (error) return <div className="error">Error: {error}</div>;
 
-  return (
-    <div className="wishlists-page">
-      <div className="hero-title">
-      <h1>My Wishlists</h1>
-      </div>
-      <Link to="/account/saved/new" className="btn">Create New Wishlist</Link>
-      
-      {wishlists.length === 0 ? (
-        <p className="empty-message">You don't have any wishlists yet.</p>
-      ) : (
-        <div className="wishlist-grid">
-          {wishlists.map(wishlist => (
-            <div key={wishlist.id} className="wishlist-card">
-              <Link to={`/account/saved/${wishlist.id}`}>
-                <h3>{wishlist.name}</h3>
-                <div className="wishlist-meta">
-                  <span className={`visibility ${wishlist.is_public ? 'public' : 'private'}`}>
-                    {wishlist.is_public ? 'Public' : 'Private'}
-                  </span>
-                  <span className="item-count">
-                    {wishlist.items_count || 0} items
-                  </span>
+
+    return (
+      <div className="wishlists-page">
+        <div className="wishlist-container">
+          <div className="">
+            <h1>Saved Albums</h1>
+          </div>
+    
+          <Link to="/account/saved/new" className="btn">Create a new list</Link>
+    
+          {wishlists.length === 0 ? (
+            <p className="empty-message">You have not saved any albums yet.</p>
+          ) : (
+            <div className="wishlist-grid">
+              {wishlists.map(wishlist => (
+                <div key={wishlist.id} className="wishlist-card">
+                  <Link to={`/account/saved/${wishlist.id}`}>
+                    <h3>{wishlist.name}</h3>
+                    <div className="wishlist-meta">
+                      <span className={`visibility ${wishlist.is_public ? 'public' : 'private'}`}>
+                        {wishlist.is_public ? 'Public' : 'Private'}
+                      </span>
+                      <span className="item-count">
+                        {wishlist.items_count || 0} items
+                      </span>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+    
 };
 
 export default WishlistsPage;

@@ -55,6 +55,9 @@
 @use "./user_components/edit_address";
 @use "./user_components/edit_billing_info";
 @use "./user_components/manage_account";
+@use "./global_components/wishlist_page";
+@use "./global_components/wishlist";
+@use "./global_components/create_wishlist";
 
 /* ===============================
    ADMIN COMPONENTS

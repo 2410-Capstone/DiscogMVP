@@ -57,7 +57,8 @@ const Cart = () => {
           "Content-Type": "application/json",
           ...getAuthHeaders(),
         },
-        body: JSON.stringify({ productId: product.id, quantity: 1 }),
+        body: JSON.stringify({ product_id: product.id, quantity: 1 }),
+
       });
   
       if (!res.ok) {
@@ -358,7 +359,9 @@ const Cart = () => {
               <div className="c-related-card-info">
                 <div className="card-title-row">
                   <div className="c-related-card-title">{item.description || "Untitled"}</div>
+                  <div className="wishlist-center-wrapper">
                   <AddToWishlistButton productId={item.id} />
+                  </div>
                 </div>
                 <div className="c-related-card-artist">{item.artist || "Unknown Artist"}</div>
                 <div className="c-card-genre">{genre || "Unknown Genre"}</div>

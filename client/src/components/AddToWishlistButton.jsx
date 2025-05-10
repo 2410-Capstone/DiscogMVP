@@ -187,7 +187,7 @@ const AddToWishlistButton = ({ productId }) => {
               setSelectedWishlist(selected);
             }}
           >
-            <option value="">Select a wishlist</option>
+            <option value="">Select list</option>
             {wishlists.map(wishlist => (
               <option key={wishlist.id} value={wishlist.id}>
                 {wishlist.name}

@@ -145,6 +145,24 @@
   }
 }
 
+.product-grid .product-card {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-grid .product-card .card-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+
 /* ========== PAGINATION ========== */
 .pagination {
   display: flex;
