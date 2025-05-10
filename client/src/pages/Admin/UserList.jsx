@@ -85,7 +85,7 @@ const AdminUserList = () => {
             placeholder="Search by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            ref={searchRef} // ✅ Autofocus added
+            ref={searchRef} 
           />
         </div>
 
@@ -110,7 +110,7 @@ const AdminUserList = () => {
                 <td>{user.user_role}</td>
                 <td>
                   <div className="user-actions">
-                    <Link to={`/admin/users/${user.id}/edit`} className="user-edit-btn">
+                    <Link to={`/admin/users/${user.id}/edit`} className="user-delete-btn">
                       Edit
                     </Link>
                     <button
