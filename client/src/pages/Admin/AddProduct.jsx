@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"; 
 
 const AddProduct = () => {
   const { token } = useAuth();
@@ -18,7 +19,7 @@ const AddProduct = () => {
   const [artistDetails, setArtistDetails] = useState("");
 
   useEffect(() => {
-    artistRef.current?.focus();t
+    artistRef.current?.focus();
   }, []);
 
   const handleSubmit = async (e) => {
