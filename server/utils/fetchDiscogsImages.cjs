@@ -16,7 +16,13 @@ const DATABASE_URL = process.env.DATABASE_URL || 'postgres://postgres:admin@loca
 const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN || 'DISCOGS_KEY';
 
 // Initialize DB pool
-const pool = new Pool({ connectionString: DATABASE_URL });
+const pool = new Pool({
+  connectionString: DATABASE_URL,
+  ssl: DATABASE_URL.includes('render.com') 
+      ? { rejectUnauthorized: false }
+      : false
+});
+
 
 (async () => {
   try {
