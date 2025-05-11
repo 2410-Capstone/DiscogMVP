@@ -40,7 +40,7 @@ import EditProduct from './pages/Admin/EditProduct';
 import AddProduct from './pages/Admin/AddProduct';
 import Wishlist from './pages/user/Wishlist';
 import WishlistsPage from './components/WishlistsPage';
-import WishlistShare from './components/wishlistShare';
+// import WishlistShare from './components/WishlistShare';
 import CreateWishlist from './components/CreateWishlist';
 import PublicWishlistPage from './pages/user/PublicWishlistPage';
 import Contact from './pages/Contact.jsx';
