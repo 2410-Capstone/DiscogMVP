@@ -1,86 +1,82 @@
-import "./styles/scss/App.scss";
-import React, { useEffect, useState, useRef } from "react";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
+import './styles/scss/App.scss';
+import React, { useEffect, useState, useRef } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
 
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import NotFound from "./pages/NotFound";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import FullSearchResults from "./components/FullSearchResults.jsx";
+import NotFound from './pages/NotFound';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import FullSearchResults from './components/FullSearchResults.jsx';
 
+import Welcome from './pages/Welcome';
+import ItemList from './pages/Home';
+import Account from './pages/user/Account';
+import Profile from './pages/user/Profile';
+import ManageAccount from './pages/user/ManageAccount';
 
-import Welcome from "./pages/Welcome";
-import ItemList from "./pages/Home";
-import Account from "./pages/User/Account";
-import Profile from "./pages/User/Profile";
-import ManageAccount from "./pages/user/ManageAccount";
+import ProductDetails from './components/products/productDetails';
 
-import ProductDetails from "./components/products/productDetails";
+import Login from './pages/LogRegAuth/Login';
+import Register from './pages/LogRegAuth/Register';
+import Cart from './components/Cart';
 
-import Login from "./pages/LogRegAuth/Login";
-import Register from "./pages/LogRegAuth/Register";
-import Cart from "./components/Cart";
+import Checkout from './pages/User/Checkout';
 
+import GuestOrderLookup from './pages/user/GuestOrderLookup';
+import UserOrders from './pages/user/UserOrders';
 
-import Checkout from "./pages/User/Checkout";
-
-
-
-import GuestOrderLookup from "./pages/user/GuestOrderLookup";
-import UserOrders from "./pages/User/UserOrders";
-
-import AdminLayout from "./pages/Admin/AdminLayout";
-import Dashboard from "./pages/Admin/Dashboard";
-import AdminUserList from "./pages/Admin/UserList";
-import AdminEditUser from "./pages/Admin/EditUser";
-import Inventory from "./pages/Admin/Inventory";
-import AdminOrders from "./pages/Admin/AdminOrders";
-import OrderConfirmation from "./pages/user/OrderConfirmation";
-import EditProduct from "./pages/Admin/EditProduct";
-import AddProduct from "./pages/Admin/AddProduct";
-import Wishlist from "./pages/user/Wishlist";
-import WishlistsPage from "./components/WishlistsPage";
-import WishlistShare from "./components/wishlistShare";
-import CreateWishlist from "./components/CreateWishlist";
-import PublicWishlistPage from "./pages/user/PublicWishlistPage";
-import Contact from "./pages/Contact.jsx"
-import RefundPolicy from "./components/RefundPolicy.jsx";
+import AdminLayout from './pages/Admin/AdminLayout';
+import Dashboard from './pages/Admin/Dashboard';
+import AdminUserList from './pages/Admin/UserList';
+import AdminEditUser from './pages/Admin/EditUser';
+import Inventory from './pages/Admin/Inventory';
+import AdminOrders from './pages/Admin/AdminOrders';
+import OrderConfirmation from './pages/user/OrderConfirmation';
+import EditProduct from './pages/Admin/EditProduct';
+import AddProduct from './pages/Admin/AddProduct';
+import Wishlist from './pages/user/Wishlist';
+import WishlistsPage from './components/WishlistsPage';
+import WishlistShare from './components/wishlistShare';
+import CreateWishlist from './components/CreateWishlist';
+import PublicWishlistPage from './pages/user/PublicWishlistPage';
+import Contact from './pages/Contact.jsx';
+import RefundPolicy from './components/RefundPolicy.jsx';
 
 function App() {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAdminRoute = location.pathname.startsWith('/admin');
   const { user, token, loading } = useContext(AuthContext);
   // const [user, setUser] = useState(null);
   // const [token, setToken] = useState(null);
   // const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [genreFilter, setGenreFilter] = useState([]);
   const [allItems, setAllItems] = useState([]);
 
-useEffect(() => {
-  const fetchAllItems = async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?limit=999`);
-      const data = await res.json();
-      setAllItems(data.products || []);
-    } catch (err) {
-      console.error("Failed to load products for global search:", err);
-    }
-  };
+  useEffect(() => {
+    const fetchAllItems = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products?limit=999`);
+        const data = await res.json();
+        setAllItems(data.products || []);
+      } catch (err) {
+        console.error('Failed to load products for global search:', err);
+      }
+    };
 
-  fetchAllItems();
-}, []);
+    fetchAllItems();
+  }, []);
 
   if (loading) return <div>Loading...</div>;
 
   const isAuthenticated = !!token;
 
   const requireAdmin = (Component) => {
-    if (isAuthenticated && user?.user_role === "admin") {
+    if (isAuthenticated && user?.user_role === 'admin') {
       return <Component />;
     } else {
       return <AdminRedirect />;
@@ -93,7 +89,7 @@ useEffect(() => {
 
     useEffect(() => {
       if (!hasFired.current) {
-        toast.error("Please sign in as an admin to view this page.", {
+        toast.error('Please sign in as an admin to view this page.', {
           autoClose: 3000,
         });
         hasFired.current = true;
@@ -117,13 +113,7 @@ useEffect(() => {
   return (
     <>
       {!isAdminRoute && (
-    <Navbar
-    isAuthenticated={isAuthenticated}
-    user={user}
-    onSearch={handleSearch}
-    allItems={allItems}
-  />
-  
+        <Navbar isAuthenticated={isAuthenticated} user={user} onSearch={handleSearch} allItems={allItems} />
       )}
 
       <div className='page-content'>
@@ -134,9 +124,7 @@ useEffect(() => {
             path='/home'
             element={<ItemList searchTerm={searchTerm} genreFilter={genreFilter} setGenreFilter={setGenreFilter} />}
           />
-        <Route path="/search" element={<FullSearchResults allItems={allItems} />} />
-
-
+          <Route path='/search' element={<FullSearchResults allItems={allItems} />} />
 
           <Route path='/home/:productId' element={<ProductDetails />} />
           <Route path='/login' element={<Login />} />
@@ -158,22 +146,10 @@ useEffect(() => {
             element={isAuthenticated ? <ManageAccount user={user} /> : <Navigate to='/login' />}
           />
 
-          <Route
-            path="/account/saved" 
-            element={isAuthenticated ? <WishlistsPage /> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/account/saved/new" 
-            element={isAuthenticated ? <CreateWishlist /> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/account/saved/:id" 
-            element={isAuthenticated ? <Wishlist /> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/wishlists/share/:shareId" 
-            element={<PublicWishlistPage />}  
-          />
+          <Route path='/account/saved' element={isAuthenticated ? <WishlistsPage /> : <Navigate to='/login' />} />
+          <Route path='/account/saved/new' element={isAuthenticated ? <CreateWishlist /> : <Navigate to='/login' />} />
+          <Route path='/account/saved/:id' element={isAuthenticated ? <Wishlist /> : <Navigate to='/login' />} />
+          <Route path='/wishlists/share/:shareId' element={<PublicWishlistPage />} />
 
           <Route path='/guest-order-lookup' element={<GuestOrderLookup />} />
           <Route path='/cart' element={<Cart />} />
@@ -181,12 +157,10 @@ useEffect(() => {
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
           <Route path='/contact' element={<Contact />} />
 
-          
-
           {/* Admin routes using AdminLayout + permissions */}
           <Route
             path='/admin/*'
-            element={isAuthenticated && user?.user_role === "admin" ? <AdminLayout user={user} /> : <AdminRedirect />}
+            element={isAuthenticated && user?.user_role === 'admin' ? <AdminLayout user={user} /> : <AdminRedirect />}
           >
             <Route index element={<Dashboard />} />
 
