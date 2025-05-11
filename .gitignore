@@ -51,3 +51,6 @@ coverage/
 
 # lock file conflicts
 package-lock.json.merge
+
+/client/dist
+/client/build
