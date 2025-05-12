@@ -27,7 +27,7 @@ const UserOrders = () => {
     const fetchOrders = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/my`, {
-          credentials: 'include',
+          // credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
