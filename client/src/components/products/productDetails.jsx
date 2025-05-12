@@ -44,13 +44,21 @@ export default function ProductDetails() {
   }, []);
 
   useEffect(() => {
-    if (!product || product.id !== Number(productId)) {
-      const matched = products.find((p) => p.id === Number(productId));
-      if (matched) {
-        setProduct(matched);
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productId}`);
+        if (!res.ok) throw new Error('Product not found');
+        const data = await res.json();
+        setProduct(data);
+      } catch (error) {
+        console.error(error);
+        navigate('/home');
       }
-    }
-  }, [productId, products]);
+    };
+  
+    if (productId) fetchProduct();
+  }, [productId]);
+  
 
   useEffect(() => {
     if (products.length > 0 && shuffledGenres.length === 0) {
