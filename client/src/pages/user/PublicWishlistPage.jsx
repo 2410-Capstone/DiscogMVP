@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 
@@ -87,9 +87,9 @@ const PublicWishlistPage = () => {
                 <p className="description">{item.description}</p>
               </div>
               {!isOwner && (
-                <a href={`/products/${item.id}`} className="btn-view">
+                <Link to={`/products/${item.id}`} className="btn-view">
                   View Product
-                </a>
+                </Link>
               )}
             </div>
           ))

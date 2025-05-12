@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import PaymentForm from '../../components/paymentForm';
 import { getGuestCart, getCartFromCookies } from '../../utils/cart';
 
@@ -160,9 +160,9 @@ const Checkout = () => {
                   <h4 className='summary-title'>Your Order Total</h4>
                   <div className='summary-items-row'>
                     <span className='summary-items'>{cartItems.length} item(s)</span>
-                    <a href='/cart' className='edit-link'>
+                    <Link to='/cart' className='edit-link'>
                       Edit bag
-                    </a>
+                    </Link>
                   </div>
                 </div>
 

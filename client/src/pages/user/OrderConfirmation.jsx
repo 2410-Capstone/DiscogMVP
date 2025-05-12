@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 const OrderConfirmation = () => {
   const { state } = useLocation();
@@ -117,12 +117,12 @@ const OrderConfirmation = () => {
           </div>
         </div>
         <div className='order-actions'>
-          <a href='/home' className='button'>
+          <Link to='/home' className='button'>
             Continue Shopping
-          </a>
-          <a href='/account/orders' className='button'>
+          </Link>
+          <Link to='/account/orders' className='button'>
             View Order History
-          </a>
+          </Link>
         </div>
       </div>
     </div>

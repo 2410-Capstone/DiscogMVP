@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -132,9 +133,9 @@ const UserOrders = () => {
           <div className='empty-order-state'>
             <h2>Order History</h2>
             <p className='empty-order-message'>You haven’t placed any orders yet.</p>
-            <a href='/home' className='shop-link'>
+            <Link to='/home' className='shop-link'>
               Browse Products
-            </a>
+            </Link>
           </div>
         </div>
       </div>
