@@ -62,7 +62,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
   const userId = req.params.id;
   const requestorId = req.user.id;
 
-  if (userId !== requestorId) {
+  if (req.user.user_role !== 'admin' && userId !== requestorId) {
     return res.sendStatus(403);
   }
 
