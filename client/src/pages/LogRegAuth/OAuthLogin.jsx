@@ -7,7 +7,8 @@ const OAuthLogin = ({ setUser, setToken }) => {
 
   const responseMessage = async (response) => {
     try {
-      const res = await fetch("http://localhost:4242/api/auth/google", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/google`
+      , {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
