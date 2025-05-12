@@ -70,7 +70,8 @@ const UserOrders = () => {
       if (!res.ok) throw new Error('Failed to cancel order');
 
       setOrders((prevOrders) =>
-        prevOrders.map((order) => (order.id === orderId ? { ...order, order_status: 'cancelled' } : order))
+        prevOrders.map((order) => 
+          (order.order_id === orderId ? { ...order, order_status: 'cancelled' } : order))
       );
       toast.success('Order cancelled successfully!');
     } catch (err) {
@@ -116,7 +117,7 @@ const UserOrders = () => {
       <div className='order-actions'>
         {order.order_status === 'delivered' && <button>Return Item</button>}
         {(order.order_status === 'created' || order.order_status === 'processing') && (
-          <button className="cancel-button"onClick={() => handleCancel(order.id)}>Cancel Order</button>
+          <button className="cancel-button"onClick={() => handleCancel(order.order_id)}>Cancel Order</button>
         )}
       </div>
     </div>
