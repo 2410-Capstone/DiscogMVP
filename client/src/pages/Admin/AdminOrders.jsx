@@ -22,7 +22,7 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch('/api/orders/admin/all', {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/admin/all`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         if (!res.ok) throw new Error('Failed to fetch orders');
@@ -51,7 +51,7 @@ const AdminOrders = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      const res = await fetch(`/api/orders/${orderId}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const AdminOrders = () => {
     if (!window.confirm("Are you sure you want to cancel this order?")) return;
 
     try {
-      const res = await fetch(`/api/orders/${orderId}/cancel`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}/cancel`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

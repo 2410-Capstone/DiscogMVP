@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const res = await fetch('/api/admin/metrics', {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/metrics`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

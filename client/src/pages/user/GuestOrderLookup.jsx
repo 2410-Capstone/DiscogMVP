@@ -13,7 +13,7 @@ const GuestOrderLookup = () => {
     setError(null);
     setOrder(null);
     try {
-      const res = await fetch(`/api/orders/guest?orderId=${orderId}&email=${encodeURIComponent(email)}`);
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/guest?orderId=${orderId}&email=${encodeURIComponent(email)}`);
       if (!res.ok) throw new Error("Order not found or email does not match.");
       const data = await res.json();
       setOrder(data);

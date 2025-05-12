@@ -14,7 +14,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`/api/products/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -47,7 +47,7 @@ const EditProduct = () => {
     }
     
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const EditProduct = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

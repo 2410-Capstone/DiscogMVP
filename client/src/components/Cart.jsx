@@ -204,7 +204,7 @@ const Cart = () => {
       return;
     }
     try {
-      await fetch(`/api/carts/items/${itemId}`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/carts/items/${itemId}`, {
         method: "DELETE",
         headers: { ...getAuthHeaders() },
       });

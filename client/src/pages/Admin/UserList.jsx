@@ -26,7 +26,7 @@ const AdminUserList = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('/api/users', {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -50,7 +50,7 @@ const AdminUserList = () => {
     try {
       setDeletedUserId(id);
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/users/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

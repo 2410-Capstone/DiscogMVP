@@ -57,7 +57,7 @@ const UserOrders = () => {
   const handleCancel = async (orderId) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
     try {
-      const res = await fetch(`/api/orders/${orderId}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {

@@ -38,7 +38,7 @@ const Inventory = () => {
     }
 
     try {
-      const res = await fetch(`/api/products/${productId}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const Inventory = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('/api/products/all');
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/all`);
         if (!res.ok) throw new Error('Failed to fetch products');
         const data = await res.json();
         setProducts(data);

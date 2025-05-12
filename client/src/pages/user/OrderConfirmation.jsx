@@ -22,13 +22,13 @@ const OrderConfirmation = () => {
         let res;
 
         if (token) {
-          res = await fetch(`/api/orders/${orderId}`, {
+          res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
         } else if (guestEmail) {
-          res = await fetch(`/api/orders/guest?orderId=${orderId}&email=${encodeURIComponent(guestEmail)}`);
+          res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/orders/guest?orderId=${orderId}&email=${encodeURIComponent(guestEmail)}`);
         } else {
           throw new Error('Missing credentials for order fetch');
         }
