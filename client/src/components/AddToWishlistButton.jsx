@@ -18,7 +18,7 @@ const AddToWishlistButton = ({ productId }) => {
 
   const fetchWishlists = async () => {
     try {
-      const res = await axios.get(`/api/wishlists/user/${user.id}`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/user/${user.id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setWishlists(res.data);
@@ -39,14 +39,14 @@ const AddToWishlistButton = ({ productId }) => {
 
     const checkIfAlreadyAdded = async () => {
       try {
-        const res = await axios.get(`/api/wishlists/user/${user.id}`, {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/user/${user.id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 
         const allWishlists = res.data;
 
         for (let wishlist of allWishlists) {
-          const itemsRes = await axios.get(`/api/wishlists/${wishlist.id}/items`, {
+          const itemsRes = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${wishlist.id}/items`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           });
 

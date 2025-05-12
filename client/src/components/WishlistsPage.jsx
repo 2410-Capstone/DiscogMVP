@@ -31,7 +31,7 @@ const WishlistsPage = () => {
         console.log(`[Debug] Fetching wishlists for user ID: ${user.id}`);
         
         
-        const apiUrl = `/api/wishlists/user/${user.id}`;
+        const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/user/${user.id}`;
         console.log("[Debug] API Endpoint:", apiUrl);
         
         const response = await axios.get(apiUrl, {

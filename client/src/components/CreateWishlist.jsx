@@ -18,7 +18,7 @@ const CreateWishlist = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/wishlists',
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists`,
         { userId: user.id, name, isPublic },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
