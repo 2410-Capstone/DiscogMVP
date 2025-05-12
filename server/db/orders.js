@@ -19,17 +19,44 @@ const createOrder = async ({ user_id, shipping_address, order_status, tracking_n
   }
 };
 
-const getOrderByUserId = async (user_id) => {
+const getOrderByUserId = async (userId) => {
   try {
-    const { rows: orders } = await pool.query(`SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`, [
-      user_id,
-    ]);
-    return orders;
-  } catch (error) {
-    console.error('Error fetching orders by user ID:', error);
-    throw error;
+    const { rows } = await pool.query(/*sql*/ `
+      SELECT 
+        o.id AS order_id,
+        o.total,
+        o.order_status,
+        o.created_at,
+        o.updated_at,
+        o.shipping_address,
+        o.tracking_number,
+        p.payment_status,
+        json_agg(
+          json_build_object(
+            'product_id', pr.id,
+            'artist', pr.artist,
+            'description', pr.description,
+            'quantity', oi.quantity,
+            'price', oi.price,
+            'image_url', pr.image_url
+          )
+        ) AS items
+      FROM orders o
+      LEFT JOIN payments p ON p.order_id = o.id
+      LEFT JOIN order_items oi ON oi.order_id = o.id
+      LEFT JOIN products pr ON pr.id = oi.product_id
+      WHERE o.user_id = $1
+      GROUP BY o.id, p.payment_status
+      ORDER BY o.created_at DESC
+    `, [userId]);
+
+    return rows;
+  } catch (err) {
+    console.error("Error fetching user orders:", err);
+    throw err;
   }
 };
+
 
 const getOrderById = async (orderId) => {
   try {
@@ -135,10 +162,12 @@ const getOrderItems = async (order_id) => {
       /*sql*/ `
       SELECT 
         oi.id AS order_item_id,
+        oi.order_id,
         oi.product_id,
         oi.quantity,
         oi.price,
         p.artist,
+        p.description,
         p.image_url,
         p.genre
       FROM order_items oi

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 const RefundPolicy = () => {
   return (
@@ -31,7 +32,7 @@ const RefundPolicy = () => {
 
         <h3>Contact Us</h3>
         <p>
-          If you have any questions about our refund policy, please <a href="/contact">contact us</a>.
+          If you have any questions about our refund policy, please <Link to="/contact">contact us</Link>.
         </p>
       </div>
     </div>

@@ -199,19 +199,56 @@ router.get('/:id', authenticateToken, async (req, res, next) => {
   if (!orderId) {
     return res.status(400).json({ error: 'Order ID is required' });
   }
+
   try {
-    const order = await getOrderById(orderId);
+    // Join orders + users to get email + name
+    const { rows } = await pool.query(/*sql*/`
+      SELECT 
+        o.*, 
+        u.email, 
+        u.name 
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      WHERE o.id = $1
+    `, [orderId]);
+
+    const order = rows[0];
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
+
     if (order.user_id !== req.user.id && req.user.user_role !== 'admin') {
       return res.status(403).json({ error: 'Forbidden' });
     }
-    res.json(order);
+
+    // Get items
+    const items = await getOrderItems(orderId);
+
+    // Parse shipping address if it was stored as JSON string
+    let shippingAddress = order.shipping_address;
+    try {
+      if (typeof shippingAddress === 'string') {
+        shippingAddress = JSON.parse(shippingAddress);
+      }
+    } catch {
+      // do nothing
+    }
+
+    res.json({
+      orderNumber: order.id,
+      email: order.email,
+      name: order.name,
+      total: order.total,
+      order_status: order.order_status,
+      shippingAddress,
+      cartItems: items
+    });
+
   } catch (error) {
     next(error);
   }
 });
+
 
 router.get('/:id/items', authenticateToken, async (req, res, next) => {
   const orderId = req.params.id;

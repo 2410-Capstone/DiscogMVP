@@ -93,7 +93,7 @@ const OrderConfirmation = () => {
           </div>
           <div className='order-items'>
             <h3>Items:</h3>
-            {orderDetails.cartItems.map((item, idx) => {
+            {(orderDetails.cartItems || []).map((item, idx) => {
               const itemKey = item.product_id || item.id || `item-${idx}`;
               return (
                 <div key={itemKey} className='order-item'>
