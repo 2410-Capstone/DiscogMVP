@@ -54,3 +54,4 @@ package-lock.json.merge
 
 /client/dist
 /client/build
+/public

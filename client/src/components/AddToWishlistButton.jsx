@@ -74,7 +74,7 @@ const AddToWishlistButton = ({ productId }) => {
 
     try {
       await axios.post(
-        `/api/wishlists/${selectedWishlist.id}/items`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${selectedWishlist.id}/items`,
         { productId },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
@@ -100,7 +100,7 @@ const AddToWishlistButton = ({ productId }) => {
       setError(null);
 
       await axios.delete(
-        `/api/wishlists/${selectedWishlist.id}/items/${productId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${selectedWishlist.id}/items/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
