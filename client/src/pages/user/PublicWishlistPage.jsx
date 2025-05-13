@@ -52,7 +52,7 @@ const PublicWishlistPage = () => {
       await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/wishlists/${wishlist.id}/unshare`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-      navigate(`/wishlists/${wishlist.id}`); 
+      navigate(`${import.meta.env.VITE_BACKEND_URL}/wishlists/${wishlist.id}`); 
 
     } catch (err) {
       setError("Failed to make private");
