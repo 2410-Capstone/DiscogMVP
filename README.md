@@ -266,7 +266,7 @@ npm install --save-dev nodemon jest supertest
 
 This project was built collaboratively by the DiscogMVP team:
 
-- [Connor Wotkowicz](https://github.com/sandpitt-turtle)
+- [Connor Wotkowicz](https://github.com/connorwotkowicz)
 - [Joshua Thomas](https://github.com/Josh-A-T)
 - [Sydney Mitchell](https://github.com/sydmitch)
 - [Charley Lea](https://github.com/charleylea)
